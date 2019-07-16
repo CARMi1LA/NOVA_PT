@@ -17,8 +17,6 @@ public class BulletPool : ObjectPool<BulletManager>
         現在のプロジェクトではオブジェクトの種類ごとにプールクラスを分けます
     */
 
-
-
     public readonly BulletManager bulletObj;
     private Transform myTrans;
 
