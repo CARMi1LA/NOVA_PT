@@ -38,7 +38,8 @@ public class EnemyAI : MonoBehaviour
         WayPoint,
         HighSpeed
     }
-    public AI_Idle
+
+    public AI_Idle[] idle;
 
     public AI_Approach[] approach;
     public AI_Wait[] wait;

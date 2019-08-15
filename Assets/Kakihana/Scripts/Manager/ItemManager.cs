@@ -85,7 +85,7 @@ public class ItemManager : MonoBehaviour
         // オブジェクトを表示させる
         this.gameObject.SetActive(true);
         // プレイヤーの座標を取得
-        playerTrans = GameManagement.Instance.playerTransform;
+        playerTrans = GameManagement.Instance.playerTrans;
 
         // ランダムに回転量を取得する
         itemRot.x = Random.Range(-90.0f, 90.0f);
