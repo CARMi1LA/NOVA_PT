@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mat UI Ult
+  m_Name: Mat UI Barrier 02
   m_Shader: {fileID: -6465566751694194690, guid: fefd39747d2b68c4dab1853caff33270,
     type: 3}
   m_ShaderKeywords: 
@@ -34,7 +34,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_E00F8921:
-        m_Texture: {fileID: 2800000, guid: 9f85b3e6eccb2974480ab53bfe993e61, type: 3}
+        m_Texture: {fileID: 2800000, guid: eecdb26b2c098a64fb4f136fe40d0ea1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -69,7 +69,7 @@ Material:
     - Boolean_62ABEF4C: 0
     - Vector1_6A20D12: 1
     - Vector1_75F3F192: 0.5
-    - Vector1_8EBF65B2: 5
+    - Vector1_8EBF65B2: 20
     - Vector1_AAB25B51: 0.5
     - Vector1_C4D34951: 0.3
     - Vector1_CAF28A50: 0
@@ -96,7 +96,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_5B67333B: {r: 1, g: 0.13836956, b: 0, a: 0}
-    - Color_E11A57A1: {r: 0, g: 3.8792844, b: 3.8589737, a: 0}
+    - Color_E11A57A1: {r: 0, g: 4, b: 3.9733334, a: 0}
     - _BaseColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
