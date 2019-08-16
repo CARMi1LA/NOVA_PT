@@ -18,18 +18,58 @@ public class HUD_Presenter : MonoBehaviour
     一見ただ冗長にしているだけに見えるが、疎結合化を行うことでスクリプトの拡張性を高めることができると考える
     */
 
+    [SerializeField,Header("プレイヤーのパラメータ")]
     HUD_Model hm;
 
-    [SerializeField]
+    [SerializeField,Header("各パラメータの表示UI")]
     HUD_Health hvHealth;
+    [SerializeField]
+    HUD_Ultimate hvUltimate;
+    [SerializeField]
+    HUD_Barrier hvBarrier;
+    [SerializeField]
+    HUD_Energy hvEnergy;
+    [SerializeField]
+    HUD_Score hvScore;
 
-    private void Awake()
+    private void Start()
     {
+        // 各パラメータの初期化
+        hm.InitParam();
+
         // Healthの更新処理
         hm.HealthRP
             .Subscribe(value =>
             {
                 hvHealth.SetHealth(hm.maxHealth, value);
+            })
+            .AddTo(this.gameObject);
+
+        hm.BarrierRP
+            .Subscribe(value =>
+            {
+                hvBarrier.SetBarrier(value);
+            })
+            .AddTo(this.gameObject);
+
+        hm.EnergyRP
+            .Subscribe(value =>
+            {
+                hvEnergy.SetEnergy(hm.maxEnergy, value);
+            })
+            .AddTo(this.gameObject);
+
+        hm.UltimateRP
+            .Subscribe(value =>
+            {
+                hvUltimate.SetUltimate(hm.maxUltimate, value);
+            })
+            .AddTo(this.gameObject);
+
+        hm.ScoreRP
+            .Subscribe(value =>
+            {
+                hvScore.SetScore(value);
             })
             .AddTo(this.gameObject);
     }

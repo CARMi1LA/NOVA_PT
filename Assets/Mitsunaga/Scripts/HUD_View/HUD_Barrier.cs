@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UniRx;
 using UniRx.Triggers;
 
-public class HUD_Health : MonoBehaviour
+public class HUD_Barrier : MonoBehaviour
 {
     // View
     /*
@@ -20,16 +20,26 @@ public class HUD_Health : MonoBehaviour
     もしかしてパラメータごとにViewのスクリプトは分けたほうが良い？そんな気がしてきた
     */
 
-    float maxFillAmount = 0.77f;
-    Image HealthImage;
+    [SerializeField]
+    GameObject[] BarrierImage;
 
     void Awake()
     {
-        HealthImage = this.GetComponent<Image>();
+
     }
 
-    public void SetHealth(int maxHealth, int Health)
+    public void SetBarrier(int Barrier)
     {
-        HealthImage.fillAmount = maxFillAmount * ((float)Health / maxHealth);
+        for(int i = 0; i < BarrierImage.Length; ++i)
+        {
+            if (i > Barrier - 1)
+            {
+                BarrierImage[i].SetActive(false);
+            }
+            else
+            {
+                BarrierImage[i].SetActive(true);
+            }
+        }
     }
 }

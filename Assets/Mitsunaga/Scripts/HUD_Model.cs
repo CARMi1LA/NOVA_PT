@@ -37,4 +37,16 @@ public class HUD_Model : MonoBehaviour
 
     // Score
     public IntReactiveProperty ScoreRP = new IntReactiveProperty();
+
+    // 各パラメータの初期化(これはどこに置くべき？)
+    public void InitParam()
+    {
+        // 最大値に設定
+        HealthRP.Value = maxHealth;
+        BarrierRP.Value = maxBarrier;
+        EnergyRP.Value = maxEnergy;
+        // 最小値に設定
+        UltimateRP.Value = 0;
+        ScoreRP.Value = 0;
+    }
 }

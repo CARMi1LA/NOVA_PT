@@ -22,13 +22,13 @@ public class HUD_Ultimate : MonoBehaviour
 
     Image UltimateImage;
 
-    void Start()
+    void Awake()
     {
         UltimateImage = this.GetComponent<Image>();
     }
 
     public void SetUltimate(int maxUltimate, int Ultimate)
     {
-        UltimateImage.fillAmount = Ultimate / maxUltimate;
+        UltimateImage.fillAmount = (float)Ultimate / maxUltimate;
     }
 }

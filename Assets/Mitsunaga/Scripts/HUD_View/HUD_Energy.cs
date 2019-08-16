@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UniRx;
 using UniRx.Triggers;
 
-public class HUD_Health : MonoBehaviour
+public class HUD_Energy : MonoBehaviour
 {
     // View
     /*
@@ -20,16 +20,15 @@ public class HUD_Health : MonoBehaviour
     もしかしてパラメータごとにViewのスクリプトは分けたほうが良い？そんな気がしてきた
     */
 
-    float maxFillAmount = 0.77f;
-    Image HealthImage;
+    Image EnergyImage;
 
     void Awake()
     {
-        HealthImage = this.GetComponent<Image>();
+        EnergyImage = this.GetComponent<Image>();
     }
 
-    public void SetHealth(int maxHealth, int Health)
+    public void SetEnergy(int Energy, int maxEnergy)
     {
-        HealthImage.fillAmount = maxFillAmount * ((float)Health / maxHealth);
+        EnergyImage.fillAmount = (float)Energy / maxEnergy;
     }
 }
