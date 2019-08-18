@@ -22,22 +22,29 @@ public class HUD_Presenter : MonoBehaviour
     HUD_Model hm;
 
     [SerializeField,Header("各パラメータの表示UI")]
-    HUD_Health hvHealth;
+    HUD_Health hvHealth;        // 体力
     [SerializeField]
-    HUD_Ultimate hvUltimate;
+    HUD_Barrier hvBarrier;      // バリア
     [SerializeField]
-    HUD_Barrier hvBarrier;
+    HUD_Energy hvEnergy;        // エネルギーゲージ
     [SerializeField]
-    HUD_Energy hvEnergy;
+    HUD_Ultimate hvUltimate;    // アルティメットゲージ
     [SerializeField]
-    HUD_Score hvScore;
+    HUD_Score hvScore;          // スコア
+    [SerializeField]
+    HUD_Arrow hvArrow;          // ターゲット
+
+    // ターゲット用のプレイヤーの位置とカメラの距離
+    [SerializeField]
+    Transform playerPosition;
+    float cameraDistance = 20.0f;
 
     private void Start()
     {
         // 各パラメータの初期化
         hm.InitParam();
 
-        // Healthの更新処理
+        // 各パラメータの更新処理
         hm.HealthRP
             .Subscribe(value =>
             {
@@ -70,6 +77,19 @@ public class HUD_Presenter : MonoBehaviour
             .Subscribe(value =>
             {
                 hvScore.SetScore(value);
+            })
+            .AddTo(this.gameObject);
+
+        // 更新処理
+        this.UpdateAsObservable()
+            .Subscribe(_ =>
+            {
+                Vector3 mouseScreenPos = Input.mousePosition;
+                mouseScreenPos.z = cameraDistance;
+                Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
+
+                // 矢印の更新処理(現在のターゲット > マウスカーソル)
+                hvArrow.SetArrow(playerPosition.position, mouseWorldPos);
             })
             .AddTo(this.gameObject);
     }
