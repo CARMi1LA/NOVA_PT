@@ -23,7 +23,7 @@ public class StageData
     public WaveType[] waveType;       // ウェーブごとの敵出現パターン
     public int[] waveTable;           // 出現する敵をここで指定する
 
-    public GameObject[] waveEnemyObj; // 出現する敵パターン
+    public EnemyUnitManager[] waveEnemyObj; // 出現する敵パターン
     public GameObject[] eventObj;     // イベント用パターン
 
     public bool eventFlg;             // イベントが発生するステージかどうか

@@ -81,8 +81,11 @@ public class AIList_Attack
     public enum AI_Attack
     {
         Normal = 0,
-        Burst,
         Scatter,
+        Fireworks,
+        Booster,
+        Bomb,
+        Bound,
     }
 
     public enum AI_Escape
@@ -118,9 +121,8 @@ public class AIList_Defence
 
     public enum AI_Attack
     {
-        Normal = 0,
-        Burst,
-        Scatter,
+        Rush = 0,
+        LightRay
     }
 
     public enum AI_Escape

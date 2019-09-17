@@ -13,103 +13,103 @@ MonoBehaviour:
   m_Name: Enemy3
   m_EditorClassIdentifier: 
   EnemyStatusList:
-  - charaName: EnemyC_01
-    ID: 3
+  - ID: 3
+    charaName: EnemyC
     enemyType: 0
     enemyPosition: 0
-    hp: 0
+    hp: 1
     barrier: 0
-    energy: 0
-    score: 0
-    actionAI: 0
-    moveSpeed: 0
-  - charaName: 
-    ID: 0
+    energy: 100
+    score: 200
+    actionAI: 1
+    moveSpeed: 10
+  - ID: 3
+    charaName: EnemyC
     enemyType: 0
     enemyPosition: 0
-    hp: 0
+    hp: 1
     barrier: 0
-    energy: 0
-    score: 0
-    actionAI: 0
-    moveSpeed: 0
-  - charaName: 
-    ID: 0
+    energy: 100
+    score: 250
+    actionAI: 1
+    moveSpeed: 10
+  - ID: 3
+    charaName: EnemyC
     enemyType: 0
     enemyPosition: 0
-    hp: 0
+    hp: 1
     barrier: 0
-    energy: 0
-    score: 0
-    actionAI: 0
-    moveSpeed: 0
-  - charaName: 
-    ID: 0
+    energy: 100
+    score: 300
+    actionAI: 1
+    moveSpeed: 10
+  - ID: 3
+    charaName: EnemyC
     enemyType: 0
     enemyPosition: 0
-    hp: 0
+    hp: 2
     barrier: 0
-    energy: 0
-    score: 0
-    actionAI: 0
-    moveSpeed: 0
-  - charaName: 
-    ID: 0
+    energy: 100
+    score: 350
+    actionAI: 1
+    moveSpeed: 10
+  - ID: 3
+    charaName: EnemyC
     enemyType: 0
     enemyPosition: 0
-    hp: 0
+    hp: 2
     barrier: 0
-    energy: 0
-    score: 0
-    actionAI: 0
-    moveSpeed: 0
-  - charaName: 
-    ID: 0
+    energy: 100
+    score: 400
+    actionAI: 1
+    moveSpeed: 10
+  - ID: 3
+    charaName: EnemyC
     enemyType: 0
     enemyPosition: 0
-    hp: 0
-    barrier: 0
+    hp: 2
+    barrier: 1
     energy: 0
-    score: 0
-    actionAI: 0
-    moveSpeed: 0
-  - charaName: 
-    ID: 0
+    score: 500
+    actionAI: 2
+    moveSpeed: 12.5
+  - ID: 3
+    charaName: EnemyC
     enemyType: 0
     enemyPosition: 0
-    hp: 0
-    barrier: 0
-    energy: 0
-    score: 0
-    actionAI: 0
-    moveSpeed: 0
-  - charaName: 
-    ID: 0
+    hp: 3
+    barrier: 1
+    energy: 100
+    score: 650
+    actionAI: 2
+    moveSpeed: 12.5
+  - ID: 3
+    charaName: EnemyC
     enemyType: 0
     enemyPosition: 0
-    hp: 0
-    barrier: 0
-    energy: 0
-    score: 0
-    actionAI: 0
-    moveSpeed: 0
-  - charaName: 
-    ID: 0
+    hp: 3
+    barrier: 1
+    energy: 100
+    score: 750
+    actionAI: 2
+    moveSpeed: 12.5
+  - ID: 3
+    charaName: EnemyC
     enemyType: 0
     enemyPosition: 0
-    hp: 0
-    barrier: 0
-    energy: 0
-    score: 0
-    actionAI: 0
-    moveSpeed: 0
-  - charaName: 
-    ID: 0
+    hp: 3
+    barrier: 1
+    energy: 100
+    score: 900
+    actionAI: 2
+    moveSpeed: 12.5
+  - ID: 3
+    charaName: EnemyC
     enemyType: 0
     enemyPosition: 0
-    hp: 0
-    barrier: 0
-    energy: 0
-    score: 0
-    actionAI: 0
-    moveSpeed: 0
+    hp: 5
+    barrier: 1
+    energy: 100
+    score: 1200
+    actionAI: 2
+    moveSpeed: 15

@@ -10,6 +10,7 @@ public class GameManagement : GMSingleton<GameManagement>
     public Transform playerTrans;
     public Transform cameraTrans;
     public Vector3 cameraPos;
+    public AIListManager listManager;
 
     public IntReactiveProperty gameLevel = new IntReactiveProperty(1);
     public IntReactiveProperty playerLevel = new IntReactiveProperty(1);

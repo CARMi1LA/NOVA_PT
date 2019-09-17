@@ -29,8 +29,8 @@ public class EnemyStatus
         Special,        // 特殊タイプ
         Player          // プレイヤー
     }
-    [SerializeField] public string charaName;
     [SerializeField] public int ID;
+    [SerializeField] public string charaName;
 
     [SerializeField] public EnemyType enemyType;
     [SerializeField] public EnemyPosition enemyPosition;

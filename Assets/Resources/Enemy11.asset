@@ -12,4 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16c2d542cedd4314fb2158ef8ee87462, type: 3}
   m_Name: Enemy11
   m_EditorClassIdentifier: 
-  EnemyStatusList: []
+  EnemyStatusList:
+  - ID: 11
+    charaName: EnemyX
+    enemyType: 1
+    enemyPosition: 0
+    hp: 20
+    barrier: 5
+    energy: 100
+    score: 3000
+    actionAI: 1
+    moveSpeed: 1
