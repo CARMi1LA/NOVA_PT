@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbe844b6421339b40b6b4fab1d67d553, type: 3}
+  m_Name: StageDataList
+  m_EditorClassIdentifier: 
+  stageDataList:
+  - stageNo: 0
+    stageName: Tutorial
+    waveType: 0000000000000000010000000200000004000000
+    waveTable: 0000000001000000fffffffffeffffff03000000
+    waveEnemyObj:
+    - {fileID: 3350053264123568438, guid: df675a05fe482214b94c6cc5928395e0, type: 3}
+    - {fileID: 3178792957562032863, guid: ffbeb1f80838aa24ab9091e149986055, type: 3}
+    - {fileID: 4992880651935473360, guid: 3b06edbfd861b884da3403f133c54b68, type: 3}
+    eventObj: []
+    eventFlg: 0
+  - stageNo: 1
+    stageName: Stage1
+    waveType: 00000000000000000000000001000000010000000100000004000000
+    waveTable: 000000000100000000000000ffffffffffffffffffffffff04000000
+    waveEnemyObj:
+    - {fileID: 3350053264123568438, guid: df675a05fe482214b94c6cc5928395e0, type: 3}
+    - {fileID: 3178792957562032863, guid: ffbeb1f80838aa24ab9091e149986055, type: 3}
+    - {fileID: 4992880651935473360, guid: 3b06edbfd861b884da3403f133c54b68, type: 3}
+    - {fileID: 4264977478258186037, guid: bedb3f80c9a83a041a181ae8a4b67522, type: 3}
+    eventObj: []
+    eventFlg: 0
+  - stageNo: 2
+    stageName: Stage2
+    waveType: 
+    waveTable: 01000000010000000100000003000000000000000000000004000000
+    waveEnemyObj:
+    - {fileID: 0}
+    eventObj:
+    - {fileID: 0}
+    eventFlg: 1
+  - stageNo: 3
+    stageName: Stage3
+    waveType: 
+    waveTable: 01000000010000000100000002000000000000000100000001000000010000000000000004000000
+    waveEnemyObj: []
+    eventObj: []
+    eventFlg: 0
+  - stageNo: 0
+    stageName: 
+    waveType: 
+    waveTable: 
+    waveEnemyObj: []
+    eventObj: []
+    eventFlg: 0
