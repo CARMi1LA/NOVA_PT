@@ -96,7 +96,7 @@ public class PlayerManager : MonoBehaviour,IDamage
                 if (bullet.shootChara == BulletManager.ShootChara.Player)
                 {
                     // プレイヤーによる攻撃であればダメージを受ける
-                    HitDamage(bullet.damageAtk);
+                    HitDamage();
                     // ヒットした弾は消滅させる
                     bullet.BulletDestroy();
                 }
@@ -119,8 +119,7 @@ public class PlayerManager : MonoBehaviour,IDamage
             });
     }
 
-    public void HitDamage(int atk)
+    public void HitDamage()
     {
-        hp.Value -= atk;
     }
 }
