@@ -28,6 +28,8 @@ public class GameManagement : GMSingleton<GameManagement>
     [SerializeField] IntReactiveProperty comboResetCount = new IntReactiveProperty(0);
     // コンボが途切れるまでの制限時間
     [SerializeField] IntReactiveProperty comboResetLimit = new IntReactiveProperty(0);
+    // 達成率、評価に影響
+    [SerializeField] float achievementRate = 0.0f;
 
     public BoolReactiveProperty isClear = new BoolReactiveProperty(false);
     public BoolReactiveProperty gameOver = new BoolReactiveProperty(false);
