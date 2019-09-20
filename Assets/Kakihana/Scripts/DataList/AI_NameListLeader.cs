@@ -12,39 +12,38 @@ public class AI_NameListLeader : MonoBehaviour
     public Dictionary<int, float> escProbs;
 
     // 接近AIリスト
-    public string[] AI_Approach =
+    public enum AI_Approach 
     {
-        "Normal",                   // 最短距離でプレイヤーに接近
+         Normal = 0,                        // 最短距離でプレイヤーに接近
     };
 
     // 待機AIリスト
-    public string[] AI_Wait =
+    public enum AI_Wait 
     {
-        "Normal",                   // 次の行動までその場で待機
-        "Quick",                    // その場で動かずに待機、次のAIに移行する時間がNormalより短い
+        normal = 0,                         // その場で動かずに待機
+        Quick = 2                           // その場で動かずに待機、次のAIに移行する時間がNormalより短い
     };
 
     // 攻撃AIリスト
-    public string[] AI_Attack =
+    public enum AI_Attack 
     {
-        "Whirlpool",                // 渦巻状に弾を撃つ
-        "Scatter",                  // 多方向に向けて弾を撃つ
-        "Fireworks",                // 全方向に向けて弾を撃つ
-        "Booster",                  // 一定の方向に弾を撃ち、一定距離までゆっくり進んだ後、分散し高速化する
-        "Bomb",                     // 特定の広範囲に攻撃
-        "Bound",                    // バウンドする弾を発射し、一定時間後にその地点からFireworksと同じ弾を出す
-        "Forrow",                   // プレイヤーを追従する弾を撃つ
-        "LightRay",                 // ビームによる攻撃を行う
-        // 中ボスクラス専用攻撃
-        "WhirlScatterCombo",        // Whirlpool&Scatterの同時攻撃
-        "FireworksCombo",           // 弾速が遅いFireworks発射後、角度を変えて弾速が早いFireworksを発射
-        "UltMegaFireworks"          // Fireworksを多数生成
+         Scatter = 1,                  // 多方向に向けて弾を撃つ
+         Fireworks = 2,                // 全方向に向けて弾を撃つ
+         Booster = 3,                  // 一定の方向に弾を撃ち、一定距離までゆっくり進んだ後、分散し高速化する
+         Bomb = 4,                     // 特定の広範囲に攻撃
+         Bound = 5,                    // バウンドする弾を発射し、一定時間後にその地点からFireworksと同じ弾を出す
+         LightRay = 8,                 // ビームによる攻撃を行う
+         Whirlpool = 9,                // 渦巻状に弾を撃つ
+         Forrow = 10,                  // プレイヤーを追従する弾を撃つ        // 中ボスクラス専用攻撃
+         WhirlScatterCombo = 11,       // Whirlpool&Scatterの同時攻撃
+         FireworksCombo = 12,          // 弾速が遅いFireworks発射後、角度を変えて弾速が早いFireworksを発射
+         UltMegaFireworks = 13         // Fireworksを多数生成
     };
 
     // 逃走AIリスト
-    public string[] AI_Escape =
+    public enum AI_Escape
     {
-        "Normal",                   // プレイヤーと真逆の方向に逃走を試みる
+        Normal = 0,
     };
 
     // 敵AIレベルに応じてAIの強さを設定する

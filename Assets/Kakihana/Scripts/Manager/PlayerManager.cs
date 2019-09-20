@@ -31,7 +31,7 @@ public class PlayerManager : MonoBehaviour,IDamage
     void Awake()
     {
         // レベルの取得
-        level = GameManagement.Instance.playerLevel;
+        level.Value = GameManagement.Instance.playerLevel.Value;
         // プレイヤーのパラメータのデータリストを取得
         dataList = Resources.Load<EnemyDataList>(string.Format("PlayerData"));
         // データリストよりレベルに応じたパラメータを取得

@@ -19,6 +19,108 @@ public class AI_ActManager : MonoBehaviour
         
     }
 
+    // 接近モード処理
+    public Vector3 CalcApprMove(Vector3 move, float speed,int actID)
+    {
+        // 行動IDに基づき、各処理を行う
+        switch (actID)
+        {
+            case (int)AIListManager.ApprList.Normal:
+                Vector3 dif = playerTrans.position - move;
+                float radian = Mathf.Atan2(dif.z, dif.x);
+                return new Vector3(Mathf.Cos(radian), 0, Mathf.Sin(radian)) * speed * 10;
+            case (int)AIListManager.ApprList.Wave:
+                 dif = playerTrans.position - move;
+                 radian = Mathf.Atan2(dif.z, dif.x);
+                return new Vector3(Mathf.Cos(radian), 0, Mathf.Sin(radian)) * speed * 10;
+            case (int)AIListManager.ApprList.HighSpeed:
+                 dif = playerTrans.position - move;
+                 radian = Mathf.Atan2(dif.z, dif.x);
+                return new Vector3(Mathf.Cos(radian), 0, Mathf.Sin(radian)) * (speed * 2) * 10;
+            case (int)AIListManager.ApprList.LowSpeed:
+                dif = playerTrans.position - move;
+                radian = Mathf.Atan2(dif.z, dif.x);
+                return new Vector3(Mathf.Cos(radian), 0, Mathf.Sin(radian)) * (speed * 0.5f) * 10;
+            case (int)AIListManager.ApprList.EnemyGuard:
+                break;
+        }
+        return Vector3.zero;
+    }
+
+    // 待機モード処理
+    public Vector3 ActWaitCalc(Vector3 move,float speed,int actID)
+    {
+        switch (actID)
+        {
+            case (int)AIListManager.WaitList.Normal:
+                break;
+            case (int)AIListManager.WaitList.Follow:
+                break;
+            case (int)AIListManager.WaitList.Quick:
+                break;
+        }
+        return Vector3.zero;
+    }
+
+    // 攻撃モード処理
+    public void EnemyAtkCalc(int actID)
+    {
+        switch (actID)
+        {
+            case (int)AIListManager.AtkList.Normal:
+                break;
+            case (int)AIListManager.AtkList.Scatter:
+                break;
+            case (int)AIListManager.AtkList.Fireworks:
+                break;
+            case (int)AIListManager.AtkList.Booster:
+                break;
+            case (int)AIListManager.AtkList.Bomb:
+                break;
+            case (int)AIListManager.AtkList.None:
+                break;
+            case (int)AIListManager.AtkList.Bush:
+                break;
+            case (int)AIListManager.AtkList.LightRay:
+                break;
+            case (int)AIListManager.AtkList.Whirlpool:
+                break;
+            case (int)AIListManager.AtkList.Forrow:
+                break;
+            case (int)AIListManager.AtkList.WhirlScatterCombo:
+                break;
+            case (int)AIListManager.AtkList.FireworksCombo:
+                break;
+            case (int)AIListManager.AtkList.UltMegaFireworks:
+                break;
+            case (int)AIListManager.AtkList.WhirlFireCombo:
+                break;
+            case (int)AIListManager.AtkList.BoostBoundRayCombo:
+                break;
+            case (int)AIListManager.AtkList.WhirlBoostCombo:
+                break;
+            case (int)AIListManager.AtkList.Ultimate:
+                break;
+        }
+    }
+
+    // 逃走モード処理
+    public Vector3 CalcEscMove(Vector3 move,float speed,int actID)
+    {
+        switch (actID)
+        {
+            case (int)AIListManager.EscList.Normal:
+                break;
+            case (int)AIListManager.EscList.Wave:
+                break;
+            case (int)AIListManager.EscList.HighSpeed:
+                break;
+            default:
+                break;
+        }
+        return Vector3.zero;
+    }
+
     public Vector3 CalcMovePos(Vector3 originPos, float speed)
     {
         return Vector3.zero;

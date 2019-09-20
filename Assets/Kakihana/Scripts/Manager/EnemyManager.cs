@@ -30,12 +30,14 @@ public class EnemyManager : MonoBehaviour,IDamage
     [SerializeField] IntReactiveProperty enemyHP;
     [SerializeField] EnemyAIReactiveProperty enemyAI = new EnemyAIReactiveProperty();
     [SerializeField] FloatReactiveProperty distance = new FloatReactiveProperty(0.0f);
+    [SerializeField] FloatReactiveProperty waitCount = new FloatReactiveProperty(0.0f);
     // 攻撃可能かどうかを管理するBool型プロパティ
     [SerializeField] BoolReactiveProperty attackFlg = new BoolReactiveProperty(false);
     [SerializeField] private Rigidbody enemyRigid;          // 敵のRigidBody
     [SerializeField] private Transform playerTrans;         // プレイヤーの座標
     [SerializeField] private Vector3 movePos;               // 移動ベクトル
     [SerializeField] private float maxDistance = 30.0f;     // プレイヤーとの最大接近距離
+    [SerializeField] private float waitTimeLimit = 1.0f;
     [SerializeField] private float velocityMag = 0.99f;     // 減速倍率
 
     // 参照用のカスタムプロパティ
@@ -53,6 +55,18 @@ public class EnemyManager : MonoBehaviour,IDamage
         aiList = GameManagement.Instance.listManager;
         enemyHP.Value = enemyStatus.hp;
         enemyAI.Value = EnemyAI.Approach;
+        switch (enemyStatus.enemyType)
+        {
+            case EnemyStatus.EnemyType.Common:
+                waitTimeLimit = 3.0f;
+                break;
+            case EnemyStatus.EnemyType.Leader:
+                waitTimeLimit = 3.0f;
+                break;
+            case EnemyStatus.EnemyType.Boss:
+                waitTimeLimit = 2.0f;
+                break;
+        }
     }
 
     // Start is called before the first frame update
@@ -68,16 +82,14 @@ public class EnemyManager : MonoBehaviour,IDamage
                     .Subscribe(_ =>
                     {
                         int actID = actManager.ChooseAppr(AI_Atk);
-                        switch (AI_Atk.AI_Approach[actID])
-                        {
-                            case "Normal":
+                        movePos = actManager.CalcApprMove(this.transform.position, enemyStatus.moveSpeed, actID);
 
-                                break;
-                            case "Wave":
-                                break;
-                            case "HighSpeed":
-                                break;
-                        }
+                    }).AddTo(this.gameObject);
+
+                enemyAIPropaty.Where(_ => _ == EnemyAI.Attack)
+                    .Subscribe(_ => 
+                    {
+
                     }).AddTo(this.gameObject);
                 break;
             case EnemyStatus.EnemyPosition.Defence:

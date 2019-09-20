@@ -12,30 +12,30 @@ public class AI_NameListDefence : MonoBehaviour
     public Dictionary<int, float> escProbs;         // 逃走AIの確率と行動パターンのインデックスを保存する変数
 
     // 接近AIリスト
-    public string[] AI_Approach =
+    public enum AI_Approach 
     {
-        "Normal",       // 最短距離でプレイヤーに接近
-        "LowSpeed",     // 最短距離でプレイヤーにゆっくり接近
-        "EnemyGuard"    // 最短距離で「近くの防御タイプ以外の敵」に接近
+        Normal = 0,                        // 最短距離でプレイヤーに接近
+        LowSpeed = 3,                      // 最短距離でプレイヤーにゆっくり接近
+        EnemyGuard = 4                     // 最短距離で「近くの防御タイプ以外の敵」
     };
 
     // 待機AIリスト
-    public string[] AI_Wait =
+    public enum AI_Wait 
     {
-        "Normal",       // 次の行動までその場で待機
-        "Follow",       // 次の行動まで左右にゆっくり移動しながら待機
+        Normal = 0,                        // 次の行動までその場で待機
+        Follow = 1,                        // 次の行動まで左右にゆっくり移動しながら待機
     };
 
-    public string[] AI_Attack =
+    public enum AI_Attack 
     {
-        "None",         // 攻撃しない
-        "Bush",         // 突進攻撃を行う
-        "LightRay",     // ビームによる攻撃を行う
+         None = 6,                         // 攻撃しない
+         Bush = 7,                         // 突進攻撃を行う
+         LightRay = 8,                     // ビームによる攻撃を行う
     };
 
-    public string[] AI_Escape =
+    public enum AI_Escape 
     {
-        "Normal",       // プレイヤーと真逆の方向に逃走を試みる
+         Normal = 0,                       // プレイヤーと真逆の方向に逃走を試みる
     };
 
     // 敵AIレベルに応じてAIの強さを設定する

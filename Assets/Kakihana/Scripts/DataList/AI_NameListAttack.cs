@@ -13,37 +13,38 @@ public class AI_NameListAttack : MonoBehaviour
     public Dictionary<int, float> escProbs;
 
     // 接近AIリスト
-    public string[] AI_Approach = 
+    // 接近AIリスト
+    public enum AI_Approach
     {
-        "Normal",                   // 最短距離でプレイヤーに接近
-        "Wave",                     // ジグザグしながらプレイヤーに接近
-        "HighSpeed"                 // 最短距離でプレイヤーに高速で接近
+        Normal = 0,                        // 最短距離でプレイヤーに接近
+        Wave = 1,                      // 最短距離でプレイヤーにゆっくり接近
+        HighSpeed = 2                     // 最短距離で「近くの防御タイプ以外の敵」
     };
 
     // 待機AIリスト
-    public string[] AI_Wait =
+    public enum AI_Wait 
     {
-        "Normal",                   // 次の行動までその場で待機
-        "Follow",                   // 次の行動まで左右にゆっくり移動しながら待機
+         Normal = 0,                        // 次の行動までその場で待機
+         Follow = 1,                        // 次の行動まで左右にゆっくり移動しながら待機
     };
 
     // 攻撃AIリスト
-    public string[] AI_Attack =
+    public enum AI_Attack 
     {
-        "Normal",                   // 通常の弾を撃つ
-        "Scatter",                  // 多方向に向けて弾を撃つ
-        "Fireworks",                // 全方向に向けて弾を撃つ
-        "Booster",                  // 一定の方向に弾を撃ち、一定距離までゆっくり進んだ後、分散し高速化する
-        "Bomb",                     // 特定の広範囲に攻撃
-        "Bound",                    // バウンドする弾を発射し、一定時間後にその地点からFireworksと同じ弾を出す
+        Normal = 0,                        // 通常の弾を撃つ
+        Scatter = 1,                       // 多方向に向けて弾を撃つ
+        Fireworks = 2,                     // 全方向に向けて弾を撃つ
+        Booster = 3,                       // 一定の方向に弾を撃ち、一定距離までゆっくり進んだ後、分散し高速化する
+        Bomb = 4,                          // 特定の広範囲に攻撃
+        Bound = 5,                         // バウンドする弾を発射し、一定時間後にその地点からFireworksと同じ弾を出す
     };
 
     // 逃走AIリスト
-    public string[] AI_Escape =
+    public enum AI_Escape 
     {
-        "Normal",                   // プレイヤーと真逆の方向に逃走を試みる
-        "Wave",                     // ジグザグに進みながら逃走を試みる
-        "HighSpeed"                 // プレイヤーと真逆の方向に高速で逃走を試みる
+        Normal = 0,                         // プレイヤーと真逆の方向に逃走を試みる
+        Wave = 1,                           // ジグザグに進みながら逃走を試みる
+        HighSpeed = 2                       // プレイヤーと真逆の方向に高速で逃走を試みる
     };
 
     // 敵AIレベルに応じてAIの強さを設定する

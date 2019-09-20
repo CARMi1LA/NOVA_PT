@@ -15,9 +15,9 @@ public class GameManagement : GMSingleton<GameManagement>
     public AIListManager listManager;       // AI行動名リスト
 
     // ゲームレベル、上がるほど敵が強化される
-    [SerializeField] IntReactiveProperty gameLevel = new IntReactiveProperty(1);
+    [SerializeField] public IntReactiveProperty gameLevel = new IntReactiveProperty(1);
     // プレイヤーレベル、上がるほどスコア上昇率に影響する
-    [SerializeField] IntReactiveProperty playerLevel = new IntReactiveProperty(1);
+    [SerializeField] public IntReactiveProperty playerLevel = new IntReactiveProperty(1);
     // スコア、達成率に影響
     public IntReactiveProperty playerScore = new IntReactiveProperty(0);
     // コンボ数、ダメージを与えるたびに上昇
@@ -75,5 +75,11 @@ public class GameManagement : GMSingleton<GameManagement>
     public void Result()
     {
 
+    }
+
+    // シーン移動処理
+    public void SceneMove(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
 }
