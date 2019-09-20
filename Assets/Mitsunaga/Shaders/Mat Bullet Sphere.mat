@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mat ICO
-  m_Shader: {fileID: -6465566751694194690, guid: 3aa81b47510e95144b1e6305e86f48ec,
+  m_Name: Mat Bullet Sphere
+  m_Shader: {fileID: -6465566751694194690, guid: 54ecbdddb2a104149a5010c68f912d10,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -49,18 +49,20 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_4079A163: 3.5
+    - Vector1_4079A163: 1.4
     - Vector1_56DA2406: 2
     - Vector1_5A03B9C0: 0.4
     - Vector1_900CBFF: 1
     - Vector1_FE6D7907: 0.4
     - _AlphaClip: 0
     - _Blend: 0
+    - _BlendOpacity: 1
     - _BumpScale: 1
     - _Cull: 2
     - _Cutoff: 0.5
     - _DstBlend: 0
     - _EnvironmentReflections: 1
+    - _FresnelPower: 2
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -76,13 +78,13 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_282BC7E3: {r: 0.4433962, g: 0.16911961, b: 0, a: 0}
+    - Color_282BC7E3: {r: 1, g: 1, b: 1, a: 0}
     - Color_871F1549: {r: 4, g: 1.716981, b: 3.126032, a: 0}
-    - _Albedo: {r: 1, g: 0.3915094, b: 0.3915094, a: 0}
+    - _Albedo: {r: 1, g: 1, b: 1, a: 0}
     - _BaseColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _Color: {r: 0.7512595, g: 0.35774258, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Rimlight: {r: 3.9999995, g: 1.9316365, b: 1.7172773, a: 0}
+    - _Rimlight: {r: 4.78613, g: 1.2340212, b: 0.83531517, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
 --- !u!114 &3878435169803387054
 MonoBehaviour:

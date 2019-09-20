@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_Shader Cube Bullet
+  m_Name: Mat Bullet Cube
   m_Shader: {fileID: -6465566751694194690, guid: 0a89ebe2a99aba4408c4004441d3addc,
     type: 3}
   m_ShaderKeywords: 
@@ -21,9 +21,9 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Floats:
-    - Vector1_11F565B9: -0.3
-    - Vector1_4BC2F23B: 0.1
-    - Vector1_6993DA18: -1
-    - Vector1_CF17CF7A: 25
+    - Vector1_11F565B9: 0
+    - Vector1_4BC2F23B: 0.5
+    - Vector1_6993DA18: 0
+    - Vector1_CF17CF7A: 20
     m_Colors:
-    - Color_2D777D43: {r: 0.124999985, g: 0.041884813, b: 0.06479057, a: 0}
+    - Color_2D777D43: {r: 0.9999999, g: 0.3350785, b: 0.51832455, a: 0}
