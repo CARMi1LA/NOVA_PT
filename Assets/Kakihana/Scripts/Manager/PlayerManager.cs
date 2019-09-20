@@ -31,7 +31,7 @@ public class PlayerManager : MonoBehaviour,IDamage
     void Awake()
     {
         // レベルの取得
-        level = GameManagement.Instance.playerLevel;
+        level.Value = GameManagement.Instance.playerLevel.Value;
         // プレイヤーのパラメータのデータリストを取得
         dataList = Resources.Load<EnemyDataList>(string.Format("PlayerData"));
         // データリストよりレベルに応じたパラメータを取得
@@ -96,7 +96,7 @@ public class PlayerManager : MonoBehaviour,IDamage
                 if (bullet.shootChara == BulletManager.ShootChara.Player)
                 {
                     // プレイヤーによる攻撃であればダメージを受ける
-                    HitDamage(bullet.damageAtk);
+                    HitDamage();
                     // ヒットした弾は消滅させる
                     bullet.BulletDestroy();
                 }
@@ -119,8 +119,7 @@ public class PlayerManager : MonoBehaviour,IDamage
             });
     }
 
-    public void HitDamage(int atk)
+    public void HitDamage()
     {
-        hp.Value -= atk;
     }
 }
