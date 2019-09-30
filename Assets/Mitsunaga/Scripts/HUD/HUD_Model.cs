@@ -22,20 +22,20 @@ public class HUD_Model : MonoBehaviour
     // 各パラメータ
     // 最大値、実数値およびプロパティの宣言
 
-    // Health
+    [Header("体力")]
     public int maxHealth = 10;
     public IntReactiveProperty HealthRP = new IntReactiveProperty();
-    // Barrier
+    [Header("バリア")]
     public int maxBarrier = 3;
     public IntReactiveProperty BarrierRP = new IntReactiveProperty();
-    // Energy
+    [Header("エネルギー")]
     public int maxEnergy = 100;
     public IntReactiveProperty EnergyRP = new IntReactiveProperty();
-    // Ultimate
+    [Header("アルティメット")]
     public int maxUltimate = 100;
     public IntReactiveProperty UltimateRP = new IntReactiveProperty();
 
-    // Score
+    [Header("スコア")]
     public IntReactiveProperty ScoreRP = new IntReactiveProperty();
 
     // 各パラメータの初期化(これはどこに置くべき？)
