@@ -15,16 +15,14 @@ public class AIListManager : MonoBehaviour
          Normal = 0,                        // 最短距離でプレイヤーに接近
          Wave = 1,                          // ジグザグしながらプレイヤーに接近
          HighSpeed = 2,                     // 最短距離でプレイヤーに高速で接近
-         LowSpeed = 3,                      // 最短距離でプレイヤーにゆっくり接近
-         EnemyGuard = 4                     // 最短距離で「近くの防御タイプ以外の敵」に接近
+         EnemyGuard = 3                     // 最短距離で「近くの防御タイプ以外の敵」に接近
     }
 
     // 全待機AIリスト
     public enum WaitList
     {
          Normal = 0,                        // 次の行動までその場で待機
-         Follow = 1,                        // 次の行動まで左右にゆっくり移動しながら待機
-         Quick = 2                          // その場で動かずに待機、次のAIに移行する時間がNormalより短い
+         Quick = 1                          // その場で動かずに待機、次のAIに移行する時間がNormalより短い
     }
 
     // 全攻撃AIリスト
@@ -55,8 +53,7 @@ public class AIListManager : MonoBehaviour
     public enum EscList
     {
          Normal = 0,                         // プレイヤーと真逆の方向に逃走を試みる
-         Wave = 1,                           // ジグザグに進みながら逃走を試みる
-         HighSpeed = 2                       // プレイヤーと真逆の方向に高速で逃走を試みる
+         HighSpeed = 1                       // プレイヤーと真逆の方向に高速で逃走を試みる
     }
 
     public ApprList apprName;

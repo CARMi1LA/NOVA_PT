@@ -35,7 +35,7 @@ public class BulletSpawner : BSSingleton<BulletSpawner>
             var bullet = bulletPool.Rent();
             Debug.Log("弾スポーン");
             // 弾の生成
-            bullet.BulletCreate(_.Value.bulletAtk, _.Value.bulletSpeed, _.Value.Origintrans, _.Value.shootChara, _.Index);
+            bullet.BulletCreate(_.Value.bulletSpeed, _.Value.Origintrans, _.Value.shootChara, _.Index);
             // 生成済みリスト情報を追加
             bulletList.Add(bullet);
             // 弾生成用データリストは不要になるので破棄する。
@@ -59,15 +59,13 @@ public class BulletSpawner : BSSingleton<BulletSpawner>
 
 public class BulletData
 {
-    public int bulletAtk;         // 攻撃力
     public float bulletSpeed;     // 速度
     public Transform Origintrans; // 発射元の座標
 
     public BulletManager.ShootChara shootChara; // 誰が発射したか
     // パラメータの設定
-    public BulletData(int atk, float speed, Transform trans, BulletManager.ShootChara chara)
+    public BulletData(float speed, Transform trans, BulletManager.ShootChara chara)
     {
-        bulletAtk = atk;
         bulletSpeed = speed;
         Origintrans = trans;
         shootChara = chara;

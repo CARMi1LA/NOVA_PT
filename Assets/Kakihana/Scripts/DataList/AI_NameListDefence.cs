@@ -23,7 +23,6 @@ public class AI_NameListDefence : MonoBehaviour
     public enum AI_Wait 
     {
         Normal = 0,                        // 次の行動までその場で待機
-        Follow = 1,                        // 次の行動まで左右にゆっくり移動しながら待機
     };
 
     public enum AI_Attack 
@@ -69,8 +68,7 @@ public class AI_NameListDefence : MonoBehaviour
         apprProbs.Add(0, 20.0f);
         apprProbs.Add(1, 80.0f);
 
-        waitProbs.Add(0, 75.0f);
-        waitProbs.Add(1, 25.0f);
+        waitProbs.Add(0, 100.0f);
 
         atkProbs.Add(0, 90.0f);
         atkProbs.Add(1, 10.0f);
@@ -89,8 +87,7 @@ public class AI_NameListDefence : MonoBehaviour
         apprProbs.Add(1, 60.0f);
         apprProbs.Add(2, 10.0f);
 
-        waitProbs.Add(0, 60.0f);
-        waitProbs.Add(1, 40.0f);
+        waitProbs.Add(0, 100.0f);
 
         atkProbs.Add(0, 60.0f);
         atkProbs.Add(1, 35.0f);
@@ -110,8 +107,7 @@ public class AI_NameListDefence : MonoBehaviour
         apprProbs.Add(1, 20.0f);
         apprProbs.Add(2, 40.0f);
 
-        waitProbs.Add(0, 50.0f);
-        waitProbs.Add(1, 50.0f);
+        waitProbs.Add(0, 100.0f);
 
         atkProbs.Add(0, 20.0f);
         atkProbs.Add(1, 50.0f);

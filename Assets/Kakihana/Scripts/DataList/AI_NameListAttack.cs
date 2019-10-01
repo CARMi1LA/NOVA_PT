@@ -17,7 +17,7 @@ public class AI_NameListAttack : MonoBehaviour
     public enum AI_Approach
     {
         Normal = 0,                        // 最短距離でプレイヤーに接近
-        Wave = 1,                      // 最短距離でプレイヤーにゆっくり接近
+        Wave = 1,                          // 最短距離でプレイヤーにゆっくり接近
         HighSpeed = 2                     // 最短距離で「近くの防御タイプ以外の敵」
     };
 
@@ -25,7 +25,6 @@ public class AI_NameListAttack : MonoBehaviour
     public enum AI_Wait 
     {
          Normal = 0,                        // 次の行動までその場で待機
-         Follow = 1,                        // 次の行動まで左右にゆっくり移動しながら待機
     };
 
     // 攻撃AIリスト
@@ -43,8 +42,7 @@ public class AI_NameListAttack : MonoBehaviour
     public enum AI_Escape 
     {
         Normal = 0,                         // プレイヤーと真逆の方向に逃走を試みる
-        Wave = 1,                           // ジグザグに進みながら逃走を試みる
-        HighSpeed = 2                       // プレイヤーと真逆の方向に高速で逃走を試みる
+        HighSpeed = 1                       // プレイヤーと真逆の方向に高速で逃走を試みる
     };
 
     // 敵AIレベルに応じてAIの強さを設定する
@@ -79,16 +77,14 @@ public class AI_NameListAttack : MonoBehaviour
         apprProbs.Add(1, 5.0f);
         apprProbs.Add(2, 5.0f);
 
-        waitProbs.Add(0, 75.0f);
-        waitProbs.Add(1, 25.0f);
+        waitProbs.Add(0, 100.0f);
 
         atkProbs.Add(0, 55.0f);
         atkProbs.Add(1, 35.0f);
         atkProbs.Add(2, 10.0f);
 
-        escProbs.Add(0, 70.0f);
-        escProbs.Add(1, 20.0f);
-        escProbs.Add(2, 10.0f);
+        escProbs.Add(0, 90.0f);
+        escProbs.Add(1, 10.0f);
     }
 
     void AIProbInitLevel2()
@@ -102,8 +98,7 @@ public class AI_NameListAttack : MonoBehaviour
         apprProbs.Add(1, 25.0f);
         apprProbs.Add(2, 25.0f);
 
-        waitProbs.Add(0, 75.0f);
-        waitProbs.Add(1, 25.0f);
+        waitProbs.Add(0, 100.0f);
 
         atkProbs.Add(0, 40.0f);
         atkProbs.Add(1, 35.0f);
@@ -111,9 +106,8 @@ public class AI_NameListAttack : MonoBehaviour
         atkProbs.Add(3, 8.0f);
         atkProbs.Add(4, 2.0f);
 
-        escProbs.Add(0, 50.0f);
+        escProbs.Add(0, 80.0f);
         escProbs.Add(1, 20.0f);
-        escProbs.Add(2, 30.0f);
     }
 
     void AIProbInitLevel3()
@@ -127,8 +121,7 @@ public class AI_NameListAttack : MonoBehaviour
         apprProbs.Add(1, 30.0f);
         apprProbs.Add(2, 40.0f);
 
-        waitProbs.Add(0, 50.0f);
-        waitProbs.Add(1, 50.0f);
+        waitProbs.Add(0, 100.0f);
 
         atkProbs.Add(0, 30.0f);
         atkProbs.Add(1, 30.0f);
@@ -137,8 +130,7 @@ public class AI_NameListAttack : MonoBehaviour
         atkProbs.Add(4, 3.0f);
         atkProbs.Add(5, 2.0f);
 
-        escProbs.Add(0, 20.0f);
-        escProbs.Add(1, 20.0f);
-        escProbs.Add(2, 60.0f);
+        escProbs.Add(0, 50.0f);
+        escProbs.Add(1, 50.0f);
     }
 }

@@ -24,10 +24,6 @@ public class GameManagement : GMSingleton<GameManagement>
     [SerializeField] IntReactiveProperty combo = new IntReactiveProperty(0);
     // 最大コンボ数
     [SerializeField] IntReactiveProperty maxCombo = new IntReactiveProperty(0);
-    // コンボが途切れるまでのタイマー
-    [SerializeField] IntReactiveProperty comboResetCount = new IntReactiveProperty(0);
-    // コンボが途切れるまでの制限時間
-    [SerializeField] IntReactiveProperty comboResetLimit = new IntReactiveProperty(0);
     // 達成率、評価に影響
     [SerializeField] float achievementRate = 0.0f;
 

@@ -7,6 +7,8 @@ public class AI_ActManager : MonoBehaviour
     // AIステートをもとに敵の移動量などを計算するクラス
 
     [SerializeField] private Transform playerTrans;         // プレイヤーの座標
+    public int[] bossAtkList = new int[] {2,3,5,8,9,10};
+    public int[] leaderAtkList = new int[] { 11, 12, 13 };
 
     private void Awake()
     {
@@ -37,10 +39,6 @@ public class AI_ActManager : MonoBehaviour
                  dif = playerTrans.position - move;
                  radian = Mathf.Atan2(dif.z, dif.x);
                 return new Vector3(Mathf.Cos(radian), 0, Mathf.Sin(radian)) * (speed * 2) * 10;
-            case (int)AIListManager.ApprList.LowSpeed:
-                dif = playerTrans.position - move;
-                radian = Mathf.Atan2(dif.z, dif.x);
-                return new Vector3(Mathf.Cos(radian), 0, Mathf.Sin(radian)) * (speed * 0.5f) * 10;
             case (int)AIListManager.ApprList.EnemyGuard:
                 break;
         }
@@ -48,26 +46,28 @@ public class AI_ActManager : MonoBehaviour
     }
 
     // 待機モード処理
-    public Vector3 ActWaitCalc(Vector3 move,float speed,int actID)
+    public float ActWaitCalc(int actID)
     {
+        float mag = 1.0f;
         switch (actID)
         {
             case (int)AIListManager.WaitList.Normal:
-                break;
-            case (int)AIListManager.WaitList.Follow:
-                break;
+                return mag;
             case (int)AIListManager.WaitList.Quick:
-                break;
+                return mag * 0.5f;
         }
-        return Vector3.zero;
+        return mag;
     }
 
     // 攻撃モード処理
-    public void EnemyAtkCalc(int actID)
+    public void EnemyAtkCalc(Transform origin,int actID,float atkTime)
     {
+        float deg = 360.0f;
+        float bulletSpeed = 10.0f;
         switch (actID)
         {
             case (int)AIListManager.AtkList.Normal:
+                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy);
                 break;
             case (int)AIListManager.AtkList.Scatter:
                 break;
@@ -107,14 +107,17 @@ public class AI_ActManager : MonoBehaviour
     // 逃走モード処理
     public Vector3 CalcEscMove(Vector3 move,float speed,int actID)
     {
+        // 処理は接近モード処理とほぼ同じ
         switch (actID)
         {
             case (int)AIListManager.EscList.Normal:
-                break;
-            case (int)AIListManager.EscList.Wave:
-                break;
+                Vector3 dif = playerTrans.position - move;
+                float radian = Mathf.Atan2(dif.z, dif.x);
+                return new Vector3(Mathf.Cos(radian), 0, Mathf.Sin(radian)) * speed * 10;
             case (int)AIListManager.EscList.HighSpeed:
-                break;
+                dif = playerTrans.position - move;
+                radian = Mathf.Atan2(dif.z, dif.x);
+                return new Vector3(Mathf.Cos(radian), 0, Mathf.Sin(radian)) * (speed * 2) * 10;
             default:
                 break;
         }
@@ -124,6 +127,12 @@ public class AI_ActManager : MonoBehaviour
     public Vector3 CalcMovePos(Vector3 originPos, float speed)
     {
         return Vector3.zero;
+    }
+
+    // プレイヤー間の距離の計算を行うメソッド
+    public float CalcDistance(Vector3 enemyPos)
+    {
+        return (playerTrans.position - enemyPos).sqrMagnitude;
     }
 
     public int ChooseAppr(AI_NameListAttack atk)

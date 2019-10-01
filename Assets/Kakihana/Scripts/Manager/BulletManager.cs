@@ -32,7 +32,6 @@ public class BulletManager : MonoBehaviour
     [SerializeField] private BulletState bulletState;    // 弾の生成状況
     [SerializeField] public float shootSpeed;            // 発射スピード
     [SerializeField] private float rangeLimit;           // 最大距離
-    [SerializeField] public int damageAtk;               // 攻撃力
     [SerializeField] public int listIndex;               // （デバッグ用）消滅時にスポナーに消滅を知らせるために必要
 
     [SerializeField] public Transform shootOriginTrans; // 発射元の座標
@@ -73,7 +72,7 @@ public class BulletManager : MonoBehaviour
     }
 
     // 弾生成処理
-    public void BulletCreate(int atk, float speed, Transform origin, ShootChara chara, int index)
+    public void BulletCreate(float speed, Transform origin, ShootChara chara, int index)
     {
         // このオブジェクトを表示する
         this.gameObject.SetActive(true);
@@ -81,8 +80,6 @@ public class BulletManager : MonoBehaviour
         BulletSpawner.Instance.bulletCount++;
         // ステートの初期化
         bulletState = BulletState.Active;
-        // 攻撃力の設定
-        damageAtk = atk;
         // 発射スピードの設定
         shootSpeed = speed;
         // 発射元座標の設定
