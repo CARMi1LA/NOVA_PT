@@ -15,7 +15,7 @@ MonoBehaviour:
   stageDataList:
   - stageNo: 0
     stageName: Tutorial
-    waveType: 0000000000000000010000000200000004000000
+    waveType: 0000000000000000010000000100000004000000
     waveTable: 0000000001000000fffffffffeffffff03000000
     waveEnemyObj:
     - {fileID: 7135704205660212940, guid: df675a05fe482214b94c6cc5928395e0, type: 3}

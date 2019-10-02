@@ -8,6 +8,9 @@ public class BulletSpawner : BSSingleton<BulletSpawner>
 {
     // 弾生成管理クラス
 
+    public AIListManager aiList;
+    [SerializeField] AIListManager.AtkList atkList;
+
     [SerializeField] private int bulletValueMax;            // 弾の最大生成数
     [SerializeField] public int bulletCount;                // 弾の生成数
     [SerializeField] private BulletManager[] bulletObj;     // 弾のプレハブ
@@ -33,9 +36,8 @@ public class BulletSpawner : BSSingleton<BulletSpawner>
         {
             // プールの生成
             var bullet = bulletPool.Rent();
-            Debug.Log("弾スポーン");
-            // 弾の生成
-            bullet.BulletCreate(_.Value.bulletSpeed, _.Value.Origintrans, _.Value.shootChara, _.Index);
+            // 各弾を生成
+            bullet.BulletCreate(_.Value.bulletSpeed, _.Value.Origintrans, _.Value.shootChara, _.Value.bulletRot, _.Value.bulletType);
             // 生成済みリスト情報を追加
             bulletList.Add(bullet);
             // 弾生成用データリストは不要になるので破棄する。
@@ -60,15 +62,72 @@ public class BulletSpawner : BSSingleton<BulletSpawner>
 public class BulletData
 {
     public float bulletSpeed;     // 速度
+    public float bulletRot;       // 弾の発射角度
     public Transform Origintrans; // 発射元の座標
 
     public BulletManager.ShootChara shootChara; // 誰が発射したか
+    public AIListManager.AtkList bulletType;    // 弾の種類
     // パラメータの設定
-    public BulletData(float speed, Transform trans, BulletManager.ShootChara chara)
+    public BulletData(float speed, Transform trans, BulletManager.ShootChara chara,int actID,float rot)
     {
         bulletSpeed = speed;
         Origintrans = trans;
         shootChara = chara;
+        bulletRot = rot;
+
+        switch (actID)
+        {
+            case (int)AIListManager.AtkList.Normal:
+                bulletType = AIListManager.AtkList.Normal;
+                break;
+            case (int)AIListManager.AtkList.Scatter:
+                bulletType = AIListManager.AtkList.Scatter;
+                break;
+            case (int)AIListManager.AtkList.Fireworks:
+                bulletType = AIListManager.AtkList.Fireworks;
+                break;
+            case (int)AIListManager.AtkList.Booster:
+                bulletType = AIListManager.AtkList.Booster;
+                break;
+            case (int)AIListManager.AtkList.Bomb:
+                bulletType = AIListManager.AtkList.Bomb;
+                break;
+            case (int)AIListManager.AtkList.None:
+                break;
+            case (int)AIListManager.AtkList.Bush:
+                break;
+            case (int)AIListManager.AtkList.LightRay:
+                bulletType = AIListManager.AtkList.LightRay;
+                break;
+            case (int)AIListManager.AtkList.Whirlpool:
+                bulletType = AIListManager.AtkList.Whirlpool;
+                break;
+            case (int)AIListManager.AtkList.Forrow:
+                bulletType = AIListManager.AtkList.Forrow;
+                break;
+            case (int)AIListManager.AtkList.WhirlScatterCombo:
+                bulletType = AIListManager.AtkList.WhirlScatterCombo;
+                break;
+            case (int)AIListManager.AtkList.FireworksCombo:
+                bulletType = AIListManager.AtkList.FireworksCombo;
+                break;
+            case (int)AIListManager.AtkList.UltMegaFireworks:
+                bulletType = AIListManager.AtkList.UltMegaFireworks;
+                break;
+            case (int)AIListManager.AtkList.WhirlFireCombo:
+                bulletType = AIListManager.AtkList.WhirlFireCombo;
+                break;
+            case (int)AIListManager.AtkList.BoostBoundRayCombo:
+                bulletType = AIListManager.AtkList.BoostBoundRayCombo;
+                break;
+            case (int)AIListManager.AtkList.WhirlBoostCombo:
+                bulletType = AIListManager.AtkList.WhirlBoostCombo;
+                break;
+            case (int)AIListManager.AtkList.Ultimate:
+                bulletType = AIListManager.AtkList.Ultimate;
+                break;
+        }
+
         // 生成予定データリストにこのデータを追加
         BulletSpawner.Instance.bulletDataList.Add(this);
     }

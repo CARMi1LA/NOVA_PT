@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   EnemyStatusList:
-  - charaName: Player
-    ID: 0
+  - ID: 0
+    charaName: Player
     enemyType: 3
-    enemyPosition: 3
+    enemyPosition: 5
+    aiLevel: 0
     hp: 5
     barrier: 3
     energy: 100
     score: 0
-    actionAI: 0
     moveSpeed: 0

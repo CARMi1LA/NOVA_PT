@@ -6,6 +6,11 @@ public class SMSingleton<T> : MonoBehaviour where T : SMSingleton<T>
 {
     // ステージ管理クラス（StageManager）参照用シングルトン
 
+    protected static readonly string[] findTags =
+    {
+        "StageManager",
+    };
+
     protected static T instance;
     public static T Instance
     {
@@ -25,7 +30,7 @@ public class SMSingleton<T> : MonoBehaviour where T : SMSingleton<T>
         }
     }
 
-    protected void Awake()
+    virtual protected void Awake()
     {
         CheckInstance();
     }
