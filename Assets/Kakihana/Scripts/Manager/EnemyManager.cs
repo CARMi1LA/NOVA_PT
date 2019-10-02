@@ -155,7 +155,7 @@ public class EnemyManager : MonoBehaviour,IDamage
                         // 攻撃パターンの抽選
                         int actID = actManager.ChooseAtk(AI_Atk);
                         // 抽選結果より、各種攻撃を行う
-                        actManager.EnemyAtkCalc(this.transform.position, actID,atkTime);
+                        actManager.EnemyAtkCalc(this.transform, actID,atkTime);
                         // リミットまでの時間攻撃を行い、待機モードに移行
                         if (atkTime >= atkTimeLimit)
                         {
@@ -234,7 +234,7 @@ public class EnemyManager : MonoBehaviour,IDamage
                         // 攻撃パターンの抽選
                         int actID = actManager.ChooseAtk(AI_Def);
                         // 抽選結果より、各種攻撃を行う
-                        actManager.EnemyAtkCalc(this.transform.position, actID, atkTime);
+                        actManager.EnemyAtkCalc(this.transform, actID, atkTime);
                         // リミットまでの時間攻撃を行い、待機モードに移行
                         if (atkTime >= atkTimeLimit)
                         {
@@ -312,21 +312,21 @@ public class EnemyManager : MonoBehaviour,IDamage
                         if (enemyHP.Value <= maxHP * 0.75f && leaderAtkCount == 0)
                         {
                             // HPが75%以下
-                            actManager.EnemyAtkCalc(this.transform.position, actManager.leaderAtkList[leaderAtkIndex], atkTime);
+                            actManager.EnemyAtkCalc(this.transform, actManager.leaderAtkList[leaderAtkIndex], atkTime);
                             leaderAtkCount++;
                             leaderAtkIndex++;
                         }
                         else if (enemyHP.Value <= maxHP * 0.5f && leaderAtkCount == 1)
                         {
                             // HPが50%以下
-                            actManager.EnemyAtkCalc(this.transform.position, actManager.leaderAtkList[leaderAtkIndex], atkTime);
+                            actManager.EnemyAtkCalc(this.transform, actManager.leaderAtkList[leaderAtkIndex], atkTime);
                             leaderAtkCount++;
                             leaderAtkIndex++;
                         }
                         else if (enemyHP.Value <= maxHP * 0.25f && leaderAtkCount == 2)
                         {
                             // HPが25%以下
-                            actManager.EnemyAtkCalc(this.transform.position, actManager.leaderAtkList[leaderAtkIndex], atkTime);
+                            actManager.EnemyAtkCalc(this.transform, actManager.leaderAtkList[leaderAtkIndex], atkTime);
                             leaderAtkCount++;
                             leaderAtkIndex++;
                         }
@@ -339,7 +339,7 @@ public class EnemyManager : MonoBehaviour,IDamage
                                 enemyAI.Value = EnemyAI.Wait;
                             }
                             // 抽選結果より、各種攻撃を行う
-                            actManager.EnemyAtkCalc(this.transform.position, actID, atkTime);
+                            actManager.EnemyAtkCalc(this.transform, actID, atkTime);
                         }
 
 
@@ -408,31 +408,31 @@ public class EnemyManager : MonoBehaviour,IDamage
                         if (enemyHP.Value <= maxHP * 0.8f && bossAtkCount == 0)
                         {
                             // HPが80%以下
-                            actManager.EnemyAtkCalc(this.transform.position,(int)AI_NameListBoss.AI_Attack.WhirlFireCombo, atkTime);
+                            actManager.EnemyAtkCalc(this.transform,(int)AI_NameListBoss.AI_Attack.WhirlFireCombo, atkTime);
                             bossAtkCount++;
                         }
                         else if(enemyHP.Value <= maxHP * 0.5f && bossAtkCount == 1)
                         {
                             // HPが50%以下
-                            actManager.EnemyAtkCalc(this.transform.position, (int)AI_NameListBoss.AI_Attack.BoostBoundRayCombo, atkTime);
+                            actManager.EnemyAtkCalc(this.transform, (int)AI_NameListBoss.AI_Attack.BoostBoundRayCombo, atkTime);
                             bossAtkCount++;
                         }
                         else if(enemyHP.Value <= maxHP * 0.3f && bossAtkCount == 2)
                         {
                             // HPが30%以下
-                            actManager.EnemyAtkCalc(this.transform.position, (int)AI_NameListBoss.AI_Attack.WhirlBoostCombo, atkTime);
+                            actManager.EnemyAtkCalc(this.transform, (int)AI_NameListBoss.AI_Attack.WhirlBoostCombo, atkTime);
                             bossAtkCount++;
                         }
                         else if(enemyHP.Value <= maxHP * 0.1f && bossAtkCount == 3)
                         {
                             // HPが10%以下
-                            actManager.EnemyAtkCalc(this.transform.position, (int)AI_NameListBoss.AI_Attack.Ultimate, atkTime);
+                            actManager.EnemyAtkCalc(this.transform, (int)AI_NameListBoss.AI_Attack.Ultimate, atkTime);
                             bossAtkCount++;
                         }
                         else
                         {
                             // 通常攻撃
-                            actManager.EnemyAtkCalc(this.transform.position, actID, atkTime);
+                            actManager.EnemyAtkCalc(this.transform, actID, atkTime);
                         }
                         if (atkTime >= atkTimeLimit)
                         {
