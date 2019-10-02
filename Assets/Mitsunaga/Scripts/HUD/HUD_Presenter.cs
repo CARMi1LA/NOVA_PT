@@ -32,6 +32,8 @@ public class HUD_Presenter : MonoBehaviour
     [SerializeField]
     HUD_Score hvScore;          // スコア
     [SerializeField]
+    HUD_Combo hvCombo;          // コンボ
+    [SerializeField]
     HUD_Arrow hvArrow;          // ターゲット
 
     // ターゲット用のプレイヤーの位置とカメラの距離
@@ -77,6 +79,13 @@ public class HUD_Presenter : MonoBehaviour
             .Subscribe(value =>
             {
                 hvScore.SetScore(value);
+            })
+            .AddTo(this.gameObject);
+
+        hModel.ComboRP
+            .Subscribe(value =>
+            {
+                hvCombo.SetCombo(value);
             })
             .AddTo(this.gameObject);
 

@@ -13,6 +13,8 @@ public class Result_Presenter : MonoBehaviour
     単体では機能しないModelとViewを繋ぎ、一連の処理を成立させる
     */
 
+    [SerializeField, Header("HUDのModel")]
+    HUD_Model hModel;
     [SerializeField, Header("リザルトのModel")]
     Result_Model rModel;
 
@@ -23,18 +25,22 @@ public class Result_Presenter : MonoBehaviour
     {
         rModel.gamestateRP
             .Where(x => x != 0)
-            .Subscribe(_ =>
+            .Subscribe(value =>
             {
-                rView.setResult(rModel.score, rModel.combo);
+
+                rView.setResult(value, hModel.ScoreRP.Value, hModel.maxCombo);
             })
             .AddTo(this.gameObject);
 
         // デバッグ用
         this.UpdateAsObservable()
-            .Where(x => Input.GetKeyDown(KeyCode.C))
             .Subscribe(_ =>
             {
-                rModel.setResult(Result_Model.GAMESTATE.CLEAR, 81237894, 1245);
+                if(Input.GetKeyDown(KeyCode.C))
+                    rModel.setState(Result_Model.GAMESTATE.CLEAR);
+
+                if (Input.GetKeyDown(KeyCode.X))
+                    rModel.setState(Result_Model.GAMESTATE.GAMEOVER);
             })
             .AddTo(this.gameObject);
     }

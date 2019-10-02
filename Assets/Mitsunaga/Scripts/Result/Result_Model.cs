@@ -26,18 +26,17 @@ public class Result_Model : MonoBehaviour
     }
 
     // ゲームの状態
-    public ReactiveProperty<GAMESTATE> gamestateRP = new ReactiveProperty<GAMESTATE>();
-    public int score;
-    public int combo;
+    ReactiveProperty<GAMESTATE> _gamestateRP = new ReactiveProperty<GAMESTATE>();
+    public IReadOnlyReactiveProperty<GAMESTATE> gamestateRP
+    {
+        get { return _gamestateRP; }
+    }
 
     // 各パラメータの初期化
     // ゲーム終了時に何かしらの処理を記述してスコア、コンボ、ゲームの状態を取得する
     // どこに置くべきだろうか … 全体のマネージャーに参照を渡しておき、ゲーム終了時に値を渡してもらう
-    public void setResult(GAMESTATE gs, int s, int c)
+    public void setState(GAMESTATE gs)
     {
-        score = s;
-        combo = c;
-
-        gamestateRP.Value = gs;
+        _gamestateRP.Value = gs;
     }
 }

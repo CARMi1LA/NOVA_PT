@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
 using UniRx.Triggers;
+using TMPro;
 
 public class HUD_Score : MonoBehaviour
 {
@@ -20,11 +21,11 @@ public class HUD_Score : MonoBehaviour
     もしかしてパラメータごとにViewのスクリプトは分けたほうが良い？そんな気がしてきた
     */
 
-    Text ScoreText;
+    TextMeshProUGUI ScoreText;
 
     void Awake()
     {
-        ScoreText = this.GetComponent<Text>();
+        ScoreText = this.GetComponent<TextMeshProUGUI>();
     }
 
     public void SetScore(int score)

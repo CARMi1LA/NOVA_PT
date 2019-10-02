@@ -37,8 +37,12 @@ public class HUD_Model : MonoBehaviour
 
     [Header("スコア")]
     public IntReactiveProperty ScoreRP = new IntReactiveProperty();
+    [Header("コンボ")]
+    public IntReactiveProperty ComboRP = new IntReactiveProperty();
 
-    // 各パラメータの初期化(これはどこに置くべき？)
+    public int maxCombo = 0;
+
+    // 各パラメータの初期化
     public void InitParam()
     {
         // 最大値に設定
@@ -48,5 +52,16 @@ public class HUD_Model : MonoBehaviour
         // 最小値に設定
         UltimateRP.Value = 0;
         ScoreRP.Value = 0;
+        ComboRP.Value = 0;
+    }
+    // 最大コンボの計測
+    void Start()
+    {
+        ComboRP
+            .Subscribe(value =>
+            {
+                if (value > maxCombo) maxCombo = value;
+            })
+            .AddTo(this.gameObject);
     }
 }
