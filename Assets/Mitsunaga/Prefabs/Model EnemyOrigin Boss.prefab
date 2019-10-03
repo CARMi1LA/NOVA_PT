@@ -164,7 +164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8896227941681673058}
   m_Layer: 0
-  m_Name: EnemyOrigin Boss
+  m_Name: Model EnemyOrigin Boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -557,7 +557,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5701197380418865658
 Transform:
   m_ObjectHideFlags: 0

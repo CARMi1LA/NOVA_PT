@@ -7,22 +7,26 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mat WireFrame
-  m_Shader: {fileID: -6465566751694194690, guid: d02a7b0c6d29f6f4b99925d5625fe7d1,
+  m_Name: Mat StageEffect
+  m_Shader: {fileID: -6465566751694194690, guid: bcaa846faad29574a807a69bed91f946,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2999
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - _CameraOpaqueTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_56DA2406: 2
-    - Vector1_5A03B9C0: 0.35
-    - Vector1_FE6D7907: 0.5
+    - Vector1_31122E65: 0
+    - Vector1_875A811A: 0.2
     m_Colors:
-    - Color_871F1549: {r: 2.6701572, g: 0.7968532, b: 0, a: 0}
+    - Vector2_9A7DB609: {r: 480, g: 270, b: 0, a: 0}
+    - Vector3_8BD5ABF5: {r: 256, g: 128, b: 0, a: 0}
