@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 using System.Linq;
 
+using Random = UnityEngine.Random;
 public class EnemySpawner : ESSingleton<EnemySpawner>
 {
     public enum SpawnList
@@ -32,25 +34,31 @@ public class EnemySpawner : ESSingleton<EnemySpawner>
     // Start is called before the first frame update
     void Start()
     {
-        spawnPos[(int)SpawnList.Top] = new Vector3(
-            GameManagement.Instance.playerTrans.position.x,
-            GameManagement.Instance.playerTrans.position.y,
-            GameManagement.Instance.playerTrans.position.z + spawnOffset
-            );
-        spawnPos[(int)SpawnList.Left] = new Vector3(
-            GameManagement.Instance.playerTrans.position.x - spawnOffset,
-            GameManagement.Instance.playerTrans.position.y,
-            GameManagement.Instance.playerTrans.position.z + spawnOffset
-            );
-        spawnPos[(int)SpawnList.Right] = new Vector3(
-            GameManagement.Instance.playerTrans.position.x + spawnOffset,
-            GameManagement.Instance.playerTrans.position.y,
-            GameManagement.Instance.playerTrans.position.z + spawnOffset
-            );
-        spawnEnemyUnit.Subscribe(_ =>
-        {
-            Instantiate(spawnEnemyUnit.Value, spawnPos[Random.Range(0,2)], Quaternion.identity);
-        });
+        this.UpdateAsObservable()
+            .Sample(TimeSpan.FromSeconds(0.5f))
+            .Subscribe(_ =>
+            {
+                spawnPos[(int)SpawnList.Top] = new Vector3(
+                    GameManagement.Instance.playerTrans.position.x,
+                    GameManagement.Instance.playerTrans.position.y,
+                    GameManagement.Instance.playerTrans.position.z + spawnOffset
+                    );
+                spawnPos[(int)SpawnList.Left] = new Vector3(
+                    GameManagement.Instance.playerTrans.position.x - spawnOffset,
+                    GameManagement.Instance.playerTrans.position.y,
+                    GameManagement.Instance.playerTrans.position.z + spawnOffset
+                    );
+                spawnPos[(int)SpawnList.Right] = new Vector3(
+                    GameManagement.Instance.playerTrans.position.x + spawnOffset,
+                    GameManagement.Instance.playerTrans.position.y,
+                    GameManagement.Instance.playerTrans.position.z + spawnOffset
+                    );
+            }).AddTo(this.gameObject);
+        spawnEnemyUnit.Where(_ => _ != null)
+            .Subscribe(_ =>
+             {
+                 Instantiate(spawnEnemyUnit.Value, spawnPos[Random.Range(0,2)], Quaternion.identity);
+             });
     }
 
     public void EnemySpawnUnitSet(EnemyUnitManager enemyUnit)

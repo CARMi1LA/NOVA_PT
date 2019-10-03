@@ -37,8 +37,25 @@ public class StageManager : SMSingleton<StageManager>
 
         // データリストの取得
         dataList = Resources.Load<StageDataList>("StageDataList");
-        // IDより各ステージデータの取得
-        stageData = dataList.stageDataList[stageID];
+        if (stageID == 0 || stageID >= 10)
+        {
+            switch (stageID)
+            {
+                case 0:
+                    // IDより各ステージデータの取得
+                    stageData = dataList.stageDataList[0];
+                    break;
+                case 11:
+                    // IDより各ステージデータの取得
+                    stageData = dataList.stageDataList[4];
+                    break;
+            }
+        }
+        else
+        {
+            // IDより各ステージデータの取得
+            stageData = dataList.stageDataList[stageID];
+        }
         // 最大ウェーブ数の取得
         maxWave = stageData.waveType.Length;
         // デバッグ用 読み込み完了エラー処理
