@@ -19,7 +19,7 @@ public class GameManagement : GMSingleton<GameManagement>
     // プレイヤーレベル、上がるほどスコア上昇率に影響する
     [SerializeField] public IntReactiveProperty playerLevel = new IntReactiveProperty(1);
     // スコア、達成率に影響
-    public IntReactiveProperty playerScore = new IntReactiveProperty(0);
+    public IntReactiveProperty gameScore = new IntReactiveProperty(0);
     // コンボ数、攻撃がヒットする度に上昇
     // 被弾し、HPが減ったときにリセット、バリア減少ではリセットされない
     [SerializeField] public IntReactiveProperty combo = new IntReactiveProperty(0);
@@ -29,7 +29,7 @@ public class GameManagement : GMSingleton<GameManagement>
     [SerializeField] float achievementRate = 0.0f;
 
     // 初回起動完了したか
-    bool starting = false;
+    public BoolReactiveProperty starting = new BoolReactiveProperty(false);
 
     public BoolReactiveProperty isClear = new BoolReactiveProperty(false);
     public BoolReactiveProperty gameOver = new BoolReactiveProperty(false);
@@ -46,58 +46,48 @@ public class GameManagement : GMSingleton<GameManagement>
         // カメラ座標の取得
         cameraPos = cameraTrans.position;
 
-        // ステージ開始時、ポーズ状態に、クリックで解除
+        isPause.Value = false;
+    }
+
+    void Start()
+    {
+        starting.Where(s => s == false)
+       .Subscribe(s =>
+       {
+           isPause.Value = true;
+       }).AddTo(this.gameObject);
+
+        starting.Where(s => s == true && isPause.Value == false)
+            .Subscribe(s =>
+            {
+                isClear.Where(x => x).
+                Subscribe(_ =>
+                {
+                    // クリア処理
+                }).AddTo(this.gameObject);
+
+                gameOver
+                .Where(x => x)
+                .Where(x => !isClear.Value)
+                .Subscribe(_ =>
+                {
+                    //ゲームオーバー処理
+                }).AddTo(this.gameObject);
+
+
+            }).AddTo(this.gameObject);
+
         this.UpdateAsObservable()
-            .Where(_ => Input.GetMouseButtonDown(0) && onClick.Value == false)
-            .Subscribe(_ => 
-            {
-                onClick.Value = true;
-            }).AddTo(this.gameObject);
-
-        // クリックが押されたらポーズを解除
-        onClick.Where(_ => _ == true && starting == false)
-            .Subscribe(_ => 
-             {
-                isPause.Value = false;
-                starting = true;
-            }).AddTo(this.gameObject);
-
-        isPause.Where(_ => true && starting == true)
+            .Where(_ => isPause.Value == true)
             .Subscribe(_ =>
             {
-                // ポーズ処理
-                
+                if (Input.GetMouseButtonDown(0) == true || Input.GetKey(KeyCode.F1))
+                {
+                    isPause.Value = false;
+                }
             }).AddTo(this.gameObject);
 
-        isPause.Where(_ => false && starting == true)
-            .Subscribe(_ => 
-            {
 
-            }).AddTo(this.gameObject);
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            isPause.Value = true;
-        }
-
-        isClear.Where(x => x).
-            Subscribe(_ =>
-            {
-                // クリア処理
-            }).AddTo(this.gameObject);
-
-        gameOver
-            .Where(x => x)
-            .Where(x => !isClear.Value)
-            .Subscribe(_ =>
-            {
-                //ゲームオーバー処理
-            }).AddTo(this.gameObject);
-
-        maxCombo.Where(_ => combo.Value >= _).Subscribe(_ =>
-        {
-            maxCombo.Value = combo.Value;
-        }).AddTo(this.gameObject);
     }
 
     // 次シーン移行処理

@@ -42,47 +42,53 @@ public class BulletManager : MonoBehaviour
     void Start()
     {
         playerTrans = GameManagement.Instance.playerTrans;
-        // 弾を発射する。弾の種類ごとに移動量や角度を設定する
-        switch (bulletType)
-        {
-            // 低加速モード、3秒間通常よりも低速で移動しその後通常の2倍の弾速で移動
-            case AIListManager.AtkList.Booster:
-                float time = 0.0f;
-                shootSpeed *= 0.1f;
-                time = Time.deltaTime;
-                if (time >= 3.0f)
+        this.UpdateAsObservable()
+            .Where(_ => GameManagement.Instance.isPause.Value == false)
+            .Subscribe(_ => 
+            {
+                // 弾を発射する。弾の種類ごとに移動量や角度を設定する
+                switch (bulletType)
                 {
-                    shootSpeed *= 20.0f;
+                    // 低加速モード、3秒間通常よりも低速で移動しその後通常の2倍の弾速で移動
+                    case AIListManager.AtkList.Booster:
+                        float time = 0.0f;
+                        shootSpeed *= 0.1f;
+                        time = Time.deltaTime;
+                        if (time >= 3.0f)
+                        {
+                            shootSpeed *= 20.0f;
+                        }
+                        // 弾を発射する（新規）
+                        this.GetComponent<Rigidbody>().velocity = bulletRot * shootOriginTrans.forward * shootSpeed;
+                        break;
+                    case AIListManager.AtkList.Bound:
+                        break;
+                    case AIListManager.AtkList.Forrow:
+                        float hitTime = 3.0f;
+                        Vector3 accel = Vector3.zero;
+                        Vector3 velocity = Vector3.zero;
+                        var diff = playerTrans.position - this.transform.position;
+                        accel += (diff - velocity * hitTime) * 2.0f / (hitTime * hitTime);
+                        if (accel.magnitude > 100.0f)
+                        {
+                            hitTime -= Time.deltaTime;
+                        }
+                        velocity += accel * Time.deltaTime;
+                        this.GetComponent<Rigidbody>().velocity = this.transform.position + velocity * Time.deltaTime;
+                        break;
+                    case AIListManager.AtkList.Bomb:
+                        break;
+                    default:
+                        // 弾を発射する（新規）
+                        this.GetComponent<Rigidbody>().velocity = bulletRot * shootOriginTrans.forward * shootSpeed;
+                        break;
                 }
-                // 弾を発射する（新規）
-                this.GetComponent<Rigidbody>().velocity = bulletRot * shootOriginTrans.forward * shootSpeed;
-                break;
-            case AIListManager.AtkList.Bound:
-                break;
-            case AIListManager.AtkList.Forrow:
-                float hitTime = 3.0f;
-                Vector3 accel = Vector3.zero;
-                Vector3 velocity = Vector3.zero;
-                var diff = playerTrans.position - this.transform.position;
-                accel += (diff - velocity * hitTime) * 2.0f / (hitTime * hitTime);
-                if(accel.magnitude > 100.0f)
-                {
-                    hitTime -= Time.deltaTime;
-                }
-                velocity += accel * Time.deltaTime;
-                this.GetComponent<Rigidbody>().velocity = this.transform.position + velocity * Time.deltaTime;
-                break;
-            case AIListManager.AtkList.Bomb:
-                break;
-            default:
-                // 弾を発射する（新規）
-                this.GetComponent<Rigidbody>().velocity = bulletRot * shootOriginTrans.forward * shootSpeed;
-                break;
-        }
-        // 弾を発射する（旧バージョン）
-        // this.GetComponent<Rigidbody>().AddForce((shootOriginTrans.forward) * shootSpeed, ForceMode.Impulse);
-        // 向きを発射方向に向ける
-        this.transform.rotation = Quaternion.LookRotation(this.transform.forward, shootOriginTrans.forward);
+                // 弾を発射する（旧バージョン）
+                // this.GetComponent<Rigidbody>().AddForce((shootOriginTrans.forward) * shootSpeed, ForceMode.Impulse);
+                // 向きを発射方向に向ける
+                this.transform.rotation = Quaternion.LookRotation(this.transform.forward, shootOriginTrans.forward);
+            }).AddTo(this.gameObject);
+
         // 最大距離を超えたら消滅する
         this.UpdateAsObservable()
             .Where(_ => bulletState == BulletState.Active)

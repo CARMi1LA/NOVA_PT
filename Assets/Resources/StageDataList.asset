@@ -52,11 +52,11 @@ MonoBehaviour:
     eventFlg: 0
   - stageNo: 11
     stageName: Debug01
-    waveType: 0000000000000000000000000100000001000000
-    waveTable: 0000000001000000020000000000000000000000
+    waveType: 000000000000000000000000
+    waveTable: 000000000100000002000000
     waveEnemyObj:
-    - {fileID: 7135704205660212940, guid: df675a05fe482214b94c6cc5928395e0, type: 3}
-    - {fileID: -4087346691464453633, guid: ffbeb1f80838aa24ab9091e149986055, type: 3}
-    - {fileID: -4998988720034740377, guid: 3b06edbfd861b884da3403f133c54b68, type: 3}
+    - {fileID: 5038815808675061437, guid: fb6d5b80a285b7b4980ab63f12c0c8fa, type: 3}
+    - {fileID: 8882251027896803125, guid: 25701e8a6910e294286cf17c50cd0776, type: 3}
+    - {fileID: 1011187536090813484, guid: f5faf5da5c61ab545bb9d98eabad0f90, type: 3}
     eventObj: []
     eventFlg: 0

@@ -1,8 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
+
+// Unity側のランダム関数を使用
+using Random = UnityEngine.Random;
 
 public class StageManager : SMSingleton<StageManager>
 {
@@ -25,6 +29,7 @@ public class StageManager : SMSingleton<StageManager>
 
     public bool eventFlg;             // イベントが発生するステージかどうか
     public BoolReactiveProperty nextWaveFlg = new BoolReactiveProperty(false); // ウェーブ進行準備完了フラグ
+    private BoolReactiveProperty startingFlg = new BoolReactiveProperty(false);
 
     protected override void Awake()
     {
@@ -56,49 +61,62 @@ public class StageManager : SMSingleton<StageManager>
     // Start is called before the first frame update
     void Start()
     {
-        // 次ウェーブ移行イベント
-        nextWaveFlg.Where(_ => nextWaveFlg.Value == true).Subscribe(_ =>
-        {
-            nowWave.Value++;
-            nextWaveFlg.Value = false;
-        }).AddTo(this.gameObject);
-
-        // 敵が全滅したら次のウェーブへ
-        enemyAliveNum.Where(_ => enemyAliveNum.Value <= 0).Subscribe(_ =>
-        {
-            nextWaveFlg.Value = true;
-        }).AddTo(this.gameObject);
-
-        // ウェーブの処理
-        // 各種ステートに基づき、敵の設定と生存数の設定を行う
-        nowWave.Subscribe(_ =>
-        {
-            switch (stageData.waveType[nowWave.Value - 1])
+        this.UpdateAsObservable()
+            .Where(s => startingFlg.Value == false && GameManagement.Instance.starting.Value == false)
+            .Sample(TimeSpan.FromSeconds(10.0f))
+            .Subscribe(s => 
             {
-                // 固定出現
-                case StageData.WaveType.Fixed:
-                    var nextSpawnEnemys = stageData.waveEnemyObj[stageData.waveTable[nowWave.Value - 1]];
-                    enemyAliveNum.Value = nextSpawnEnemys.unitEnemys.Length;
-                    EnemySpawner.Instance.EnemySpawnUnitSet(nextSpawnEnemys);
-                    break;
-                // ランダム出現
-                case StageData.WaveType.Random:
-                    nextSpawnEnemys = stageData.waveEnemyObj[Random.Range(0, stageData.waveEnemyObj.Length - 1)];
-                    enemyAliveNum.Value = nextSpawnEnemys.unitEnemys.Length;
-                    EnemySpawner.Instance.EnemySpawnUnitSet(nextSpawnEnemys);
-                    break;
-                case StageData.WaveType.Select:
-                    break;
-                case StageData.WaveType.Event:
-                    break;
-                // ボス出現（最終ウェーブ）
-                case StageData.WaveType.Boss:
-                    nextSpawnEnemys = stageData.waveEnemyObj[stageData.waveTable[maxWave - 1]];
-                    enemyAliveNum.Value = nextSpawnEnemys.unitEnemys.Length;
-                    EnemySpawner.Instance.EnemySpawnUnitSet(nextSpawnEnemys);
-                    break;
-            }  
-        }).AddTo(this.gameObject);
+                startingFlg.Value = true;
+            }).AddTo(this.gameObject);
+        this.UpdateAsObservable()
+            .Where(s => startingFlg.Value == true && GameManagement.Instance.starting.Value == true)
+            .Subscribe(s => 
+            {
+                // 次ウェーブ移行イベント
+                nextWaveFlg.Where(_ => nextWaveFlg.Value == true).Subscribe(_ =>
+                {
+                    nowWave.Value++;
+                    nextWaveFlg.Value = false;
+                }).AddTo(this.gameObject);
+
+                // 敵が全滅したら次のウェーブへ
+                enemyAliveNum.Where(_ => enemyAliveNum.Value <= 0).Subscribe(_ =>
+                {
+                    nextWaveFlg.Value = true;
+                }).AddTo(this.gameObject);
+
+                // ウェーブの処理
+                // 各種ステートに基づき、敵の設定と生存数の設定を行う
+                nowWave.Subscribe(_ =>
+                {
+                    switch (stageData.waveType[nowWave.Value - 1])
+                    {
+                        // 固定出現
+                        case StageData.WaveType.Fixed:
+                            var nextSpawnEnemys = stageData.waveEnemyObj[stageData.waveTable[nowWave.Value - 1]];
+                            enemyAliveNum.Value = nextSpawnEnemys.unitEnemys.Length;
+                            EnemySpawner.Instance.EnemySpawnUnitSet(nextSpawnEnemys);
+                            break;
+                        // ランダム出現
+                        case StageData.WaveType.Random:
+                            nextSpawnEnemys = stageData.waveEnemyObj[Random.Range(0, stageData.waveEnemyObj.Length - 1)];
+                            enemyAliveNum.Value = nextSpawnEnemys.unitEnemys.Length;
+                            EnemySpawner.Instance.EnemySpawnUnitSet(nextSpawnEnemys);
+                            break;
+                        case StageData.WaveType.Select:
+                            break;
+                        case StageData.WaveType.Event:
+                            break;
+                        // ボス出現（最終ウェーブ）
+                        case StageData.WaveType.Boss:
+                            nextSpawnEnemys = stageData.waveEnemyObj[stageData.waveTable[maxWave - 1]];
+                            enemyAliveNum.Value = nextSpawnEnemys.unitEnemys.Length;
+                            EnemySpawner.Instance.EnemySpawnUnitSet(nextSpawnEnemys);
+                            break;
+                    }
+                }).AddTo(this.gameObject);
+            }).AddTo(this.gameObject);
+        
     }
 
     // 敵消滅メソッド

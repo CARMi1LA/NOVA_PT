@@ -83,6 +83,7 @@ public class PlayerManager : MonoBehaviour,IDamage
         }).AddTo(this.gameObject);
 
         this.UpdateAsObservable()
+            .Where(_ => GameManagement.Instance.isPause.Value == false)
             .Subscribe(_ =>
             {
                 // マウスのスクリーン座標を取得
@@ -123,12 +124,13 @@ public class PlayerManager : MonoBehaviour,IDamage
             }).AddTo(this.gameObject);
 
         this.UpdateAsObservable()
-            .Sample(TimeSpan.FromSeconds(0.20f))
-            .Subscribe(_ => 
-            {
-                new BulletData(25.0f, bitRight, BulletManager.ShootChara.Player, 0, 0.0f);
-                new BulletData(25.0f, bitLeft, BulletManager.ShootChara.Player, 0, 0.0f);
-            }).AddTo(this.gameObject);
+        .Where(_ => GameManagement.Instance.isPause.Value == false)
+        .Sample(TimeSpan.FromSeconds(0.20f))
+        .Subscribe(_ =>
+        {
+            new BulletData(25.0f, bitRight, BulletManager.ShootChara.Player, 0, 0.0f);
+            new BulletData(25.0f, bitLeft, BulletManager.ShootChara.Player, 0, 0.0f);
+        }).AddTo(this.gameObject);
 
         // 衝突判定（弾）
         this.OnTriggerEnterAsObservable()
@@ -155,7 +157,7 @@ public class PlayerManager : MonoBehaviour,IDamage
                 ItemManager item;
                 item = c.gameObject.GetComponent<ItemManager>();
 
-                score.Value += item.itemScore;
+                GameManagement.Instance.gameScore.Value += item.itemScore;
                 hp.Value += item.itemLife;
                 energy.Value += item.itemEnergy;
                 // 衝突したアイテムは消滅させる
