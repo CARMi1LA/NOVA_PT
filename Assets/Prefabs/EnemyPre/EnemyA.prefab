@@ -123,7 +123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyDataList: {fileID: 0}
   enemyStatus:
-    ID: 0
+    ID: 1
     charaName: 
     enemyType: 0
     enemyPosition: 0
@@ -147,10 +147,10 @@ MonoBehaviour:
     value: 0
   attackFlg:
     value: 0
-  enemyRigid: {fileID: 0}
+  enemyRigid: {fileID: 567561493916066142}
   playerTrans: {fileID: 0}
   movePos: {x: 0, y: 0, z: 0}
-  maxDistance: 30
+  maxDistance: 10
   waitTimeLimit: 1
   atkTimeLimit: 1
   velocityMag: 0.99

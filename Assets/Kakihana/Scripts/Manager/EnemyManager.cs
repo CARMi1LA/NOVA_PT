@@ -20,7 +20,7 @@ public class EnemyManager : MonoBehaviour,IDamage
     // 敵データのリスト
     [SerializeField] EnemyDataList enemyDataList;
     // 敵データが格納されているクラス
-    [SerializeField] EnemyStatus enemyStatus;
+    [SerializeField] public EnemyStatus enemyStatus;
     // AI名称が格納されているクラス
     [SerializeField] AIListManager aiList;
     // 敵の移動量などを計算するクラス
@@ -64,6 +64,9 @@ public class EnemyManager : MonoBehaviour,IDamage
         playerTrans = GameManagement.Instance.playerTrans;
         // 各タイプ別のAIリストを取得
         aiList = GameManagement.Instance.listManager;
+        // AI処理クラスのコンポーネント取得
+        actManager = GameManagement.Instance.actManager;
+        enemyRigid = this.gameObject.GetComponent<Rigidbody>();
         // 最大HPの設定
         maxHP = enemyStatus.hp;
         // 現在のHPの設定
@@ -105,8 +108,12 @@ public class EnemyManager : MonoBehaviour,IDamage
                     case EnemyStatus.EnemyPosition.Attack:
                         // 攻撃タイプのAIパターンを取得
                         AI_NameListAttack AI_Atk = aiList.AI_AtkList;
+                        Debug.Log(AI_Atk);
                         // AIレベルより行動確率パターンの取得
-                        AI_Atk.EnemyAIProbSet(enemyStatus.aiLevel);
+                        AI_Atk.EnemyAIProbSetAppr(enemyStatus.aiLevel);
+                        AI_Atk.EnemyAIProbSetWait(enemyStatus.aiLevel);
+                        AI_Atk.EnemyAIProbSetAtk(enemyStatus.aiLevel);
+                        AI_Atk.EnemyAIProbSetEsc(enemyStatus.aiLevel);
 
                         // 瀕死状態（最大HPの４分の１以下）になると逃走モードへ
                         enemyHP.Where(_ => _ <= maxHP * 0.25f)
@@ -119,29 +126,29 @@ public class EnemyManager : MonoBehaviour,IDamage
                         enemyAIPropaty.Where(_ => _ == EnemyAI.Approach)
                             .Subscribe(_ =>
                             {
-                        // 行動パターンを抽選
-                        int actID = actManager.ChooseAppr(AI_Atk);
-                        // 行動パターンに応じた移動量を取得
-                        movePos = actManager.CalcApprMove(this.transform.position, enemyStatus.moveSpeed, actID);
+                                // 行動パターンを抽選
+                                int actID = actManager.ChooseAppr(AI_Atk);
+                                // 行動パターンに応じた移動量を取得
+                                movePos = actManager.CalcApprMove(this.transform.position, enemyStatus.moveSpeed, actID);
                             }).AddTo(this.gameObject);
 
                         // 攻撃タイプの待機モード処理
                         enemyAIPropaty.Where(_ => _ == EnemyAI.Wait)
                             .Subscribe(_ =>
                             {
-                        // 待機時間のカウント変数
-                        float waitTime = 0.0f;
-                        // 最大待機時間の倍率
-                        float waitMag = 0.0f;
-                        // 待機モードの抽選を行う
-                        int actID = actManager.ChooseWait(AI_Atk);
-                        // 抽選結果より、最大待機時間の設定
-                        waitMag = actManager.ActWaitCalc(actID);
+                                // 待機時間のカウント変数
+                                float waitTime = 0.0f;
+                                // 最大待機時間の倍率
+                                float waitMag = 0.0f;
+                                // 待機モードの抽選を行う
+                                int actID = actManager.ChooseWait(AI_Atk);
+                                // 抽選結果より、最大待機時間の設定
+                                waitMag = actManager.ActWaitCalc(actID);
 
-                        // 待機時間をカウント
-                        waitTime += Time.deltaTime;
-                        // 最大待機時間を超えたら攻撃モードへ、倍率により時間は変動する
-                        if (waitTime >= waitTimeLimit * waitMag)
+                                // 待機時間をカウント
+                                waitTime += Time.deltaTime;
+                                // 最大待機時間を超えたら攻撃モードへ、倍率により時間は変動する
+                                if (waitTime >= waitTimeLimit * waitMag)
                                 {
                                     attackFlg.Value = true;
                                 }
@@ -451,7 +458,12 @@ public class EnemyManager : MonoBehaviour,IDamage
                     default:
                         break;
                 }
+            }).AddTo(this.gameObject);
 
+        GameManagement.Instance.isPause
+            .Where(p => true)
+            .Subscribe(p =>
+            {
                 /*
                   以下、全敵キャラクター共通処理
                 */
@@ -461,10 +473,10 @@ public class EnemyManager : MonoBehaviour,IDamage
                 distance.Where(_ => _ >= Mathf.Pow(maxDistance, 2))
                     .Subscribe(_ =>
                     {
-                // 減速移動量の設定
-                velocityMag = 0.99f;
-                // AIモードを接近モードに
-                enemyAI.Value = EnemyAI.Approach;
+                        // 減速移動量の設定
+                        velocityMag = 0.99f;
+                        // AIモードを接近モードに
+                        enemyAI.Value = EnemyAI.Approach;
                     }).AddTo(this.gameObject);
 
                 // 【待機モード移行イベント】
@@ -474,23 +486,17 @@ public class EnemyManager : MonoBehaviour,IDamage
                     .Where(_ => attackFlg.Value == false)
                     .Subscribe(_ =>
                     {
-                // 減速移動量の設定
-                velocityMag = 0.66f;
-                // AIモードを待機モードに
-                enemyAI.Value = EnemyAI.Wait;
+                        // 減速移動量の設定
+                        velocityMag = 0.66f;
+                        // AIモードを待機モードに
+                        enemyAI.Value = EnemyAI.Wait;
                     }).AddTo(this.gameObject);
 
                 // エネミー消滅処理
-                enemyHP.Where(_ => enemyHP.Value <= 0).Subscribe(_ =>
+                enemyHP.First(_ => enemyHP.Value <= 0).Subscribe(_ =>
                 {
-                    // スコアドロップ用ループ文
-                    for (int i = 0; i < 5; i++)
-                    {
-                        // スコアアイテムを5個ドロップする。経験値もループ回数に応じて分割する
-                        new ItemData(enemyStatus.score / 5, 0, 0, ItemManager.ItemType.Score, this.transform.position);
-                    }
                     // HPが0になったらステージクラスに消滅情報を送る
-                    StageManager.Instance.EnemyDestroy();
+                    StageManager.Instance.EnemyDestroy(this);
                 }).AddTo(this.gameObject);
 
                 // 攻撃フラグがONになったら攻撃モードへ移行
@@ -513,9 +519,12 @@ public class EnemyManager : MonoBehaviour,IDamage
                 this.UpdateAsObservable().Subscribe(_ =>
                 {
                     enemyRigid.velocity += movePos * Time.deltaTime;
+                    if (enemyAI.Value == EnemyAI.Attack || enemyAI.Value == EnemyAI.Wait)
+                    {
+                        movePos = Vector3.zero;
+                    }
                 }).AddTo(this.gameObject);
             }).AddTo(this.gameObject);
-
 
         // 衝突判定
         this.OnTriggerEnterAsObservable()

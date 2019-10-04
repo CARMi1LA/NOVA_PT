@@ -146,7 +146,7 @@ public class PlayerManager : MonoBehaviour,IDamage
                     // ヒットした弾は消滅させる
                     bullet.BulletDestroy();
                 }
-            });
+            }).AddTo(this.gameObject);
 
         // 衝突判定（アイテム）
         this.OnTriggerEnterAsObservable()
@@ -157,12 +157,13 @@ public class PlayerManager : MonoBehaviour,IDamage
                 ItemManager item;
                 item = c.gameObject.GetComponent<ItemManager>();
 
-                GameManagement.Instance.gameScore.Value += item.itemScore;
-                hp.Value += item.itemLife;
-                energy.Value += item.itemEnergy;
-                // 衝突したアイテムは消滅させる
-                item.ItemDestroy();
-            });
+                if (item.itemType == ItemManager.ItemType.Score)
+                {
+                    GameManagement.Instance.gameScore.Value += item.itemScore;
+                    // 衝突したアイテムは消滅させる
+                    item.ItemDestroy();
+                }
+            }).AddTo(this.gameObject);
 
         // スキルストック復活処理
         this.UpdateAsObservable()

@@ -21,7 +21,7 @@ public class ItemManager : MonoBehaviour
     public int itemLife;    // HP回復量
     public int itemEnergy;  // エネルギー回復量
 
-    [SerializeField] private ItemType itemType;
+    [SerializeField] public ItemType itemType;
 
     [Header("設定不要だがデバッグ用に値変更可能")]
     // アイテムが吸い込まれる距離
@@ -86,7 +86,7 @@ public class ItemManager : MonoBehaviour
         this.gameObject.SetActive(true);
         // プレイヤーの座標を取得
         playerTrans = GameManagement.Instance.playerTrans;
-
+        itemRigid = this.gameObject.GetComponent<Rigidbody>();
         // ランダムに回転量を取得する
         itemRot.x = Random.Range(-90.0f, 90.0f);
         itemRot.y = Random.Range(-90.0f, 90.0f);

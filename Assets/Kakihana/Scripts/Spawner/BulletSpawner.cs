@@ -89,15 +89,7 @@ public class BulletData
             case (int)AIListManager.AtkList.Booster:
                 bulletType = AIListManager.AtkList.Booster;
                 break;
-            case (int)AIListManager.AtkList.Bomb:
-                bulletType = AIListManager.AtkList.Bomb;
-                break;
             case (int)AIListManager.AtkList.None:
-                break;
-            case (int)AIListManager.AtkList.Bush:
-                break;
-            case (int)AIListManager.AtkList.LightRay:
-                bulletType = AIListManager.AtkList.LightRay;
                 break;
             case (int)AIListManager.AtkList.Whirlpool:
                 bulletType = AIListManager.AtkList.Whirlpool;
@@ -117,8 +109,8 @@ public class BulletData
             case (int)AIListManager.AtkList.WhirlFireCombo:
                 bulletType = AIListManager.AtkList.WhirlFireCombo;
                 break;
-            case (int)AIListManager.AtkList.BoostBoundRayCombo:
-                bulletType = AIListManager.AtkList.BoostBoundRayCombo;
+            case (int)AIListManager.AtkList.BoostFireCombo:
+                bulletType = AIListManager.AtkList.BoostFireCombo;
                 break;
             case (int)AIListManager.AtkList.WhirlBoostCombo:
                 bulletType = AIListManager.AtkList.WhirlBoostCombo;

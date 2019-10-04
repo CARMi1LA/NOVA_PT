@@ -369,7 +369,7 @@ MonoBehaviour:
     value: 0
   attackFlg:
     value: 0
-  enemyRigid: {fileID: 0}
+  enemyRigid: {fileID: 3650705723240307191}
   playerTrans: {fileID: 0}
   movePos: {x: 0, y: 0, z: 0}
   maxDistance: 30

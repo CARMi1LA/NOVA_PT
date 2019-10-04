@@ -13,6 +13,7 @@ public class GameManagement : GMSingleton<GameManagement>
     public Transform cameraTrans;           // カメラの座標
     public Vector3 cameraPos;               // カメラ移動量
     public AIListManager listManager;       // AI行動名リスト
+    public AI_ActManager actManager;
 
     // ゲームレベル、上がるほど敵が強化される
     [SerializeField] public IntReactiveProperty gameLevel = new IntReactiveProperty(1);
@@ -87,7 +88,15 @@ public class GameManagement : GMSingleton<GameManagement>
                 }
             }).AddTo(this.gameObject);
 
-
+        this.UpdateAsObservable()
+        .Where(_ => starting.Value == false)
+        .Subscribe(_ =>
+        {
+            if (Input.GetMouseButtonDown(0) == true)
+            {
+                starting.Value = true;
+            }
+        }).AddTo(this.gameObject);
     }
 
     // 次シーン移行処理

@@ -61,8 +61,6 @@ public class BulletManager : MonoBehaviour
                         // 弾を発射する（新規）
                         this.GetComponent<Rigidbody>().velocity = bulletRot * shootOriginTrans.forward * shootSpeed;
                         break;
-                    case AIListManager.AtkList.Bound:
-                        break;
                     case AIListManager.AtkList.Forrow:
                         float hitTime = 3.0f;
                         Vector3 accel = Vector3.zero;
@@ -75,8 +73,6 @@ public class BulletManager : MonoBehaviour
                         }
                         velocity += accel * Time.deltaTime;
                         this.GetComponent<Rigidbody>().velocity = this.transform.position + velocity * Time.deltaTime;
-                        break;
-                    case AIListManager.AtkList.Bomb:
                         break;
                     default:
                         // 弾を発射する（新規）

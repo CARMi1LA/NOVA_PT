@@ -31,10 +31,6 @@ public class AI_ActManager : MonoBehaviour
                 Vector3 dif = playerTrans.position - move;
                 float radian = Mathf.Atan2(dif.z, dif.x);
                 return new Vector3(Mathf.Cos(radian), 0, Mathf.Sin(radian)) * speed * 10;
-            case (int)AIListManager.ApprList.Wave:
-                 dif = playerTrans.position - move;
-                 radian = Mathf.Atan2(dif.z, dif.x);
-                return new Vector3(Mathf.Cos(radian), 0, Mathf.Sin(radian)) * speed * 10;
             case (int)AIListManager.ApprList.HighSpeed:
                  dif = playerTrans.position - move;
                  radian = Mathf.Atan2(dif.z, dif.x);
@@ -78,13 +74,7 @@ public class AI_ActManager : MonoBehaviour
                 break;
             case (int)AIListManager.AtkList.Booster:
                 break;
-            case (int)AIListManager.AtkList.Bomb:
-                break;
             case (int)AIListManager.AtkList.None:
-                break;
-            case (int)AIListManager.AtkList.Bush:
-                break;
-            case (int)AIListManager.AtkList.LightRay:
                 break;
             case (int)AIListManager.AtkList.Whirlpool:
                 break;
@@ -98,7 +88,7 @@ public class AI_ActManager : MonoBehaviour
                 break;
             case (int)AIListManager.AtkList.WhirlFireCombo:
                 break;
-            case (int)AIListManager.AtkList.BoostBoundRayCombo:
+            case (int)AIListManager.AtkList.BoostFireCombo:
                 break;
             case (int)AIListManager.AtkList.WhirlBoostCombo:
                 break;
@@ -142,18 +132,18 @@ public class AI_ActManager : MonoBehaviour
     {
         float total = 0;
 
-        foreach (KeyValuePair<int, float> elem in atk.apprProbs)
+        foreach (KeyValuePair<AI_NameListAttack.AI_Approach, float> elem in atk.apprProbs)
         {
             total += elem.Value;
         }
 
         float randomPoint = Random.value * total;
 
-        foreach(KeyValuePair<int,float> elem in atk.apprProbs)
+        foreach(KeyValuePair<AI_NameListAttack.AI_Approach, float> elem in atk.apprProbs)
         {
             if(randomPoint < elem.Value)
             {
-                return elem.Key;
+                return (int)elem.Key;
             }
             else
             {
@@ -192,18 +182,18 @@ public class AI_ActManager : MonoBehaviour
     {
         float total = 0;
 
-        foreach (KeyValuePair<int, float> elem in atk.waitProbs)
+        foreach (KeyValuePair<AI_NameListAttack.AI_Wait, float> elem in atk.waitProbs)
         {
             total += elem.Value;
         }
 
         float randomPoint = Random.value * total;
 
-        foreach (KeyValuePair<int, float> elem in atk.waitProbs)
+        foreach (KeyValuePair<AI_NameListAttack.AI_Wait, float> elem in atk.waitProbs)
         {
             if (randomPoint < elem.Value)
             {
-                return elem.Key;
+                return (int)elem.Key;
             }
             else
             {
@@ -292,18 +282,18 @@ public class AI_ActManager : MonoBehaviour
     {
         float total = 0;
 
-        foreach (KeyValuePair<int, float> elem in atk.atkProbs)
+        foreach (KeyValuePair<AI_NameListAttack.AI_Attack, float> elem in atk.atkProbs)
         {
             total += elem.Value;
         }
 
         float randomPoint = Random.value * total;
 
-        foreach (KeyValuePair<int, float> elem in atk.atkProbs)
+        foreach (KeyValuePair<AI_NameListAttack.AI_Attack, float> elem in atk.atkProbs)
         {
             if (randomPoint < elem.Value)
             {
-                return elem.Key;
+                return (int)elem.Key;
             }
             else
             {
@@ -366,18 +356,18 @@ public class AI_ActManager : MonoBehaviour
     {
         float total = 0;
 
-        foreach (KeyValuePair<int, float> elem in atk.escProbs)
+        foreach (KeyValuePair<AI_NameListAttack.AI_Escape, float> elem in atk.escProbs)
         {
             total += elem.Value;
         }
 
         float randomPoint = Random.value * total;
 
-        foreach (KeyValuePair<int, float> elem in atk.escProbs)
+        foreach (KeyValuePair<AI_NameListAttack.AI_Escape, float> elem in atk.escProbs)
         {
             if (randomPoint < elem.Value)
             {
-                return elem.Key;
+                return (int)elem.Key;
             }
             else
             {

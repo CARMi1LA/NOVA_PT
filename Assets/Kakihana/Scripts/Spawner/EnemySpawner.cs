@@ -16,21 +16,22 @@ public class EnemySpawner : ESSingleton<EnemySpawner>
         Right = 2
     }
 
-    [SerializeField] private EnemyPool[] enemyPools;
+    //[SerializeField] private EnemyPool[] enemyPools;
+    [SerializeField] public StageManager stageManager;
     [SerializeField] private float spawnOffset;
 
     [Header("プールをまとめるオブジェクトを作成、格納")]
     [SerializeField] private Transform enemyPoolObj;            // スポーンした敵をまとめるオブジェクトをここに格納
 
     [Header("自動稼働し、設定する必要がない変数")]
-    [SerializeField] private int spawnCount;                    // 現在のスポーン数
-    [SerializeField] private float xAbs, zAbs;                  // スポーン先座標の絶対値
-    [SerializeField] private float maxR, minR;                  // ホットスポットのスポーン最小範囲と最大範囲を2乗したもの
+    //[SerializeField] private int spawnCount;                    // 現在のスポーン数
+    //[SerializeField] private float xAbs, zAbs;                  // スポーン先座標の絶対値
+    //[SerializeField] private float maxR, minR;                  // ホットスポットのスポーン最小範囲と最大範囲を2乗したもの
 
     [SerializeField] private Vector3[] spawnPos;                  // スポーン先の座標
-    [SerializeField] private Transform playerTrans;             // プレイヤーのトランスフォーム
+    [SerializeField] private Transform playerTrans;               // プレイヤーのトランスフォーム
     public ReactiveProperty<EnemyUnitManager> spawnEnemyUnit { get; private set; }
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -54,15 +55,16 @@ public class EnemySpawner : ESSingleton<EnemySpawner>
                     GameManagement.Instance.playerTrans.position.z + spawnOffset
                     );
             }).AddTo(this.gameObject);
-        spawnEnemyUnit.Where(_ => _ != null)
-            .Subscribe(_ =>
-             {
-                 Instantiate(spawnEnemyUnit.Value, spawnPos[Random.Range(0,2)], Quaternion.identity);
-             });
     }
 
-    public void EnemySpawnUnitSet(EnemyUnitManager enemyUnit)
+    public void EnemyUnitSpawn(int index)
     {
-        spawnEnemyUnit.Value = enemyUnit;
+        Instantiate(stageManager.stageData.waveEnemyObj[index], spawnPos[Random.Range(0, 2)], Quaternion.identity);
     }
+
+    //public void EnemySpawnUnitSet(EnemyUnitManager enemyUnit)
+    //{
+    //    spawnEnemy = enemyUnit;
+    //    spawnEnemyUnit.Value = spawnEnemy;
+    //}
 }

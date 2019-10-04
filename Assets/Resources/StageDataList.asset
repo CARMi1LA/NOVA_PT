@@ -52,7 +52,7 @@ MonoBehaviour:
     eventFlg: 0
   - stageNo: 11
     stageName: Debug01
-    waveType: 000000000000000000000000
+    waveType: 000000000000000004000000
     waveTable: 000000000100000002000000
     waveEnemyObj:
     - {fileID: 5038815808675061437, guid: fb6d5b80a285b7b4980ab63f12c0c8fa, type: 3}
