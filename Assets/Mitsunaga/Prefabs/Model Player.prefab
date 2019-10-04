@@ -5851,6 +5851,7 @@ MonoBehaviour:
     value: 114514
   ComboRP:
     value: 0
+  maxCombo: 0
 --- !u!114 &1309257785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5863,8 +5864,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2053ea04f52804b4a9aa076b6a3b9905, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 0
-  combo: 0
 --- !u!1 &1091181946893121821
 GameObject:
   m_ObjectHideFlags: 0
@@ -15809,7 +15808,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f77b29031cddadd4289a31bd63268230, type: 2}
+  - {fileID: 2100000, guid: b2554a46567ecf240bc98417bcda276c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -16329,6 +16328,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39dd89d573420a24f9a5cff9b21806b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shakePower: 0
+  shakeTime: 0
 --- !u!1001 &136485921410208302
 PrefabInstance:
   m_ObjectHideFlags: 0

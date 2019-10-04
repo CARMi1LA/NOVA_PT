@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mat Bullet Cube
-  m_Shader: {fileID: -6465566751694194690, guid: 0a89ebe2a99aba4408c4004441d3addc,
+  m_Name: Mat Item WireFrame
+  m_Shader: {fileID: -6465566751694194690, guid: d02a7b0c6d29f6f4b99925d5625fe7d1,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -21,9 +21,8 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Floats:
-    - Vector1_11F565B9: 0
-    - Vector1_4BC2F23B: 0.5
-    - Vector1_6993DA18: 0
-    - Vector1_CF17CF7A: 20
+    - Vector1_56DA2406: 2
+    - Vector1_5A03B9C0: 0.35
+    - Vector1_FE6D7907: 0.5
     m_Colors:
-    - Color_2D777D43: {r: 1, g: 0.3443396, b: 0.52561045, a: 0}
+    - Color_871F1549: {r: 2.6701572, g: 0.7968532, b: 0, a: 0}
