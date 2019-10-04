@@ -7,26 +7,24 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mat StageEffect
-  m_Shader: {fileID: -6465566751694194690, guid: bcaa846faad29574a807a69bed91f946,
+  m_Name: Mat Chara Enemy Wall Effect
+  m_Shader: {fileID: -6465566751694194690, guid: 6d4a71075a8347c4c82d704e94bd01fd,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2999
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs:
-    - _CameraOpaqueTexture:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+    m_TexEnvs: []
     m_Floats:
-    - Vector1_31122E65: 0
-    - Vector1_875A811A: 0.2
+    - Vector1_33A8DA15: 0.4
+    - Vector1_577E4810: 0.1
+    - Vector1_8FFD4EAB: 50
+    - Vector1_9D29855F: 6
+    - Vector1_AB820C40: 0.6
     m_Colors:
-    - Vector2_9A7DB609: {r: 480, g: 270, b: 0, a: 0}
-    - Vector3_8BD5ABF5: {r: 256, g: 128, b: 0, a: 0}
+    - Color_86D2F5E8: {r: 0, g: 1.4001323, b: 2.8679247, a: 0}

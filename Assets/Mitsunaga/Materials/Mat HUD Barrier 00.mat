@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mat UI Barrier 02
+  m_Name: Mat HUD Barrier 00
   m_Shader: {fileID: -6465566751694194690, guid: fefd39747d2b68c4dab1853caff33270,
     type: 3}
   m_ShaderKeywords: 
@@ -34,7 +34,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_E00F8921:
-        m_Texture: {fileID: 2800000, guid: eecdb26b2c098a64fb4f136fe40d0ea1, type: 3}
+        m_Texture: {fileID: 2800000, guid: e5a21dcb63f03844a86248925406dc4c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:

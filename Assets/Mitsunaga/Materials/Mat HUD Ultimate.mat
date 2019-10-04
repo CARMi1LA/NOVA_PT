@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mat UI Health
+  m_Name: Mat HUD Ultimate
   m_Shader: {fileID: -6465566751694194690, guid: fefd39747d2b68c4dab1853caff33270,
     type: 3}
   m_ShaderKeywords: 
@@ -34,7 +34,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_E00F8921:
-        m_Texture: {fileID: 2800000, guid: 83cc97bffa889864981c05c5065da478, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9f85b3e6eccb2974480ab53bfe993e61, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -96,7 +96,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_5B67333B: {r: 1, g: 0.13836956, b: 0, a: 0}
-    - Color_E11A57A1: {r: 4, g: 0, b: 0.71676254, a: 0}
+    - Color_E11A57A1: {r: 0, g: 3.8792844, b: 3.8589737, a: 0}
     - _BaseColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

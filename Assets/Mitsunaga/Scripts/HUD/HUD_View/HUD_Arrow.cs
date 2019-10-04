@@ -20,12 +20,12 @@ public class HUD_Arrow : MonoBehaviour
     もしかしてパラメータごとにViewのスクリプトは分けたほうが良い？そんな気がしてきた
     */
 
-    public void SetArrow(Vector3 playerPosition , Vector3 targetPosition)
+    public void SetArrow(Vector3 playerPos , Vector3 targetPos)
     {
         // ターゲットへの方角を示す矢印
 
         // ターゲットへのベクトルを取得
-        Vector3 vec = (targetPosition - playerPosition).normalized;
+        Vector3 vec = (targetPos - playerPos).normalized;
         // ベクトルから角度を取得、RadianからDegreeに変換
         float angle = Mathf.Rad2Deg * Mathf.Atan2(vec.z, vec.x);
 

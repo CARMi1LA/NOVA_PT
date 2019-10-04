@@ -35,6 +35,8 @@ public class HUD_Model : MonoBehaviour
     public int maxUltimate = 100;
     public IntReactiveProperty UltimateRP = new IntReactiveProperty();
 
+    [Header("索敵")]
+    public Vector3ReactiveProperty SearchEnemyRP = new Vector3ReactiveProperty();
     [Header("スコア")]
     public IntReactiveProperty ScoreRP = new IntReactiveProperty();
     [Header("コンボ")]
