@@ -89,8 +89,10 @@ GameObject:
   - component: {fileID: 7605259028378784773}
   - component: {fileID: 3781892493682228418}
   - component: {fileID: 2934619233975075952}
+  - component: {fileID: 3281962399373133636}
+  - component: {fileID: 124816936431159827}
   m_Layer: 0
-  m_Name: Model Mob Attack
+  m_Name: Enemy Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -169,3 +171,64 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &3281962399373133636
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3492397220836062538}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 4
+  m_CollisionDetection: 0
+--- !u!114 &124816936431159827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3492397220836062538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5305c25938c44c4c8203a566c332cb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyDataList: {fileID: 0}
+  enemyStatus:
+    ID: 1
+    charaName: 
+    enemyType: 0
+    enemyPosition: 0
+    aiLevel: 0
+    hp: 0
+    barrier: 0
+    energy: 0
+    score: 0
+    moveSpeed: 0
+  aiList: {fileID: 0}
+  actManager: {fileID: 0}
+  enemyID: 0
+  enemyHP:
+    value: 0
+  maxHP: 0
+  enemyAI:
+    value: 0
+  distance:
+    value: 0
+  waitCount:
+    value: 0
+  attackFlg:
+    value: 0
+  enemyRigid: {fileID: 3281962399373133636}
+  playerTrans: {fileID: 0}
+  movePos: {x: 0, y: 0, z: 0}
+  maxDistance: 10
+  waitTimeLimit: 1
+  atkTimeLimit: 1
+  velocityMag: 0.99
