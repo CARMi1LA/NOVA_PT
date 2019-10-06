@@ -137,7 +137,7 @@ MonoBehaviour:
     moveSpeed: 0
   aiList: {fileID: 0}
   actManager: {fileID: 0}
-  enemyID: 0
+  enemyID: 11
   enemyHP:
     value: 0
   maxHP: 0
@@ -149,7 +149,7 @@ MonoBehaviour:
     value: 0
   attackFlg:
     value: 0
-  enemyRigid: {fileID: 0}
+  enemyRigid: {fileID: 2069942104006147194}
   playerTrans: {fileID: 0}
   movePos: {x: 0, y: 0, z: 0}
   maxDistance: 30

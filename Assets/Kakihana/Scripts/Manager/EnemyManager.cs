@@ -42,7 +42,7 @@ public class EnemyManager : MonoBehaviour,IDamage
     [SerializeField] private Rigidbody enemyRigid;          // 敵のRigidBody
     [SerializeField] private Transform playerTrans;         // プレイヤーの座標
     [SerializeField] private Vector3 movePos;               // 移動ベクトル
-    [SerializeField] private float maxDistance = 30.0f;     // プレイヤーとの最大接近距離
+    [SerializeField] private float maxDistance;             // プレイヤーとの最大接近距離
     [SerializeField] private float waitTimeLimit = 1.0f;    // 待機モードの最大遅延時間
     [SerializeField] private float atkTimeLimit = 1.0f;     // 攻撃モード時の攻撃する最大時間
     [SerializeField] private float velocityMag = 0.99f;     // 減速倍率
@@ -108,7 +108,6 @@ public class EnemyManager : MonoBehaviour,IDamage
                     case EnemyStatus.EnemyPosition.Attack:
                         // 攻撃タイプのAIパターンを取得
                         AI_NameListAttack AI_Atk = aiList.AI_AtkList;
-                        Debug.Log(AI_Atk);
                         // AIレベルより行動確率パターンの取得
                         AI_Atk.EnemyAIProbSetAppr(enemyStatus.aiLevel);
                         AI_Atk.EnemyAIProbSetWait(enemyStatus.aiLevel);
@@ -493,7 +492,7 @@ public class EnemyManager : MonoBehaviour,IDamage
                     }).AddTo(this.gameObject);
 
                 // エネミー消滅処理
-                enemyHP.First(_ => enemyHP.Value <= 0).Subscribe(_ =>
+                enemyHP.Where(_ => enemyHP.Value <= 0).Subscribe(_ =>
                 {
                     // HPが0になったらステージクラスに消滅情報を送る
                     StageManager.Instance.EnemyDestroy(this);
@@ -545,6 +544,8 @@ public class EnemyManager : MonoBehaviour,IDamage
 
     public void HitDamage()
     {
+        GameManagement.Instance.DamageScore();
+        GameManagement.Instance.HitCombo();
         // １ヒットごとに１ダメージ受ける
         // バリアが残っていればバリアを優先的に消費する
         if (enemyStatus.barrier >= 1)

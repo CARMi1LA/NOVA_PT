@@ -19,6 +19,7 @@ public class PlayerManager : MonoBehaviour,IDamage
 
     [SerializeField] EnemyDataList dataList;                      // パラメータデータリスト
     [SerializeField] EnemyStatus status;                          // プレイヤーのパラメータ
+    [SerializeField] HUD_Model playerHUD;
 
     [SerializeField] private IntReactiveProperty hp;              // 現在のHP
     [SerializeField] private IntReactiveProperty maxHp;           // 最大HP
@@ -62,10 +63,19 @@ public class PlayerManager : MonoBehaviour,IDamage
         hp.Value = status.hp;
         // 最大HPの設定
         maxHp.Value = status.hp;
+        // UI上の最大HP設定
+        playerHUD.maxHealth = maxHp.Value;
         // 最大バリアの設定
         maxBarrier = status.barrier;
+        // UI上の最大バリア設定
+        playerHUD.maxBarrier = maxBarrier;
         // スキルの設定
         skillStock.Value = 1;
+
+        // UIにHPを設定
+        playerHUD.HealthRP.Value = hp.Value;
+        // UIにバリアを設定
+        playerHUD.BarrierRP.Value = status.barrier;
     }
 
     // Start is called before the first frame update
@@ -128,8 +138,8 @@ public class PlayerManager : MonoBehaviour,IDamage
         .Sample(TimeSpan.FromSeconds(0.20f))
         .Subscribe(_ =>
         {
-            new BulletData(25.0f, bitRight, BulletManager.ShootChara.Player, 0, 0.0f);
-            new BulletData(25.0f, bitLeft, BulletManager.ShootChara.Player, 0, 0.0f);
+            new BulletData(30.0f, bitLeft.transform, BulletManager.ShootChara.Player, 0, 0.0f);
+            new BulletData(30.0f, bitRight.transform, BulletManager.ShootChara.Player, 0, 0.0f);
         }).AddTo(this.gameObject);
 
         // 衝突判定（弾）
@@ -194,11 +204,16 @@ public class PlayerManager : MonoBehaviour,IDamage
             {
                 isHit.Value = false;
             }).AddTo(this.gameObject);
+        hp.Subscribe(_ =>
+        {
+            playerHUD.HealthRP.Value = hp.Value;
+        }).AddTo(this.gameObject);
     }
 
     public void HitDamage()
     {
         isHit.Value = true;
+        GameManagement.Instance.enemyDeathCombo.Value = 0;
         if(status.barrier >= 1)
         {
             status.barrier--;

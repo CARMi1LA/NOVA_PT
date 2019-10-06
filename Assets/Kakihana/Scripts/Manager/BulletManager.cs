@@ -37,15 +37,19 @@ public class BulletManager : MonoBehaviour
 
     [SerializeField] public Transform shootOriginTrans;  // 発射元の座標
     [SerializeField] public Transform playerTrans;
+    [SerializeField] public Vector3 movePos;
     [SerializeField] public Quaternion bulletRot;        // 弾の角度
     // Start is called before the first frame update
     void Start()
     {
         playerTrans = GameManagement.Instance.playerTrans;
+        this.transform.position = shootOriginTrans.position;
         this.UpdateAsObservable()
+            .Where(_ => bulletState == BulletState.Active)
             .Where(_ => GameManagement.Instance.isPause.Value == false)
             .Subscribe(_ => 
             {
+                Debug.Log("ken1");
                 // 弾を発射する。弾の種類ごとに移動量や角度を設定する
                 switch (bulletType)
                 {
@@ -75,14 +79,21 @@ public class BulletManager : MonoBehaviour
                         this.GetComponent<Rigidbody>().velocity = this.transform.position + velocity * Time.deltaTime;
                         break;
                     default:
+                        Debug.Log("ken2");
+                        //movePos = transform.forward * shootSpeed;
+                        //this.GetComponent<Rigidbody>().AddForce((shootOriginTrans.forward) * shootSpeed, ForceMode.Impulse);
                         // 弾を発射する（新規）
-                        this.GetComponent<Rigidbody>().velocity = bulletRot * shootOriginTrans.forward * shootSpeed;
+                        //this.GetComponent<Rigidbody>().velocity = bulletRot * shootOriginTrans.forward * shootSpeed * Time.deltaTime;
                         break;
                 }
+                //this.transform.position += shootOriginTrans.forward * shootSpeed * Time.deltaTime;
                 // 弾を発射する（旧バージョン）
                 // this.GetComponent<Rigidbody>().AddForce((shootOriginTrans.forward) * shootSpeed, ForceMode.Impulse);
                 // 向きを発射方向に向ける
-                this.transform.rotation = Quaternion.LookRotation(this.transform.forward, shootOriginTrans.forward);
+                movePos.y = 0.0f;
+                this.transform.position += Vector3.forward * shootSpeed * Time.deltaTime;
+                Debug.Log(shootOriginTrans.forward);
+                //this.transform.rotation = Quaternion.LookRotation(this.transform.forward, shootOriginTrans.forward);
             }).AddTo(this.gameObject);
 
         // 最大距離を超えたら消滅する

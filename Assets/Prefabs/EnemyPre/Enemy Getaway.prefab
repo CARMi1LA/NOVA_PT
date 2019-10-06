@@ -326,7 +326,7 @@ MonoBehaviour:
     moveSpeed: 0
   aiList: {fileID: 0}
   actManager: {fileID: 0}
-  enemyID: 0
+  enemyID: 3
   enemyHP:
     value: 0
   maxHP: 0

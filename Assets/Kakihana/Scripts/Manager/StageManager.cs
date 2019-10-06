@@ -128,6 +128,8 @@ public class StageManager : SMSingleton<StageManager>
                 .Sample(TimeSpan.FromSeconds(3.0f))
                 .Subscribe(w => 
                 {
+                    float waitTime = 0.0f;
+                    waitTime += Time.deltaTime;
                     // 次ウェーブ移行イベント
                     nextWaveFlg.Where(_ => nextWaveFlg.Value == true).Subscribe(_ =>
                     {
@@ -138,6 +140,7 @@ public class StageManager : SMSingleton<StageManager>
                 }).AddTo(this.gameObject);
 
                 waveAct.Where(w => w == StageWaveAction.WaveCreate)
+                .Sample(TimeSpan.FromSeconds(3.0f))
                 .Subscribe(w => 
                 {
                     // ウェーブで出現する敵パターンの設定
@@ -146,14 +149,15 @@ public class StageManager : SMSingleton<StageManager>
                         // 固定出現
                         case StageData.WaveType.Fixed:
                             enemyAliveNum.Value = stageData.waveEnemyObj[nowWave.Value - 1].unitEnemys.Length;
-                            waveAct.Value = StageWaveAction.WaveCreate;
                             EnemyUnitSpawn(nowWave.Value - 1);
+                            waveAct.Value = StageWaveAction.WavePlaying;
                             break;
                         // ランダム出現
                         case StageData.WaveType.Random:
                             int seed = Random.Range(0, stageData.waveEnemyObj.Length - 1);
                             enemyAliveNum.Value = stageData.waveEnemyObj[seed].unitEnemys.Length;
                             EnemyUnitSpawn(seed);
+                            waveAct.Value = StageWaveAction.WavePlaying;
                             break;
                         case StageData.WaveType.Select:
                             break;
@@ -163,6 +167,7 @@ public class StageManager : SMSingleton<StageManager>
                         case StageData.WaveType.Boss:
                             enemyAliveNum.Value = stageData.waveEnemyObj[maxWave].unitEnemys.Length;
                             EnemyUnitSpawn(maxWave);
+                            waveAct.Value = StageWaveAction.WavePlaying;
                             break;
                     }
                 }).AddTo(this.gameObject);
@@ -209,6 +214,7 @@ public class StageManager : SMSingleton<StageManager>
         {
             // 現在のウェーブの敵生存数を減らす
             enemyAliveNum.Value--;
+            GameManagement.Instance.DestoyScore();
             for (int i = 0; i < 5; i++)
             {
                 new ItemData(enemy.enemyStatus.score / 5, 0, 0, ItemManager.ItemType.Score, enemy.transform.position);
