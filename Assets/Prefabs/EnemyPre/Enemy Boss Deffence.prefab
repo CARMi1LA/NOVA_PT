@@ -415,6 +415,8 @@ MonoBehaviour:
   enemyHP:
     value: 0
   maxHP: 0
+  destroyPS: {fileID: 8986527913691645247, guid: 3cf6a222838fa8a4a910ff47d0b38b1e,
+    type: 3}
   enemyAI:
     value: 0
   distance:
@@ -426,7 +428,7 @@ MonoBehaviour:
   enemyRigid: {fileID: 5612771644226833322}
   playerTrans: {fileID: 0}
   movePos: {x: 0, y: 0, z: 0}
-  maxDistance: 30
+  maxDistance: 10
   waitTimeLimit: 1
   atkTimeLimit: 1
   velocityMag: 0.99

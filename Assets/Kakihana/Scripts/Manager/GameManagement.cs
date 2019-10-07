@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 using UniRx;
 using UniRx.Triggers;
 
@@ -12,9 +13,12 @@ public class GameManagement : GMSingleton<GameManagement>
     public Transform playerTrans;           // プレイヤーの座標
     public Transform cameraTrans;           // カメラの座標
     public Vector3 cameraPos;               // カメラ移動量
+    public Vector3 cScreen;
+    public Vector3 cWorld;
     public AIListManager listManager;       // AI行動名リスト
     public AI_ActManager actManager;
     public HUD_Model gameHUD;
+    public Result_Model resultUI;
 
     // ゲームレベル、上がるほど敵が強化される
     [SerializeField] public IntReactiveProperty gameLevel = new IntReactiveProperty(1);
@@ -53,8 +57,8 @@ public class GameManagement : GMSingleton<GameManagement>
     public BoolReactiveProperty gameOver = new BoolReactiveProperty(false);
     // ポーズフラグ
     public BoolReactiveProperty isPause = new BoolReactiveProperty(true);
-    public BoolReactiveProperty onClick = new BoolReactiveProperty(false);
-
+    public BoolReactiveProperty playerUlt = new BoolReactiveProperty(false);
+    public BoolReactiveProperty enemyUlt = new BoolReactiveProperty(false);
 
     protected override void Awake()
     {
@@ -82,9 +86,11 @@ public class GameManagement : GMSingleton<GameManagement>
         starting.Where(s => s == true && isPause.Value == false)
             .Subscribe(s =>
             {
+                Debug.LogFormat("pUlt{0} eUlt{1}", playerUlt.Value, enemyUlt.Value);
                 isClear.Where(x => x).
                 Subscribe(_ =>
                 {
+                    resultUI.setState(Result_Model.GAMESTATE.CLEAR);
                     // クリア処理
                     gameHUD.maxCombo = maxCombo.Value;
                 }).AddTo(this.gameObject);
@@ -95,6 +101,7 @@ public class GameManagement : GMSingleton<GameManagement>
                 .Subscribe(_ =>
                 {
                     //ゲームオーバー処理
+                    resultUI.setState(Result_Model.GAMESTATE.GAMEOVER);
                 }).AddTo(this.gameObject);
 
 
@@ -110,6 +117,19 @@ public class GameManagement : GMSingleton<GameManagement>
                 }
             }).AddTo(this.gameObject);
 
+        this.UpdateAsObservable()
+            .Where(_ => isPause.Value == false)
+            .Subscribe(_ => 
+            {
+                // マウスのスクリーン座標を取得
+                cScreen = Input.mousePosition;
+                // カメラの焦点を補正
+                cScreen.z = 50.0f;
+                // スクリーン座標からワールド座標へ変換
+                cWorld = Camera.main.ScreenToWorldPoint(cScreen);
+
+
+            }).AddTo(this.gameObject);
         this.UpdateAsObservable()
         .Where(_ => starting.Value == false)
         .Subscribe(_ =>
@@ -166,6 +186,20 @@ public class GameManagement : GMSingleton<GameManagement>
             {
                 maxCombo.Value = combo.Value;
             }).AddTo(this.gameObject);
+
+        playerUlt.Where(_ => playerUlt.Value == true)
+            .Sample(TimeSpan.FromSeconds(1.0f))
+            .Subscribe(_ => 
+            {
+                playerUlt.Value = false;
+            }).AddTo(this.gameObject);
+
+        enemyUlt.Where(_ => enemyUlt.Value == true)
+        .Sample(TimeSpan.FromSeconds(1.0f))
+        .Subscribe(_ =>
+        {
+            enemyUlt.Value = false;
+        }).AddTo(this.gameObject);
     }
 
     public void HitCombo()

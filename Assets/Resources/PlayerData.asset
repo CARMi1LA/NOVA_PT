@@ -20,6 +20,6 @@ MonoBehaviour:
     aiLevel: 0
     hp: 5
     barrier: 3
-    energy: 100
+    energy: 90
     score: 0
     moveSpeed: 0

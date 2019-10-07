@@ -33,23 +33,28 @@ public class BulletManager : MonoBehaviour
     [SerializeField] private AIListManager.AtkList bulletType; // 弾の種類
     [SerializeField] public float shootSpeed;            // 発射スピード
     [SerializeField] private float rangeLimit;           // 最大距離
-    [SerializeField] public int listIndex;               // （デバッグ用）消滅時にスポナーに消滅を知らせるために必要
+    [SerializeField] private float originAngle;          // 発射元の角度
+    [SerializeField] private float horizontalOffset;
+    [SerializeField] private float verticalOffset;
 
     [SerializeField] public Transform shootOriginTrans;  // 発射元の座標
     [SerializeField] public Transform playerTrans;
-    [SerializeField] public Vector3 movePos;
+    [SerializeField] public Vector3 moveFoward;
     [SerializeField] public Quaternion bulletRot;        // 弾の角度
     // Start is called before the first frame update
     void Start()
     {
+        
         playerTrans = GameManagement.Instance.playerTrans;
-        this.transform.position = shootOriginTrans.position;
+        moveFoward = (GameManagement.Instance.cWorld - this.transform.position).normalized;
+        float radian = originAngle * Mathf.Deg2Rad;
+        Vector3 foward = new Vector3(Mathf.Cos(radian), 0.0f, Mathf.Sin(radian));
+        Debug.Log(foward);
         this.UpdateAsObservable()
             .Where(_ => bulletState == BulletState.Active)
             .Where(_ => GameManagement.Instance.isPause.Value == false)
             .Subscribe(_ => 
             {
-                Debug.Log("ken1");
                 // 弾を発射する。弾の種類ごとに移動量や角度を設定する
                 switch (bulletType)
                 {
@@ -79,21 +84,19 @@ public class BulletManager : MonoBehaviour
                         this.GetComponent<Rigidbody>().velocity = this.transform.position + velocity * Time.deltaTime;
                         break;
                     default:
-                        Debug.Log("ken2");
+                        
+                        //this.transform.position += shootOriginTrans.forward * shootSpeed * Time.deltaTime;
                         //movePos = transform.forward * shootSpeed;
                         //this.GetComponent<Rigidbody>().AddForce((shootOriginTrans.forward) * shootSpeed, ForceMode.Impulse);
                         // 弾を発射する（新規）
                         //this.GetComponent<Rigidbody>().velocity = bulletRot * shootOriginTrans.forward * shootSpeed * Time.deltaTime;
                         break;
                 }
-                //this.transform.position += shootOriginTrans.forward * shootSpeed * Time.deltaTime;
+                //　カメラのビューポートの限界位置をオフセット位置を含めて計算
+
+                this.GetComponent<Rigidbody>().velocity += this.transform.forward * shootSpeed * Time.deltaTime;
                 // 弾を発射する（旧バージョン）
                 // this.GetComponent<Rigidbody>().AddForce((shootOriginTrans.forward) * shootSpeed, ForceMode.Impulse);
-                // 向きを発射方向に向ける
-                movePos.y = 0.0f;
-                this.transform.position += Vector3.forward * shootSpeed * Time.deltaTime;
-                Debug.Log(shootOriginTrans.forward);
-                //this.transform.rotation = Quaternion.LookRotation(this.transform.forward, shootOriginTrans.forward);
             }).AddTo(this.gameObject);
 
         // 最大距離を超えたら消滅する
@@ -105,6 +108,24 @@ public class BulletManager : MonoBehaviour
                 bulletState = BulletState.Destroy;
                 BulletDestroy();
             }).AddTo(this.gameObject);
+
+        GameManagement.Instance.playerUlt.Where(_ => GameManagement.Instance.isPause.Value == true)
+            .Where(_ => true)
+            .Where(_ => shootChara == ShootChara.Enemy)
+            .Subscribe(_ => 
+            {
+                bulletState = BulletState.Destroy;
+                BulletDestroy();
+            }).AddTo(this.gameObject);
+
+        GameManagement.Instance.enemyUlt.Where(_ => GameManagement.Instance.isPause.Value == true)
+        .Where(_ => true)
+        .Where(_ => shootChara == ShootChara.Player)
+        .Subscribe(_ =>
+        {
+            bulletState = BulletState.Destroy;
+            BulletDestroy();
+        }).AddTo(this.gameObject);
     }
 
     // 発射する方向を設定するメソッド
@@ -125,6 +146,8 @@ public class BulletManager : MonoBehaviour
             BulletSpawner.Instance.BulletRemove(this);
             // このオブジェクトを非表示にする
             this.gameObject.SetActive(false);
+            // 速度をリセット
+            this.GetComponent<Rigidbody>().velocity = Vector3.zero;
             // 再生成待機モードに移行
             bulletState = BulletState.Pool;
         }
@@ -132,7 +155,7 @@ public class BulletManager : MonoBehaviour
     }
 
     // 弾生成処理
-    public void BulletCreate(float speed, Transform origin, ShootChara chara, float rot, AIListManager.AtkList type)
+    public void BulletCreate(float speed, Transform origin, ShootChara chara, float rot, AIListManager.AtkList type,float angle)
     {
         // 弾の見た目の設定
         switch (shootChara)
@@ -156,8 +179,12 @@ public class BulletManager : MonoBehaviour
         shootOriginTrans = origin;
         // 発射元キャラクターの設定
         shootChara = chara;
+        // 角度の設定
+        originAngle = angle;
         // 現在の座標の初期化
         this.transform.position = origin.position;
+        // 
+        this.transform.localEulerAngles = new Vector3(0.0f, originAngle, 0.0f);
         // 発射角度の設定
         this.SetBulletRot(Quaternion.AngleAxis(rot, Vector3.up));
     }

@@ -30,6 +30,8 @@ public class EnemyManager : MonoBehaviour,IDamage
     [SerializeField] IntReactiveProperty enemyHP;           // 現在のHP
     [SerializeField] private float maxHP;                   // 最大HP
 
+    [SerializeField] ParticleSystem destroyPS;
+
     // 現在稼働しているAI
     [SerializeField] EnemyAIReactiveProperty enemyAI = new EnemyAIReactiveProperty();
     // プレイヤー間の距離
@@ -540,6 +542,14 @@ public class EnemyManager : MonoBehaviour,IDamage
                     bullet.BulletDestroy();
                 }
             }).AddTo(this.gameObject);
+
+        GameManagement.Instance.playerUlt.Where(_ => GameManagement.Instance.playerUlt.Value == true)
+        .Subscribe(_ =>
+        {
+            Debug.Log("ult");
+            Instantiate(destroyPS, this.transform.position, Quaternion.identity);
+            StageManager.Instance.EnemyDestroy(this);
+        }).AddTo(this.gameObject);
     }
 
     public void HitDamage()

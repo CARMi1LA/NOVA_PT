@@ -112,7 +112,7 @@ public class StageManager : SMSingleton<StageManager>
             .Sample(TimeSpan.FromSeconds(3.0f))
             .Subscribe(s => 
             {
-                // ゲームが開始してから10秒後に敵が出現するように
+                // ゲームが開始してから3秒後に敵が出現するように
                 startingFlg.Value = true;
                 nextWaveFlg.Value = true;
                 waveAct.Value = StageWaveAction.WaveWaiting;
@@ -128,8 +128,6 @@ public class StageManager : SMSingleton<StageManager>
                 .Sample(TimeSpan.FromSeconds(3.0f))
                 .Subscribe(w => 
                 {
-                    float waitTime = 0.0f;
-                    waitTime += Time.deltaTime;
                     // 次ウェーブ移行イベント
                     nextWaveFlg.Where(_ => nextWaveFlg.Value == true).Subscribe(_ =>
                     {
@@ -165,7 +163,7 @@ public class StageManager : SMSingleton<StageManager>
                             break;
                         // ボス出現（最終ウェーブ）
                         case StageData.WaveType.Boss:
-                            enemyAliveNum.Value = stageData.waveEnemyObj[maxWave].unitEnemys.Length;
+                            enemyAliveNum.Value = stageData.waveEnemyObj[maxWave - 1].unitEnemys.Length;
                             EnemyUnitSpawn(maxWave);
                             waveAct.Value = StageWaveAction.WavePlaying;
                             break;
@@ -204,6 +202,12 @@ public class StageManager : SMSingleton<StageManager>
                     GameManagement.Instance.playerTrans.position.y,
                     GameManagement.Instance.playerTrans.position.z + spawnOffset
                     );
+            }).AddTo(this.gameObject);
+
+        nowWave.Where(_ => nowWave.Value >= maxWave && enemyAliveNum.Value <= 0)
+            .Subscribe(_ =>
+            {
+                GameManagement.Instance.isClear.Value = true;
             }).AddTo(this.gameObject);
     }
 

@@ -796,6 +796,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8936d75801b00aa4db60fc5ec1128377,
         type: 2}
+    - target: {fileID: 6519871195319850928, guid: 804126ffc6485ca488ce8aa981fb0ccd,
+        type: 3}
+      propertyPath: shakePower
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 6519871195319850928, guid: 804126ffc6485ca488ce8aa981fb0ccd,
+        type: 3}
+      propertyPath: shakeTime
+      value: 0.51
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 804126ffc6485ca488ce8aa981fb0ccd, type: 3}
 --- !u!4 &6113063010086178576 stripped
