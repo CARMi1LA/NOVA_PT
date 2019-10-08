@@ -47,9 +47,21 @@ public class BulletManager : MonoBehaviour
         
         playerTrans = GameManagement.Instance.playerTrans;
         moveFoward = (GameManagement.Instance.cWorld - this.transform.position).normalized;
-        float radian = originAngle * Mathf.Deg2Rad;
-        Vector3 foward = new Vector3(Mathf.Cos(radian), 0.0f, Mathf.Sin(radian));
-        Debug.Log(foward);
+
+        if (shootChara == ShootChara.Enemy)
+        {
+            playerTrans = GameManagement.Instance.playerTrans;
+            moveFoward = (playerTrans.position - this.transform.position).normalized;
+            this.transform.forward = moveFoward;
+            Debug.Log(this.transform.forward);
+        }
+        else if(shootChara == ShootChara.Player)
+        {
+            playerTrans = GameManagement.Instance.playerTrans;
+            moveFoward = (GameManagement.Instance.cWorld - this.transform.position).normalized;
+            float radian = originAngle * Mathf.Deg2Rad;
+            Vector3 foward = new Vector3(Mathf.Cos(radian), 0.0f, Mathf.Sin(radian));
+        }
         this.UpdateAsObservable()
             .Where(_ => bulletState == BulletState.Active)
             .Where(_ => GameManagement.Instance.isPause.Value == false)
@@ -71,17 +83,44 @@ public class BulletManager : MonoBehaviour
                         this.GetComponent<Rigidbody>().velocity = bulletRot * shootOriginTrans.forward * shootSpeed;
                         break;
                     case AIListManager.AtkList.Forrow:
-                        float hitTime = 3.0f;
-                        Vector3 accel = Vector3.zero;
-                        Vector3 velocity = Vector3.zero;
-                        var diff = playerTrans.position - this.transform.position;
-                        accel += (diff - velocity * hitTime) * 2.0f / (hitTime * hitTime);
-                        if (accel.magnitude > 100.0f)
+                        if (shootChara == ShootChara.Enemy)
                         {
-                            hitTime -= Time.deltaTime;
+                            var diff = playerTrans.position - this.transform.position;
+                            float hitTime = 3.0f;
+                            Vector3 accel = Vector3.zero;
+                            Vector3 velocity = Vector3.zero;
+
+                            accel += (diff - velocity * hitTime) * 2.0f / (hitTime * hitTime);
+                            if (accel.magnitude > 100.0f)
+                            {
+                                hitTime -= Time.deltaTime;
+                            }
+                            velocity += accel * Time.deltaTime;
+                            this.GetComponent<Rigidbody>().velocity = this.transform.position + velocity * Time.deltaTime;
+                        }else if(shootChara == ShootChara.Player)
+                        {
+                            PlayerManager pm = playerTrans.gameObject.GetComponent<PlayerManager>();
+                            var targetDis = 0.0f;
+                            GameObject targetObj = null;
+                            foreach (var item in pm.apprEnemys)
+                            {
+                                var dis = (item.transform.position - this.transform.position).sqrMagnitude;
+                                if (targetDis == 0)
+                                {
+                                    targetDis = dis;
+                                    targetObj = item;
+                                }
+                                if (targetDis >= dis)
+                                {
+                                    targetDis = dis;
+                                    targetObj = item;
+                                }
+                            }
+                            Vector3 radian = (targetObj.transform.position - this.transform.position).normalized;
+                            float angle = Mathf.Atan2(radian.z, radian.x);
+                            this.transform.localEulerAngles = new Vector3(0, Mathf.Lerp(this.transform.rotation.y, angle, 0.25f), 0);
+                            shootSpeed *= 1.5f + Time.deltaTime;
                         }
-                        velocity += accel * Time.deltaTime;
-                        this.GetComponent<Rigidbody>().velocity = this.transform.position + velocity * Time.deltaTime;
                         break;
                     default:
                         shootSpeed *= 1.5f + Time.deltaTime;

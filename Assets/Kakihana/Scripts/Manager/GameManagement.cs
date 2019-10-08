@@ -20,6 +20,8 @@ public class GameManagement : GMSingleton<GameManagement>
     public HUD_Model gameHUD;
     public Result_Model resultUI;
 
+    public AudioSource[] bgms;
+
     // ゲームレベル、上がるほど敵が強化される
     [SerializeField] public IntReactiveProperty gameLevel = new IntReactiveProperty(1);
     // プレイヤーレベル、上がるほどスコア上昇率に影響する

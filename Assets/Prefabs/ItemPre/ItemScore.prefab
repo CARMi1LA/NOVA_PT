@@ -125,7 +125,7 @@ MonoBehaviour:
   itemLife: 0
   itemEnergy: 0
   itemType: 0
-  maxDistance: 3
+  maxDistance: 2
   itemRot: {x: 0, y: 0, z: 0}
   originPos: {x: 0, y: 0, z: 0}
   itemDir: 0

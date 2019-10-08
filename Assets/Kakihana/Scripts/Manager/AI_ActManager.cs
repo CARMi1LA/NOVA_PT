@@ -56,14 +56,14 @@ public class AI_ActManager : MonoBehaviour
     }
 
     // 攻撃モード処理
-    public void EnemyAtkCalc(Transform origin,int actID,float atkTime)
+    public void EnemyAtkCalc(Transform origin,int actID,float angle)
     {
-        float deg = 360.0f;
-        float bulletSpeed = 10.0f;
+        int deg = 360;
+        float bulletSpeed = 20.0f;
         switch (actID)
         {
             case (int)AIListManager.AtkList.Normal:
-                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, 0.0f,0.0f);
+                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, 0.0f,Random.Range(0,360));
                 break;
             case (int)AIListManager.AtkList.Scatter:
                 new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, 0.0f, 0.0f);
@@ -71,18 +71,44 @@ public class AI_ActManager : MonoBehaviour
                 new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, -30.0f,0.0f);
                 break;
             case (int)AIListManager.AtkList.Fireworks:
+                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, 0.0f, 0.0f);
+                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, 45.0f, 0.0f);
+                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, -45.0f, 0.0f);
+                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, 90.0f, 0.0f);
+                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, -90.0f, 0.0f);
+                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, 135.0f, 0.0f);
+                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, -135.0f, 0.0f);
+                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, 180.0f, 0.0f);
                 break;
             case (int)AIListManager.AtkList.Booster:
+                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, 0.0f, 0.0f);
                 break;
             case (int)AIListManager.AtkList.None:
                 break;
             case (int)AIListManager.AtkList.Whirlpool:
+                for (int rot = 0; rot < deg; rot += 10)
+                {
+                    new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, rot, 0.0f);
+                }
                 break;
             case (int)AIListManager.AtkList.Forrow:
+                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, 0.0f, 0.0f);
                 break;
             case (int)AIListManager.AtkList.WhirlScatterCombo:
+                for (int rot = 0; rot < deg; rot += 10)
+                {
+                    new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, rot, 0.0f);
+                }
                 break;
             case (int)AIListManager.AtkList.FireworksCombo:
+                new BulletData(bulletSpeed * 2, origin, BulletManager.ShootChara.Enemy, actID, 0.0f, 0.0f);
+                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, 45.0f, 0.0f);
+                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, -45.0f, 0.0f);
+                new BulletData(bulletSpeed * 2, origin, BulletManager.ShootChara.Enemy, actID, 90.0f, 0.0f);
+                new BulletData(bulletSpeed * 2, origin, BulletManager.ShootChara.Enemy, actID, -90.0f, 0.0f);
+                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, 135.0f, 0.0f);
+                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, -135.0f, 0.0f);
+                new BulletData(bulletSpeed * 2, origin, BulletManager.ShootChara.Enemy, actID, 180.0f, 0.0f);
                 break;
             case (int)AIListManager.AtkList.UltMegaFireworks:
                 break;
