@@ -29,6 +29,6 @@ public class HUD_Energy : MonoBehaviour
 
     public void SetEnergy(int Energy, int maxEnergy)
     {
-        EnergyImage.fillAmount = (float)Energy / maxEnergy;
+        EnergyImage.fillAmount = (float)maxEnergy / Energy;
     }
 }

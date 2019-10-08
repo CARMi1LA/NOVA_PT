@@ -13,7 +13,7 @@ public class FollowObject : MonoBehaviour
     Vector3 followOffset;
     [SerializeField]    // 補間
     bool isLerp;
-    // 補間の強さ
+    [SerializeField]    // 補間の強さ
     float lerpSpeed;
 
     void Start()

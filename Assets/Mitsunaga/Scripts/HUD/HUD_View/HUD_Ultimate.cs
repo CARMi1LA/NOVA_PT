@@ -27,8 +27,8 @@ public class HUD_Ultimate : MonoBehaviour
         UltimateImage = this.GetComponent<Image>();
     }
 
-    public void SetUltimate(int maxUltimate, int Ultimate)
+    public void SetUltimate(int Ultimate, int maxUltimate)
     {
-        UltimateImage.fillAmount = (float)Ultimate / maxUltimate;
+        UltimateImage.fillAmount = (float)maxUltimate / Ultimate;
     }
 }
