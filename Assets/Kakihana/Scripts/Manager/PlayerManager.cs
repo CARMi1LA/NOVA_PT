@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using UniRx;
 using UniRx.Triggers;
+using System.Linq;
 
 public class PlayerManager : MonoBehaviour,IDamage
 {
@@ -52,6 +53,9 @@ public class PlayerManager : MonoBehaviour,IDamage
     [SerializeField] public float angle;
     // 子機のトランスフォーム
     [SerializeField] private Transform bitRight,bitLeft;
+
+    // 接近敵のトランスフォーム配列
+    [SerializeField] public List<GameObject> apprEnemys = new List<GameObject>();
     // スコアを監視可能な変数
     public IntReactiveProperty score = new IntReactiveProperty(0);
     // スキルストック数
@@ -60,6 +64,10 @@ public class PlayerManager : MonoBehaviour,IDamage
     private BoolReactiveProperty isHit = new BoolReactiveProperty(false);
 
     [SerializeField] private ParticleSystem  deathPS,ultPS;
+
+    Subject<int> ultimate = new Subject<int>();
+    public Subject<GameObject> apprEnemyInfo = new Subject<GameObject>();
+
 
     void Awake()
     {
@@ -103,6 +111,19 @@ public class PlayerManager : MonoBehaviour,IDamage
     // Start is called before the first frame update
     void Start()
     {
+        ultimate.Subscribe(val => 
+        {
+            Instantiate(ultPS, this.transform.position, Quaternion.identity);
+            GameManagement.Instance.playerUlt.Value = true;
+            ultimateGage.Value -= maxultimateGage;
+            playerHUD.UltimateRP.Value = ultimateGage.Value;
+        }).AddTo(this.gameObject);
+
+        apprEnemyInfo.Subscribe(_ => 
+        {
+            apprEnemys.Add(_);
+        }).AddTo(this.gameObject);
+
         // レベルが更新された時のみ、呼び出される
         level.Subscribe(_ =>
         {
@@ -157,24 +178,20 @@ public class PlayerManager : MonoBehaviour,IDamage
                     speed = Speed.Law;
                 }
 
-                if (energy.Value >= skillCost && Input.GetMouseButtonDown(0) == true)
+                if (energy.Value >= skillCost && Input.GetMouseButtonDown(0))
                 {
                     energy.Value -= skillCost;
                     playerHUD.EnergyRP.Value = energy.Value;
                 }
 
-                // 必殺技処理
-                ultimateGage
-                    .Where(u => ultimateGage.Value >= maxultimateGage)
-                    .Where(u => Input.GetMouseButtonDown(1) == true)
-                    .Subscribe(u =>
-                    {
-                        Instantiate(ultPS, this.transform.position, Quaternion.identity);
-                        GameManagement.Instance.playerUlt.Value = true;
-                    }).AddTo(this.gameObject);
+                if (ultimateGage.Value >= 100 && Input.GetMouseButtonDown(1))
+                {
+                    ultimate.OnNext(ultimateGage.Value);
+                }
+
             }).AddTo(this.gameObject);
 
-        this.UpdateAsObservable()
+        this.FixedUpdateAsObservable()
         .Where(_ => GameManagement.Instance.isPause.Value == false)
         .Sample(TimeSpan.FromSeconds(0.20f))
         .Subscribe(_ =>
@@ -183,12 +200,20 @@ public class PlayerManager : MonoBehaviour,IDamage
             new BulletData(20.0f, bitRight.transform, BulletManager.ShootChara.Player, 0, 0.0f,angle);
         }).AddTo(this.gameObject);
 
-        energy.Where(_ => GameManagement.Instance.isPause.Value == false)
+        // 必殺技処理
+        ultimateGage
+            .Where(_ => ultimateGage.Value <= maxultimateGage)
+            .Subscribe(u =>
+            {
+
+            }).AddTo(this.gameObject);
+
+        energy
             .Subscribe(_ => 
             {
                 Debug.Log("kenSkill");
-                new BulletData(25.0f, bitLeft.transform, BulletManager.ShootChara.Player, 0, 0.0f, angle);
-                new BulletData(25.0f, bitRight.transform, BulletManager.ShootChara.Player, 0, 0.0f, angle);
+                new BulletData(25.0f, bitLeft.transform, BulletManager.ShootChara.Player, 6, 0.0f, angle);
+                new BulletData(25.0f, bitRight.transform, BulletManager.ShootChara.Player, 6, 0.0f, angle);
             }).AddTo(this.gameObject);
 
         GameManagement.Instance.enemyUlt.Where(x => x == GameManagement.Instance.enemyUlt.Value == true)

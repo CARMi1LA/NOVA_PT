@@ -49,6 +49,11 @@ public class EnemyManager : MonoBehaviour,IDamage
     [SerializeField] private float atkTimeLimit = 1.0f;     // 攻撃モード時の攻撃する最大時間
     [SerializeField] private float velocityMag = 0.99f;     // 減速倍率
 
+    Subject<int> apprSubject = new Subject<int>();
+    Subject<int> waitSubject = new Subject<int>();
+    Subject<int> atkSubject = new Subject<int>();
+    Subject<int> escSubject = new Subject<int>();
+
     // 参照用のカスタムプロパティ
     [SerializeField]
     public IReadOnlyReactiveProperty<EnemyAI> enemyAIPropaty
@@ -99,129 +104,130 @@ public class EnemyManager : MonoBehaviour,IDamage
     // Start is called before the first frame update
     void Start()
     {
-        this.UpdateAsObservable()
-            .Where(p => GameManagement.Instance.isPause.Value == false)
-            .Subscribe(p => 
-            {
-                // 敵のタイプ別に処理を行う
-                switch (enemyStatus.enemyPosition)
-                {
-                    // 攻撃タイプの処理
-                    case EnemyStatus.EnemyPosition.Attack:
-                        // 攻撃タイプのAIパターンを取得
-                        AI_NameListAttack AI_Atk = aiList.AI_AtkList;
-                        // AIレベルより行動確率パターンの取得
-                        AI_Atk.EnemyAIProbSet(enemyStatus.aiLevel);
-                        //AI_Atk.EnemyAIProbSetAppr(enemyStatus.aiLevel);
-                        //AI_Atk.EnemyAIProbSetWait(enemyStatus.aiLevel);
-                        //AI_Atk.EnemyAIProbSetAtk(enemyStatus.aiLevel);
-                        //AI_Atk.EnemyAIProbSetEsc(enemyStatus.aiLevel);
+        apprSubject.Subscribe(val =>
+        {
+            Debug.Log("kenappr");
+            movePos = actManager.CalcApprMove(this.transform.position, enemyStatus.moveSpeed, val);
+        }).AddTo(this.gameObject);
 
-                        // 瀕死状態（最大HPの４分の１以下）になると逃走モードへ
-                        enemyHP.Where(_ => _ <= maxHP * 0.25f)
-                            .Subscribe(_ =>
-                            {
-                                enemyAI.Value = EnemyAI.Escape;
-                            }).AddTo(this.gameObject);
+        waitSubject.Subscribe(val => 
+        {
+            Debug.Log("kenwait");
+            attackFlg.Value = true;
+        }).AddTo(this.gameObject);
 
-                        // 攻撃タイプの接近モード処理
-                        enemyAIPropaty.Where(_ => _ == EnemyAI.Approach)
-                            .Subscribe(_ =>
-                            {
-                                // 行動パターンを抽選
-                                int actID = actManager.ChooseAppr(AI_Atk);
-                                // 行動パターンに応じた移動量を取得
-                                movePos = actManager.CalcApprMove(this.transform.position, enemyStatus.moveSpeed, actID);
-                            }).AddTo(this.gameObject);
+        atkSubject.Subscribe(val =>
+        {
+            Debug.Log("kenatk");
+            Vector3 rad = (playerTrans.position - this.transform.position).normalized;
+            float angle = Mathf.Atan2(rad.z, rad.x);
+            actManager.EnemyAtkCalc(this.transform, val, angle);
+            attackFlg.Value = false;
+        }).AddTo(this.gameObject);
 
-                        // 攻撃タイプの待機モード処理
-                        enemyAIPropaty.Where(_ => _ == EnemyAI.Wait)
-                            .Subscribe(_ =>
-                            {
-                                // 待機時間のカウント変数
-                                float waitTime = 0.0f;
-                                // 最大待機時間の倍率
-                                float waitMag = 0.0f;
-                                // 待機モードの抽選を行う
-                                int actID = actManager.ChooseWait(AI_Atk);
-                                // 抽選結果より、最大待機時間の設定
-                                waitMag = actManager.ActWaitCalc(actID);
+        escSubject.Subscribe(val =>
+        {
+            Debug.Log("kenesc");
+            Vector3 diffPos = new Vector3(-1.0f, -1.0f, -1.0f);
+            // 抽選結果より、逃走処理を行う
+            movePos = actManager.CalcEscMove(this.transform.position, enemyStatus.moveSpeed * 0.5f, val);
+            movePos = -movePos;
+        }).AddTo(this.gameObject);
 
-                                // 待機時間をカウント
-                                waitTime += Time.deltaTime;
-                                // 最大待機時間を超えたら攻撃モードへ、倍率により時間は変動する
-                                if (waitTime >= waitTimeLimit * waitMag)
-                                {
-                                    attackFlg.Value = true;
-                                }
-                            }).AddTo(this.gameObject);
 
-                        // 攻撃タイプの攻撃モード処理
-                        enemyAIPropaty.Where(_ => _ == EnemyAI.Attack)
-                            .Sample(TimeSpan.FromSeconds(0.1f))
-                            .Subscribe(_ =>
-                            {
-                        // 攻撃時間のカウント変数
-                        float atkTime = 0.0f;
-                        // 攻撃時間を計算
-                        atkTime += Time.deltaTime;
-                        // 攻撃パターンの抽選
+        // 敵のタイプ別に処理を行う
+        switch (enemyStatus.enemyPosition)
+        {
+            // 攻撃タイプの処理
+            case EnemyStatus.EnemyPosition.Attack:
+                
+                // 攻撃タイプのAIパターンを取得
+                AI_NameListAttack AI_Atk = aiList.AI_AtkList;
+                // AIレベルより行動確率パターンの取得
+                AI_Atk.EnemyAIProbSet(enemyStatus.aiLevel);
+
+                // 瀕死状態（最大HPの４分の１以下）になると逃走モードへ
+                enemyHP.Where(_ => _ <= maxHP * 0.25f)
+                    .Subscribe(_ =>
+                    {
+                        enemyAI.Value = EnemyAI.Escape;
+                    }).AddTo(this.gameObject);
+
+                // 攻撃タイプの接近モード処理
+                enemyAIPropaty.Where(_ => _ == EnemyAI.Approach)
+                    .Subscribe(_ =>
+                    {
+                        Debug.Log("kenappr");
+                        // 行動パターンを抽選
+                        int actID = actManager.ChooseAppr(AI_Atk);
+                        apprSubject.OnNext(actID);
+                    }).AddTo(this.gameObject);
+
+                // 攻撃タイプの待機モード処理
+                enemyAIPropaty
+                     .Where(_ => enemyAIPropaty.Value == EnemyAI.Wait)
+                     .Where(_ => attackFlg.Value == false)
+                     .Sample(TimeSpan.FromSeconds(2.0f))
+                     .Subscribe(_ =>
+                     {
+                         int actID = actManager.ChooseWait(AI_Atk);
+                         waitSubject.OnNext(actID);
+                     }).AddTo(this.gameObject);
+
+                // 攻撃タイプの攻撃モード処理
+                enemyAIPropaty.Where(_ => _ == EnemyAI.Attack)
+                    .Where(_ => attackFlg.Value == true)
+                    .Sample(TimeSpan.FromSeconds(0.1f))
+                    .Subscribe(_ =>
+                    {
+                        Debug.Log("kenatk");
                         int actID = actManager.ChooseAtk(AI_Atk);
-                        // 抽選結果より、各種攻撃を行う
-                        actManager.EnemyAtkCalc(this.transform, actID, atkTime);
-                        // リミットまでの時間攻撃を行い、待機モードに移行
-                        if (atkTime >= atkTimeLimit)
-                                {
-                                    attackFlg.Value = false;
-                                    enemyAI.Value = EnemyAI.Wait;
-                                }
-                            }).AddTo(this.gameObject);
+                        atkSubject.OnNext(actID);
+                        Debug.LogFormat("ActID{0}", actID);
+                        enemyAI.Value = EnemyAI.Wait;
+                    }).AddTo(this.gameObject);
 
-                        // 攻撃タイプの逃走モード処理
-                        enemyAIPropaty.Where(_ => _ == EnemyAI.Escape)
-                            .Subscribe(_ =>
-                            {
-                                Vector3 diffPos = new Vector3(-1.0f, -1.0f, -1.0f);
+                // 攻撃タイプの逃走モード処理
+                enemyAIPropaty.Where(_ => _ == EnemyAI.Escape)
+                    .Subscribe(_ =>
+                    {
                         // 逃走パターンの抽選
                         int actID = actManager.ChooseEsc(AI_Atk);
-                        // 抽選結果より、逃走処理を行う
-                        movePos = actManager.CalcEscMove(this.transform.position, enemyStatus.moveSpeed, actID);
-                                movePos = -movePos;
-                            }).AddTo(this.gameObject);
-                        break;
-                    // 防御タイプの処理
-                    case EnemyStatus.EnemyPosition.Defence:
-                        // 防御タイプのAIパターンを取得
-                        AI_NameListDefence AI_Def = aiList.AI_DefList;
-                        // AIレベルより行動確率パターンの取得
-                        AI_Def.EnemyAIProbSet(enemyStatus.aiLevel);
+                        escSubject.OnNext(actID);
+                    }).AddTo(this.gameObject);
+                break;
+            // 防御タイプの処理
+            case EnemyStatus.EnemyPosition.Defence:
+                // 防御タイプのAIパターンを取得
+                AI_NameListDefence AI_Def = aiList.AI_DefList;
+                // AIレベルより行動確率パターンの取得
+                AI_Def.EnemyAIProbSet(enemyStatus.aiLevel);
 
-                        // 瀕死状態（最大HPの４分の１以下）になると逃走モードへ
-                        enemyHP.Where(_ => _ <= maxHP * 0.25f)
-                            .Subscribe(_ =>
-                            {
-                                enemyAI.Value = EnemyAI.Escape;
-                            }).AddTo(this.gameObject);
+                // 瀕死状態（最大HPの４分の１以下）になると逃走モードへ
+                enemyHP.Where(_ => _ <= maxHP * 0.25f)
+                    .Subscribe(_ =>
+                    {
+                        enemyAI.Value = EnemyAI.Escape;
+                    }).AddTo(this.gameObject);
 
-                        // 防御タイプの接近モード処理
-                        enemyAIPropaty.Where(_ => _ == EnemyAI.Approach)
-                            .Subscribe(_ =>
-                            {
-                        // 行動パターンを抽選
-                        int actID = actManager.ChooseAppr(AI_Def);
-                        // 行動パターンに応じた移動量を取得
-                        movePos = actManager.CalcApprMove(this.transform.position, enemyStatus.moveSpeed, actID);
-                            }).AddTo(this.gameObject);
+                // 防御タイプの接近モード処理
+                enemyAIPropaty.Where(_ => _ == EnemyAI.Approach)
+                    .Subscribe(_ =>
+                    {
+                                // 行動パターンを抽選
+                                int actID = actManager.ChooseAppr(AI_Def);
+                                // 行動パターンに応じた移動量を取得
+                                movePos = actManager.CalcApprMove(this.transform.position, enemyStatus.moveSpeed, actID);
+                    }).AddTo(this.gameObject);
 
-                        // 防御タイプの待機モード処理
-                        enemyAIPropaty.Where(_ => _ == EnemyAI.Wait)
-                            .Subscribe(_ =>
-                            {
+                // 防御タイプの待機モード処理
+                enemyAIPropaty.Where(_ => _ == EnemyAI.Wait)
+                    .Subscribe(_ =>
+                    {
                         // 待機時間のカウント変数
                         float waitTime = 0.0f;
                         // 最大待機時間の倍率
-                        float waitMag = 0.0f;
-                        // 待機モードの抽選を行う
+                        float waitMag = 0.0f;                                // 待機モードの抽選を行う
                         int actID = actManager.ChooseWait(AI_Def);
                         // 抽選結果より、最大待機時間の設定
                         waitMag = actManager.ActWaitCalc(actID);
@@ -230,16 +236,16 @@ public class EnemyManager : MonoBehaviour,IDamage
                         waitTime += Time.deltaTime;
                         // 最大待機時間を超えたら攻撃モードへ、倍率により時間は変動する
                         if (waitTime >= waitTimeLimit * waitMag)
-                                {
-                                    attackFlg.Value = true;
-                                }
-                            }).AddTo(this.gameObject);
+                        {
+                            attackFlg.Value = true;
+                        }
+                    }).AddTo(this.gameObject);
 
-                        // 防御タイプの攻撃モード処理
-                        enemyAIPropaty.Where(_ => _ == EnemyAI.Attack)
-                            .Sample(TimeSpan.FromSeconds(0.1f))
-                            .Subscribe(_ =>
-                            {
+                // 防御タイプの攻撃モード処理
+                enemyAIPropaty.Where(_ => _ == EnemyAI.Attack)
+                    .Sample(TimeSpan.FromSeconds(0.1f))
+                    .Subscribe(_ =>
+                    {
                         // 攻撃時間のカウント変数
                         float atkTime = 0.0f;
                         // 攻撃時間を計算
@@ -250,71 +256,71 @@ public class EnemyManager : MonoBehaviour,IDamage
                         actManager.EnemyAtkCalc(this.transform, actID, atkTime);
                         // リミットまでの時間攻撃を行い、待機モードに移行
                         if (atkTime >= atkTimeLimit)
-                                {
-                                    attackFlg.Value = false;
-                                    enemyAI.Value = EnemyAI.Wait;
-                                }
-                            }).AddTo(this.gameObject);
+                        {
+                            attackFlg.Value = false;
+                            enemyAI.Value = EnemyAI.Wait;
+                        }
+                    }).AddTo(this.gameObject);
 
-                        // 防御タイプの逃走モード処理
-                        enemyAIPropaty.Where(_ => _ == EnemyAI.Escape)
-                            .Subscribe(_ =>
-                            {
+                // 防御タイプの逃走モード処理
+                enemyAIPropaty.Where(_ => _ == EnemyAI.Escape)
+                    .Subscribe(_ =>
+                    {
                         // 逃走パターンの抽選
                         int actID = actManager.ChooseEsc(AI_Def);
                         // 抽選結果より、逃走処理を行う
                         movePos = actManager.CalcEscMove(this.transform.position, enemyStatus.moveSpeed, actID);
 
-                                movePos = -movePos;
-                            }).AddTo(this.gameObject);
-                        break;
-                    case EnemyStatus.EnemyPosition.Special:
-                        break;
-                    // 中ボスタイプの処理
-                    // 中ボスは通常攻撃の他に一定体力以下で強力な攻撃を行う
-                    case EnemyStatus.EnemyPosition.Leader:
-                        // 中ボスのAIパターンを取得
-                        AI_NameListLeader AI_Leader = aiList.AI_LeaderList;
-                        // AIレベルより行動確率パターンの取得
-                        AI_Leader.EnemyAIProbSet(enemyStatus.aiLevel);
-                        // ボスの必殺技パターン用変数
-                        int leaderAtkIndex = 0;
-                        // 必殺技使用回数
-                        int leaderAtkCount = 0;
-                        // 中ボスタイプの接近モード処理
-                        enemyAIPropaty.Where(_ => _ == EnemyAI.Approach)
-                            .Subscribe(_ =>
-                            {
+                        movePos = -movePos;
+                    }).AddTo(this.gameObject);
+                break;
+            case EnemyStatus.EnemyPosition.Special:
+                break;
+            // 中ボスタイプの処理
+            // 中ボスは通常攻撃の他に一定体力以下で強力な攻撃を行う
+            case EnemyStatus.EnemyPosition.Leader:
+                // 中ボスのAIパターンを取得
+                AI_NameListLeader AI_Leader = aiList.AI_LeaderList;
+                // AIレベルより行動確率パターンの取得
+                AI_Leader.EnemyAIProbSet(enemyStatus.aiLevel);
+                // ボスの必殺技パターン用変数
+                int leaderAtkIndex = 0;
+                // 必殺技使用回数
+                int leaderAtkCount = 0;
+                // 中ボスタイプの接近モード処理
+                enemyAIPropaty.Where(_ => _ == EnemyAI.Approach)
+                    .Subscribe(_ =>
+                    {
                         // 行動パターンに応じた移動量を取得
                         movePos = actManager.CalcApprMove(this.transform.position, enemyStatus.moveSpeed, (int)AI_NameListLeader.AI_Approach.Normal);
-                            }).AddTo(this.gameObject);
+                    }).AddTo(this.gameObject);
 
-                        // 中ボスタイプの待機モード処理
-                        enemyAIPropaty.Where(_ => _ == EnemyAI.Wait)
-                            .Subscribe(_ =>
-                            {
+                // 中ボスタイプの待機モード処理
+                enemyAIPropaty.Where(_ => _ == EnemyAI.Wait)
+                    .Subscribe(_ =>
+                    {
                         // 待機時間のカウント変数
                         float waitTime = 0.0f;
-                        // 最大待機時間の倍率
-                        float waitMag = 0.0f;
-                        // 待機モードの抽選を行う
-                        int actID = actManager.ChooseWait(AI_Leader);
-                        // 抽選結果より、最大待機時間の設定
-                        waitMag = actManager.ActWaitCalc(actID);
+                                // 最大待機時間の倍率
+                                float waitMag = 0.0f;
+                                // 待機モードの抽選を行う
+                                int actID = actManager.ChooseWait(AI_Leader);
+                                // 抽選結果より、最大待機時間の設定
+                                waitMag = actManager.ActWaitCalc(actID);
 
-                        // 待機時間をカウント
-                        waitTime += Time.deltaTime;
-                        // 最大待機時間を超えたら攻撃モードへ、倍率により時間は変動する
-                        if (waitTime >= waitTimeLimit * waitMag)
-                                {
-                                    attackFlg.Value = true;
-                                }
-                            }).AddTo(this.gameObject);
-                        // 中ボスタイプの攻撃モード処理
-                        enemyAIPropaty.Where(_ => _ == EnemyAI.Attack)
-                            .Sample(TimeSpan.FromSeconds(0.1f))
-                            .Subscribe(_ =>
-                            {
+                                // 待機時間をカウント
+                                waitTime += Time.deltaTime;
+                                // 最大待機時間を超えたら攻撃モードへ、倍率により時間は変動する
+                                if (waitTime >= waitTimeLimit * waitMag)
+                        {
+                            attackFlg.Value = true;
+                        }
+                    }).AddTo(this.gameObject);
+                // 中ボスタイプの攻撃モード処理
+                enemyAIPropaty.Where(_ => _ == EnemyAI.Attack)
+                    .Sample(TimeSpan.FromSeconds(0.1f))
+                    .Subscribe(_ =>
+                    {
                         // 攻撃時間のカウント変数
                         float atkTime = 0.0f;
                         // 攻撃時間を計算
@@ -323,152 +329,151 @@ public class EnemyManager : MonoBehaviour,IDamage
                         int actID = actManager.ChooseAtk(AI_Leader);
                         // 通常攻撃はランダムで行うが一定体力以下で強力な攻撃を行う
                         if (enemyHP.Value <= maxHP * 0.75f && leaderAtkCount == 0)
-                                {
+                        {
                             // HPが75%以下
                             actManager.EnemyAtkCalc(this.transform, actManager.leaderAtkList[leaderAtkIndex], atkTime);
-                                    leaderAtkCount++;
-                                    leaderAtkIndex++;
-                                }
-                                else if (enemyHP.Value <= maxHP * 0.5f && leaderAtkCount == 1)
-                                {
-                            // HPが50%以下
-                            actManager.EnemyAtkCalc(this.transform, actManager.leaderAtkList[leaderAtkIndex], atkTime);
-                                    leaderAtkCount++;
-                                    leaderAtkIndex++;
-                                }
-                                else if (enemyHP.Value <= maxHP * 0.25f && leaderAtkCount == 2)
-                                {
-                            // HPが25%以下
-                            actManager.EnemyAtkCalc(this.transform, actManager.leaderAtkList[leaderAtkIndex], atkTime);
-                                    leaderAtkCount++;
-                                    leaderAtkIndex++;
-                                }
-                                else
-                                {
-                            // リミットまでの時間攻撃を行い、待機モードに移行
-                            if (atkTime >= atkTimeLimit)
-                                    {
-                                        attackFlg.Value = false;
-                                        enemyAI.Value = EnemyAI.Wait;
-                                    }
-                            // 抽選結果より、各種攻撃を行う
-                            actManager.EnemyAtkCalc(this.transform, actID, atkTime);
-                                }
-
-
-                            }).AddTo(this.gameObject);
-                        break;
-                    // ボスタイプの処理
-                    // ボスクラスの攻撃はランダムではなく、順番に攻撃を行う
-                    case EnemyStatus.EnemyPosition.Boss:
-                        // ボスのAI情報取得
-                        AI_NameListBoss AI_Boss = aiList.AI_BossList;
-
-                        AI_Boss.EnemyAIProbSet(enemyStatus.aiLevel);
-                        // ボスの攻撃パターン用変数
-                        int bossAtkIndex = 0;
-                        // 設定されているパターン数を超えたらリセットする
-                        if (bossAtkIndex >= actManager.bossAtkList.Length)
-                        {
-                            bossAtkIndex = 0;
+                            leaderAtkCount++;
+                            leaderAtkIndex++;
                         }
-                        // ボスタイプの接近モード処理
-                        enemyAIPropaty.Where(_ => _ == EnemyAI.Approach)
-                            .Subscribe(_ =>
+                        else if (enemyHP.Value <= maxHP * 0.5f && leaderAtkCount == 1)
+                        {
+                                    // HPが50%以下
+                                    actManager.EnemyAtkCalc(this.transform, actManager.leaderAtkList[leaderAtkIndex], atkTime);
+                            leaderAtkCount++;
+                            leaderAtkIndex++;
+                        }
+                        else if (enemyHP.Value <= maxHP * 0.25f && leaderAtkCount == 2)
+                        {
+                                    // HPが25%以下
+                                    actManager.EnemyAtkCalc(this.transform, actManager.leaderAtkList[leaderAtkIndex], atkTime);
+                            leaderAtkCount++;
+                            leaderAtkIndex++;
+                        }
+                        else
+                        {
+                                    // リミットまでの時間攻撃を行い、待機モードに移行
+                                    if (atkTime >= atkTimeLimit)
                             {
-                        // 行動パターンに応じた移動量を取得
-                        movePos = actManager.CalcApprMove(this.transform.position, enemyStatus.moveSpeed, (int)AI_NameListBoss.AI_Approach.Normal);
-                            }).AddTo(this.gameObject);
+                                attackFlg.Value = false;
+                                enemyAI.Value = EnemyAI.Wait;
+                            }
+                                    // 抽選結果より、各種攻撃を行う
+                                    actManager.EnemyAtkCalc(this.transform, actID, atkTime);
+                        }
 
-                        // ボスタイプの待機モード処理
-                        enemyAIPropaty.Where(_ => _ == EnemyAI.Wait)
-                            .Subscribe(_ =>
-                            {
-                        // 待機時間のカウント変数
-                        float waitTime = 0.0f;
-                        // 最大待機時間の倍率
-                        float waitMag = 0.0f;
-                        // 待機モードの抽選を行う
-                        int actID = actManager.ChooseWait(AI_Boss);
-                        // 抽選結果より、最大待機時間の設定
-                        waitMag = actManager.ActWaitCalc(actID);
 
-                        // 待機時間をカウント
-                        waitTime += Time.deltaTime;
-                        // 最大待機時間を超えたら攻撃モードへ、倍率により時間は変動する
-                        if (waitTime >= waitTimeLimit * waitMag)
-                                {
-                                    attackFlg.Value = true;
-                                }
-                            }).AddTo(this.gameObject);
+                    }).AddTo(this.gameObject);
+                break;
+            // ボスタイプの処理
+            // ボスクラスの攻撃はランダムではなく、順番に攻撃を行う
+            case EnemyStatus.EnemyPosition.Boss:
+                // ボスのAI情報取得
+                AI_NameListBoss AI_Boss = aiList.AI_BossList;
 
-                        // ボスタイプのモード処理
-                        enemyAIPropaty.Where(_ => _ == EnemyAI.Attack)
-                            .Sample(TimeSpan.FromSeconds(0.1f))
-                            .Subscribe(_ =>
-                            {
-                        // 攻撃時間のカウント変数
-                        float atkTime = 0.0f;
-                        // 攻撃時間を計算
-                        atkTime += Time.deltaTime;
-                        // 必殺技使用回数
-                        int bossAtkCount = 0;
-                        // 攻撃パターンの設定
-                        int actID = actManager.bossAtkList[bossAtkIndex];
-                        // 攻撃時間をカウント
-                        atkTime += Time.deltaTime;
-                        // ボスクラスは通常攻撃の他に一定体力以下で強力な攻撃を行う
-                        if (enemyHP.Value <= maxHP * 0.8f && bossAtkCount == 0)
-                                {
-                            // HPが80%以下
-                            actManager.EnemyAtkCalc(this.transform, (int)AI_NameListBoss.AI_Attack.WhirlFireCombo, atkTime);
-                                    bossAtkCount++;
-                                }
-                                else if (enemyHP.Value <= maxHP * 0.5f && bossAtkCount == 1)
-                                {
-                            // HPが50%以下
-                            actManager.EnemyAtkCalc(this.transform, (int)AI_NameListBoss.AI_Attack.BoostBoundRayCombo, atkTime);
-                                    bossAtkCount++;
-                                }
-                                else if (enemyHP.Value <= maxHP * 0.3f && bossAtkCount == 2)
-                                {
-                            // HPが30%以下
-                            actManager.EnemyAtkCalc(this.transform, (int)AI_NameListBoss.AI_Attack.WhirlBoostCombo, atkTime);
-                                    bossAtkCount++;
-                                }
-                                else if (enemyHP.Value <= maxHP * 0.1f && bossAtkCount == 3)
-                                {
-                            // HPが10%以下
-                            actManager.EnemyAtkCalc(this.transform, (int)AI_NameListBoss.AI_Attack.Ultimate, atkTime);
-                                    bossAtkCount++;
-                                }
-                                else
-                                {
-                            // 通常攻撃
-                            actManager.EnemyAtkCalc(this.transform, actID, atkTime);
-                                }
-                                if (atkTime >= atkTimeLimit)
-                                {
-                                    attackFlg.Value = false;
-                                    enemyAI.Value = EnemyAI.Wait;
-                                    bossAtkIndex++;
-                                }
-                            }).AddTo(this.gameObject);
-                        break;
-                    case EnemyStatus.EnemyPosition.Player:
-                        break;
-                    default:
-                        break;
+                AI_Boss.EnemyAIProbSet(enemyStatus.aiLevel);
+                // ボスの攻撃パターン用変数
+                int bossAtkIndex = 0;
+                // 設定されているパターン数を超えたらリセットする
+                if (bossAtkIndex >= actManager.bossAtkList.Length)
+                {
+                    bossAtkIndex = 0;
                 }
-            }).AddTo(this.gameObject);
+                // ボスタイプの接近モード処理
+                enemyAIPropaty.Where(_ => _ == EnemyAI.Approach)
+                    .Subscribe(_ =>
+                    {
+                                // 行動パターンに応じた移動量を取得
+                                movePos = actManager.CalcApprMove(this.transform.position, enemyStatus.moveSpeed, (int)AI_NameListBoss.AI_Approach.Normal);
+                    }).AddTo(this.gameObject);
 
-        GameManagement.Instance.isPause
-            .Where(p => true)
-            .Subscribe(p =>
+                // ボスタイプの待機モード処理
+                enemyAIPropaty.Where(_ => _ == EnemyAI.Wait)
+                    .Subscribe(_ =>
+                    {
+                                // 待機時間のカウント変数
+                                float waitTime = 0.0f;
+                                // 最大待機時間の倍率
+                                float waitMag = 0.0f;
+                                // 待機モードの抽選を行う
+                                int actID = actManager.ChooseWait(AI_Boss);
+                                // 抽選結果より、最大待機時間の設定
+                                waitMag = actManager.ActWaitCalc(actID);
+
+                                // 待機時間をカウント
+                                waitTime += Time.deltaTime;
+                                // 最大待機時間を超えたら攻撃モードへ、倍率により時間は変動する
+                                if (waitTime >= waitTimeLimit * waitMag)
+                        {
+                            attackFlg.Value = true;
+                        }
+                    }).AddTo(this.gameObject);
+
+                // ボスタイプのモード処理
+                enemyAIPropaty.Where(_ => _ == EnemyAI.Attack)
+                    .Sample(TimeSpan.FromSeconds(0.1f))
+                    .Subscribe(_ =>
+                    {
+                                // 攻撃時間のカウント変数
+                                float atkTime = 0.0f;
+                                // 攻撃時間を計算
+                                atkTime += Time.deltaTime;
+                                // 必殺技使用回数
+                                int bossAtkCount = 0;
+                                // 攻撃パターンの設定
+                                int actID = actManager.bossAtkList[bossAtkIndex];
+                                // 攻撃時間をカウント
+                                atkTime += Time.deltaTime;
+                                // ボスクラスは通常攻撃の他に一定体力以下で強力な攻撃を行う
+                                if (enemyHP.Value <= maxHP * 0.8f && bossAtkCount == 0)
+                        {
+                                    // HPが80%以下
+                                    actManager.EnemyAtkCalc(this.transform, (int)AI_NameListBoss.AI_Attack.WhirlFireCombo, atkTime);
+                            bossAtkCount++;
+                        }
+                        else if (enemyHP.Value <= maxHP * 0.5f && bossAtkCount == 1)
+                        {
+                                    // HPが50%以下
+                                    actManager.EnemyAtkCalc(this.transform, (int)AI_NameListBoss.AI_Attack.BoostBoundRayCombo, atkTime);
+                            bossAtkCount++;
+                        }
+                        else if (enemyHP.Value <= maxHP * 0.3f && bossAtkCount == 2)
+                        {
+                                    // HPが30%以下
+                                    actManager.EnemyAtkCalc(this.transform, (int)AI_NameListBoss.AI_Attack.WhirlBoostCombo, atkTime);
+                            bossAtkCount++;
+                        }
+                        else if (enemyHP.Value <= maxHP * 0.1f && bossAtkCount == 3)
+                        {
+                                    // HPが10%以下
+                                    actManager.EnemyAtkCalc(this.transform, (int)AI_NameListBoss.AI_Attack.Ultimate, atkTime);
+                            bossAtkCount++;
+                        }
+                        else
+                        {
+                                    // 通常攻撃
+                                    actManager.EnemyAtkCalc(this.transform, actID, atkTime);
+                        }
+                        if (atkTime >= atkTimeLimit)
+                        {
+                            attackFlg.Value = false;
+                            enemyAI.Value = EnemyAI.Wait;
+                            bossAtkIndex++;
+                        }
+                    }).AddTo(this.gameObject);
+                break;
+            case EnemyStatus.EnemyPosition.Player:
+                break;
+            default:
+                break;
+        }
+
+        this.UpdateAsObservable()
+            .Where(p => GameManagement.Instance.isPause.Value == false)
+            .Subscribe(p => 
             {
                 /*
-                  以下、全敵キャラクター共通処理
-                */
+                 以下、全敵キャラクター共通処理
+               */
 
                 // 【接近モード移行イベント】
                 // 敵が最大接近距離よりも遠ければ接近モードへ移行する
@@ -494,15 +499,8 @@ public class EnemyManager : MonoBehaviour,IDamage
                         enemyAI.Value = EnemyAI.Wait;
                     }).AddTo(this.gameObject);
 
-                // エネミー消滅処理
-                enemyHP.Where(_ => enemyHP.Value <= 0).Subscribe(_ =>
-                {
-                    // HPが0になったらステージクラスに消滅情報を送る
-                    StageManager.Instance.EnemyDestroy(this);
-                }).AddTo(this.gameObject);
-
                 // 攻撃フラグがONになったら攻撃モードへ移行
-                attackFlg.Where(_ => _ = attackFlg.Value == true)
+                attackFlg.Where(_ => _ = attackFlg.Value == true && enemyAIPropaty.Value == EnemyAI.Wait)
                 .Subscribe(_ =>
                 {
                     enemyAI.Value = EnemyAI.Attack;
@@ -518,14 +516,25 @@ public class EnemyManager : MonoBehaviour,IDamage
                 }).AddTo(this.gameObject);
 
                 // 各AIにより算出された移動量をもとに移動処理を行う
-                this.UpdateAsObservable().Subscribe(_ =>
+                enemyRigid.velocity += movePos * Time.deltaTime;
+                if (enemyAI.Value == EnemyAI.Attack || enemyAI.Value == EnemyAI.Wait)
                 {
-                    enemyRigid.velocity += movePos * Time.deltaTime;
-                    if (enemyAI.Value == EnemyAI.Attack || enemyAI.Value == EnemyAI.Wait)
-                    {
-                        movePos = Vector3.zero;
-                    }
-                }).AddTo(this.gameObject);
+                    movePos = Vector3.zero;
+                }
+            }).AddTo(this.gameObject);
+
+        // エネミー消滅処理
+        enemyHP.Where(_ => enemyHP.Value <= 0).Subscribe(_ =>
+        {
+            // HPが0になったらステージクラスに消滅情報を送る
+            StageManager.Instance.EnemyDestroy(this);
+        }).AddTo(this.gameObject);
+
+        GameManagement.Instance.isPause
+            .Where(p => true)
+            .Subscribe(p =>
+            {
+               
             }).AddTo(this.gameObject);
 
         // 衝突判定

@@ -67,7 +67,7 @@ public class TitleManager : MonoBehaviour
     }
 
     // シーン遷移のコルーチン
-    IEnumerator GameStartCoroutine(float waitTime)
+    IEnumerator GameStartCoroutine(float waitTime,int sceneID)
     {
         // ボタンなどのクリックを不可能にする
         cgCanvas.blocksRaycasts = false;
@@ -82,7 +82,7 @@ public class TitleManager : MonoBehaviour
         }
 
         // シーン遷移
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(sceneID);
     }
 
     // ボタン処理
@@ -100,8 +100,8 @@ public class TitleManager : MonoBehaviour
             pCountRP.Value++;
         }
     }
-    public void OnStartButtonClicked() // ゲームスタートボタン
+    public void OnStartButtonClicked(int i) // ゲームスタートボタン
     {
-        StartCoroutine(GameStartCoroutine(0.5f));
+        StartCoroutine(GameStartCoroutine(0.5f,i));
     }
 }
