@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using UnityEngine.Playables;
 using UniRx;
 using UniRx.Triggers;
-using UnityEngine.Playables;
 using TMPro;
 
 public class Result_View : MonoBehaviour
@@ -99,5 +100,34 @@ public class Result_View : MonoBehaviour
         }
 
         return rankColor;
+    }
+    
+    // シーン遷移のコルーチン
+    IEnumerator GameStartCoroutine(float waitTime,int sceneID)
+    {
+        // ボタンなどのクリックを不可能にする
+        //cgCanvas.blocksRaycasts = false;
+        // 指定時間待つ
+        float time = 0.0f;
+
+        while (time < waitTime)
+        {
+            time += Time.deltaTime;
+
+            yield return null;
+        }
+
+        // シーン遷移
+        SceneManager.LoadScene(sceneID);
+    }
+
+    // シーン遷移のボタン処理
+    public void OnNextButtonClicked()
+    {
+        StartCoroutine(GameStartCoroutine(0.5f, 0));
+    }
+    public void OnTitleButtonClicked()
+    {
+        StartCoroutine(GameStartCoroutine(0.5f, 0));
     }
 }
