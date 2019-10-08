@@ -1,0 +1,137 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae0543fe805424df99fe08ce744cbe49, type: 3}
+  m_Name: Pose girl default
+  m_EditorClassIdentifier: 
+  m_PoseEntries:
+  - path: girl body/Neck 00
+    localPosition: {x: -2.5686035, y: 3.4084477, z: 0.1464839}
+    localRotation: {x: 0, y: 0, z: 0.83278096, w: 0.5536027}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/Face 00
+    localPosition: {x: 1.8148115, y: -0.00000023841858, z: 0.16015673}
+    localRotation: {x: 0, y: 0, z: -0.13636348, w: 0.99065894}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/RightArm 00
+    localPosition: {x: 0.3530078, y: 2.4364333, z: -0.13671851}
+    localRotation: {x: 0, y: 0, z: 0.97773385, w: 0.20984893}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/RightArm 00/RightArm 01
+    localPosition: {x: 2, y: -0.00000071525574, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.019879479, w: 0.9998024}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/RightArm 00/RightArm 01/RightArm 02
+    localPosition: {x: 2.0000005, y: -0.00000071525574, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.071062714, w: 0.99747187}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/RightArm 00/RightArm 01/RightArm 02/RightArm 03
+    localPosition: {x: 2.0000033, y: 0.00000023350731, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.004930552, w: 0.9999879}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/RightArm 00/RightArm 01/RightArm 02/RightArm 03/RightArm
+      04
+    localPosition: {x: 2.0000033, y: 0.000001870787, z: 0.00000023841858}
+    localRotation: {x: 0, y: 0, z: -0.053792525, w: 0.99855214}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/RightArm 00/RightArm 01/RightArm 02/RightArm 03/RightArm
+      04/RightArm 05
+    localPosition: {x: 2.0000043, y: -0.0000014930265, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.034258734, w: 0.999413}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/RightArm 00/RightArm 01/RightArm 02/RightArm 03/RightArm
+      04/RightArm 05/RightArm 06
+    localPosition: {x: 1.2000065, y: 0.0000017478305, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.024479534, w: 0.99970037}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/LeftArm 00
+    localPosition: {x: -0.26024806, y: -2.2769694, z: -0.0703125}
+    localRotation: {x: 0, y: 0, z: -0.93490005, w: 0.3549111}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/LeftArm 00/LeftArm 01
+    localPosition: {x: 1.999999, y: 0.00000062584877, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.00029485457, w: 1}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/LeftArm 00/LeftArm 01/LeftArm 02
+    localPosition: {x: 2.0000002, y: 0.00000007212293, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.020217918, w: 0.9997956}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/LeftArm 00/LeftArm 01/LeftArm 02/LeftHand 00
+    localPosition: {x: 2.1013303, y: 0.05318846, z: -0.14453089}
+    localRotation: {x: 0, y: 0, z: 0.9314152, w: 0.3639585}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/LeftArm 00/LeftArm 01/LeftArm 02/LeftHand 00/LeftHand
+      01
+    localPosition: {x: 2.5000014, y: 0, z: -0.00000011920929}
+    localRotation: {x: 0, y: 0, z: -0.027574228, w: 0.99961984}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/LeftArm 00/LeftArm 01/LeftArm 02/LeftHand 00/LeftHand
+      01/LeftHand 02
+    localPosition: {x: 2.5000014, y: 0.00000047683716, z: -0.00000023841858}
+    localRotation: {x: 0, y: 0, z: -0.028056016, w: 0.9996063}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/LeftArm 00/LeftArm 01/LeftArm 02/LeftHand 00/LeftHand
+      01/LeftHand 02/LeftHand 03
+    localPosition: {x: 1.2107415, y: -0.00000064843334, z: 0.005858898}
+    localRotation: {x: 0, y: 0, z: -0.039632753, w: 0.99921435}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/Body 00
+    localPosition: {x: -1.9870647, y: -0.12972331, z: 0.40820336}
+    localRotation: {x: -0, y: 0, z: -0.99998844, w: -0.004816891}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/Body 00/Body 01
+    localPosition: {x: 2.0000002, y: 0.000000834465, z: 0.000000059604645}
+    localRotation: {x: 0, y: 0, z: 0.04971263, w: 0.99876356}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/Body 00/Body 01/Body 02
+    localPosition: {x: 2.0000007, y: -0.00000040256418, z: 0.00000017881393}
+    localRotation: {x: 0, y: 0, z: 0.019651178, w: 0.9998069}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/Body 00/Body 01/Body 02/Body 03
+    localPosition: {x: 2.0000012, y: -0.0000011093653, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.0014836092, w: 0.9999989}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/Body 00/Body 01/Body 02/Body 03/Hip 00
+    localPosition: {x: 1.9346989, y: -0.0000025439954, z: -0.5546875}
+    localRotation: {x: 0, y: 0, z: 0.9774767, w: 0.21104333}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/Body 00/Body 01/Body 02/Body 03/Hip 00/Hip 01
+    localPosition: {x: 3.127037, y: 0.00000023841858, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.016026748, w: 0.9998716}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/Body 00/Body 01/Body 02/Body 03/Hip 00/LeftLeg 00
+    localPosition: {x: 7.246413, y: -1.0268512, z: -0.00000023841858}
+    localRotation: {x: 0, y: 0, z: -0.95630467, w: 0.29237217}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/Body 00/Body 01/Body 02/Body 03/Hip 00/LeftLeg 00/LeftLeg
+      01
+    localPosition: {x: 3.0000005, y: 0.00000023841858, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.030564753, w: 0.9995328}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/Body 00/Body 01/Body 02/Body 03/Hip 00/LeftLeg 00/LeftLeg
+      01/LeftLeg 02
+    localPosition: {x: 3, y: -0.00000038009603, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.012269358, w: 0.9999247}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/Body 00/Body 01/Body 02/Body 03/Hip 00/LeftLeg 00/LeftLeg
+      01/LeftLeg 02/LeftLeg 03
+    localPosition: {x: 3.0000005, y: -0.00000008288771, z: -0.00000023841858}
+    localRotation: {x: 0, y: 0, z: -0.0921012, w: 0.99574965}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/Body 00/Body 01/Body 02/Body 03/Hip 00/RightLeg 00
+    localPosition: {x: -0.52459556, y: -0.697217, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.98402673, w: 0.1780208}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: girl body/Neck 00/Body 00/Body 01/Body 02/Body 03/Hip 00/RightLeg 00/RightLeg
+      01
+    localPosition: {x: 2.0000033, y: -0.0000023841858, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.07826767, w: 0.9969324}
+    localScale: {x: 1, y: 1, z: 1}
