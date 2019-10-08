@@ -63,12 +63,12 @@ public class AI_ActManager : MonoBehaviour
         switch (actID)
         {
             case (int)AIListManager.AtkList.Normal:
-                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, 0.0f);
+                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, 0.0f,0.0f);
                 break;
             case (int)AIListManager.AtkList.Scatter:
-                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, 0.0f);
-                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, 30.0f);
-                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, -30.0f);
+                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, 0.0f, 0.0f);
+                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, 30.0f, 0.0f);
+                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, -30.0f,0.0f);
                 break;
             case (int)AIListManager.AtkList.Fireworks:
                 break;
@@ -132,14 +132,14 @@ public class AI_ActManager : MonoBehaviour
     {
         float total = 0;
 
-        foreach (KeyValuePair<AI_NameListAttack.AI_Approach, float> elem in atk.apprProbs)
+        foreach (KeyValuePair<int, float> elem in atk.apprProbs)
         {
             total += elem.Value;
         }
 
         float randomPoint = Random.value * total;
 
-        foreach(KeyValuePair<AI_NameListAttack.AI_Approach, float> elem in atk.apprProbs)
+        foreach(KeyValuePair<int, float> elem in atk.apprProbs)
         {
             if(randomPoint < elem.Value)
             {
@@ -182,14 +182,14 @@ public class AI_ActManager : MonoBehaviour
     {
         float total = 0;
 
-        foreach (KeyValuePair<AI_NameListAttack.AI_Wait, float> elem in atk.waitProbs)
+        foreach (KeyValuePair<int, float> elem in atk.waitProbs)
         {
             total += elem.Value;
         }
 
         float randomPoint = Random.value * total;
 
-        foreach (KeyValuePair<AI_NameListAttack.AI_Wait, float> elem in atk.waitProbs)
+        foreach (KeyValuePair<int, float> elem in atk.waitProbs)
         {
             if (randomPoint < elem.Value)
             {
@@ -282,14 +282,14 @@ public class AI_ActManager : MonoBehaviour
     {
         float total = 0;
 
-        foreach (KeyValuePair<AI_NameListAttack.AI_Attack, float> elem in atk.atkProbs)
+        foreach (KeyValuePair<int, float> elem in atk.atkProbs)
         {
             total += elem.Value;
         }
 
         float randomPoint = Random.value * total;
 
-        foreach (KeyValuePair<AI_NameListAttack.AI_Attack, float> elem in atk.atkProbs)
+        foreach (KeyValuePair<int, float> elem in atk.atkProbs)
         {
             if (randomPoint < elem.Value)
             {
@@ -356,14 +356,14 @@ public class AI_ActManager : MonoBehaviour
     {
         float total = 0;
 
-        foreach (KeyValuePair<AI_NameListAttack.AI_Escape, float> elem in atk.escProbs)
+        foreach (KeyValuePair<int, float> elem in atk.escProbs)
         {
             total += elem.Value;
         }
 
         float randomPoint = Random.value * total;
 
-        foreach (KeyValuePair<AI_NameListAttack.AI_Escape, float> elem in atk.escProbs)
+        foreach (KeyValuePair<int, float> elem in atk.escProbs)
         {
             if (randomPoint < elem.Value)
             {

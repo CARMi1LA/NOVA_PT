@@ -37,7 +37,7 @@ public class BulletSpawner : BSSingleton<BulletSpawner>
             // プールの生成
             var bullet = bulletPool.Rent();
             // 各弾を生成
-            bullet.BulletCreate(_.Value.bulletSpeed, _.Value.Origintrans, _.Value.shootChara, _.Value.bulletRot, _.Value.bulletType);
+            bullet.BulletCreate(_.Value.bulletSpeed, _.Value.Origintrans, _.Value.shootChara, _.Value.bulletRot, _.Value.bulletType,_.Value.bulletAngle);
             // 生成済みリスト情報を追加
             bulletList.Add(bullet);
             // 弾生成用データリストは不要になるので破棄する。
@@ -62,18 +62,20 @@ public class BulletSpawner : BSSingleton<BulletSpawner>
 public class BulletData
 {
     public float bulletSpeed;     // 速度
-    public float bulletRot;       // 弾の発射角度
+    public float bulletRot;       // 弾の回転角度
+    public float bulletAngle;     // 弾の発射角度
     public Transform Origintrans; // 発射元の座標
 
     public BulletManager.ShootChara shootChara; // 誰が発射したか
     public AIListManager.AtkList bulletType;    // 弾の種類
     // パラメータの設定
-    public BulletData(float speed, Transform trans, BulletManager.ShootChara chara,int actID,float rot)
+    public BulletData(float speed, Transform trans, BulletManager.ShootChara chara,int actID,float rot,float angle)
     {
         bulletSpeed = speed;
         Origintrans = trans;
         shootChara = chara;
         bulletRot = rot;
+        bulletAngle = angle;
 
         switch (actID)
         {

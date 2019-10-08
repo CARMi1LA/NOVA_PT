@@ -35,7 +35,7 @@ public class HUD_Combo : MonoBehaviour
 
     void Awake()
     {
-        startPos = this.transform.position;
+        startPos = this.transform.localPosition;
         ComboText = this.GetComponent<TextMeshProUGUI>();
     }
 
@@ -60,13 +60,13 @@ public class HUD_Combo : MonoBehaviour
             count++;
             if(count % interval == 0)
             {
-                transform.position = startPos + GetShake(power);
+                transform.localPosition = startPos + GetShake(power);
             }
             
             t += Time.deltaTime;
             yield return null;
         }
-        transform.position = startPos;
+        transform.localPosition = startPos;
     }
 
     // ゆらゆらの数値を計算するところ

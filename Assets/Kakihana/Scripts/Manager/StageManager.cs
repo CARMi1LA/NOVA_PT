@@ -112,7 +112,7 @@ public class StageManager : SMSingleton<StageManager>
             .Sample(TimeSpan.FromSeconds(3.0f))
             .Subscribe(s => 
             {
-                // ゲームが開始してから10秒後に敵が出現するように
+                // ゲームが開始してから3秒後に敵が出現するように
                 startingFlg.Value = true;
                 nextWaveFlg.Value = true;
                 waveAct.Value = StageWaveAction.WaveWaiting;
@@ -128,16 +128,24 @@ public class StageManager : SMSingleton<StageManager>
                 .Sample(TimeSpan.FromSeconds(3.0f))
                 .Subscribe(w => 
                 {
-                    // 次ウェーブ移行イベント
-                    nextWaveFlg.Where(_ => nextWaveFlg.Value == true).Subscribe(_ =>
+                    if (nextWaveFlg.Value == true)
                     {
+                        Debug.Log("NextWave");
                         nowWave.Value++;
                         waveAct.Value = StageWaveAction.WaveCreate;
                         nextWaveFlg.Value = false;
-                    }).AddTo(this.gameObject);
+                    }
+                    
+                   
+                    //// 次ウェーブ移行イベント
+                    //nowWave.Subscribe(_ =>
+                    //{
+
+                    //}).AddTo(this.gameObject);
                 }).AddTo(this.gameObject);
 
                 waveAct.Where(w => w == StageWaveAction.WaveCreate)
+                .Sample(TimeSpan.FromSeconds(3.0f))
                 .Subscribe(w => 
                 {
                     // ウェーブで出現する敵パターンの設定
@@ -145,15 +153,16 @@ public class StageManager : SMSingleton<StageManager>
                     {
                         // 固定出現
                         case StageData.WaveType.Fixed:
-                            enemyAliveNum.Value = stageData.waveEnemyObj[nowWave.Value - 1].unitEnemys.Length;
-                            waveAct.Value = StageWaveAction.WaveCreate;
-                            EnemyUnitSpawn(nowWave.Value - 1);
+                            enemyAliveNum.Value = stageData.waveEnemyObj[stageData.waveTable[nowWave.Value - 1]].unitEnemys.Length;
+                            EnemyUnitSpawn(stageData.waveTable[nowWave.Value - 1]);
+                            waveAct.Value = StageWaveAction.WavePlaying;
                             break;
                         // ランダム出現
                         case StageData.WaveType.Random:
                             int seed = Random.Range(0, stageData.waveEnemyObj.Length - 1);
                             enemyAliveNum.Value = stageData.waveEnemyObj[seed].unitEnemys.Length;
                             EnemyUnitSpawn(seed);
+                            waveAct.Value = StageWaveAction.WavePlaying;
                             break;
                         case StageData.WaveType.Select:
                             break;
@@ -161,8 +170,9 @@ public class StageManager : SMSingleton<StageManager>
                             break;
                         // ボス出現（最終ウェーブ）
                         case StageData.WaveType.Boss:
-                            enemyAliveNum.Value = stageData.waveEnemyObj[maxWave].unitEnemys.Length;
+                            enemyAliveNum.Value = stageData.waveEnemyObj[maxWave - 1].unitEnemys.Length;
                             EnemyUnitSpawn(maxWave);
+                            waveAct.Value = StageWaveAction.WavePlaying;
                             break;
                     }
                 }).AddTo(this.gameObject);
@@ -200,6 +210,12 @@ public class StageManager : SMSingleton<StageManager>
                     GameManagement.Instance.playerTrans.position.z + spawnOffset
                     );
             }).AddTo(this.gameObject);
+
+        nowWave.Where(_ => nowWave.Value >= maxWave && enemyAliveNum.Value <= 0)
+            .Subscribe(_ =>
+            {
+                GameManagement.Instance.isClear.Value = true;
+            }).AddTo(this.gameObject);
     }
 
     // 敵消滅メソッド
@@ -209,6 +225,7 @@ public class StageManager : SMSingleton<StageManager>
         {
             // 現在のウェーブの敵生存数を減らす
             enemyAliveNum.Value--;
+            GameManagement.Instance.DestoyScore();
             for (int i = 0; i < 5; i++)
             {
                 new ItemData(enemy.enemyStatus.score / 5, 0, 0, ItemManager.ItemType.Score, enemy.transform.position);
