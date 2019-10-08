@@ -128,13 +128,20 @@ public class StageManager : SMSingleton<StageManager>
                 .Sample(TimeSpan.FromSeconds(3.0f))
                 .Subscribe(w => 
                 {
-                    // 次ウェーブ移行イベント
-                    nextWaveFlg.Where(_ => nextWaveFlg.Value == true).Subscribe(_ =>
+                    if (nextWaveFlg.Value == true)
                     {
+                        Debug.Log("NextWave");
                         nowWave.Value++;
                         waveAct.Value = StageWaveAction.WaveCreate;
                         nextWaveFlg.Value = false;
-                    }).AddTo(this.gameObject);
+                    }
+                    
+                   
+                    //// 次ウェーブ移行イベント
+                    //nowWave.Subscribe(_ =>
+                    //{
+
+                    //}).AddTo(this.gameObject);
                 }).AddTo(this.gameObject);
 
                 waveAct.Where(w => w == StageWaveAction.WaveCreate)
@@ -146,8 +153,8 @@ public class StageManager : SMSingleton<StageManager>
                     {
                         // 固定出現
                         case StageData.WaveType.Fixed:
-                            enemyAliveNum.Value = stageData.waveEnemyObj[nowWave.Value - 1].unitEnemys.Length;
-                            EnemyUnitSpawn(nowWave.Value - 1);
+                            enemyAliveNum.Value = stageData.waveEnemyObj[stageData.waveTable[nowWave.Value - 1]].unitEnemys.Length;
+                            EnemyUnitSpawn(stageData.waveTable[nowWave.Value - 1]);
                             waveAct.Value = StageWaveAction.WavePlaying;
                             break;
                         // ランダム出現

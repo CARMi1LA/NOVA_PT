@@ -171,12 +171,14 @@ public class GameManagement : GMSingleton<GameManagement>
             attackScoreMul.Value = 5;
         }).AddTo(this.gameObject);
 
-        gameScore.Subscribe(_ =>
+        gameScore.Where(_ => isClear.Value == false)
+            .Subscribe(_ =>
         {
             gameHUD.ScoreRP.Value = gameScore.Value;
         }).AddTo(this.gameObject);
 
-        combo.Subscribe(_ =>
+        combo.Where(_ => isClear.Value == false)
+            .Subscribe(_ =>
         {
             gameHUD.ComboRP.Value = combo.Value;
         }).AddTo(this.gameObject);

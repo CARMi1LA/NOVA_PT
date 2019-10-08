@@ -11010,7 +11010,7 @@ PrefabInstance:
     - target: {fileID: 5529332785576108109, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}
       propertyPath: spawnOffset
-      value: 10
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5529332785576108110, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}

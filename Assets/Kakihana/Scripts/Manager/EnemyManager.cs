@@ -111,10 +111,11 @@ public class EnemyManager : MonoBehaviour,IDamage
                         // 攻撃タイプのAIパターンを取得
                         AI_NameListAttack AI_Atk = aiList.AI_AtkList;
                         // AIレベルより行動確率パターンの取得
-                        AI_Atk.EnemyAIProbSetAppr(enemyStatus.aiLevel);
-                        AI_Atk.EnemyAIProbSetWait(enemyStatus.aiLevel);
-                        AI_Atk.EnemyAIProbSetAtk(enemyStatus.aiLevel);
-                        AI_Atk.EnemyAIProbSetEsc(enemyStatus.aiLevel);
+                        AI_Atk.EnemyAIProbSet(enemyStatus.aiLevel);
+                        //AI_Atk.EnemyAIProbSetAppr(enemyStatus.aiLevel);
+                        //AI_Atk.EnemyAIProbSetWait(enemyStatus.aiLevel);
+                        //AI_Atk.EnemyAIProbSetAtk(enemyStatus.aiLevel);
+                        //AI_Atk.EnemyAIProbSetEsc(enemyStatus.aiLevel);
 
                         // 瀕死状態（最大HPの４分の１以下）になると逃走モードへ
                         enemyHP.Where(_ => _ <= maxHP * 0.25f)

@@ -179,8 +179,8 @@ public class PlayerManager : MonoBehaviour,IDamage
         .Sample(TimeSpan.FromSeconds(0.20f))
         .Subscribe(_ =>
         {
-            new BulletData(25.0f, bitLeft.transform, BulletManager.ShootChara.Player, 0, 0.0f,angle);
-            new BulletData(25.0f, bitRight.transform, BulletManager.ShootChara.Player, 0, 0.0f,angle);
+            new BulletData(20.0f, bitLeft.transform, BulletManager.ShootChara.Player, 0, 0.0f,angle);
+            new BulletData(20.0f, bitRight.transform, BulletManager.ShootChara.Player, 0, 0.0f,angle);
         }).AddTo(this.gameObject);
 
         energy.Where(_ => GameManagement.Instance.isPause.Value == false)

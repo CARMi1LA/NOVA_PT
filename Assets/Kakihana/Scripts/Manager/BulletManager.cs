@@ -84,7 +84,7 @@ public class BulletManager : MonoBehaviour
                         this.GetComponent<Rigidbody>().velocity = this.transform.position + velocity * Time.deltaTime;
                         break;
                     default:
-                        
+                        shootSpeed *= 1.5f + Time.deltaTime;
                         //this.transform.position += shootOriginTrans.forward * shootSpeed * Time.deltaTime;
                         //movePos = transform.forward * shootSpeed;
                         //this.GetComponent<Rigidbody>().AddForce((shootOriginTrans.forward) * shootSpeed, ForceMode.Impulse);
@@ -94,7 +94,7 @@ public class BulletManager : MonoBehaviour
                 }
                 //　カメラのビューポートの限界位置をオフセット位置を含めて計算
 
-                this.GetComponent<Rigidbody>().velocity += this.transform.forward * shootSpeed * Time.deltaTime;
+                this.GetComponent<Rigidbody>().velocity = this.transform.forward * shootSpeed * Time.deltaTime;
                 // 弾を発射する（旧バージョン）
                 // this.GetComponent<Rigidbody>().AddForce((shootOriginTrans.forward) * shootSpeed, ForceMode.Impulse);
             }).AddTo(this.gameObject);

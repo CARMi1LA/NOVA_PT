@@ -17,8 +17,8 @@ MonoBehaviour:
     charaName: EnemyA
     enemyType: 0
     enemyPosition: 0
-    aiLevel: 0
-    hp: 1
+    aiLevel: 2
+    hp: 5
     barrier: 0
     energy: 100
     score: 100

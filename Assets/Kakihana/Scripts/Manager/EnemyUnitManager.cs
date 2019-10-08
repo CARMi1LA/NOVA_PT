@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
+using System;
 
 public class EnemyUnitManager : MonoBehaviour
 {
@@ -12,10 +13,15 @@ public class EnemyUnitManager : MonoBehaviour
     private void Start()
     {
         this.UpdateAsObservable()
-            .Where(_ => unitEnemys == null)
+            .Sample(TimeSpan.FromSeconds(0.1f))
             .Subscribe(_ =>
             {
-                Destroy(this.gameObject);
+                int count = transform.childCount;
+                if (count == 0)
+                {
+                    Debug.Log("kenDestroy");
+                    Destroy(this.gameObject);
+                }
             }).AddTo(this.gameObject);
     }
 }
