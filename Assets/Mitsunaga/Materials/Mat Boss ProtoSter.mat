@@ -21,9 +21,9 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Floats:
-    - Vector1_4079A163: 1.6
+    - Vector1_4079A163: 1.28
     - Vector1_900CBFF: 2.03
-    - Vector1_90F23EDA: 8
+    - Vector1_90F23EDA: 15
     - Vector1_BFB60892: 0.5
     - Vector1_EE33FB8C: 0
     - _IsDamage: 0
@@ -31,6 +31,6 @@ Material:
     - _Smoothness: 0
     m_Colors:
     - Color_1E27BE75: {r: 1, g: 1, b: 1, a: 0}
-    - Color_282BC7E3: {r: 1.4862195, g: 0.68854266, b: 0.21732454, a: 0}
-    - _Albedo: {r: 0.6037736, g: 0.3228279, b: 0.27055892, a: 0}
-    - _Rimlight: {r: 1.6478075, g: 0.30313444, b: 0.30313444, a: 0}
+    - Color_282BC7E3: {r: 2.7490547, g: 2.7490547, b: 2.7490547, a: 0}
+    - _Albedo: {r: 0, g: 0, b: 0, a: 0}
+    - _Rimlight: {r: 1, g: 0.4703693, b: 0.15566039, a: 0}
