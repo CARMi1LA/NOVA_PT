@@ -22,21 +22,24 @@ public class HUD_Presenter : MonoBehaviour
     HUD_Model hModel;
 
     [SerializeField,Header("各HUDのビュー")]
-    HUD_Health hvHealth;        // 体力
+    HUD_Health hvHealth;            // 体力
     [SerializeField]
-    HUD_Barrier hvBarrier;      // バリア
+    HUD_Barrier hvBarrier;          // バリア
     [SerializeField]
-    HUD_Energy hvEnergy;        // エネルギーゲージ
+    HUD_Energy hvEnergy;            // エネルギーゲージ
     [SerializeField]
-    HUD_Ultimate hvUltimate;    // アルティメットゲージ
+    HUD_Ultimate hvUltimate;        // アルティメットゲージ
     [SerializeField]
-    HUD_Score hvScore;          // スコア
+    HUD_Score hvScore;              // スコア
     [SerializeField]
-    HUD_Combo hvCombo;          // コンボ
+    HUD_Combo hvCombo;              // コンボ
     [SerializeField]
-    HUD_Arrow hvArrow;          // ターゲット
+    HUD_Arrow hvArrow;              // ターゲット
+    [SerializeField]
+    HUD_SearchEnemy hvSearchEnemy;  // 索敵
 
     // ターゲット用のプレイヤーの位置とカメラの距離
+    // Modelからポジション読んでこればよいのでは？？
     [SerializeField]
     Transform playerPosition;
     float cameraDistance = 20.0f;
@@ -86,6 +89,13 @@ public class HUD_Presenter : MonoBehaviour
             .Subscribe(value =>
             {
                 hvCombo.SetCombo(value);
+            })
+            .AddTo(this.gameObject);
+
+        hModel.SearchEnemyRP.
+            Subscribe(value =>
+            {
+                hvSearchEnemy.SetSearchEnemy(playerPosition.position, value);
             })
             .AddTo(this.gameObject);
 

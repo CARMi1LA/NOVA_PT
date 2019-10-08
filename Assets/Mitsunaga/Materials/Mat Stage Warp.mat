@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Mat Stage Warp
+  m_Shader: {fileID: -6465566751694194690, guid: 16e676212ae6112409fdb97c02eac011,
+    type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats:
+    - Vector1_3608B489: 0.71
+    - Vector1_44F9A0B3: 0.3
+    - Vector1_53369A78: -0.5
+    - Vector1_6C56885E: 20
+    - Vector1_904350C1: 1.07
+    - Vector1_A335183F: -7
+    - Vector1_DF211A5F: 3
+    - Vector1_ECDA9A24: -10
+    m_Colors:
+    - Color_6C1FC170: {r: 0.26415098, g: 0.26415098, b: 0.26415098, a: 0}
+    - Color_A8039F47: {r: 11.030914, g: 11.030914, b: 11.030914, a: 0}
