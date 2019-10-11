@@ -71,14 +71,22 @@ public class GameManagement : GMSingleton<GameManagement>
         // カメラ座標の取得
         cameraPos = cameraTrans.position;
 
-        isPause.Value = false;
-
         gameHUD.ScoreRP.Value = gameScore.Value;
         gameHUD.ComboRP.Value = combo.Value;
     }
 
     void Start()
     {
+        this.UpdateAsObservable()
+            .Where(_ => SceneManager.GetActiveScene().name == "00 Title")
+            .Subscribe(_ =>
+            {
+                isPause.Value = false;
+                isClear.Value = false;
+                starting.Value = false;
+                StageManager.Instance.startingFlg.Value = false;
+            }).AddTo(this.gameObject);
+
         starting.Where(s => s == false)
        .Subscribe(s =>
        {
@@ -88,7 +96,6 @@ public class GameManagement : GMSingleton<GameManagement>
         starting.Where(s => s == true && isPause.Value == false)
             .Subscribe(s =>
             {
-                Debug.LogFormat("pUlt{0} eUlt{1}", playerUlt.Value, enemyUlt.Value);
                 isClear.Where(x => x).
                 Subscribe(_ =>
                 {

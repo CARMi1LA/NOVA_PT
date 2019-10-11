@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using UnityEngine.Playables;
 using UniRx;
 using UniRx.Triggers;
+using UnityEngine.Playables;
 using TMPro;
+using System;
+using UnityEngine.SceneManagement;
 
 public class Result_View : MonoBehaviour
 {
@@ -59,6 +60,12 @@ public class Result_View : MonoBehaviour
         }
         tmpRank.materialForRendering.SetColor("_OutlineColor", getRankColor(tmpRank.text));
         pdResult.Play();
+        Observable.Timer(TimeSpan.FromSeconds(10.0f))
+            .Subscribe(_ =>
+            {
+                SceneManager.LoadScene(0);
+            }).AddTo(this.gameObject);
+            
     }
 
     // スコアとコンボの値に応じたクリアランクの文字を返す関数
@@ -102,32 +109,8 @@ public class Result_View : MonoBehaviour
         return rankColor;
     }
     
-    // シーン遷移のコルーチン
-    IEnumerator GameStartCoroutine(float waitTime,int sceneID)
+    public void OnBackButtonClicked()
     {
-        // ボタンなどのクリックを不可能にする
-        //cgCanvas.blocksRaycasts = false;
-        // 指定時間待つ
-        float time = 0.0f;
-
-        while (time < waitTime)
-        {
-            time += Time.deltaTime;
-
-            yield return null;
-        }
-
-        // シーン遷移
-        SceneManager.LoadScene(sceneID);
-    }
-
-    // シーン遷移のボタン処理
-    public void OnNextButtonClicked()
-    {
-        StartCoroutine(GameStartCoroutine(0.5f, 0));
-    }
-    public void OnTitleButtonClicked()
-    {
-        StartCoroutine(GameStartCoroutine(0.5f, 0));
+                SceneManager.LoadScene(0);
     }
 }
