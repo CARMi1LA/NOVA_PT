@@ -38,7 +38,7 @@ public class StageManager : SMSingleton<StageManager>
     [SerializeField] private EnemySpawner enemySpawner;
 
     // 現在のウェーブ
-    [SerializeField] IntReactiveProperty nowWave = new IntReactiveProperty(0);
+    [SerializeField] public IntReactiveProperty nowWave = new IntReactiveProperty(0);
     // 最大ウェーブ数
     [SerializeField] private int maxWave;
     // 現在のウェーブで生存している敵の数
@@ -49,7 +49,7 @@ public class StageManager : SMSingleton<StageManager>
     [SerializeField] private Vector3[] spawnPos;                  // スポーン先の座標
     [SerializeField] private Transform playerTrans;               // プレイヤーのトランスフォーム
     public BoolReactiveProperty nextWaveFlg = new BoolReactiveProperty(false); // ウェーブ進行準備完了フラグ
-    [SerializeField] private BoolReactiveProperty startingFlg = new BoolReactiveProperty(false);
+    [SerializeField] public BoolReactiveProperty startingFlg = new BoolReactiveProperty(false);
     [SerializeField] private WaveActionReactiveProperty waveAct = new WaveActionReactiveProperty();
 
     // 参照用のカスタムプロパティ
@@ -63,6 +63,7 @@ public class StageManager : SMSingleton<StageManager>
     {
         base.Awake();
         playerTrans = GameManagement.Instance.playerTrans;
+        nowWave.Value = 0;
         // データリストの取得
         dataList = Resources.Load<StageDataList>("StageDataList");
         if (stageID == 0 || stageID >= 10)

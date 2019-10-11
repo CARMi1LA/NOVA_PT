@@ -18,7 +18,7 @@ MonoBehaviour:
     enemyType: 0
     enemyPosition: 0
     aiLevel: 2
-    hp: 2
+    hp: 1
     barrier: 0
     energy: 100
     score: 100

@@ -106,19 +106,16 @@ public class EnemyManager : MonoBehaviour,IDamage
     {
         apprSubject.Subscribe(val =>
         {
-            Debug.Log("kenappr");
             movePos = actManager.CalcApprMove(this.transform.position, enemyStatus.moveSpeed, val);
         }).AddTo(this.gameObject);
 
         waitSubject.Subscribe(val => 
         {
-            Debug.Log("kenwait");
             attackFlg.Value = true;
         }).AddTo(this.gameObject);
 
         atkSubject.Subscribe(val =>
         {
-            Debug.Log("kenatk");
             Vector3 rad = (playerTrans.position - this.transform.position).normalized;
             float angle = Mathf.Atan2(rad.z, rad.x);
             actManager.EnemyAtkCalc(this.transform, val, angle);
@@ -157,7 +154,6 @@ public class EnemyManager : MonoBehaviour,IDamage
                 enemyAIPropaty.Where(_ => _ == EnemyAI.Approach)
                     .Subscribe(_ =>
                     {
-                        Debug.Log("kenappr");
                         // 行動パターンを抽選
                         int actID = actManager.ChooseAppr(AI_Atk);
                         apprSubject.OnNext(actID);
@@ -180,10 +176,8 @@ public class EnemyManager : MonoBehaviour,IDamage
                     .Sample(TimeSpan.FromSeconds(0.1f))
                     .Subscribe(_ =>
                     {
-                        Debug.Log("kenatk");
                         int actID = actManager.ChooseAtk(AI_Atk);
                         atkSubject.OnNext(actID);
-                        Debug.LogFormat("ActID{0}", actID);
                         enemyAI.Value = EnemyAI.Wait;
                     }).AddTo(this.gameObject);
 

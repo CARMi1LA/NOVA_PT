@@ -6,6 +6,8 @@ using UniRx;
 using UniRx.Triggers;
 using UnityEngine.Playables;
 using TMPro;
+using System;
+using UnityEngine.SceneManagement;
 
 public class Result_View : MonoBehaviour
 {
@@ -58,6 +60,12 @@ public class Result_View : MonoBehaviour
         }
         tmpRank.materialForRendering.SetColor("_OutlineColor", getRankColor(tmpRank.text));
         pdResult.Play();
+        Observable.Timer(TimeSpan.FromSeconds(10.0f))
+            .Subscribe(_ =>
+            {
+                SceneManager.LoadScene(0);
+            }).AddTo(this.gameObject);
+            
     }
 
     // スコアとコンボの値に応じたクリアランクの文字を返す関数
@@ -99,5 +107,10 @@ public class Result_View : MonoBehaviour
         }
 
         return rankColor;
+    }
+    
+    public void OnBackButtonClicked()
+    {
+                SceneManager.LoadScene(0);
     }
 }

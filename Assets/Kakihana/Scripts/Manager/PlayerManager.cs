@@ -66,6 +66,8 @@ public class PlayerManager : MonoBehaviour,IDamage
     [SerializeField] private ParticleSystem  deathPS,ultPS;
 
     Subject<int> ultimate = new Subject<int>();
+    Subject<int> shootSubject = new Subject<int>();
+    Subject<Transform> shootTest = new Subject<Transform>();
     public Subject<GameObject> apprEnemyInfo = new Subject<GameObject>();
 
 
@@ -111,6 +113,26 @@ public class PlayerManager : MonoBehaviour,IDamage
     // Start is called before the first frame update
     void Start()
     {
+        shootSubject.Subscribe(val =>
+        {
+            switch (val)
+            {
+                case (int)AIListManager.AtkList.Normal:
+                    new BulletData(20.0f, bitLeft.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
+                    new BulletData(20.0f, bitRight.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
+                    break;
+                case (int)AIListManager.AtkList.Forrow:
+                    new BulletData(20.0f, bitLeft.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
+                    new BulletData(20.0f, bitRight.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
+                    break;
+            }
+        }).AddTo(this.gameObject);
+
+        shootTest.Subscribe(_ => 
+        {
+            new BulletData(20.0f, _, BulletManager.ShootChara.Player, 0, 0.0f, angle);
+        }).AddTo(this.gameObject);
+
         ultimate.Subscribe(val => 
         {
             Instantiate(ultPS, this.transform.position, Quaternion.identity);
@@ -191,13 +213,13 @@ public class PlayerManager : MonoBehaviour,IDamage
 
             }).AddTo(this.gameObject);
 
-        this.FixedUpdateAsObservable()
+        this.UpdateAsObservable()
         .Where(_ => GameManagement.Instance.isPause.Value == false)
         .Sample(TimeSpan.FromSeconds(0.20f))
         .Subscribe(_ =>
         {
-            new BulletData(20.0f, bitLeft.transform, BulletManager.ShootChara.Player, 0, 0.0f,angle);
-            new BulletData(20.0f, bitRight.transform, BulletManager.ShootChara.Player, 0, 0.0f,angle);
+            shootTest.OnNext(bitLeft.transform);
+            shootTest.OnNext(bitRight.transform);
         }).AddTo(this.gameObject);
 
         // 必殺技処理
@@ -211,9 +233,7 @@ public class PlayerManager : MonoBehaviour,IDamage
         energy
             .Subscribe(_ => 
             {
-                Debug.Log("kenSkill");
-                new BulletData(25.0f, bitLeft.transform, BulletManager.ShootChara.Player, 6, 0.0f, angle);
-                new BulletData(25.0f, bitRight.transform, BulletManager.ShootChara.Player, 6, 0.0f, angle);
+                shootSubject.OnNext((int)AIListManager.AtkList.Forrow);
             }).AddTo(this.gameObject);
 
         GameManagement.Instance.enemyUlt.Where(x => x == GameManagement.Instance.enemyUlt.Value == true)
