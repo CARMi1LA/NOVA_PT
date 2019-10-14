@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Mat BackGround
-  m_Shader: {fileID: -6465566751694194690, guid: 9db1304a01fdf8b42912e2f2a6108601,
+  m_Shader: {fileID: -6465566751694194690, guid: 5c69fd648ff6df342b8ed782938c26bd,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
