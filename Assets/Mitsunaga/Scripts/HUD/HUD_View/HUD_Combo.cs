@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 using UniRx;
 using UniRx.Triggers;
 using TMPro;
@@ -27,16 +28,22 @@ public class HUD_Combo : MonoBehaviour
     float shakePower;
     [SerializeField, Header("揺れの長さ")]
     float shakeTime;
-
-    // 揺れの間隔(単位：フレーム)
-    int shakeInterval = 5;
+    [SerializeField, Header("揺れの間隔(フレーム)")]
+    int shakeInterval = 2;
+    [SerializeField, Header("揺れ時の色変化")]
+    Color shakeColor = new Color(1, 1, 1, 1);
     // 初期位置
     Vector3 startPos;
+    float   startFontSize;
+    Color   startFontColor;
 
     void Awake()
     {
-        startPos = this.transform.localPosition;
-        ComboText = this.GetComponent<TextMeshProUGUI>();
+        // 初期化
+        ComboText       = this.GetComponent<TextMeshProUGUI>();
+        startFontSize   = ComboText.fontSize;
+        startFontColor  = ComboText.color;
+        startPos        = this.transform.localPosition;
     }
 
     public void SetCombo(int combo)
@@ -49,7 +56,10 @@ public class HUD_Combo : MonoBehaviour
     // ゆらゆらコルーチン
     IEnumerator ShakeCoroutine(float power, float time, int interval)
     {
-        // timeの間、intervalの間隔でpowerの強さで揺らす
+        // timeの間、intervalの間隔でpowerの強さで揺らす 文字も大きくする 色も変える
+
+        // Cosカーブを用いて変化量をだんだん減らす
+        // Mathf.Cos(90 * (t / time) * Mathf.Deg2Rad) tが0のとき1　tが1のとき0　をCosカーブで補間
 
         float t = 0.0f;     // 時間の計測
         int count = 0;      // 間隔の計測
@@ -60,19 +70,38 @@ public class HUD_Combo : MonoBehaviour
             count++;
             if(count % interval == 0)
             {
-                transform.localPosition = startPos + GetShake(power);
+                // Random.onUnitSphere：半径1の球体からランダムな表面の位置を返す
+                transform.localPosition = startPos + (Random.onUnitSphere * (power * Mathf.Cos(90 * (t / time) * Mathf.Deg2Rad)));
             }
-            
+            ComboText.fontSize  = startFontSize + (startFontSize * 0.5f * Mathf.Cos(90 * (t / time) * Mathf.Deg2Rad));
+            ComboText.color     = Color.Lerp(shakeColor, startFontColor, t / time);
+
             t += Time.deltaTime;
             yield return null;
         }
+
+        // 初期値に調整する
+        ComboText.fontSize      = startFontSize;
+        ComboText.color         = startFontColor;
         transform.localPosition = startPos;
     }
 
-    // ゆらゆらの数値を計算するところ
-    Vector3 GetShake(float power)
+    // inspector拡張
+#if UNITY_EDITOR
+    [CustomEditor(typeof(HUD_Combo))]
+    public class HUD_ComboEditor : Editor
     {
-        // Random.insideUnitCircle：半径1の円の内側からランダムな位置を返す
-        return Random.insideUnitCircle * power;
+        // フラグ等の宣言
+
+        public override void OnInspectorGUI()
+        {
+            HUD_Combo hc = target as HUD_Combo;
+
+            hc.shakePower       = EditorGUILayout.FloatField("揺れの強さ", hc.shakePower);
+            hc.shakeTime        = EditorGUILayout.FloatField("揺れの長さ", hc.shakeTime);
+            hc.shakeInterval    = EditorGUILayout.IntField  ("揺れの間隔", hc.shakeInterval);
+            hc.shakeColor       = EditorGUILayout.ColorField("揺れ時の色変更", hc.shakeColor);
+        }
     }
+#endif
 }

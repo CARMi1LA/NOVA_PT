@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 using UniRx;
 using UniRx.Triggers;
 
@@ -66,4 +67,50 @@ public class HUD_Model : MonoBehaviour
             })
             .AddTo(this.gameObject);
     }
+
+    // inspector拡張
+#if UNITY_EDITOR
+    [CustomEditor(typeof(HUD_Model))]
+    public class HUD_ModelEditor : Editor
+    {
+        // フラグ等の宣言
+        //bool folding = false;
+        float fieldSize = 80.0f;
+
+        public override void OnInspectorGUI()
+        {
+            HUD_Model hm = target as HUD_Model;
+
+            EditorGUILayout.LabelField("体力(現在/最大)");
+            EditorGUILayout.BeginHorizontal();
+            hm.HealthRP.Value   = EditorGUILayout.IntField(hm.HealthRP.Value, GUILayout.MaxWidth(fieldSize));
+            hm.maxHealth        = EditorGUILayout.IntField(hm.maxHealth, GUILayout.MaxWidth(fieldSize));
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.LabelField("バリア(現在/最大)");
+            EditorGUILayout.BeginHorizontal();
+            hm.BarrierRP.Value  = EditorGUILayout.IntField(hm.BarrierRP.Value, GUILayout.MaxWidth(fieldSize));
+            hm.maxBarrier       = EditorGUILayout.IntField(hm.maxBarrier, GUILayout.MaxWidth(fieldSize));
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.LabelField("エネルギー(現在/最大)");
+            EditorGUILayout.BeginHorizontal();
+            hm.EnergyRP.Value   = EditorGUILayout.IntField(hm.EnergyRP.Value, GUILayout.MaxWidth(fieldSize));
+            hm.maxEnergy        = EditorGUILayout.IntField(hm.maxEnergy, GUILayout.MaxWidth(fieldSize));
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.LabelField("アルティメット(現在/最大)");
+            EditorGUILayout.BeginHorizontal();
+            hm.UltimateRP.Value = EditorGUILayout.IntField(hm.UltimateRP.Value, GUILayout.MaxWidth(fieldSize));
+            hm.maxUltimate      = EditorGUILayout.IntField(hm.maxUltimate, GUILayout.MaxWidth(fieldSize));
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.LabelField("スコア/コンボ");
+            EditorGUILayout.BeginHorizontal();
+            hm.ScoreRP.Value = EditorGUILayout.IntField(hm.ScoreRP.Value, GUILayout.MaxWidth(fieldSize));
+            hm.ComboRP.Value = EditorGUILayout.IntField(hm.ComboRP.Value, GUILayout.MaxWidth(fieldSize));
+            EditorGUILayout.EndHorizontal();
+        }
+    }
+#endif
 }

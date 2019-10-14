@@ -6,6 +6,8 @@ using UniRx.Triggers;
 
 public class AutoRotation : MonoBehaviour
 {
+    // 一定速度で回転
+
     [SerializeField]
     Vector3 rotSpeed;
 

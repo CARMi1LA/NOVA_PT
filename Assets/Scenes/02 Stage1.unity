@@ -27319,8 +27319,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 88
-  m_fontSizeBase: 88
+  m_fontSize: 90
+  m_fontSizeBase: 90
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -28001,8 +28001,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39dd89d573420a24f9a5cff9b21806b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shakePower: 0.45
-  shakeTime: 0.51
+  shakePower: 20
+  shakeTime: 0.5
+  shakeInterval: 2
 --- !u!114 &7071862154021169721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28021,7 +28022,7 @@ MonoBehaviour:
   maxBarrier: 3
   BarrierRP:
     value: 0
-  maxEnergy: 100
+  maxEnergy: 90
   EnergyRP:
     value: 0
   maxUltimate: 100
@@ -28050,7 +28051,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 444976755422267866}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9149393203043394361}
@@ -28058,9 +28059,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 38, y: -54}
-  m_SizeDelta: {x: 200, y: 90}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 134.99997, y: -100}
+  m_SizeDelta: {x: 400, y: 90}
+  m_Pivot: {x: 1, y: 0}
 --- !u!4 &7616122516277848253
 Transform:
   m_ObjectHideFlags: 0
@@ -29120,7 +29121,7 @@ MonoBehaviour:
   followTarget: {fileID: 5601864086238727120}
   followOffset: {x: 0, y: 40, z: 0}
   isLerp: 1
-  lerpSpeed: 0.78
+  lerpSpeed: 0.8
 --- !u!114 &9149393204034540558
 MonoBehaviour:
   m_ObjectHideFlags: 0

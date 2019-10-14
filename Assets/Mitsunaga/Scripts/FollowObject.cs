@@ -7,13 +7,16 @@ using UniRx.Triggers;
 
 public class FollowObject : MonoBehaviour
 {
+    // ターゲットを追尾
+    // 補間をOnにすると追いかけるように追尾する
+
     [SerializeField]    // ターゲット
     Transform followTarget;
     [SerializeField]    // ターゲットとの距離
     Vector3 followOffset;
     [SerializeField]    // 補間
     bool isLerp;
-    [SerializeField]// 補間の強さ
+    [SerializeField]    // 補間の強さ
     float lerpSpeed;
 
     void Start()

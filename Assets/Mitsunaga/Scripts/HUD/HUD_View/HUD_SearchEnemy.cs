@@ -23,6 +23,7 @@ public class HUD_SearchEnemy : MonoBehaviour
 
             GameObject obj = Instantiate(seMark.gameObject, this.transform);
             obj.transform.localPosition = vec * seRange;
+            obj.transform.eulerAngles = new Vector3(90, 0, 0);
         }
     }
 }
