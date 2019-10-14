@@ -124,7 +124,6 @@ public class EnemyManager : MonoBehaviour,IDamage
 
         escSubject.Subscribe(val =>
         {
-            Debug.Log("kenesc");
             Vector3 diffPos = new Vector3(-1.0f, -1.0f, -1.0f);
             // 抽選結果より、逃走処理を行う
             movePos = actManager.CalcEscMove(this.transform.position, enemyStatus.moveSpeed * 0.5f, val);
@@ -533,6 +532,7 @@ public class EnemyManager : MonoBehaviour,IDamage
 
         // 衝突判定
         this.OnTriggerEnterAsObservable()
+            .Where(c => c.gameObject.tag == "Bullet")
             .Subscribe(c =>
             {
                 // 弾のコンポーネント取得

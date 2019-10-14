@@ -118,8 +118,9 @@ public class PlayerManager : MonoBehaviour,IDamage
             switch (val)
             {
                 case (int)AIListManager.AtkList.Normal:
-                    new BulletData(20.0f, bitLeft.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
-                    new BulletData(20.0f, bitRight.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
+                    new BulletData(10.0f, bitLeft.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
+                    Debug.Log("bitleftshoot");
+                    new BulletData(10.0f, bitRight.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
                     break;
                 case (int)AIListManager.AtkList.Forrow:
                     new BulletData(20.0f, bitLeft.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
@@ -218,8 +219,7 @@ public class PlayerManager : MonoBehaviour,IDamage
         .Sample(TimeSpan.FromSeconds(0.20f))
         .Subscribe(_ =>
         {
-            shootTest.OnNext(bitLeft.transform);
-            shootTest.OnNext(bitRight.transform);
+            shootSubject.OnNext((int)AIListManager.AtkList.Normal);
         }).AddTo(this.gameObject);
 
         // 必殺技処理

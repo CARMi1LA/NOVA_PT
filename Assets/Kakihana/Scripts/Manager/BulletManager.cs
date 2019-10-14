@@ -67,6 +67,11 @@ public class BulletManager : MonoBehaviour
             .Where(_ => GameManagement.Instance.isPause.Value == false)
             .Subscribe(_ => 
             {
+                if (shootChara == ShootChara.None)
+                {
+                    bulletState = BulletState.Destroy;
+                    BulletDestroy();
+                }
                 // 弾を発射する。弾の種類ごとに移動量や角度を設定する
                 switch (bulletType)
                 {
@@ -99,31 +104,31 @@ public class BulletManager : MonoBehaviour
                             this.GetComponent<Rigidbody>().velocity = this.transform.position + velocity * Time.deltaTime;
                         }else if(shootChara == ShootChara.Player)
                         {
-                            PlayerManager pm = playerTrans.gameObject.GetComponent<PlayerManager>();
-                            var targetDis = 0.0f;
-                            GameObject targetObj = null;
-                            foreach (var item in pm.apprEnemys)
-                            {
-                                var dis = (item.transform.position - this.transform.position).sqrMagnitude;
-                                if (targetDis == 0)
-                                {
-                                    targetDis = dis;
-                                    targetObj = item;
-                                }
-                                if (targetDis >= dis)
-                                {
-                                    targetDis = dis;
-                                    targetObj = item;
-                                }
-                            }
-                            Vector3 radian = (targetObj.transform.position - this.transform.position).normalized;
-                            float angle = Mathf.Atan2(radian.z, radian.x);
-                            this.transform.localEulerAngles = new Vector3(0, Mathf.Lerp(this.transform.rotation.y, angle, 0.25f), 0);
-                            shootSpeed *= 1.5f + Time.deltaTime;
+                            //PlayerManager pm = playerTrans.gameObject.GetComponent<PlayerManager>();
+                            //var targetDis = 0.0f;
+                            //GameObject targetObj = null;
+                            //foreach (var item in pm.apprEnemys)
+                            //{
+                            //    var dis = (item.transform.position - this.transform.position).sqrMagnitude;
+                            //    if (targetDis == 0)
+                            //    {
+                            //        targetDis = dis;
+                            //        targetObj = item;
+                            //    }
+                            //    if (targetDis >= dis)
+                            //    {
+                            //        targetDis = dis;
+                            //        targetObj = item;
+                            //    }
+                            //}
+                            //Vector3 radian = (targetObj.transform.position - this.transform.position).normalized;
+                            //float angle = Mathf.Atan2(radian.z, radian.x);
+                            //this.transform.localEulerAngles = new Vector3(0, Mathf.Lerp(this.transform.rotation.y, angle, 0.25f), 0);
+                            //shootSpeed *= 1.5f + Time.deltaTime;
                         }
                         break;
                     default:
-                        shootSpeed *= 1.5f + Time.deltaTime;
+                        shootSpeed *= 1.25f + Time.deltaTime;
                         //this.transform.position += shootOriginTrans.forward * shootSpeed * Time.deltaTime;
                         //movePos = transform.forward * shootSpeed;
                         //this.GetComponent<Rigidbody>().AddForce((shootOriginTrans.forward) * shootSpeed, ForceMode.Impulse);
@@ -133,7 +138,7 @@ public class BulletManager : MonoBehaviour
                 }
                 //　カメラのビューポートの限界位置をオフセット位置を含めて計算
 
-                this.GetComponent<Rigidbody>().velocity = this.transform.forward * shootSpeed * Time.deltaTime;
+                this.GetComponent<Rigidbody>().velocity = this.transform.forward * shootSpeed;
                 // 弾を発射する（旧バージョン）
                 // this.GetComponent<Rigidbody>().AddForce((shootOriginTrans.forward) * shootSpeed, ForceMode.Impulse);
             }).AddTo(this.gameObject);
@@ -179,16 +184,14 @@ public class BulletManager : MonoBehaviour
         // ステートが消滅状態なら実行
         if (bulletState == BulletState.Destroy)
         {
+            // 弾情報の初期化
+            BulletInit();
             // 現在の生成数を減らす
-            BulletSpawner.Instance.bulletCount--;
+            BulletSpawner.Instance.bulletCount.Value--;
             // 弾のスポナーに削除情報を送る
             BulletSpawner.Instance.BulletRemove(this);
             // このオブジェクトを非表示にする
             this.gameObject.SetActive(false);
-            // 速度をリセット
-            this.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            // 再生成待機モードに移行
-            bulletState = BulletState.Pool;
         }
 
     }
@@ -207,7 +210,7 @@ public class BulletManager : MonoBehaviour
         // このオブジェクトを表示する
         this.gameObject.SetActive(true);
         // スポナーの生成数を増やす
-        BulletSpawner.Instance.bulletCount++;
+        BulletSpawner.Instance.bulletCount.Value++;
         // ステートの初期化
         bulletState = BulletState.Active;
         // 弾の種類の設定
@@ -222,10 +225,37 @@ public class BulletManager : MonoBehaviour
         originAngle = angle;
         // 現在の座標の初期化
         this.transform.position = origin.position;
-        // 
+        // 発射角度の設定
         this.transform.localEulerAngles = new Vector3(0.0f, originAngle, 0.0f);
         // 発射角度の設定
         this.SetBulletRot(Quaternion.AngleAxis(rot, Vector3.up));
+    }
+    // プール返却前に行う初期化処理
+    void BulletInit()
+    {
+        // 進行方向の初期化
+        moveFoward = Vector3.zero;
+        // 回転角度の初期化
+        bulletRot = Quaternion.identity;
+        // 弾速の初期化
+        shootSpeed = 0.0f;
+        // 発射角度の初期化
+        originAngle = 0.0f;
+        // 生成元座標の初期化
+        shootOriginTrans = null;
+        // 速度の初期化
+        this.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        // 座標の初期化
+        this.transform.position = Vector3.zero;
+        // 発射キャラクター識別情報の初期化
+        shootChara = ShootChara.None;
+        // 再生成待機モードに移行
+        bulletState = BulletState.Pool;
+
+    }
+    private void OnEnable()
+    {
+        
     }
 
     // カメラの範囲外に到達したら削除される

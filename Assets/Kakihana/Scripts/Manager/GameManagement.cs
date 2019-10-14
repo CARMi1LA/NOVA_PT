@@ -65,9 +65,6 @@ public class GameManagement : GMSingleton<GameManagement>
     protected override void Awake()
     {
         base.Awake();
-
-        // マスタークラスが勝手に削除されないように設定
-        DontDestroyOnLoad(this.gameObject);
         // カメラ座標の取得
         cameraPos = cameraTrans.position;
 

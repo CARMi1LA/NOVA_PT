@@ -10332,7 +10332,7 @@ PrefabInstance:
     - target: {fileID: 7049308763387358713, guid: c715e6fdde6a48f40b5bb54805c9b988,
         type: 3}
       propertyPath: bulletValueMax
-      value: 200
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 7049308763387358713, guid: c715e6fdde6a48f40b5bb54805c9b988,
         type: 3}

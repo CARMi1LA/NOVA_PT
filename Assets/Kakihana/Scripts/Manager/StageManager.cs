@@ -87,21 +87,6 @@ public class StageManager : SMSingleton<StageManager>
         }
         // 最大ウェーブ数の取得
         maxWave = stageData.waveType.Length;
-        // デバッグ用 読み込み完了エラー処理
-        if (dataList == null)
-        {
-            // エラー、データリストそのものが読み取れていない
-            Debug.LogError("DataListNotFound");
-        }else if(stageData == null)
-        {
-            // エラー、データリストは読み込めているがステージのデータが読み込めていない
-            Debug.LogError("StageDataNotFound");
-        }
-        else
-        {
-            // ステージデータ読み込み完了
-            Debug.Log("StageDataLoadSuccess!");
-        }
     }
 
     // Start is called before the first frame update
@@ -117,7 +102,6 @@ public class StageManager : SMSingleton<StageManager>
                 startingFlg.Value = true;
                 nextWaveFlg.Value = true;
                 waveAct.Value = StageWaveAction.WaveWaiting;
-                Debug.Log("StageStartingSuccess");
             }).AddTo(this.gameObject);
 
         // ゲームが開始したら実行
@@ -131,7 +115,6 @@ public class StageManager : SMSingleton<StageManager>
                 {
                     if (nextWaveFlg.Value == true)
                     {
-                        Debug.Log("NextWave");
                         nowWave.Value++;
                         waveAct.Value = StageWaveAction.WaveCreate;
                         nextWaveFlg.Value = false;
