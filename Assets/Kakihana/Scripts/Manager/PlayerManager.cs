@@ -121,6 +121,7 @@ public class PlayerManager : MonoBehaviour,IDamage
                     new BulletData(10.0f, bitLeft.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
                     Debug.Log("bitleftshoot");
                     new BulletData(10.0f, bitRight.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
+                    Debug.Log("bitrightshoot");
                     break;
                 case (int)AIListManager.AtkList.Forrow:
                     new BulletData(20.0f, bitLeft.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
@@ -254,7 +255,7 @@ public class PlayerManager : MonoBehaviour,IDamage
                     // 敵による攻撃であればダメージを受ける
                     HitDamage();
                     // ヒットした弾は消滅させる
-                    bullet.BulletDestroy();
+                    bullet.bulletState = BulletManager.BulletState.Destroy;
                 }
             }).AddTo(this.gameObject);
 

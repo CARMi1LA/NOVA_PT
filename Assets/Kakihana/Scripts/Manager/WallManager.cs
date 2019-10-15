@@ -20,7 +20,7 @@ public class WallManager : MonoBehaviour
                 bullet = c.gameObject.GetComponent<BulletManager>();
                 if (bullet.shootChara == BulletManager.ShootChara.Player)
                 {
-                    bullet.BulletDestroy();
+                    bullet.bulletState = BulletManager.BulletState.Destroy;
                 }
             }).AddTo(this.gameObject);
     }

@@ -29,11 +29,12 @@ public class BulletManager : MonoBehaviour
     }
 
     [SerializeField] public ShootChara shootChara;       // 生成元のキャラクター
-    [SerializeField] private BulletState bulletState;    // 弾の生成状況
+    [SerializeField] public BulletState bulletState;    // 弾の生成状況
     [SerializeField] private AIListManager.AtkList bulletType; // 弾の種類
     [SerializeField] public float shootSpeed;            // 発射スピード
     [SerializeField] private float rangeLimit;           // 最大距離
     [SerializeField] private float originAngle;          // 発射元の角度
+    [SerializeField] private float bulletDistance;
     [SerializeField] private float horizontalOffset;
     [SerializeField] private float verticalOffset;
 
@@ -41,12 +42,48 @@ public class BulletManager : MonoBehaviour
     [SerializeField] public Transform playerTrans;
     [SerializeField] public Vector3 moveFoward;
     [SerializeField] public Quaternion bulletRot;        // 弾の角度
+
+    [SerializeField] private BulletStateReactiveProperty stateProperty = new BulletStateReactiveProperty();
+
+    // 初期化用Subject
+    Subject<Unit> bulletInit = new Subject<Unit>();
+
+    // 参照用のカスタムプロパティ
+    [SerializeField]
+    public IReadOnlyReactiveProperty<BulletState> bulletStateProperty
+    {
+        get { return stateProperty; }
+    }
     // Start is called before the first frame update
     void Start()
     {
         
         playerTrans = GameManagement.Instance.playerTrans;
         moveFoward = (GameManagement.Instance.cWorld - this.transform.position).normalized;
+
+        bulletInit.Subscribe(_ => 
+        {
+            // 進行方向の初期化
+            moveFoward = Vector3.zero;
+            // 回転角度の初期化
+            bulletRot = Quaternion.identity;
+            // 弾速の初期化
+            shootSpeed = 0.0f;
+            // 発射角度の初期化
+            originAngle = 0.0f;
+            // 二点間距離の初期化
+            bulletDistance = 0.0f;
+            // 生成元座標の初期化
+            shootOriginTrans = null;
+            // 速度の初期化
+            this.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            // 座標の初期化
+            this.transform.position = Vector3.zero;
+            // 発射キャラクター識別情報の初期化
+            shootChara = ShootChara.None;
+            // 再生成待機モードに移行
+            bulletState = BulletState.Pool;
+        }).AddTo(this.gameObject);
 
         if (shootChara == ShootChara.Enemy)
         {
@@ -67,11 +104,11 @@ public class BulletManager : MonoBehaviour
             .Where(_ => GameManagement.Instance.isPause.Value == false)
             .Subscribe(_ => 
             {
-                if (shootChara == ShootChara.None)
-                {
-                    bulletState = BulletState.Destroy;
-                    BulletDestroy();
-                }
+                //if (shootChara == ShootChara.None)
+                //{
+                //    bulletState = BulletState.Destroy;
+                //    BulletDestroy();
+                //}
                 // 弾を発射する。弾の種類ごとに移動量や角度を設定する
                 switch (bulletType)
                 {
@@ -139,6 +176,8 @@ public class BulletManager : MonoBehaviour
                 //　カメラのビューポートの限界位置をオフセット位置を含めて計算
 
                 this.GetComponent<Rigidbody>().velocity = this.transform.forward * shootSpeed;
+
+                bulletDistance = (this.transform.position - shootOriginTrans.position).sqrMagnitude;
                 // 弾を発射する（旧バージョン）
                 // this.GetComponent<Rigidbody>().AddForce((shootOriginTrans.forward) * shootSpeed, ForceMode.Impulse);
             }).AddTo(this.gameObject);
@@ -146,11 +185,10 @@ public class BulletManager : MonoBehaviour
         // 最大距離を超えたら消滅する
         this.UpdateAsObservable()
             .Where(_ => bulletState == BulletState.Active)
-            .Where(_ => Vector3.Distance(this.transform.position, shootOriginTrans.position) >= rangeLimit)
+            .Where(_ => bulletDistance >= rangeLimit)
             .Subscribe(_ =>
             {
                 bulletState = BulletState.Destroy;
-                BulletDestroy();
             }).AddTo(this.gameObject);
 
         GameManagement.Instance.playerUlt.Where(_ => GameManagement.Instance.isPause.Value == true)
@@ -158,8 +196,8 @@ public class BulletManager : MonoBehaviour
             .Where(_ => shootChara == ShootChara.Enemy)
             .Subscribe(_ => 
             {
+                Debug.Log("Destroy1");
                 bulletState = BulletState.Destroy;
-                BulletDestroy();
             }).AddTo(this.gameObject);
 
         GameManagement.Instance.enemyUlt.Where(_ => GameManagement.Instance.isPause.Value == true)
@@ -167,9 +205,23 @@ public class BulletManager : MonoBehaviour
         .Where(_ => shootChara == ShootChara.Player)
         .Subscribe(_ =>
         {
+            Debug.Log("Destroy2");
             bulletState = BulletState.Destroy;
-            BulletDestroy();
         }).AddTo(this.gameObject);
+
+        bulletStateProperty.Where(_ => _ == BulletState.Destroy)
+            .Subscribe(_ => 
+            {
+                Debug.LogFormat("Destroy{0}", shootOriginTrans.name);
+                // 現在の生成数を減らす
+                BulletSpawner.Instance.bulletCount.Value--;
+                // 弾のスポナーに削除情報を送る
+                BulletSpawner.Instance.BulletRemove(this);
+                // 弾情報の初期化
+                bulletInit.OnNext(Unit.Default);
+                // このオブジェクトを非表示にする
+                this.gameObject.SetActive(false);
+            }).AddTo(this.gameObject);
     }
 
     // 発射する方向を設定するメソッド
@@ -179,22 +231,23 @@ public class BulletManager : MonoBehaviour
     }
 
     // 消滅処理
-    public void BulletDestroy()
-    {
-        // ステートが消滅状態なら実行
-        if (bulletState == BulletState.Destroy)
-        {
-            // 弾情報の初期化
-            BulletInit();
-            // 現在の生成数を減らす
-            BulletSpawner.Instance.bulletCount.Value--;
-            // 弾のスポナーに削除情報を送る
-            BulletSpawner.Instance.BulletRemove(this);
-            // このオブジェクトを非表示にする
-            this.gameObject.SetActive(false);
-        }
+    //public void BulletDestroy()
+    //{
+    //    // ステートが消滅状態なら実行
+    //    if (bulletState == BulletState.Destroy)
+    //    {
+    //        Debug.LogFormat("Destroy{0}", shootOriginTrans.name);
+    //        // 現在の生成数を減らす
+    //        BulletSpawner.Instance.bulletCount.Value--;
+    //        // 弾のスポナーに削除情報を送る
+    //        BulletSpawner.Instance.BulletRemove(this);
+    //        // 弾情報の初期化
+    //        BulletInit();
+    //        // このオブジェクトを非表示にする
+    //        this.gameObject.SetActive(false);
+    //    }
 
-    }
+    //}
 
     // 弾生成処理
     public void BulletCreate(float speed, Transform origin, ShootChara chara, float rot, AIListManager.AtkList type,float angle)
@@ -241,6 +294,8 @@ public class BulletManager : MonoBehaviour
         shootSpeed = 0.0f;
         // 発射角度の初期化
         originAngle = 0.0f;
+        // 二点間距離の初期化
+        bulletDistance = 0.0f;
         // 生成元座標の初期化
         shootOriginTrans = null;
         // 速度の初期化
@@ -262,6 +317,13 @@ public class BulletManager : MonoBehaviour
     private void OnBecameInvisible()
     {
         bulletState = BulletState.Destroy;
-        BulletDestroy();
     }
+}
+
+// 敵AI専用のカスタムプロパティ
+[System.Serializable]
+public class BulletStateReactiveProperty : ReactiveProperty<BulletManager.BulletState>
+{
+    public BulletStateReactiveProperty() { }
+    public BulletStateReactiveProperty(BulletManager.BulletState initialValue) : base(initialValue) { }
 }

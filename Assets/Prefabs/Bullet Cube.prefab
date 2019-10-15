@@ -109,11 +109,14 @@ MonoBehaviour:
   bulletState: 0
   bulletType: 0
   shootSpeed: 0
-  rangeLimit: 60
+  rangeLimit: 1000
   originAngle: 0
+  bulletDistance: 0
+  horizontalOffset: 0
+  verticalOffset: 0
   shootOriginTrans: {fileID: 0}
   playerTrans: {fileID: 0}
-  movePos: {x: 0, y: 0, z: 0}
+  moveFoward: {x: 0, y: 0, z: 0}
   bulletRot: {x: 0, y: 0, z: 0, w: 0}
 --- !u!54 &7725727039262549246
 Rigidbody:

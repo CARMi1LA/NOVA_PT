@@ -19,7 +19,6 @@ public class EnemyUnitManager : MonoBehaviour
                 int count = transform.childCount;
                 if (count == 0)
                 {
-                    Debug.Log("kenDestroy");
                     Destroy(this.gameObject);
                 }
             }).AddTo(this.gameObject);

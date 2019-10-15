@@ -543,14 +543,13 @@ public class EnemyManager : MonoBehaviour,IDamage
                     // プレイヤーによる攻撃であればダメージを受ける
                     HitDamage();
                     // 衝突した弾は消滅する
-                    bullet.BulletDestroy();
+                    bullet.bulletState = BulletManager.BulletState.Destroy;
                 }
             }).AddTo(this.gameObject);
 
         GameManagement.Instance.playerUlt.Where(_ => GameManagement.Instance.playerUlt.Value == true)
         .Subscribe(_ =>
         {
-            Debug.Log("ult");
             Instantiate(destroyPS, this.transform.position, Quaternion.identity);
             StageManager.Instance.EnemyDestroy(this);
         }).AddTo(this.gameObject);
