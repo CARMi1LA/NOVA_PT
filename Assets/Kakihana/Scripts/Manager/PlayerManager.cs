@@ -245,7 +245,7 @@ public class PlayerManager : MonoBehaviour,IDamage
 
         // 衝突判定（弾）
         this.OnTriggerEnterAsObservable()
-            .Where(c => gameObject.tag == "Bullet")
+            .Where(c => c.gameObject.tag == "Bullet")
             .Subscribe(c =>
             {
                 BulletManager bullet;
