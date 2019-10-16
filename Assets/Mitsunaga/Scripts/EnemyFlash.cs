@@ -1,29 +1,39 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
+using UniRx;
 
 public class EnemyFlash : MonoBehaviour
 {
-    [SerializeField]
     Renderer enemyRenderer;
 
-    [SerializeField]
-    bool isDamage;
+    [SerializeField]BoolReactiveProperty isDamage = new BoolReactiveProperty(false);// これいらない
+
+    Subject<float> FlashSubject = new Subject<float>();
     
     void Start()
     {
-        
-    }
-    void Update()
-    {
-        if (isDamage)
-        {
-            enemyRenderer.material.SetInt("_IsDamage", 1);
-        }
-        else
-        {
-            enemyRenderer.material.SetInt("_IsDamage", 0);
+        enemyRenderer = GetComponent<Renderer>();
 
-        }
+        FlashSubject
+            .Subscribe(value => 
+            {
+                enemyRenderer.material.SetInt("_IsDamage", 1);
+
+                Observable.Timer(TimeSpan.FromSeconds(value))
+                .Subscribe(_ =>
+                {
+                    enemyRenderer.material.SetInt("_IsDamage", 0);
+                })
+                .AddTo(this.gameObject);
+            })
+            .AddTo(this.gameObject);
+
+        isDamage
+            .Where(x => x)
+            .Subscribe(_ =>
+            {
+                FlashSubject.OnNext(2.0f);
+            })
+            .AddTo(this.gameObject);
     }
 }
