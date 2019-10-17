@@ -51,6 +51,8 @@ public class PlayerManager : MonoBehaviour,IDamage
     [SerializeField] private Vector3 rot;
     // 回転角度
     [SerializeField] public float angle;
+    // 反発力
+    [SerializeField] public float refrectPower;
     // 子機のトランスフォーム
     [SerializeField] private Transform bitRight,bitLeft;
 
@@ -62,6 +64,8 @@ public class PlayerManager : MonoBehaviour,IDamage
     private IntReactiveProperty skillStock = new IntReactiveProperty(0);
     // 被弾直後かどうか
     private BoolReactiveProperty isHit = new BoolReactiveProperty(false);
+    // バリアがあるかどうか
+    private BoolReactiveProperty isBarrier = new BoolReactiveProperty(false);
 
     [SerializeField] private ParticleSystem  deathPS,ultPS;
 
@@ -275,6 +279,30 @@ public class PlayerManager : MonoBehaviour,IDamage
                     ultimateGage.Value++;
                     // 衝突したアイテムは消滅させる
                     item.ItemDestroy();
+                }
+            }).AddTo(this.gameObject);
+
+        this.OnCollisionEnterAsObservable()
+            .Where(c => c.gameObject.tag != this.gameObject.tag)
+            .Subscribe(c =>
+            {
+                if (c.gameObject.tag == "Block")
+                {
+
+                }
+                else
+                {
+                    isBarrier.Where(_ => isBarrier.Value == true)
+                    .Subscribe(_ =>
+                    {
+
+                    }).AddTo(this.gameObject);
+
+                    isBarrier.Where(_ => isBarrier.Value == false)
+                    .Subscribe(_ =>
+                    {
+                        dif = (cWorld - this.transform.position).normalized * playerSpeed * Time.deltaTime;
+                    }).AddTo(this.gameObject);
                 }
             }).AddTo(this.gameObject);
 
