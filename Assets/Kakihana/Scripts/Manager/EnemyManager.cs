@@ -548,7 +548,7 @@ public class EnemyManager : MonoBehaviour,IDamage
                     // プレイヤーによる攻撃であればダメージを受ける
                     HitDamage();
                     // 衝突した弾は消滅する
-                    bullet.bulletState = BulletManager.BulletState.Destroy;
+                    bullet.bulletState.Value = BulletManager.BulletState.Destroy;
                 }
             }).AddTo(this.gameObject);
 

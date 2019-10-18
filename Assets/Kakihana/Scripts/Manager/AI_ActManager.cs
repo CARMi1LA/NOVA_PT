@@ -63,7 +63,7 @@ public class AI_ActManager : MonoBehaviour
         switch (actID)
         {
             case (int)AIListManager.AtkList.Normal:
-                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, 0.0f,Random.Range(0,360));
+                new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, (int)AIListManager.AtkList.Booster, 0.0f,Random.Range(0,360));
                 break;
             case (int)AIListManager.AtkList.Scatter:
                 new BulletData(bulletSpeed, origin, BulletManager.ShootChara.Enemy, actID, 0.0f, 0.0f);

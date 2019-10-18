@@ -97,7 +97,7 @@ LightmapSettings:
     m_ShowResolutionOverlay: 1
     m_ExportTrainingData: 0
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -20866,6 +20866,7 @@ MonoBehaviour:
   dif: {x: 0, y: 0, z: 0}
   rot: {x: 0, y: 0, z: 0}
   angle: 0
+  refrectPower: 0
   bitRight: {fileID: 115262271}
   bitLeft: {fileID: 63147884}
   apprEnemys: []
@@ -20940,7 +20941,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 683212642}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5

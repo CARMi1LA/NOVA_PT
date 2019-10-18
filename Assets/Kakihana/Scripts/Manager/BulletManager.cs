@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
+using System;
+
+using Random = UnityEngine.Random;
 
 public class BulletManager : MonoBehaviour
 {
@@ -29,12 +32,11 @@ public class BulletManager : MonoBehaviour
     }
 
     [SerializeField] public ShootChara shootChara;       // 生成元のキャラクター
-    [SerializeField] public BulletState bulletState;    // 弾の生成状況
     [SerializeField] private AIListManager.AtkList bulletType; // 弾の種類
     [SerializeField] public float shootSpeed;            // 発射スピード
     [SerializeField] private float rangeLimit;           // 最大距離
     [SerializeField] private float originAngle;          // 発射元の角度
-    [SerializeField] private float bulletDistance;
+    [SerializeField] private float bulletDistance;       // 
     [SerializeField] private float horizontalOffset;
     [SerializeField] private float verticalOffset;
 
@@ -43,24 +45,28 @@ public class BulletManager : MonoBehaviour
     [SerializeField] public Vector3 moveFoward;
     [SerializeField] public Quaternion bulletRot;        // 弾の角度
 
-    [SerializeField] private BulletStateReactiveProperty stateProperty = new BulletStateReactiveProperty();
+    [SerializeField] public BulletStateReactiveProperty bulletState = new BulletStateReactiveProperty();
 
     // 初期化用Subject
     Subject<Unit> bulletInit = new Subject<Unit>();
+    // 
+    Subject<float> shootBoost = new Subject<float>();
 
     // 参照用のカスタムプロパティ
     [SerializeField]
-    public IReadOnlyReactiveProperty<BulletState> bulletStateProperty
+    public IReadOnlyReactiveProperty<BulletState> stateProperty
     {
-        get { return stateProperty; }
+        get { return bulletState; }
     }
     // Start is called before the first frame update
     void Start()
     {
-        
+        // プレイヤー座標の取得
         playerTrans = GameManagement.Instance.playerTrans;
+        // 弾の向きを調整
         moveFoward = (GameManagement.Instance.cWorld - this.transform.position).normalized;
 
+        // 初期化処理
         bulletInit.Subscribe(_ => 
         {
             // 進行方向の初期化
@@ -82,17 +88,57 @@ public class BulletManager : MonoBehaviour
             // 発射キャラクター識別情報の初期化
             shootChara = ShootChara.None;
             // 再生成待機モードに移行
-            bulletState = BulletState.Pool;
+            bulletState.Value = BulletState.Pool;
         }).AddTo(this.gameObject);
 
+        // 加速モードの処理（最初の3秒は通常速度の1/4、以降は10倍の速度に
+        shootBoost.Do(_ => shootSpeed = shootSpeed * 0.25f)
+            .Delay(TimeSpan.FromSeconds(3.0f))
+            .Subscribe(val => 
+            {
+                shootSpeed = val * 10.0f;
+            }).AddTo(this.gameObject);
+
+        // 発射元のキャラクターが敵の場合
         if (shootChara == ShootChara.Enemy)
         {
             playerTrans = GameManagement.Instance.playerTrans;
             moveFoward = (playerTrans.position - this.transform.position).normalized;
             this.transform.forward = moveFoward;
-            Debug.Log(this.transform.forward);
+            // 弾を発射する。弾の種類ごとに移動量や角度を設定する
+            switch (bulletType)
+            {
+                // 低加速モード、3秒間通常よりも低速で移動しその後通常の2倍の弾速で移動
+                case AIListManager.AtkList.Booster:
+                    shootBoost.OnNext(shootSpeed);
+                    break;
+                case AIListManager.AtkList.Forrow:
+                    if (shootChara == ShootChara.Enemy)
+                    {
+                        var diff = playerTrans.position - this.transform.position;
+                        float hitTime = 3.0f;
+                        Vector3 accel = Vector3.zero;
+                        Vector3 velocity = Vector3.zero;
+
+                        accel += (diff - velocity * hitTime) * 2.0f / (hitTime * hitTime);
+                        if (accel.magnitude > 100.0f)
+                        {
+                            hitTime -= Time.deltaTime;
+                        }
+                        velocity += accel * Time.deltaTime;
+                        this.GetComponent<Rigidbody>().velocity = this.transform.position + velocity * Time.deltaTime;
+                    }
+                    else if (shootChara == ShootChara.Player)
+                    {
+                    }
+                    break;
+                default:
+                    //shootSpeed *= 1.25f + Time.deltaTime;
+                    break;
+            }
         }
-        else if(shootChara == ShootChara.Player)
+        // 発射元のキャラクターがプレイヤーの場合
+        else if (shootChara == ShootChara.Player)
         {
             playerTrans = GameManagement.Instance.playerTrans;
             moveFoward = (GameManagement.Instance.cWorld - this.transform.position).normalized;
@@ -100,116 +146,44 @@ public class BulletManager : MonoBehaviour
             Vector3 foward = new Vector3(Mathf.Cos(radian), 0.0f, Mathf.Sin(radian));
         }
         this.UpdateAsObservable()
-            .Where(_ => bulletState == BulletState.Active)
+            .Where(_ => stateProperty.Value == BulletState.Active)
             .Where(_ => GameManagement.Instance.isPause.Value == false)
             .Subscribe(_ => 
             {
-                //if (shootChara == ShootChara.None)
-                //{
-                //    bulletState = BulletState.Destroy;
-                //    BulletDestroy();
-                //}
-                // 弾を発射する。弾の種類ごとに移動量や角度を設定する
-                switch (bulletType)
-                {
-                    // 低加速モード、3秒間通常よりも低速で移動しその後通常の2倍の弾速で移動
-                    case AIListManager.AtkList.Booster:
-                        float time = 0.0f;
-                        shootSpeed *= 0.1f;
-                        time = Time.deltaTime;
-                        if (time >= 3.0f)
-                        {
-                            shootSpeed *= 20.0f;
-                        }
-                        // 弾を発射する（新規）
-                        this.GetComponent<Rigidbody>().velocity = bulletRot * shootOriginTrans.forward * shootSpeed;
-                        break;
-                    case AIListManager.AtkList.Forrow:
-                        if (shootChara == ShootChara.Enemy)
-                        {
-                            var diff = playerTrans.position - this.transform.position;
-                            float hitTime = 3.0f;
-                            Vector3 accel = Vector3.zero;
-                            Vector3 velocity = Vector3.zero;
-
-                            accel += (diff - velocity * hitTime) * 2.0f / (hitTime * hitTime);
-                            if (accel.magnitude > 100.0f)
-                            {
-                                hitTime -= Time.deltaTime;
-                            }
-                            velocity += accel * Time.deltaTime;
-                            this.GetComponent<Rigidbody>().velocity = this.transform.position + velocity * Time.deltaTime;
-                        }else if(shootChara == ShootChara.Player)
-                        {
-                            //PlayerManager pm = playerTrans.gameObject.GetComponent<PlayerManager>();
-                            //var targetDis = 0.0f;
-                            //GameObject targetObj = null;
-                            //foreach (var item in pm.apprEnemys)
-                            //{
-                            //    var dis = (item.transform.position - this.transform.position).sqrMagnitude;
-                            //    if (targetDis == 0)
-                            //    {
-                            //        targetDis = dis;
-                            //        targetObj = item;
-                            //    }
-                            //    if (targetDis >= dis)
-                            //    {
-                            //        targetDis = dis;
-                            //        targetObj = item;
-                            //    }
-                            //}
-                            //Vector3 radian = (targetObj.transform.position - this.transform.position).normalized;
-                            //float angle = Mathf.Atan2(radian.z, radian.x);
-                            //this.transform.localEulerAngles = new Vector3(0, Mathf.Lerp(this.transform.rotation.y, angle, 0.25f), 0);
-                            //shootSpeed *= 1.5f + Time.deltaTime;
-                        }
-                        break;
-                    default:
-                        shootSpeed *= 1.25f + Time.deltaTime;
-                        //this.transform.position += shootOriginTrans.forward * shootSpeed * Time.deltaTime;
-                        //movePos = transform.forward * shootSpeed;
-                        //this.GetComponent<Rigidbody>().AddForce((shootOriginTrans.forward) * shootSpeed, ForceMode.Impulse);
-                        // 弾を発射する（新規）
-                        //this.GetComponent<Rigidbody>().velocity = bulletRot * shootOriginTrans.forward * shootSpeed * Time.deltaTime;
-                        break;
-                }
-                //　カメラのビューポートの限界位置をオフセット位置を含めて計算
-
-                this.GetComponent<Rigidbody>().velocity = this.transform.forward * shootSpeed;
-
+                // 移動処理
+                this.GetComponent<Rigidbody>().velocity = this.transform.forward * (shootSpeed * Time.deltaTime);
+                // 二点間距離の更新
                 bulletDistance = (this.transform.position - shootOriginTrans.position).sqrMagnitude;
-                // 弾を発射する（旧バージョン）
-                // this.GetComponent<Rigidbody>().AddForce((shootOriginTrans.forward) * shootSpeed, ForceMode.Impulse);
             }).AddTo(this.gameObject);
 
         // 最大距離を超えたら消滅する
         this.UpdateAsObservable()
-            .Where(_ => bulletState == BulletState.Active)
+            .Where(_ => stateProperty.Value == BulletState.Active)
             .Where(_ => bulletDistance >= rangeLimit)
-            .Subscribe(_ =>
+            .Subscribe(_ => 
             {
-                bulletState = BulletState.Destroy;
+                bulletState.Value = BulletState.Destroy;
             }).AddTo(this.gameObject);
 
         GameManagement.Instance.playerUlt.Where(_ => GameManagement.Instance.isPause.Value == true)
-            .Where(_ => true)
+            .Where(_ => _ == true)
             .Where(_ => shootChara == ShootChara.Enemy)
             .Subscribe(_ => 
             {
                 Debug.Log("Destroy1");
-                bulletState = BulletState.Destroy;
+                bulletState.Value = BulletState.Destroy;
             }).AddTo(this.gameObject);
 
         GameManagement.Instance.enemyUlt.Where(_ => GameManagement.Instance.isPause.Value == true)
-        .Where(_ => true)
+        .Where(_ => _ == true)
         .Where(_ => shootChara == ShootChara.Player)
         .Subscribe(_ =>
         {
             Debug.Log("Destroy2");
-            bulletState = BulletState.Destroy;
+            bulletState.Value = BulletState.Destroy;
         }).AddTo(this.gameObject);
 
-        bulletStateProperty.Where(_ => _ == BulletState.Destroy)
+        stateProperty.Where(_ => stateProperty.Value == BulletState.Destroy)
             .Subscribe(_ => 
             {
                 Debug.LogFormat("Destroy{0}", shootOriginTrans.name);
@@ -230,25 +204,6 @@ public class BulletManager : MonoBehaviour
         bulletRot = rot;
     }
 
-    // 消滅処理
-    //public void BulletDestroy()
-    //{
-    //    // ステートが消滅状態なら実行
-    //    if (bulletState == BulletState.Destroy)
-    //    {
-    //        Debug.LogFormat("Destroy{0}", shootOriginTrans.name);
-    //        // 現在の生成数を減らす
-    //        BulletSpawner.Instance.bulletCount.Value--;
-    //        // 弾のスポナーに削除情報を送る
-    //        BulletSpawner.Instance.BulletRemove(this);
-    //        // 弾情報の初期化
-    //        BulletInit();
-    //        // このオブジェクトを非表示にする
-    //        this.gameObject.SetActive(false);
-    //    }
-
-    //}
-
     // 弾生成処理
     public void BulletCreate(float speed, Transform origin, ShootChara chara, float rot, AIListManager.AtkList type,float angle)
     {
@@ -265,7 +220,7 @@ public class BulletManager : MonoBehaviour
         // スポナーの生成数を増やす
         BulletSpawner.Instance.bulletCount.Value++;
         // ステートの初期化
-        bulletState = BulletState.Active;
+        bulletState.Value = BulletState.Active;
         // 弾の種類の設定
         bulletType = type;
         // 発射スピードの設定
@@ -305,18 +260,14 @@ public class BulletManager : MonoBehaviour
         // 発射キャラクター識別情報の初期化
         shootChara = ShootChara.None;
         // 再生成待機モードに移行
-        bulletState = BulletState.Pool;
+        bulletState.Value = BulletState.Pool;
 
-    }
-    private void OnEnable()
-    {
-        
     }
 
     // カメラの範囲外に到達したら削除される
     private void OnBecameInvisible()
     {
-        bulletState = BulletState.Destroy;
+        bulletState.Value = BulletState.Destroy;
     }
 }
 
@@ -327,3 +278,30 @@ public class BulletStateReactiveProperty : ReactiveProperty<BulletManager.Bullet
     public BulletStateReactiveProperty() { }
     public BulletStateReactiveProperty(BulletManager.BulletState initialValue) : base(initialValue) { }
 }
+
+// 消滅処理
+// 弾を発射する（旧バージョン）
+// this.GetComponent<Rigidbody>().AddForce((shootOriginTrans.forward) * shootSpeed, ForceMode.Impulse);
+//public void BulletDestroy()
+//{
+//    // ステートが消滅状態なら実行
+//    if (bulletState == BulletState.Destroy)
+//    {
+//        Debug.LogFormat("Destroy{0}", shootOriginTrans.name);
+//        // 現在の生成数を減らす
+//        BulletSpawner.Instance.bulletCount.Value--;
+//        // 弾のスポナーに削除情報を送る
+//        BulletSpawner.Instance.BulletRemove(this);
+//        // 弾情報の初期化
+//        BulletInit();
+//        // このオブジェクトを非表示にする
+//        this.gameObject.SetActive(false);
+//    }
+
+//this.transform.position += shootOriginTrans.forward * shootSpeed * Time.deltaTime;
+//movePos = transform.forward * shootSpeed;
+//this.GetComponent<Rigidbody>().AddForce((shootOriginTrans.forward) * shootSpeed, ForceMode.Impulse);
+// 弾を発射する（新規）
+//this.GetComponent<Rigidbody>().velocity = bulletRot * shootOriginTrans.forward * shootSpeed * Time.deltaTime;
+
+//}

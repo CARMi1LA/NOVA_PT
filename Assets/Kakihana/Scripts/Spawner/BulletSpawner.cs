@@ -29,12 +29,6 @@ public class BulletSpawner : BSSingleton<BulletSpawner>
         // プールの初期化
         bulletPool = new BulletPool(bulletObj[0], bulletPoolTrans);
 
-        //bulletCount.Where(_ => bulletCount.Value <= 50)
-        //    .Subscribe(_ =>
-        //    {
-        //       new BulletData(0.0f, this.transform, BulletManager.ShootChara.None, 0, 0.0f, 0);
-        //    }).AddTo(this.gameObject);
-
         // 弾生成処理、生成予定のデータリストに情報が追加された時に動作
         bulletDataList.ObserveAdd()
         .Where(_ => bulletCount.Value <= bulletValueMax)
