@@ -11,14 +11,24 @@ public class Sword_Object : MonoBehaviour
     Sword_Rotation sRot;
     [SerializeField]
     float generateTime;
+    [SerializeField]
+    ParticleSystem psSword;
 
     ReactiveProperty<float> alphaRP = new ReactiveProperty<float>();
 
+    Renderer sRenderer;
+    Collider sCollider;
+
     void Start()
     {
-        sRot.SwordSubject
+        sRenderer = GetComponent<Renderer>();
+        sCollider = GetComponent<Collider>();
+        sCollider.enabled = false;
+
+        sRot.SwordGenerateRP
             .Subscribe(value =>
             {
+                Debug.Log("SwordGenerateRP " + value);
                 StartCoroutine(ChangeAlphaCoroutine(value, generateTime));
             })
             .AddTo(this.gameObject);
@@ -26,25 +36,35 @@ public class Sword_Object : MonoBehaviour
         alphaRP
             .Subscribe(value =>
             {
-                Debug.Log(alphaRP.Value.ToString());
+                sRenderer.material.SetFloat("_Threshold", value);
             })
             .AddTo(this.gameObject);
     }
 
-    IEnumerator ChangeAlphaCoroutine(float alpha, float time)
+    IEnumerator ChangeAlphaCoroutine(bool value, float time)
     {
+        psSword.Stop();
+        sCollider.enabled = false;
+
         float t = 0.0f;
+        float a = (value) ? 1 : 0;
         float startAlpha = alphaRP.Value;
 
         while(t < time)
         {
             t += Time.deltaTime;
 
-            alphaRP.Value = Mathf.Lerp(startAlpha, alpha, t / time);
+            alphaRP.Value = Mathf.Lerp(startAlpha, a, t / time);
 
             yield return null;
         }
 
-        alphaRP.Value = alpha;
+        if(value)
+        {
+            psSword.Play();
+            sCollider.enabled = true;
+        }
+
+        alphaRP.Value = a;
     }
 }

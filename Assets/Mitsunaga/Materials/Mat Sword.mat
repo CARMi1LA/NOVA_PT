@@ -8,14 +8,14 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Mat Sword
-  m_Shader: {fileID: 4800000, guid: 8d2bb70cbf9db8d4da26e15b26e74248, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 28c3cc29f4b5d6e40855b8886915d6e4,
+    type: 3}
   m_ShaderKeywords: _EMISSION _RECEIVE_SHADOWS_OFF
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3050
-  stringTagMap:
-    RenderType: Transparent
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses:
   - SHADOWCASTER
   m_SavedProperties:
@@ -62,8 +62,11 @@ Material:
     - Vector1_4079A163: 2.5
     - Vector1_56DA2406: 2
     - Vector1_5A03B9C0: 0.4
+    - Vector1_64CF8B24: 20
     - Vector1_6A20D12: 1
+    - Vector1_720BAABA: 0.5
     - Vector1_75F3F192: 0.17
+    - Vector1_82946267: 1
     - Vector1_8EBF65B2: 7
     - Vector1_900CBFF: 0.5
     - Vector1_90F23EDA: 8
@@ -99,17 +102,22 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 1
+    - _Threshold: 1
     - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
     - Color_1E27BE75: {r: 1, g: 1, b: 1, a: 0}
     - Color_282BC7E3: {r: 0.7264151, g: 0.5379584, b: 0.5379584, a: 0}
+    - Color_76F6DF09: {r: 0, g: 1.1764706, b: 2, a: 0}
     - Color_871F1549: {r: 4, g: 1.716981, b: 3.126032, a: 0}
     - Color_E11A57A1: {r: 1.160784, g: 2, b: 1.984314, a: 0}
+    - Vector3_4339C7DF: {r: 2, g: 1, b: 1, a: 0}
+    - Vector3_E4CC45C1: {r: 0, g: 0, b: 0, a: 0}
     - _Albedo: {r: 1, g: 0.495283, b: 0.495283, a: 0}
     - _BaseColor: {r: 0, g: 0, b: 0, a: 1}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _EmissionColor: {r: 2, g: 0.80784315, b: 0, a: 1}
+    - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _Rimlight: {r: 4, g: 1.716981, b: 3.126032, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
 --- !u!114 &2447800011259393736

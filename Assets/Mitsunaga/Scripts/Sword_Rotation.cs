@@ -21,6 +21,8 @@ public class Sword_Rotation : MonoBehaviour
 
     [SerializeField]    // 回転速度
     float rotTime;
+    [SerializeField]
+    float rotValue = 0.5f;
 
     public Subject<float> SwordSubject = new Subject<float>();
 
@@ -28,13 +30,14 @@ public class Sword_Rotation : MonoBehaviour
     public ReactiveProperty<bool> SwordGenerateRP = new ReactiveProperty<bool>();
     [SerializeField] float waitSwordGenerate;   // 剣の生成の待ち時間
 
-    bool isStandby = false;  // 既に実行しているか
+    bool isStandby;  // 既に実行しているか
     Vector3 startRotation;  // 回転量の初期値
 
     void Start()
     {
         // 初期設定
         startRotation = this.transform.localEulerAngles;
+        isStandby = true;
 
         // 剣の生成→回転→消滅　イベント
         SwordSubject
@@ -61,7 +64,8 @@ public class Sword_Rotation : MonoBehaviour
             .AddTo(this.gameObject);
 
         // デバッグ用のイベント発行
-        this.OnMouseDownAsObservable()
+        this.UpdateAsObservable()
+            .Where(x => Input.GetMouseButtonDown(0))
             .Subscribe(_ =>
             {
                 SwordSubject.OnNext(rotTime);
@@ -77,7 +81,7 @@ public class Sword_Rotation : MonoBehaviour
 
         while (t < time)
         {
-            rot = Mathf.Lerp(this.transform.eulerAngles.y, 360.0f, 0.05f);
+            rot = Mathf.Lerp(0.0f, 360.0f, rotValue * Mathf.Sin(t / time * 0.5f * Mathf.PI));
 
             transform.localEulerAngles = new Vector3(0, rot, 0);
 
@@ -85,6 +89,5 @@ public class Sword_Rotation : MonoBehaviour
 
             yield return null;
         }
-        transform.localEulerAngles = startRotation;
     }
 }
