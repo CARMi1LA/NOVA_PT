@@ -51,6 +51,8 @@ public class PlayerManager : MonoBehaviour,IDamage
     [SerializeField] private Vector3 rot;
     // 回転角度
     [SerializeField] public float angle;
+    // 反発力
+    [SerializeField] public float refrectPower;
     // 子機のトランスフォーム
     [SerializeField] private Transform bitRight,bitLeft;
 
@@ -62,6 +64,8 @@ public class PlayerManager : MonoBehaviour,IDamage
     private IntReactiveProperty skillStock = new IntReactiveProperty(0);
     // 被弾直後かどうか
     private BoolReactiveProperty isHit = new BoolReactiveProperty(false);
+    // バリアがあるかどうか
+    private BoolReactiveProperty isBarrier = new BoolReactiveProperty(false);
 
     [SerializeField] private ParticleSystem  deathPS,ultPS;
 
@@ -113,13 +117,15 @@ public class PlayerManager : MonoBehaviour,IDamage
     // Start is called before the first frame update
     void Start()
     {
+        // 弾発射処理
         shootSubject.Subscribe(val =>
         {
             switch (val)
             {
+                // 通常弾
                 case (int)AIListManager.AtkList.Normal:
-                    new BulletData(20.0f, bitLeft.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
-                    new BulletData(20.0f, bitRight.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
+                    new BulletData(10.0f, bitLeft.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
+                    new BulletData(10.0f, bitRight.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
                     break;
                 case (int)AIListManager.AtkList.Forrow:
                     new BulletData(20.0f, bitLeft.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
@@ -128,11 +134,7 @@ public class PlayerManager : MonoBehaviour,IDamage
             }
         }).AddTo(this.gameObject);
 
-        shootTest.Subscribe(_ => 
-        {
-            new BulletData(20.0f, _, BulletManager.ShootChara.Player, 0, 0.0f, angle);
-        }).AddTo(this.gameObject);
-
+        // 必殺技処理
         ultimate.Subscribe(val => 
         {
             Instantiate(ultPS, this.transform.position, Quaternion.identity);
@@ -213,22 +215,14 @@ public class PlayerManager : MonoBehaviour,IDamage
 
             }).AddTo(this.gameObject);
 
+        // 0.2秒毎に弾を発射するイベント
         this.UpdateAsObservable()
         .Where(_ => GameManagement.Instance.isPause.Value == false)
         .Sample(TimeSpan.FromSeconds(0.20f))
         .Subscribe(_ =>
         {
-            shootTest.OnNext(bitLeft.transform);
-            shootTest.OnNext(bitRight.transform);
+            shootSubject.OnNext((int)AIListManager.AtkList.Normal);
         }).AddTo(this.gameObject);
-
-        // 必殺技処理
-        ultimateGage
-            .Where(_ => ultimateGage.Value <= maxultimateGage)
-            .Subscribe(u =>
-            {
-
-            }).AddTo(this.gameObject);
 
         energy
             .Subscribe(_ => 
@@ -244,7 +238,7 @@ public class PlayerManager : MonoBehaviour,IDamage
 
         // 衝突判定（弾）
         this.OnTriggerEnterAsObservable()
-            .Where(c => gameObject.tag == "Bullet")
+            .Where(c => c.gameObject.tag == "Bullet")
             .Subscribe(c =>
             {
                 BulletManager bullet;
@@ -254,7 +248,7 @@ public class PlayerManager : MonoBehaviour,IDamage
                     // 敵による攻撃であればダメージを受ける
                     HitDamage();
                     // ヒットした弾は消滅させる
-                    bullet.BulletDestroy();
+                    bullet.bulletState.Value = BulletManager.BulletState.Destroy;
                 }
             }).AddTo(this.gameObject);
 
@@ -274,6 +268,31 @@ public class PlayerManager : MonoBehaviour,IDamage
                     ultimateGage.Value++;
                     // 衝突したアイテムは消滅させる
                     item.ItemDestroy();
+                }
+            }).AddTo(this.gameObject);
+
+        this.OnCollisionEnterAsObservable()
+            .Where(c => c.gameObject.tag != this.gameObject.tag)
+            .Subscribe(c =>
+            {
+                if (c.gameObject.tag == "Block")
+                {
+
+                }
+                else
+                {
+                    isBarrier.Where(_ => isBarrier.Value == true)
+                    .Subscribe(_ =>
+                    {
+                        dif = (cWorld - this.transform.position).normalized * refrectPower * Time.deltaTime;
+
+                    }).AddTo(this.gameObject);
+
+                    isBarrier.Where(_ => isBarrier.Value == false)
+                    .Subscribe(_ =>
+                    {
+                        dif = (cWorld - this.transform.position).normalized * refrectPower * Time.deltaTime;
+                    }).AddTo(this.gameObject);
                 }
             }).AddTo(this.gameObject);
 

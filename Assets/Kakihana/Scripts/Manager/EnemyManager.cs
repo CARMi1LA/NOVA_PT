@@ -40,15 +40,19 @@ public class EnemyManager : MonoBehaviour,IDamage
     [SerializeField] FloatReactiveProperty waitCount = new FloatReactiveProperty(0.0f);
     // 攻撃可能かどうかを管理するBool型プロパティ
     [SerializeField] BoolReactiveProperty attackFlg = new BoolReactiveProperty(false);
-
+    // バリアがあるか
+    [SerializeField] BoolReactiveProperty isBarrier = new BoolReactiveProperty(false);
+    // バリア
+    [SerializeField] IntReactiveProperty enemyBarrier = new IntReactiveProperty(0);
     [SerializeField] private Rigidbody enemyRigid;          // 敵のRigidBody
     [SerializeField] private Transform playerTrans;         // プレイヤーの座標
     [SerializeField] private Vector3 movePos;               // 移動ベクトル
+    [SerializeField] private Vector3 dif;
     [SerializeField] private float maxDistance;             // プレイヤーとの最大接近距離
     [SerializeField] private float waitTimeLimit = 1.0f;    // 待機モードの最大遅延時間
     [SerializeField] private float atkTimeLimit = 1.0f;     // 攻撃モード時の攻撃する最大時間
     [SerializeField] private float velocityMag = 0.99f;     // 減速倍率
-
+    [SerializeField] private int refrectPower;
     Subject<int> apprSubject = new Subject<int>();
     Subject<int> waitSubject = new Subject<int>();
     Subject<int> atkSubject = new Subject<int>();
@@ -78,6 +82,7 @@ public class EnemyManager : MonoBehaviour,IDamage
         maxHP = enemyStatus.hp;
         // 現在のHPの設定
         enemyHP.Value = enemyStatus.hp;
+        enemyBarrier.Value = enemyStatus.barrier;
         // 現在実行しているAIを設定
         enemyAI.Value = EnemyAI.Approach;
         // 各敵タイプ別に攻撃間隔と攻撃を行う距離の設定
@@ -124,7 +129,6 @@ public class EnemyManager : MonoBehaviour,IDamage
 
         escSubject.Subscribe(val =>
         {
-            Debug.Log("kenesc");
             Vector3 diffPos = new Vector3(-1.0f, -1.0f, -1.0f);
             // 抽選結果より、逃走処理を行う
             movePos = actManager.CalcEscMove(this.transform.position, enemyStatus.moveSpeed * 0.5f, val);
@@ -533,6 +537,7 @@ public class EnemyManager : MonoBehaviour,IDamage
 
         // 衝突判定
         this.OnTriggerEnterAsObservable()
+            .Where(c => c.gameObject.tag == "Bullet")
             .Subscribe(c =>
             {
                 // 弾のコンポーネント取得
@@ -543,14 +548,37 @@ public class EnemyManager : MonoBehaviour,IDamage
                     // プレイヤーによる攻撃であればダメージを受ける
                     HitDamage();
                     // 衝突した弾は消滅する
-                    bullet.BulletDestroy();
+                    bullet.bulletState.Value = BulletManager.BulletState.Destroy;
                 }
             }).AddTo(this.gameObject);
+
+        this.OnCollisionEnterAsObservable()
+    .Where(c => c.gameObject.tag != this.gameObject.tag)
+    .Subscribe(c =>
+    {
+        if (c.gameObject.tag == "Block")
+        {
+
+        }
+        else
+        {
+            isBarrier.Where(_ => isBarrier.Value == true)
+            .Subscribe(_ =>
+            {
+
+            }).AddTo(this.gameObject);
+
+            isBarrier.Where(_ => isBarrier.Value == false)
+            .Subscribe(_ =>
+            {
+                dif = (c.transform.position - this.transform.position).normalized * refrectPower * Time.deltaTime;
+            }).AddTo(this.gameObject);
+        }
+    }).AddTo(this.gameObject);
 
         GameManagement.Instance.playerUlt.Where(_ => GameManagement.Instance.playerUlt.Value == true)
         .Subscribe(_ =>
         {
-            Debug.Log("ult");
             Instantiate(destroyPS, this.transform.position, Quaternion.identity);
             StageManager.Instance.EnemyDestroy(this);
         }).AddTo(this.gameObject);

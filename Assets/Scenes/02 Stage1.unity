@@ -10337,7 +10337,7 @@ PrefabInstance:
     - target: {fileID: 7049308763387358713, guid: c715e6fdde6a48f40b5bb54805c9b988,
         type: 3}
       propertyPath: bulletValueMax
-      value: 200
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 7049308763387358713, guid: c715e6fdde6a48f40b5bb54805c9b988,
         type: 3}
@@ -11077,7 +11077,7 @@ PrefabInstance:
     - target: {fileID: 5529332785576108109, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}
       propertyPath: spawnPos.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5529332785576108109, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}
@@ -11087,7 +11087,7 @@ PrefabInstance:
     - target: {fileID: 5529332785576108109, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}
       propertyPath: spawnOffset
-      value: 30
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 5529332785576108110, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}

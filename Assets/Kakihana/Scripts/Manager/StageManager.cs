@@ -22,9 +22,8 @@ public class StageManager : SMSingleton<StageManager>
 
     public enum SpawnList
     {
-        Top = 0,
-        Left = 1,
-        Right = 2
+        Left = 0,
+        Right = 1
     }
 
     // ステージID
@@ -87,21 +86,6 @@ public class StageManager : SMSingleton<StageManager>
         }
         // 最大ウェーブ数の取得
         maxWave = stageData.waveType.Length;
-        // デバッグ用 読み込み完了エラー処理
-        if (dataList == null)
-        {
-            // エラー、データリストそのものが読み取れていない
-            Debug.LogError("DataListNotFound");
-        }else if(stageData == null)
-        {
-            // エラー、データリストは読み込めているがステージのデータが読み込めていない
-            Debug.LogError("StageDataNotFound");
-        }
-        else
-        {
-            // ステージデータ読み込み完了
-            Debug.Log("StageDataLoadSuccess!");
-        }
     }
 
     // Start is called before the first frame update
@@ -117,7 +101,6 @@ public class StageManager : SMSingleton<StageManager>
                 startingFlg.Value = true;
                 nextWaveFlg.Value = true;
                 waveAct.Value = StageWaveAction.WaveWaiting;
-                Debug.Log("StageStartingSuccess");
             }).AddTo(this.gameObject);
 
         // ゲームが開始したら実行
@@ -131,7 +114,6 @@ public class StageManager : SMSingleton<StageManager>
                 {
                     if (nextWaveFlg.Value == true)
                     {
-                        Debug.Log("NextWave");
                         nowWave.Value++;
                         waveAct.Value = StageWaveAction.WaveCreate;
                         nextWaveFlg.Value = false;
@@ -195,20 +177,15 @@ public class StageManager : SMSingleton<StageManager>
             .Sample(TimeSpan.FromSeconds(0.5f))
             .Subscribe(_ =>
             {
-                spawnPos[(int)SpawnList.Top] = new Vector3(
-                    GameManagement.Instance.playerTrans.position.x,
-                    GameManagement.Instance.playerTrans.position.y,
-                    GameManagement.Instance.playerTrans.position.z + spawnOffset
-                    );
-                spawnPos[(int)SpawnList.Left] = new Vector3(
-                    GameManagement.Instance.playerTrans.position.x - spawnOffset,
-                    GameManagement.Instance.playerTrans.position.y,
-                    GameManagement.Instance.playerTrans.position.z + spawnOffset
+            spawnPos[(int)SpawnList.Left] = new Vector3(
+                GameManagement.Instance.playerTrans.position.x - spawnOffset,
+                GameManagement.Instance.playerTrans.position.y,
+                GameManagement.Instance.playerTrans.position.z + Random.Range(-40, 40)
                     );
                 spawnPos[(int)SpawnList.Right] = new Vector3(
                     GameManagement.Instance.playerTrans.position.x + spawnOffset,
                     GameManagement.Instance.playerTrans.position.y,
-                    GameManagement.Instance.playerTrans.position.z + spawnOffset
+                    GameManagement.Instance.playerTrans.position.z + Random.Range(-40, 40)
                     );
             }).AddTo(this.gameObject);
 

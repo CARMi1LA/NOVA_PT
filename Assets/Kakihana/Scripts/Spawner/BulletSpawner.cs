@@ -12,7 +12,7 @@ public class BulletSpawner : BSSingleton<BulletSpawner>
     [SerializeField] AIListManager.AtkList atkList;
 
     [SerializeField] private int bulletValueMax;            // 弾の最大生成数
-    [SerializeField] public int bulletCount;                // 弾の生成数
+    [SerializeField] public IntReactiveProperty bulletCount = new IntReactiveProperty(0); // 弾の生成数
     [SerializeField] private BulletManager[] bulletObj;     // 弾のプレハブ
     [SerializeField] private BulletPool bulletPool;         // 弾のオブジェクトプールクラス
 
@@ -31,7 +31,7 @@ public class BulletSpawner : BSSingleton<BulletSpawner>
 
         // 弾生成処理、生成予定のデータリストに情報が追加された時に動作
         bulletDataList.ObserveAdd()
-        .Where(_ => bulletCount <= bulletValueMax)
+        .Where(_ => bulletCount.Value <= bulletValueMax)
         .Subscribe(_ =>
         {
             // プールの生成
@@ -45,7 +45,7 @@ public class BulletSpawner : BSSingleton<BulletSpawner>
         }).AddTo(this.gameObject);
 
         this.UpdateAsObservable()
-            .Where(_ => bulletDataList.Count >= 100).Subscribe(_ =>
+            .Where(_ => bulletDataList.Count >= bulletValueMax * 0.75f).Subscribe(_ =>
             {
                 bulletDataList.Clear();
             }).AddTo(this.gameObject);
