@@ -6,7 +6,7 @@ using UniRx;
 using UniRx.Triggers;
 
 using Random = UnityEngine.Random;
-public class EnemyManager : MonoBehaviour,IDamage
+public class EnemyManager : BulletSetting,IDamage
 {
     // 敵のAI
     public enum EnemyAI
@@ -21,6 +21,8 @@ public class EnemyManager : MonoBehaviour,IDamage
     [SerializeField] EnemyDataList enemyDataList;
     // 敵データが格納されているクラス
     [SerializeField] public EnemyStatus enemyStatus;
+    // 敵の親スクリプト
+    public EnemyCenterManager enemyParent;
     // 敵のID
     [SerializeField] private int enemyID;
     // AI名称が格納されているクラス
@@ -41,10 +43,7 @@ public class EnemyManager : MonoBehaviour,IDamage
     [SerializeField] private Vector3 movePos;               // 移動ベクトル
     [SerializeField] private Vector3 dif;
     [SerializeField] private int refrectPower;
-    Subject<int> apprSubject = new Subject<int>();
-    Subject<int> waitSubject = new Subject<int>();
     Subject<int> atkSubject = new Subject<int>();
-    Subject<int> escSubject = new Subject<int>();
 
     void Awake()
     {
@@ -61,6 +60,8 @@ public class EnemyManager : MonoBehaviour,IDamage
         enemyRigid = this.gameObject.GetComponent<Rigidbody>();
         // バリアの設定
         enemyBarrier.Value = enemyStatus.barrier;
+        // 発射間隔の設定
+        IntervalSet(bulletList);
     }
 
     // Start is called before the first frame update
@@ -72,6 +73,12 @@ public class EnemyManager : MonoBehaviour,IDamage
             float angle = Mathf.Atan2(rad.z, rad.x);
             actManager.EnemyAtkCalc(this.transform, val, angle);
         }).AddTo(this.gameObject);
+
+        enemyParent.attackFlg.Where(_ => enemyParent.attackFlg.Value == true)
+            .Subscribe(_ => 
+            {
+
+            }).AddTo(this.gameObject);
 
         // エネミー消滅処理
         hitCount.Where(_ => hitCount.Value >= enemyStatus.hp).Subscribe(_ =>

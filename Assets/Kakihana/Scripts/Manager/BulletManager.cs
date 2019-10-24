@@ -32,7 +32,7 @@ public class BulletManager : MonoBehaviour
     }
 
     [SerializeField] public ShootChara shootChara;       // 生成元のキャラクター
-    [SerializeField] private AIListManager.AtkList bulletType; // 弾の種類
+    [SerializeField] private BulletSetting.BulletList bulletType; // 弾の種類
     [SerializeField] public float shootSpeed;            // 発射スピード
     [SerializeField] private float rangeLimit;           // 最大距離
     [SerializeField] private float originAngle;          // 発射元の角度
@@ -109,10 +109,10 @@ public class BulletManager : MonoBehaviour
             switch (bulletType)
             {
                 // 低加速モード、3秒間通常よりも低速で移動しその後通常の2倍の弾速で移動
-                case AIListManager.AtkList.Booster:
+                case BulletSetting.BulletList.Booster:
                     shootBoost.OnNext(shootSpeed);
                     break;
-                case AIListManager.AtkList.Forrow:
+                case BulletSetting.BulletList.Forrow:
                     if (shootChara == ShootChara.Enemy)
                     {
                         var diff = playerTrans.position - this.transform.position;
@@ -205,7 +205,7 @@ public class BulletManager : MonoBehaviour
     }
 
     // 弾生成処理
-    public void BulletCreate(float speed, Transform origin, ShootChara chara, float rot, AIListManager.AtkList type,float angle)
+    public void BulletCreate(BulletData data)
     {
         // 弾の見た目の設定
         switch (shootChara)
@@ -222,21 +222,15 @@ public class BulletManager : MonoBehaviour
         // ステートの初期化
         bulletState.Value = BulletState.Active;
         // 弾の種類の設定
-        bulletType = type;
+        bulletType = data.bulletType;
         // 発射スピードの設定
-        shootSpeed = speed;
-        // 発射元座標の設定
-        shootOriginTrans = origin;
+        shootSpeed = data.bulletSpeed;
         // 発射元キャラクターの設定
-        shootChara = chara;
-        // 角度の設定
-        originAngle = angle;
+        shootChara = data.shootChara;
         // 現在の座標の初期化
-        this.transform.position = origin.position;
+        this.transform.position = data.Origintrans.position;
         // 発射角度の設定
         this.transform.localEulerAngles = new Vector3(0.0f, originAngle, 0.0f);
-        // 発射角度の設定
-        this.SetBulletRot(Quaternion.AngleAxis(rot, Vector3.up));
     }
     // プール返却前に行う初期化処理
     void BulletInit()

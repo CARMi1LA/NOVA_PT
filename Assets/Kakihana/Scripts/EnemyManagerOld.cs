@@ -33,7 +33,7 @@ public class EnemyManagerOld : MonoBehaviour
     [SerializeField] ParticleSystem destroyPS;
 
     // 現在稼働しているAI
-    [SerializeField] EnemyAIReactiveProperty enemyAI = new EnemyAIReactiveProperty();
+    //[SerializeField] EnemyAIReactiveProperty enemyAI = new EnemyAIReactiveProperty();
     // プレイヤー間の距離
     [SerializeField] FloatReactiveProperty distance = new FloatReactiveProperty(0.0f);
     // 攻撃モードまでの待機時間
