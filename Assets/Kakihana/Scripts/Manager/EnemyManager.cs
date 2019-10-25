@@ -42,6 +42,7 @@ public class EnemyManager : BulletSetting,IDamage
     [SerializeField] private Transform playerTrans;         // プレイヤーの座標
     [SerializeField] private Vector3 movePos;               // 移動ベクトル
     [SerializeField] private Vector3 dif;
+    [SerializeField] private Quaternion defaultRot;
     [SerializeField] private int refrectPower;
     Subject<int> atkSubject = new Subject<int>();
 
@@ -62,6 +63,8 @@ public class EnemyManager : BulletSetting,IDamage
         enemyBarrier.Value = enemyStatus.barrier;
         // 発射間隔の設定
         IntervalSet(bulletList);
+        // 初期方向の設定
+        defaultRot = this.transform.rotation;
     }
 
     // Start is called before the first frame update
@@ -69,23 +72,42 @@ public class EnemyManager : BulletSetting,IDamage
     {
         atkSubject.Subscribe(val =>
         {
-            Vector3 rad = (playerTrans.position - this.transform.position).normalized;
-            float angle = Mathf.Atan2(rad.z, rad.x);
-            actManager.EnemyAtkCalc(this.transform, val, angle);
+            GameManagement.Instance.bulletActManager.BulletShootSet(
+                this.transform,
+                BulletList.Normal,
+                BulletManager.ShootChara.Enemy,
+                shootInterval
+                );
+            //Vector3 rad = (playerTrans.position - this.transform.position).normalized;
+            //float angle = Mathf.Atan2(rad.z, rad.x);
+            //actManager.EnemyAtkCalc(this.transform, val, angle);
         }).AddTo(this.gameObject);
 
         enemyParent.attackFlg.Where(_ => enemyParent.attackFlg.Value == true)
             .Subscribe(_ => 
             {
-
+                atkSubject.OnNext(0);
             }).AddTo(this.gameObject);
 
+        enemyParent.actProp
+            .Where(_ => enemyParent.actProp.Value == EnemyCenterManager.ActionState.Attack)
+            .Subscribe(_ => 
+            {
+                this.transform.LookAt(playerTrans, Vector3.up);
+            }).AddTo(this.gameObject);
+
+        enemyParent.actProp
+            .Where(_ => enemyParent.actProp.Value == EnemyCenterManager.ActionState.Approach)
+            .Subscribe(_ =>
+            {
+                this.transform.rotation = defaultRot;
+            }).AddTo(this.gameObject);
         // エネミー消滅処理
         hitCount.Where(_ => hitCount.Value >= enemyStatus.hp).Subscribe(_ =>
-        {
-            // HPが0になったらステージクラスに消滅情報を送る
-            StageManager.Instance.EnemyDestroy(this);
-        }).AddTo(this.gameObject);
+            {
+                // HPが0になったらステージクラスに消滅情報を送る
+                StageManager.Instance.EnemyDestroy(this);
+            }).AddTo(this.gameObject);
 
         // 衝突判定
         this.OnTriggerEnterAsObservable()

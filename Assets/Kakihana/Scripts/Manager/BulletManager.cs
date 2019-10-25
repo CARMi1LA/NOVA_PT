@@ -128,12 +128,9 @@ public class BulletManager : MonoBehaviour
                         velocity += accel * Time.deltaTime;
                         this.GetComponent<Rigidbody>().velocity = this.transform.position + velocity * Time.deltaTime;
                     }
-                    else if (shootChara == ShootChara.Player)
-                    {
-                    }
                     break;
                 default:
-                    //shootSpeed *= 1.25f + Time.deltaTime;
+                    this.GetComponent<Rigidbody>().AddForce((shootOriginTrans.forward) * shootSpeed, ForceMode.Impulse);
                     break;
             }
         }
@@ -151,7 +148,7 @@ public class BulletManager : MonoBehaviour
             .Subscribe(_ => 
             {
                 // 移動処理
-                this.GetComponent<Rigidbody>().velocity = this.transform.forward * (shootSpeed * Time.deltaTime);
+                //this.GetComponent<Rigidbody>().velocity = this.transform.forward * (shootSpeed * Time.deltaTime);
                 // 二点間距離の更新
                 bulletDistance = (this.transform.position - shootOriginTrans.position).sqrMagnitude;
             }).AddTo(this.gameObject);
@@ -230,7 +227,7 @@ public class BulletManager : MonoBehaviour
         // 現在の座標の初期化
         this.transform.position = data.Origintrans.position;
         // 発射角度の設定
-        this.transform.localEulerAngles = new Vector3(0.0f, originAngle, 0.0f);
+        this.transform.rotation = data.Origintrans.rotation;
     }
     // プール返却前に行う初期化処理
     void BulletInit()

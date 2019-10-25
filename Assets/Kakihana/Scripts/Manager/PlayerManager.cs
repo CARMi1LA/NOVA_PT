@@ -6,7 +6,7 @@ using UniRx;
 using UniRx.Triggers;
 using System.Linq;
 
-public class PlayerManager : MonoBehaviour,IDamage
+public class PlayerManager : BulletSetting,IDamage
 {
 
     // プレイヤースクリプト
@@ -124,12 +124,9 @@ public class PlayerManager : MonoBehaviour,IDamage
             {
                 // 通常弾
                 case (int)AIListManager.AtkList.Normal:
-                    new BulletData(10.0f, bitLeft.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
-                    new BulletData(10.0f, bitRight.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
+                    GameManagement.Instance.bulletActManager.BulletShootSet(this.transform, BulletSetting.BulletList.Normal, BulletManager.ShootChara.Player, shootInterval);
                     break;
                 case (int)AIListManager.AtkList.Forrow:
-                    new BulletData(20.0f, bitLeft.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
-                    new BulletData(20.0f, bitRight.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
                     break;
             }
         }).AddTo(this.gameObject);

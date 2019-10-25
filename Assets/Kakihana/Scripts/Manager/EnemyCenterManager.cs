@@ -52,12 +52,20 @@ public class EnemyCenterManager : MonoBehaviour
     Subject<int> waitSubject = new Subject<int>();
     Subject<int> atkSubject = new Subject<int>();
     Subject<int> escSubject = new Subject<int>();
+
+    void Awake()
+    {
+        // プレイヤーの座標を取得
+        playerTrans = GameManagement.Instance.playerTrans;
+        // AI処理クラスのコンポーネント取得
+        actManager = GameManagement.Instance.actManager;
+    }
     // Start is called before the first frame update
     void Start()
     {
         apprSubject.Subscribe(val =>
         {
-            movePos = actManager.CalcApprMove(this.transform.position,moveSpeed , val);
+            movePos = actManager.CalcApprMove(this.transform.position,moveSpeed);
         }).AddTo(this.gameObject);
 
         waitSubject.Subscribe(val =>
@@ -102,7 +110,7 @@ public class EnemyCenterManager : MonoBehaviour
                     .Where(_ => actProp.Value == ActionState.Approach)
                     .Subscribe(_ => 
                     {
-
+                        this.centerRigid.velocity *= velocityMag;
                     }).AddTo(this.gameObject);
                 break;
             case ActionState.Wait:
@@ -123,10 +131,9 @@ public class EnemyCenterManager : MonoBehaviour
                   全敵キャラクター共通処理
                */
 
-                centerRigid.velocity *= velocityMag;
                 distance.Value = actManager.CalcDistance(this.transform.position);
                 // 各AIにより算出された移動量をもとに移動処理を行う
-                centerRigid.velocity += movePos * Time.deltaTime;
+                this.transform.position += (movePos * velocityMag) * Time.deltaTime;
                 // 攻撃フラグがONになったら攻撃モードへ移行
                 attackFlg.Where(_ => _ = attackFlg.Value == true && actProp.Value == ActionState.Wait)
                 .Subscribe(_ =>
@@ -153,7 +160,6 @@ public class EnemyCenterManager : MonoBehaviour
         // 敵が最大接近距離に到達したら減速し次の行動を待つ
         distance.Where(_ => _ <= Mathf.Pow(maxDistance, 2))
             .Where(_ => actProp.Value == ActionState.Approach)
-            .Where(_ => attackFlg.Value == false)
             .Subscribe(_ =>
             {
                  // 減速移動量の設定
