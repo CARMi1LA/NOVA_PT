@@ -70,7 +70,7 @@ public class PlayerManager : BulletSetting,IDamage
     [SerializeField] private ParticleSystem  deathPS,ultPS;
 
     Subject<int> ultimate = new Subject<int>();
-    Subject<int> shootSubject = new Subject<int>();
+    Subject<BulletList> shootSubject = new Subject<BulletList>();
     Subject<Transform> shootTest = new Subject<Transform>();
     public Subject<GameObject> apprEnemyInfo = new Subject<GameObject>();
 
@@ -123,10 +123,9 @@ public class PlayerManager : BulletSetting,IDamage
             switch (val)
             {
                 // 通常弾
-                case (int)AIListManager.AtkList.Normal:
-                    GameManagement.Instance.bulletActManager.BulletShootSet(this.transform, BulletSetting.BulletList.Normal, BulletManager.ShootChara.Player, shootInterval);
-                    break;
-                case (int)AIListManager.AtkList.Forrow:
+                case BulletList.Normal:
+                    GameManagement.Instance.bulletActManager.BulletShootSet(bitLeft.transform,BulletList.Normal, BulletManager.ShootChara.Player, 0.2f);
+                    GameManagement.Instance.bulletActManager.BulletShootSet(bitRight.transform, BulletList.Normal, BulletManager.ShootChara.Player, 0.2f);
                     break;
             }
         }).AddTo(this.gameObject);
@@ -215,16 +214,16 @@ public class PlayerManager : BulletSetting,IDamage
         // 0.2秒毎に弾を発射するイベント
         this.UpdateAsObservable()
         .Where(_ => GameManagement.Instance.isPause.Value == false)
-        .Sample(TimeSpan.FromSeconds(0.20f))
+        .Sample(TimeSpan.FromSeconds(0.35f))
         .Subscribe(_ =>
         {
-            shootSubject.OnNext((int)AIListManager.AtkList.Normal);
+            shootSubject.OnNext(BulletList.Normal);
         }).AddTo(this.gameObject);
 
         energy
             .Subscribe(_ => 
             {
-                shootSubject.OnNext((int)AIListManager.AtkList.Forrow);
+                shootSubject.OnNext(BulletList.Normal);
             }).AddTo(this.gameObject);
 
         GameManagement.Instance.enemyUlt.Where(x => x == GameManagement.Instance.enemyUlt.Value == true)

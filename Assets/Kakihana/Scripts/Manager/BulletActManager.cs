@@ -27,13 +27,15 @@ public class BulletActManager : MonoBehaviour
         switch (list)
         {
             case BulletSetting.BulletList.Normal:
-                this.UpdateAsObservable()
-                    .Where(_ => GameManagement.Instance.isPause.Value == true)
-                    .Sample(TimeSpan.FromSeconds(interval))
-                    .Subscribe(_ => 
-                    {
-                        bulletCreate.OnNext(new BulletData(origin, BulletManager.ShootChara.Enemy, BulletSetting.BulletList.Normal));
-                    }).AddTo(this.gameObject);
+                new BulletData(origin, chara, list);
+                //this.UpdateAsObservable()
+                //    .Where(_ => GameManagement.Instance.isPause.Value == false)
+                //    .Sample(TimeSpan.FromSeconds(interval))
+                //    .Subscribe(_ => 
+                //    {
+                //        Debug.Log("Shoot");
+                //        new BulletData(origin, chara, list);
+                //    }).AddTo(this.gameObject);
                 break;
             case BulletSetting.BulletList.Scatter:
                 bulletCreate.OnNext(new BulletData(origin, BulletManager.ShootChara.Enemy, BulletSetting.BulletList.Normal));

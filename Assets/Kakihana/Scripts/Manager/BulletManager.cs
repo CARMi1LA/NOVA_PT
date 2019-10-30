@@ -37,12 +37,11 @@ public class BulletManager : MonoBehaviour
     [SerializeField] private float rangeLimit;           // 最大距離
     [SerializeField] private float originAngle;          // 発射元の角度
     [SerializeField] private float bulletDistance;       // 
-    [SerializeField] private float horizontalOffset;
-    [SerializeField] private float verticalOffset;
 
     [SerializeField] public Transform shootOriginTrans;  // 発射元の座標
     [SerializeField] public Transform playerTrans;
     [SerializeField] public Vector3 moveFoward;
+    [SerializeField] public Vector3 originPos;
     [SerializeField] public Quaternion bulletRot;        // 弾の角度
 
     [SerializeField] public BulletStateReactiveProperty bulletState = new BulletStateReactiveProperty();
@@ -80,15 +79,19 @@ public class BulletManager : MonoBehaviour
             // 二点間距離の初期化
             bulletDistance = 0.0f;
             // 生成元座標の初期化
-            shootOriginTrans = null;
+            originPos = Vector3.zero;
             // 速度の初期化
             this.GetComponent<Rigidbody>().velocity = Vector3.zero;
             // 座標の初期化
             this.transform.position = Vector3.zero;
+            // 角度の初期化
+            this.transform.forward = Vector3.zero;
             // 発射キャラクター識別情報の初期化
             shootChara = ShootChara.None;
             // 再生成待機モードに移行
             bulletState.Value = BulletState.Pool;
+            // 発射キャラクター情報の初期化
+            shootChara = ShootChara.None;
         }).AddTo(this.gameObject);
 
         // 加速モードの処理（最初の3秒は通常速度の1/4、以降は10倍の速度に
@@ -130,33 +133,34 @@ public class BulletManager : MonoBehaviour
                     }
                     break;
                 default:
-                    this.GetComponent<Rigidbody>().AddForce((shootOriginTrans.forward) * shootSpeed, ForceMode.Impulse);
+                    this.GetComponent<Rigidbody>().AddForce((this.transform.forward) * shootSpeed, ForceMode.Impulse);
                     break;
             }
         }
         // 発射元のキャラクターがプレイヤーの場合
         else if (shootChara == ShootChara.Player)
         {
-            playerTrans = GameManagement.Instance.playerTrans;
-            moveFoward = (GameManagement.Instance.cWorld - this.transform.position).normalized;
-            float radian = originAngle * Mathf.Deg2Rad;
-            Vector3 foward = new Vector3(Mathf.Cos(radian), 0.0f, Mathf.Sin(radian));
+            
+        }else
+        {
+            this.GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
         this.UpdateAsObservable()
             .Where(_ => stateProperty.Value == BulletState.Active)
             .Where(_ => GameManagement.Instance.isPause.Value == false)
             .Subscribe(_ => 
             {
+                Debug.Log("update");
                 // 移動処理
                 //this.GetComponent<Rigidbody>().velocity = this.transform.forward * (shootSpeed * Time.deltaTime);
                 // 二点間距離の更新
-                bulletDistance = (this.transform.position - shootOriginTrans.position).sqrMagnitude;
+                bulletDistance = (this.transform.position - originPos).sqrMagnitude;
             }).AddTo(this.gameObject);
 
         // 最大距離を超えたら消滅する
         this.UpdateAsObservable()
             .Where(_ => stateProperty.Value == BulletState.Active)
-            .Where(_ => bulletDistance >= rangeLimit)
+            .Where(_ => bulletDistance >= Mathf.Pow(rangeLimit,2))
             .Subscribe(_ => 
             {
                 bulletState.Value = BulletState.Destroy;
@@ -171,7 +175,7 @@ public class BulletManager : MonoBehaviour
                 bulletState.Value = BulletState.Destroy;
             }).AddTo(this.gameObject);
 
-        GameManagement.Instance.enemyUlt.Where(_ => GameManagement.Instance.isPause.Value == true)
+        GameManagement.Instance.enemyUlt.Where(_ => GameManagement.Instance.isPause.Value == false)
         .Where(_ => _ == true)
         .Where(_ => shootChara == ShootChara.Player)
         .Subscribe(_ =>
@@ -183,7 +187,6 @@ public class BulletManager : MonoBehaviour
         stateProperty.Where(_ => stateProperty.Value == BulletState.Destroy)
             .Subscribe(_ => 
             {
-                Debug.LogFormat("Destroy{0}", shootOriginTrans.name);
                 // 現在の生成数を減らす
                 BulletSpawner.Instance.bulletCount.Value--;
                 // 弾のスポナーに削除情報を送る
@@ -204,14 +207,7 @@ public class BulletManager : MonoBehaviour
     // 弾生成処理
     public void BulletCreate(BulletData data)
     {
-        // 弾の見た目の設定
-        switch (shootChara)
-        {
-            case ShootChara.Player:
-                break;
-            case ShootChara.Enemy:
-                break;
-        }
+
         // このオブジェクトを表示する
         this.gameObject.SetActive(true);
         // スポナーの生成数を増やす
@@ -226,8 +222,23 @@ public class BulletManager : MonoBehaviour
         shootChara = data.shootChara;
         // 現在の座標の初期化
         this.transform.position = data.Origintrans.position;
+        // 生成初期座標の設定
+        originPos = data.Origintrans.position;
         // 発射角度の設定
-        this.transform.rotation = data.Origintrans.rotation;
+        this.transform.forward = data.Origintrans.forward;
+        // 弾の見た目の設定
+        switch (shootChara)
+        {
+            case ShootChara.Player:
+                this.GetComponent<Rigidbody>().AddForce((this.transform.forward) * shootSpeed, ForceMode.Impulse);
+                //playerTrans = GameManagement.Instance.playerTrans;
+                //moveFoward = (GameManagement.Instance.cWorld - this.transform.position).normalized;
+                //float radian = originAngle * Mathf.Deg2Rad;
+                //Vector3 foward = new Vector3(Mathf.Cos(radian), 0.0f, Mathf.Sin(radian));
+                break;
+            case ShootChara.Enemy:
+                break;
+        }
     }
     // プール返却前に行う初期化処理
     void BulletInit()
@@ -248,6 +259,8 @@ public class BulletManager : MonoBehaviour
         this.GetComponent<Rigidbody>().velocity = Vector3.zero;
         // 座標の初期化
         this.transform.position = Vector3.zero;
+        // 角度の初期化
+        this.transform.rotation = Quaternion.identity;
         // 発射キャラクター識別情報の初期化
         shootChara = ShootChara.None;
         // 再生成待機モードに移行
