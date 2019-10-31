@@ -95,7 +95,7 @@ MonoBehaviour:
   waitTimeLimit: 1
   atkTimeLimit: 1
   velocityMag: 0.99
-  moveSpeed: 10
+  moveSpeed: 5
   centerRigid: {fileID: 4608583492882172972}
   actState: 0
   groupType: 0
@@ -111,6 +111,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy Attack (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 124816936431159827, guid: 2d717a709a8bc924d8a597134956a3ce,
+        type: 3}
+      propertyPath: enemyParent
+      value: 
+      objectReference: {fileID: 5379893169586962618}
     - target: {fileID: 1315555431714518935, guid: 2d717a709a8bc924d8a597134956a3ce,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -166,11 +171,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 124816936431159827, guid: 2d717a709a8bc924d8a597134956a3ce,
-        type: 3}
-      propertyPath: enemyParent
-      value: 
-      objectReference: {fileID: 5379893169586962618}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d717a709a8bc924d8a597134956a3ce, type: 3}
 --- !u!4 &475225729310555112 stripped
@@ -202,6 +202,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy Attack
+      objectReference: {fileID: 0}
+    - target: {fileID: 124816936431159827, guid: 2d717a709a8bc924d8a597134956a3ce,
+        type: 3}
+      propertyPath: enemyParent
+      value: 
+      objectReference: {fileID: 5379893169586962618}
+    - target: {fileID: 124816936431159827, guid: 2d717a709a8bc924d8a597134956a3ce,
+        type: 3}
+      propertyPath: enemyID
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1315555431714518935, guid: 2d717a709a8bc924d8a597134956a3ce,
         type: 3}
@@ -258,11 +268,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 124816936431159827, guid: 2d717a709a8bc924d8a597134956a3ce,
-        type: 3}
-      propertyPath: enemyParent
-      value: 
-      objectReference: {fileID: 5379893169586962618}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d717a709a8bc924d8a597134956a3ce, type: 3}
 --- !u!4 &4004473113078114373 stripped
@@ -295,6 +300,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy Attack (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 124816936431159827, guid: 2d717a709a8bc924d8a597134956a3ce,
+        type: 3}
+      propertyPath: enemyParent
+      value: 
+      objectReference: {fileID: 5379893169586962618}
     - target: {fileID: 1315555431714518935, guid: 2d717a709a8bc924d8a597134956a3ce,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -350,11 +360,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 124816936431159827, guid: 2d717a709a8bc924d8a597134956a3ce,
-        type: 3}
-      propertyPath: enemyParent
-      value: 
-      objectReference: {fileID: 5379893169586962618}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d717a709a8bc924d8a597134956a3ce, type: 3}
 --- !u!4 &8580074432770624725 stripped

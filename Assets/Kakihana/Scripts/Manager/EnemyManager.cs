@@ -65,6 +65,8 @@ public class EnemyManager : BulletSetting,IDamage
         IntervalSet(bulletList);
         // 初期方向の設定
         defaultRot = this.transform.rotation;
+        // 発射する弾の種類の設定
+        bulletList = enemyStatus.bulletType;
     }
 
     // Start is called before the first frame update
@@ -74,13 +76,10 @@ public class EnemyManager : BulletSetting,IDamage
         {
             GameManagement.Instance.bulletActManager.BulletShootSet(
                 this.transform,
-                BulletList.Normal,
+                bulletList,
                 BulletManager.ShootChara.Enemy,
                 shootInterval
                 );
-            //Vector3 rad = (playerTrans.position - this.transform.position).normalized;
-            //float angle = Mathf.Atan2(rad.z, rad.x);
-            //actManager.EnemyAtkCalc(this.transform, val, angle);
         }).AddTo(this.gameObject);
 
         enemyParent.attackFlg.Where(_ => enemyParent.attackFlg.Value == true)

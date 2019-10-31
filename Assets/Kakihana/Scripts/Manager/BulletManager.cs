@@ -105,9 +105,6 @@ public class BulletManager : MonoBehaviour
         // 発射元のキャラクターが敵の場合
         if (shootChara == ShootChara.Enemy)
         {
-            playerTrans = GameManagement.Instance.playerTrans;
-            moveFoward = (playerTrans.position - this.transform.position).normalized;
-            this.transform.forward = moveFoward;
             // 弾を発射する。弾の種類ごとに移動量や角度を設定する
             switch (bulletType)
             {
@@ -133,7 +130,7 @@ public class BulletManager : MonoBehaviour
                     }
                     break;
                 default:
-                    this.GetComponent<Rigidbody>().AddForce((this.transform.forward) * shootSpeed, ForceMode.Impulse);
+                    this.GetComponent<Rigidbody>().AddForce((this.transform.forward * shootSpeed), ForceMode.Impulse);
                     break;
             }
         }
@@ -150,7 +147,6 @@ public class BulletManager : MonoBehaviour
             .Where(_ => GameManagement.Instance.isPause.Value == false)
             .Subscribe(_ => 
             {
-                Debug.Log("update");
                 // 移動処理
                 //this.GetComponent<Rigidbody>().velocity = this.transform.forward * (shootSpeed * Time.deltaTime);
                 // 二点間距離の更新
@@ -207,7 +203,6 @@ public class BulletManager : MonoBehaviour
     // 弾生成処理
     public void BulletCreate(BulletData data)
     {
-
         // このオブジェクトを表示する
         this.gameObject.SetActive(true);
         // スポナーの生成数を増やす
@@ -221,15 +216,15 @@ public class BulletManager : MonoBehaviour
         // 発射元キャラクターの設定
         shootChara = data.shootChara;
         // 現在の座標の初期化
-        this.transform.position = data.Origintrans.position;
+        this.transform.position = data.Origintrans;
         // 生成初期座標の設定
-        originPos = data.Origintrans.position;
-        // 発射角度の設定
-        this.transform.forward = data.Origintrans.forward;
+        originPos = data.Origintrans;
         // 弾の見た目の設定
         switch (shootChara)
         {
             case ShootChara.Player:
+                // 発射角度の設定
+                this.transform.forward = data.shootForward;
                 this.GetComponent<Rigidbody>().AddForce((this.transform.forward) * shootSpeed, ForceMode.Impulse);
                 //playerTrans = GameManagement.Instance.playerTrans;
                 //moveFoward = (GameManagement.Instance.cWorld - this.transform.position).normalized;
@@ -237,6 +232,28 @@ public class BulletManager : MonoBehaviour
                 //Vector3 foward = new Vector3(Mathf.Cos(radian), 0.0f, Mathf.Sin(radian));
                 break;
             case ShootChara.Enemy:
+                //playerTrans = GameManagement.Instance.playerTrans;
+                //moveFoward = (playerTrans.position - this.transform.position).normalized;
+                //float radius;
+                //radius = originAngle * Mathf.Deg2Rad;
+                //Vector3 offset = new Vector3(Mathf.Cos(radius), 0, Mathf.Sin(radius));
+                this.transform.forward = data.shootForward;
+                switch (bulletType)
+                {
+                    case BulletSetting.BulletList.Booster:
+                        break;
+                    case BulletSetting.BulletList.Forrow:
+                        break;
+                    case BulletSetting.BulletList.BoostFireCombo:
+                        break;
+                    case BulletSetting.BulletList.WhirlBoostCombo:
+                        break;
+                    case BulletSetting.BulletList.Ultimate:
+                        break;
+                    default:
+                        this.GetComponent<Rigidbody>().AddForce((this.transform.forward) * shootSpeed, ForceMode.Impulse);
+                        break;
+                }
                 break;
         }
     }

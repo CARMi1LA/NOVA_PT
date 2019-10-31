@@ -10,8 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2996606011592208380}
   - component: {fileID: 5038815808675061437}
+  - component: {fileID: 4124010333735259195}
+  - component: {fileID: 3731660670395984154}
   m_Layer: 0
-  m_Name: 'EnemyGroup00 '
+  m_Name: EnemyGroup00
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +30,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 3627105052821674266}
+  - {fileID: 4477820369665275477}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -46,46 +48,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitEnemys:
   - {fileID: 3305311176135232465}
---- !u!1 &2403413450559186303
-GameObject:
+--- !u!114 &4124010333735259195
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3627105052821674266}
-  - component: {fileID: 6737725571642722289}
-  - component: {fileID: 4561158147002926103}
-  m_Layer: 0
-  m_Name: Center
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3627105052821674266
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2403413450559186303}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 4477820369665275477}
-  m_Father: {fileID: 2996606011592208380}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &6737725571642722289
+  m_GameObject: {fileID: 864297985675313023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efef63c7a4906c54794cdc4cad7be2f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actManager: {fileID: 0}
+  distance:
+    value: 0
+  waitCount:
+    value: 0
+  attackFlg:
+    value: 0
+  actProp:
+    value: 0
+  playerTrans: {fileID: 0}
+  movePos: {x: 0, y: 0, z: 0}
+  maxDistance: 20
+  waitTimeLimit: 1
+  atkTimeLimit: 1
+  velocityMag: 0.99
+  moveSpeed: 5
+  centerRigid: {fileID: 3731660670395984154}
+  actState: 0
+  groupType: 0
+--- !u!54 &3731660670395984154
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2403413450559186303}
+  m_GameObject: {fileID: 864297985675313023}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -95,43 +95,12 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 4
   m_CollisionDetection: 0
---- !u!114 &4561158147002926103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2403413450559186303}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efef63c7a4906c54794cdc4cad7be2f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actManager: {fileID: 0}
-  distance:
-    value: 30
-  waitCount:
-    value: 0
-  attackFlg:
-    value: 0
-  actProp:
-    value: 0
-  playerTrans: {fileID: 0}
-  movePos: {x: 0, y: 0, z: 0}
-  maxDistance: 0
-  waitTimeLimit: 1
-  atkTimeLimit: 1
-  velocityMag: 0.99
-  moveSpeed: 0
-  centerRigid: {fileID: 0}
-  actState: 0
-  groupType: 0
 --- !u!1001 &3199142705318183362
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 3627105052821674266}
+    m_TransformParent: {fileID: 2996606011592208380}
     m_Modifications:
     - target: {fileID: 3492397220836062538, guid: 2d717a709a8bc924d8a597134956a3ce,
         type: 3}
@@ -142,7 +111,7 @@ PrefabInstance:
         type: 3}
       propertyPath: enemyParent
       value: 
-      objectReference: {fileID: 4561158147002926103}
+      objectReference: {fileID: 4124010333735259195}
     - target: {fileID: 1315555431714518935, guid: 2d717a709a8bc924d8a597134956a3ce,
         type: 3}
       propertyPath: m_LocalPosition.x

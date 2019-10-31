@@ -20837,11 +20837,11 @@ MonoBehaviour:
     enemyType: 0
     enemyPosition: 0
     aiLevel: 0
+    bulletType: 0
     hp: 0
     barrier: 0
     energy: 0
     score: 0
-    moveSpeed: 0
   playerHUD: {fileID: 683212646}
   hp:
     value: 0
@@ -29035,7 +29035,7 @@ PrefabInstance:
     - target: {fileID: 5529332785576108109, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}
       propertyPath: stageID
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5529332785576108109, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}
