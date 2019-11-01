@@ -96,10 +96,11 @@ public class BulletManager : MonoBehaviour
 
         // 加速モードの処理（最初の3秒は通常速度の1/4、以降は10倍の速度に
         shootBoost.Do(_ => shootSpeed = shootSpeed * 0.25f)
-            .Delay(TimeSpan.FromSeconds(3.0f))
+            .Delay(TimeSpan.FromSeconds(2.0f))
             .Subscribe(val => 
             {
-                shootSpeed = val * 10.0f;
+                Debug.Log("boost");
+                shootSpeed = val * 8.0f;
             }).AddTo(this.gameObject);
 
         // 発射元のキャラクターが敵の場合
@@ -110,6 +111,7 @@ public class BulletManager : MonoBehaviour
             {
                 // 低加速モード、3秒間通常よりも低速で移動しその後通常の2倍の弾速で移動
                 case BulletSetting.BulletList.Booster:
+                    Debug.Log("boost");
                     shootBoost.OnNext(shootSpeed);
                     break;
                 case BulletSetting.BulletList.Forrow:
@@ -134,14 +136,24 @@ public class BulletManager : MonoBehaviour
                     break;
             }
         }
-        // 発射元のキャラクターがプレイヤーの場合
-        else if (shootChara == ShootChara.Player)
-        {
+            // 発射元のキャラクターがプレイヤーの場合
+            else if (shootChara == ShootChara.Player)
+            {
             
-        }else
-        {
-            this.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        }
+            }else
+            {
+                this.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            }
+        this.UpdateAsObservable()
+            .Where(_ => stateProperty.Value == BulletState.Active)
+            .Where(_ => GameManagement.Instance.isPause.Value == false)
+            .Where(_ => bulletType == BulletSetting.BulletList.Booster)
+            .Subscribe(_ =>
+            {
+                //移動処理
+                this.transform.position += this.transform.forward * (shootSpeed * Time.deltaTime);
+            }).AddTo(this.gameObject);
+
         this.UpdateAsObservable()
             .Where(_ => stateProperty.Value == BulletState.Active)
             .Where(_ => GameManagement.Instance.isPause.Value == false)
@@ -156,7 +168,7 @@ public class BulletManager : MonoBehaviour
         // 最大距離を超えたら消滅する
         this.UpdateAsObservable()
             .Where(_ => stateProperty.Value == BulletState.Active)
-            .Where(_ => bulletDistance >= Mathf.Pow(rangeLimit,2))
+            .Where(_ => bulletDistance >= Mathf.Pow(rangeLimit,2.5f))
             .Subscribe(_ => 
             {
                 bulletState.Value = BulletState.Destroy;
@@ -176,7 +188,6 @@ public class BulletManager : MonoBehaviour
         .Where(_ => shootChara == ShootChara.Player)
         .Subscribe(_ =>
         {
-            Debug.Log("Destroy2");
             bulletState.Value = BulletState.Destroy;
         }).AddTo(this.gameObject);
 
@@ -232,8 +243,8 @@ public class BulletManager : MonoBehaviour
                 //Vector3 foward = new Vector3(Mathf.Cos(radian), 0.0f, Mathf.Sin(radian));
                 break;
             case ShootChara.Enemy:
-                //playerTrans = GameManagement.Instance.playerTrans;
-                //moveFoward = (playerTrans.position - this.transform.position).normalized;
+                playerTrans = GameManagement.Instance.playerTrans;
+                moveFoward = (playerTrans.position - this.transform.position).normalized;
                 //float radius;
                 //radius = originAngle * Mathf.Deg2Rad;
                 //Vector3 offset = new Vector3(Mathf.Cos(radius), 0, Mathf.Sin(radius));
@@ -241,6 +252,8 @@ public class BulletManager : MonoBehaviour
                 switch (bulletType)
                 {
                     case BulletSetting.BulletList.Booster:
+                        this.transform.forward = moveFoward;
+                        shootBoost.OnNext(shootSpeed);
                         break;
                     case BulletSetting.BulletList.Forrow:
                         break;

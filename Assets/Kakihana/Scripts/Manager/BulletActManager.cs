@@ -34,40 +34,51 @@ public class BulletActManager : MonoBehaviour
                         new BulletData(origin.position, origin.forward, chara, list);
                         break;
                     case BulletManager.ShootChara.Enemy:
-                        moveForward = (origin.position - GameManagement.Instance.playerTrans.position).normalized;
+                        moveForward = (GameManagement.Instance.playerTrans.position - origin.position).normalized;
                         //moveForward = (GameManagement.Instance.playerTrans.position - origin.position).normalized;
                         new BulletData(origin.position, origin.forward, chara, list);
                         break;
                 }
                 break;
             case BulletSetting.BulletList.Scatter:
-                for (int i = 0; i < 3; i++)
+                for (rot = 0; rot < 45; rot += 15)
                 {
-                    moveForward = (origin.position - GameManagement.Instance.playerTrans.position).normalized;
-                    rot += 15.0f;
+                    moveForward = (GameManagement.Instance.playerTrans.position - origin.position).normalized;
                     radius = rot * Mathf.Deg2Rad;
                     Vector3 offset = new Vector3(Mathf.Cos(radius), 0, Mathf.Sin(radius));
                     bulletCreate.OnNext(new BulletData(origin.position,moveForward + offset, BulletManager.ShootChara.Enemy, BulletSetting.BulletList.Scatter));
                 }
                 break;
             case BulletSetting.BulletList.Fireworks:
-                for (int i = 0; i < 14; i ++)
+                rot = 0.0f;
+                for (int i = 0; i < 15; i ++)
                 {
                     moveForward = (origin.position - GameManagement.Instance.playerTrans.position).normalized;
-                    rot += 15.0f;
+                    rot += 24.0f;
                     radius = rot * Mathf.Deg2Rad;
                     Vector3 offset = new Vector3(Mathf.Cos(radius), 0, Mathf.Sin(radius));
                     bulletCreate.OnNext(new BulletData(origin.position, moveForward + offset, BulletManager.ShootChara.Enemy, BulletSetting.BulletList.Scatter));
                 }
                 break;
             case BulletSetting.BulletList.Booster:
+                moveForward = (origin.position - GameManagement.Instance.playerTrans.position).normalized;
+                new BulletData(origin.position, origin.forward, chara, list);
                 break;
             case BulletSetting.BulletList.None:
                 break;
             case BulletSetting.BulletList.Whirlpool:
-                //for (int rot = 0; rot < deg; rot += 10)
-                //{
-                //}
+                rot = 0.0f;
+                moveForward = (origin.position - GameManagement.Instance.playerTrans.position).normalized;
+                this.UpdateAsObservable()
+                    .Where(_ => rot < 360.0f)
+                    .Sample(TimeSpan.FromSeconds(0.05f))
+                    .Subscribe(_ =>
+                    {
+                        radius = rot * Mathf.Deg2Rad;
+                        Vector3 offset = new Vector3(Mathf.Cos(radius), 0, Mathf.Sin(radius));
+                        new BulletData(origin.position, offset, chara, list);
+                        rot += 12.0f;
+                    }).AddTo(this.gameObject);
                 break;
             case BulletSetting.BulletList.Forrow:
                 break;
@@ -90,4 +101,5 @@ public class BulletActManager : MonoBehaviour
                 break;
         }
     }
+
 }

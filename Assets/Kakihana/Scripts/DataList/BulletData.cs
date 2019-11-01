@@ -18,7 +18,15 @@ public class BulletData
         shootChara = chara;
 
         bulletType = list;
-        bulletSpeed = 20.0f;
+        switch (chara)
+        {
+            case BulletManager.ShootChara.Player:
+                bulletSpeed = 30.0f;
+                break;
+            case BulletManager.ShootChara.Enemy:
+                bulletSpeed = 20.0f;
+                break;
+        }
         // 生成予定データリストにこのデータを追加
         BulletSpawner.Instance.bulletDataList.Add(this);
     }

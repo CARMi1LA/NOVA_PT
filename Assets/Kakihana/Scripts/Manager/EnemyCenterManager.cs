@@ -70,12 +70,13 @@ public class EnemyCenterManager : MonoBehaviour
 
         waitSubject.Subscribe(val =>
         {
-            attackFlg.Value = true;
+            //attackFlg.Value = true;
         }).AddTo(this.gameObject);
 
         atkSubject.Subscribe(val =>
         {
-            attackFlg.Value = false;
+            StartCoroutine(AttackLoop());
+            //attackFlg.Value = false;
         }).AddTo(this.gameObject);
 
         actProp.Where(_ => _ == ActionState.Approach)
@@ -86,19 +87,18 @@ public class EnemyCenterManager : MonoBehaviour
 
         // 攻撃タイプの待機モード処理
         actProp.Where(_ => actProp.Value == ActionState.Wait)
-             .Where(_ => attackFlg.Value == false)
              .Sample(TimeSpan.FromSeconds(0.1f))
              .Subscribe(_ =>
              {
-                 waitSubject.OnNext(0);
+                 actProp.Value = ActionState.Attack;
              }).AddTo(this.gameObject);
 
         // 攻撃タイプの攻撃モード処理
         actProp.Where(_ => _ == ActionState.Attack)
-            .Where(_ => attackFlg.Value == true)
-            .Sample(TimeSpan.FromSeconds(3.0f))
             .Subscribe(_ =>
             {
+            //                .Where(_ => attackFlg.Value == true)
+            //.Sample(TimeSpan.FromSeconds(3.0f))
                 atkSubject.OnNext(0);
             }).AddTo(this.gameObject);
 
@@ -147,7 +147,7 @@ public class EnemyCenterManager : MonoBehaviour
             }).AddTo(this.gameObject);
         // 【接近モード移行イベント】
         // 敵が最大接近距離よりも遠ければ接近モードへ移行する
-        distance.Where(_ => _ >= Mathf.Pow(maxDistance, 2))
+        distance.Where(_ => _ >= Mathf.Pow(maxDistance, 2.5f))
             .Subscribe(_ =>
             {
                  // 減速移動量の設定
@@ -167,6 +167,26 @@ public class EnemyCenterManager : MonoBehaviour
                  // AIモードを待機モードに
                  actProp.Value = ActionState.Wait;
             }).AddTo(this.gameObject);
+
+        IEnumerator AttackLoop()
+        {
+            while (true)
+            {
+                if (attackFlg.Value == false)
+                {
+                    Debug.Log("AttackOFF");
+                    yield return new WaitForSeconds(3.0f);
+                    attackFlg.Value = true;
+                }
+                else if (attackFlg.Value == true)
+                {
+                    Debug.Log("AttackON");
+                    yield return new WaitForSeconds(3.0f);
+                    attackFlg.Value = false;
+                }
+            }
+            
+        }
     }
 }
 
