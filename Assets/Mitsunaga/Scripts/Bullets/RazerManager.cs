@@ -10,6 +10,8 @@ public class RazerManager : MonoBehaviour
     float waitTime = 1.0f;
     [SerializeField]
     Transform pT;
+    [SerializeField]
+    RazerParticle razerPrefab;
 
     float maxRayDistance = 50.0f;
 
@@ -23,7 +25,7 @@ public class RazerManager : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.R))
                 {
-                    RazerData rd = new RazerData(RazerData.RazerParent.Player, 0.5f, 1.0f, pT.localPosition, pT.localEulerAngles);
+                    RazerData rd = new RazerData(RazerData.RazerParent.Player, waitTime, 1.0f, pT.localPosition, pT.localEulerAngles);
 
                     RazerSubject.OnNext(rd);
 
@@ -38,6 +40,9 @@ public class RazerManager : MonoBehaviour
         RazerSubject
             .Subscribe(value =>
             {
+                RazerParticle rp = Instantiate(razerPrefab);
+                rp.InitParticle(value.rDelay, value.rPosition, value.rRotation);
+
                 // ディレイの長さを可変にしたいが長さをRazerDataに格納すると.Delay()が使えないためTimerを用いる
                 Observable
                 .Timer(System.TimeSpan.FromSeconds(value.rDelay))
