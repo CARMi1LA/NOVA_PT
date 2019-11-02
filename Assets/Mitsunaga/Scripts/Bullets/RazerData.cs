@@ -13,16 +13,19 @@ public class RazerData : MonoBehaviour
         Enemy = 2,
         Boss = 3
     }
+
     public RazerParent rParent; // 生成元
-    public float rDelay;        // 発射時の待機時間
-    public Vector3 rPosition;   // 発射の始点
-    public Vector3 rRotation;   // 発射の方向
+    public float rDelay;        // レーザー発射時の待機時間
+    public float rRadius;       // レーザーの太さ
+    public Vector3 rPosition;   // レーザーの始点
+    public Vector3 rRotation;   // レーザーの方向
 
     // コンストラクタ
-    public RazerData(RazerParent rp,float delay,Vector3 position,Vector3 euler)
+    public RazerData(RazerParent rp,float delay,float radius,Vector3 position,Vector3 euler)
     {
         rParent = rp;
         rDelay = delay;
+        rRadius = radius;
         rPosition = position;
         rRotation = euler;
     }

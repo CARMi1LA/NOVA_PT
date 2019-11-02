@@ -15,17 +15,23 @@ public class RazerManager : MonoBehaviour
 
     public Subject<RazerData> RazerSubject = new Subject<RazerData>();
 
-
     void Start()
     {
         // デバッグ用
         this.UpdateAsObservable()
-            .Where(x => Input.GetKeyDown(KeyCode.R))
             .Subscribe(_ =>
             {
-                RazerData rd = new RazerData(RazerData.RazerParent.Player, 0.5f, pT.localPosition, pT.localEulerAngles);
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    RazerData rd = new RazerData(RazerData.RazerParent.Player, 0.5f, 1.0f, pT.localPosition, pT.localEulerAngles);
 
-                RazerSubject.OnNext(rd);
+                    RazerSubject.OnNext(rd);
+
+                }
+                float RadY = pT.localEulerAngles.y * Mathf.Deg2Rad;
+                Vector3 rVec = new Vector3(Mathf.Sin(RadY), 0.0f, Mathf.Cos(RadY)).normalized;
+
+                Debug.DrawRay(pT.localPosition, rVec* maxRayDistance, Color.white);
             })
             .AddTo(this.gameObject);
 
@@ -37,13 +43,17 @@ public class RazerManager : MonoBehaviour
                 .Timer(System.TimeSpan.FromSeconds(value.rDelay))
                 .Subscribe(_ =>
                 {
+                    float RadY = value.rRotation.y * Mathf.Deg2Rad;
+                    Vector3 rVec = new Vector3(Mathf.Sin(RadY), 0.0f, Mathf.Cos(RadY)).normalized;
+
                     // RaycastAll(Ray(始点,方向), float(距離))
                     // ・主にForeach内で使い、それぞれ対象をRaycastHit型に入れて処理を行う
-                    Ray r = new Ray(value.rPosition, value.rRotation);
-                    foreach(RaycastHit hit in Physics.RaycastAll(r, maxRayDistance))
+                    Ray r = new Ray(value.rPosition, rVec);
+
+                    foreach (RaycastHit hit in Physics.SphereCastAll(r, value.rRadius, maxRayDistance))
                     {
                         // タグがターゲットか否かを判断する
-                        if(hit.transform.tag == ((value.rParent == RazerData.RazerParent.Player)? "Player" : "Enemy"))
+                        if(hit.transform.tag == ((value.rParent == RazerData.RazerParent.Player)? "Enemy" : "Player"))
                         {
                             // RaycastHit.collider.gameObject で触れたオブジェクトの情報を取り出せる
                             hit.collider.gameObject.GetComponent<IDamage>().HitDamage();

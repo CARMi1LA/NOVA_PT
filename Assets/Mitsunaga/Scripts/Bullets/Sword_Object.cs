@@ -28,7 +28,6 @@ public class Sword_Object : MonoBehaviour
         sRot.SwordGenerateRP
             .Subscribe(value =>
             {
-                Debug.Log("SwordGenerateRP " + value);
                 StartCoroutine(ChangeAlphaCoroutine(value, generateTime));
             })
             .AddTo(this.gameObject);
