@@ -5,7 +5,7 @@ using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 
-public class Sword_Rotation : MonoBehaviour
+public class SwordManager : MonoBehaviour
 {
     // 剣による近接攻撃
     /*
@@ -19,10 +19,10 @@ public class Sword_Rotation : MonoBehaviour
         ShaderのAlpha値を変更
     */
 
-    [SerializeField]    // 回転速度
+    [SerializeField]        // 回転速度
     float rotTime;
     [SerializeField]
-    float rotValue = 0.5f;
+    float rotValue = 0.5f;  // 回転量
 
     public Subject<float> SwordSubject = new Subject<float>();
 
@@ -50,10 +50,10 @@ public class Sword_Rotation : MonoBehaviour
             .Delay(TimeSpan.FromSeconds(waitSwordGenerate)) // 生成中の待機時間
             .Subscribe(value =>                             // 剣の回転
             {
-                // 剣の回転コルーチンの再生
-                Observable.FromCoroutine(_ => RotationCoroutine(value))
-                .Subscribe(
-                    _  => Debug.Log("Rotatin OnNext"),
+            // 剣の回転コルーチンの再生
+            Observable.FromCoroutine(_ => RotationCoroutine(value))
+            .Subscribe(
+                    _ => Debug.Log(""),
                     () => 
                     {
                         SwordGenerateRP.Value = false;      // 剣の消滅
