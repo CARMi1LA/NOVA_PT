@@ -63,6 +63,7 @@ public class EnemyCenterManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // 接近モード処理
         apprSubject.Subscribe(val =>
         {
             movePos = actManager.CalcApprMove(this.transform.position,moveSpeed);
@@ -73,6 +74,7 @@ public class EnemyCenterManager : MonoBehaviour
             //attackFlg.Value = true;
         }).AddTo(this.gameObject);
 
+        // 攻撃モード処理
         atkSubject.Subscribe(val =>
         {
             StartCoroutine(AttackLoop());
@@ -97,8 +99,6 @@ public class EnemyCenterManager : MonoBehaviour
         actProp.Where(_ => _ == ActionState.Attack)
             .Subscribe(_ =>
             {
-            //                .Where(_ => attackFlg.Value == true)
-            //.Sample(TimeSpan.FromSeconds(3.0f))
                 atkSubject.OnNext(0);
             }).AddTo(this.gameObject);
 
@@ -140,6 +140,7 @@ public class EnemyCenterManager : MonoBehaviour
                 {
                     actProp.Value = ActionState.Attack;
                 }).AddTo(this.gameObject);
+                // 攻撃モードであれば移動しない
                 if (actProp.Value == ActionState.Attack || actProp.Value == ActionState.Wait)
                 {
                     movePos = Vector3.zero;
@@ -168,6 +169,7 @@ public class EnemyCenterManager : MonoBehaviour
                  actProp.Value = ActionState.Wait;
             }).AddTo(this.gameObject);
 
+        // 攻撃モードコルーチン、3秒毎に攻撃命令を送る
         IEnumerator AttackLoop()
         {
             while (true)

@@ -72,6 +72,7 @@ public class EnemyManager : BulletSetting,IDamage
     // Start is called before the first frame update
     void Start()
     {
+        // 攻撃処理
         atkSubject.Subscribe(val =>
         {
             GameManagement.Instance.bulletActManager.BulletShootSet(
@@ -82,12 +83,14 @@ public class EnemyManager : BulletSetting,IDamage
                 );
         }).AddTo(this.gameObject);
 
+        // 敵リーダークラスから攻撃許可が出れば攻撃開始
         enemyParent.attackFlg.Where(_ => enemyParent.attackFlg.Value == true)
             .Subscribe(_ => 
             {
                 atkSubject.OnNext(0);
             }).AddTo(this.gameObject);
 
+        // 攻撃開始前、プレイヤーの方向を向く
         enemyParent.actProp
             .Where(_ => enemyParent.actProp.Value == EnemyCenterManager.ActionState.Attack)
             .Subscribe(_ => 
@@ -95,6 +98,7 @@ public class EnemyManager : BulletSetting,IDamage
                 this.transform.LookAt(playerTrans, Vector3.up);
             }).AddTo(this.gameObject);
 
+        // 移動時は注視方向を初期に戻す
         enemyParent.actProp
             .Where(_ => enemyParent.actProp.Value == EnemyCenterManager.ActionState.Approach)
             .Subscribe(_ =>

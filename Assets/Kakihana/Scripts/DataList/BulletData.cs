@@ -6,8 +6,8 @@ public class BulletData
 {
     public float bulletSpeed;     // 速度
     public float bulletRot;       // 角度
-    public Vector3 Origintrans; // 発射元の座標
-    public Vector3 shootForward;
+    public Vector3 Origintrans;   // 発射元の座標
+    public Vector3 shootForward;  // 発射方向
     public BulletManager.ShootChara shootChara; // 誰が発射したか
     public BulletSetting.BulletList bulletType; // 弾の種類
     // パラメータの設定
