@@ -5,10 +5,10 @@ using UniRx;
 using UniRx.Triggers;
 
 
-public class Sword_Object : MonoBehaviour
+public class SwordObject : MonoBehaviour
 {
     [SerializeField]
-    Sword_Rotation sRot;
+    SwordManager sRot;
     [SerializeField]
     float generateTime;
     [SerializeField]
@@ -21,25 +21,40 @@ public class Sword_Object : MonoBehaviour
 
     void Start()
     {
-        sRenderer = GetComponent<Renderer>();
-        sCollider = GetComponent<Collider>();
-        sCollider.enabled = false;
+        sRenderer = GetComponent<Renderer>();   // マテリアルの取得
+        sCollider = GetComponent<Collider>();   // 当たり判定の取得
+        sCollider.enabled = false;              // 当たり判定を
 
+        // 剣生成イベントの購読
         sRot.SwordGenerateRP
             .Subscribe(value =>
             {
                 StartCoroutine(ChangeAlphaCoroutine(value, generateTime));
             })
             .AddTo(this.gameObject);
-
+        // アルファ値の適用
         alphaRP
             .Subscribe(value =>
             {
                 sRenderer.material.SetFloat("_Threshold", value);
             })
             .AddTo(this.gameObject);
+
+        // 当たり判定
+        this.OnTriggerEnterAsObservable()
+            .Subscribe(value =>
+            {
+                // 重なったオブジェクトのタグが"Enemy"であれば
+                if(value.gameObject.tag == "Enemy")
+                {
+                    // ダメージを与える
+                    value.gameObject.GetComponent<IDamage>().HitDamage();
+                }
+            })
+            .AddTo(this.gameObject);
     }
 
+    // 剣のアルファ値変更コルーチン
     IEnumerator ChangeAlphaCoroutine(bool value, float time)
     {
         psSword.Stop();

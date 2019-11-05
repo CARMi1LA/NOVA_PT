@@ -31776,7 +31776,7 @@ GameObject:
   - component: {fileID: 1408912376}
   - component: {fileID: 1408912377}
   m_Layer: 0
-  m_Name: Attack SwordRotation
+  m_Name: SwordManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -11,7 +11,7 @@ public class RazerManager : MonoBehaviour
     [SerializeField]
     Transform pT;
     [SerializeField]
-    RazerParticle razerPrefab;
+    RazerObject razerPrefab;
 
     float maxRayDistance = 50.0f;
 
@@ -40,7 +40,7 @@ public class RazerManager : MonoBehaviour
         RazerSubject
             .Subscribe(value =>
             {
-                RazerParticle rp = Instantiate(razerPrefab);
+                RazerObject rp = Instantiate(razerPrefab);
                 rp.InitParticle(value.rDelay, value.rPosition, value.rRotation);
 
                 // ディレイの長さを可変にしたいが長さをRazerDataに格納すると.Delay()が使えないためTimerを用いる

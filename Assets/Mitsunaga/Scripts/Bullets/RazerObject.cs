@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RazerParticle : MonoBehaviour
+public class RazerObject : MonoBehaviour
 {
     [SerializeField]
     ParticleSystem[] ChildrenPS;
