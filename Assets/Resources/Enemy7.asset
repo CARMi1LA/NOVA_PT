@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16c2d542cedd4314fb2158ef8ee87462, type: 3}
-  m_Name: Enemy3
+  m_Name: Enemy7
   m_EditorClassIdentifier: 
   EnemyStatusList:
-  - ID: 3
-    charaName: EnemyC
+  - ID: 7
+    charaName: EnemyG
     enemyType: 0
     enemyPosition: 0
     aiLevel: 0
-    bulletType: 1
+    bulletType: 6
     hp: 2
     barrier: 0
     energy: 100
-    score: 300
+    score: 1000

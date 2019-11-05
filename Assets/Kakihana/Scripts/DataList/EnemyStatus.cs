@@ -45,12 +45,11 @@ public class EnemyStatus
     [SerializeField] public EnemyType enemyType;
     [SerializeField] public EnemyPosition enemyPosition;
     [SerializeField] public AI_Level aiLevel;
+    [SerializeField] public BulletSetting.BulletList bulletType;
 
     [SerializeField] public int hp = 0;                 // HP
     [SerializeField] public int barrier = 0;            // ダメージを一定量吸収するバリア
     [SerializeField] public int energy = 0;             // エネルギー
     [SerializeField] public int score = 0;              // 消滅時に落とす経験値
-
-    [SerializeField] public float moveSpeed = 0.0f;
 }
 

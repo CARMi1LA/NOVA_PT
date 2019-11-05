@@ -18,8 +18,8 @@ MonoBehaviour:
     enemyType: 3
     enemyPosition: 5
     aiLevel: 0
+    bulletType: 0
     hp: 5
     barrier: 3
     energy: 90
     score: 0
-    moveSpeed: 0

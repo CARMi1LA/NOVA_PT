@@ -199,6 +199,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5305c25938c44c4c8203a566c332cb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletList: 0
+  shootInterval: 0
   enemyDataList: {fileID: 0}
   enemyStatus:
     ID: 1
@@ -211,26 +213,21 @@ MonoBehaviour:
     energy: 0
     score: 0
     moveSpeed: 0
+  enemyParent: {fileID: 0}
+  enemyID: 1
   aiList: {fileID: 0}
   actManager: {fileID: 0}
-  enemyID: 1
-  enemyHP:
+  hitCount:
     value: 0
-  maxHP: 0
   destroyPS: {fileID: 8986527913691645247, guid: 3cf6a222838fa8a4a910ff47d0b38b1e,
     type: 3}
-  enemyAI:
+  isBarrier:
     value: 0
-  distance:
-    value: 0
-  waitCount:
-    value: 0
-  attackFlg:
+  enemyBarrier:
     value: 0
   enemyRigid: {fileID: 3281962399373133636}
   playerTrans: {fileID: 0}
   movePos: {x: 0, y: 0, z: 0}
-  maxDistance: 5
-  waitTimeLimit: 1
-  atkTimeLimit: 1
-  velocityMag: 0.99
+  dif: {x: 0, y: 0, z: 0}
+  defaultRot: {x: 0, y: 0, z: 0, w: 0}
+  refrectPower: 0

@@ -19,6 +19,7 @@ public class GameManagement : GMSingleton<GameManagement>
     public AI_ActManager actManager;
     public HUD_Model gameHUD;
     public Result_Model resultUI;
+    public BulletActManager bulletActManager;
 
     public AudioSource[] bgms;
 

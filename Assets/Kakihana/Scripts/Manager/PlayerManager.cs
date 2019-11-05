@@ -6,7 +6,7 @@ using UniRx;
 using UniRx.Triggers;
 using System.Linq;
 
-public class PlayerManager : MonoBehaviour,IDamage
+public class PlayerManager : BulletSetting,IDamage
 {
 
     // プレイヤースクリプト
@@ -70,7 +70,7 @@ public class PlayerManager : MonoBehaviour,IDamage
     [SerializeField] private ParticleSystem  deathPS,ultPS;
 
     Subject<int> ultimate = new Subject<int>();
-    Subject<int> shootSubject = new Subject<int>();
+    Subject<BulletList> shootSubject = new Subject<BulletList>();
     Subject<Transform> shootTest = new Subject<Transform>();
     public Subject<GameObject> apprEnemyInfo = new Subject<GameObject>();
 
@@ -123,13 +123,9 @@ public class PlayerManager : MonoBehaviour,IDamage
             switch (val)
             {
                 // 通常弾
-                case (int)AIListManager.AtkList.Normal:
-                    new BulletData(10.0f, bitLeft.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
-                    new BulletData(10.0f, bitRight.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
-                    break;
-                case (int)AIListManager.AtkList.Forrow:
-                    new BulletData(20.0f, bitLeft.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
-                    new BulletData(20.0f, bitRight.transform, BulletManager.ShootChara.Player, val, 0.0f, angle);
+                case BulletList.Normal:
+                    GameManagement.Instance.bulletActManager.BulletShootSet(bitLeft.transform,BulletList.Normal, BulletManager.ShootChara.Player, 0.2f);
+                    GameManagement.Instance.bulletActManager.BulletShootSet(bitRight.transform, BulletList.Normal, BulletManager.ShootChara.Player, 0.2f);
                     break;
             }
         }).AddTo(this.gameObject);
@@ -218,16 +214,16 @@ public class PlayerManager : MonoBehaviour,IDamage
         // 0.2秒毎に弾を発射するイベント
         this.UpdateAsObservable()
         .Where(_ => GameManagement.Instance.isPause.Value == false)
-        .Sample(TimeSpan.FromSeconds(0.20f))
+        .Sample(TimeSpan.FromSeconds(0.35f))
         .Subscribe(_ =>
         {
-            shootSubject.OnNext((int)AIListManager.AtkList.Normal);
+            shootSubject.OnNext(BulletList.Normal);
         }).AddTo(this.gameObject);
 
         energy
             .Subscribe(_ => 
             {
-                shootSubject.OnNext((int)AIListManager.AtkList.Forrow);
+                shootSubject.OnNext(BulletList.Normal);
             }).AddTo(this.gameObject);
 
         GameManagement.Instance.enemyUlt.Where(x => x == GameManagement.Instance.enemyUlt.Value == true)
