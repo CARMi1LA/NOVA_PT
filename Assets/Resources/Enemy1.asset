@@ -15,9 +15,9 @@ MonoBehaviour:
   EnemyStatusList:
   - ID: 1
     charaName: EnemyA
-    enemyType: 0
+    enemyType: 2
     enemyPosition: 0
-    aiLevel: 2
+    aiLevel: 0
     bulletType: 0
     hp: 1
     barrier: 0

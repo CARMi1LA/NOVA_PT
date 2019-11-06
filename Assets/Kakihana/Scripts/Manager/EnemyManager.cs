@@ -44,7 +44,7 @@ public class EnemyManager : BulletSetting,IDamage
     [SerializeField] private Vector3 dif;
     [SerializeField] private Quaternion defaultRot;
     [SerializeField] private int refrectPower;
-    Subject<int> atkSubject = new Subject<int>();
+    Subject<EnemyStatus.EnemyType> atkSubject = new Subject<EnemyStatus.EnemyType>();
 
     void Awake()
     {
@@ -75,19 +75,42 @@ public class EnemyManager : BulletSetting,IDamage
         // 攻撃処理
         atkSubject.Subscribe(val =>
         {
-            GameManagement.Instance.bulletActManager.BulletShootSet(
-                this.transform,
-                bulletList,
-                BulletManager.ShootChara.Enemy,
-                shootInterval
-                );
+            switch (val)
+            {
+                case EnemyStatus.EnemyType.Common:
+                    GameManagement.Instance.bulletActManager.BulletShootSet(
+                    this.transform,
+                    bulletList,
+                    BulletManager.ShootChara.Enemy,
+                    shootInterval
+                    );
+                    break;
+                case EnemyStatus.EnemyType.Leader:
+                    GameManagement.Instance.bulletActManager.BulletShootSet(
+                    this.transform,
+                    leaderIndex[Random.Range(0,2)],
+                    BulletManager.ShootChara.Enemy,
+                    shootInterval
+                    );
+                    break;
+                case EnemyStatus.EnemyType.Boss:
+                    GameManagement.Instance.bulletActManager.BulletShootSet(
+                    this.transform,
+                    bossIndex[Random.Range(0, 2)],
+                    BulletManager.ShootChara.Enemy,
+                    shootInterval
+                    );
+                    break;
+                default:
+                    break;
+            }
         }).AddTo(this.gameObject);
 
         // 敵リーダークラスから攻撃許可が出れば攻撃開始
         enemyParent.attackFlg.Where(_ => enemyParent.attackFlg.Value == true)
             .Subscribe(_ => 
             {
-                atkSubject.OnNext(0);
+                atkSubject.OnNext(enemyStatus.enemyType);
             }).AddTo(this.gameObject);
 
         // 攻撃開始前、プレイヤーの方向を向く

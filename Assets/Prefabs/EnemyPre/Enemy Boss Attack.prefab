@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 5073649352802203693}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 6365049623895823490}
   - {fileID: 6520081499193095609}
@@ -123,6 +123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5305c25938c44c4c8203a566c332cb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletList: 0
+  shootInterval: 0
   enemyDataList: {fileID: 0}
   enemyStatus:
     ID: 11
@@ -130,34 +132,29 @@ MonoBehaviour:
     enemyType: 0
     enemyPosition: 0
     aiLevel: 0
+    bulletType: 0
     hp: 0
     barrier: 0
     energy: 0
     score: 0
-    moveSpeed: 0
+  enemyParent: {fileID: 0}
+  enemyID: 11
   aiList: {fileID: 0}
   actManager: {fileID: 0}
-  enemyID: 11
-  enemyHP:
+  hitCount:
     value: 0
-  maxHP: 0
   destroyPS: {fileID: 8986527913691645247, guid: 3cf6a222838fa8a4a910ff47d0b38b1e,
     type: 3}
-  enemyAI:
+  isBarrier:
     value: 0
-  distance:
-    value: 0
-  waitCount:
-    value: 0
-  attackFlg:
+  enemyBarrier:
     value: 0
   enemyRigid: {fileID: 2069942104006147194}
   playerTrans: {fileID: 0}
   movePos: {x: 0, y: 0, z: 0}
-  maxDistance: 10
-  waitTimeLimit: 1
-  atkTimeLimit: 1
-  velocityMag: 0.99
+  dif: {x: 0, y: 0, z: 0}
+  defaultRot: {x: 0, y: 0, z: 0, w: 0}
+  refrectPower: 0
 --- !u!1 &5395815220637338915
 GameObject:
   m_ObjectHideFlags: 0

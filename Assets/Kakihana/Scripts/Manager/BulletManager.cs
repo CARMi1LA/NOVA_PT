@@ -36,10 +36,11 @@ public class BulletManager : MonoBehaviour
     [SerializeField] public float shootSpeed;            // 発射スピード
     [SerializeField] private float rangeLimit;           // 最大距離
     [SerializeField] private float originAngle;          // 発射元の角度
-    [SerializeField] private float bulletDistance;       // 
-
+    [SerializeField] private float bulletDistance;       // 弾と発射元座標の二点間距離
+    [SerializeField] private float deg;
+    [SerializeField] private float addAngle = 1.0f;      // 追尾モード時に使用する移動角度
     [SerializeField] public Transform shootOriginTrans;  // 発射元の座標
-    [SerializeField] public Transform playerTrans;
+    [SerializeField] public Transform playerTrans;       // プレイヤーの座標
     [SerializeField] public Vector3 moveFoward;
     [SerializeField] public Vector3 originPos;
     [SerializeField] public Quaternion bulletRot;        // 弾の角度
@@ -50,8 +51,6 @@ public class BulletManager : MonoBehaviour
     Subject<Unit> bulletInit = new Subject<Unit>();
     // 加速弾用Subject
     Subject<float> shootBoost = new Subject<float>();
-    // 追尾弾用Subject
-    Subject<float> shootFollow = new Subject<float>();
 
     // 参照用のカスタムプロパティ
     [SerializeField]
@@ -105,18 +104,6 @@ public class BulletManager : MonoBehaviour
                 shootSpeed = val * 8.0f;
             }).AddTo(this.gameObject);
 
-        // 追尾弾の処理
-        shootFollow.Where(_ => bulletDistance >= 5.0f)
-            .Subscribe(_ => 
-            {
-                //Debug.Log("follow");
-                //transform.rotation = Quaternion.Slerp(
-                //    this.transform.rotation,
-                //    Quaternion.LookRotation(playerTrans.position - this.transform.position),
-                //    3.0f);
-                //this.transform.position += this.transform.forward * shootSpeed * Time.deltaTime;
-            }).AddTo(this.gameObject);
-
         // 発射元のキャラクターが敵の場合
         if (shootChara == ShootChara.Enemy)
         {
@@ -153,22 +140,32 @@ public class BulletManager : MonoBehaviour
                 this.transform.position += this.transform.forward * (shootSpeed * Time.deltaTime);
             }).AddTo(this.gameObject);
 
+        // 追尾弾処理
         this.UpdateAsObservable()
             .Where(_ => stateProperty.Value == BulletState.Active)
             .Where(_ => GameManagement.Instance.isPause.Value == false)
             .Where(_ => bulletType == BulletSetting.BulletList.Forrow)
             .Subscribe(_ =>
             {
-                if (bulletDistance <= 1000.0f)
+                float count = 0;
+                count += Time.deltaTime;
+                // 発射後1.5秒までターゲットの左右方向を判断し1度ずつ角度を変える
+                if (count <= 1.5f)
                 {
-                    transform.rotation = Quaternion.Slerp(
-                    this.transform.rotation,
-                    Quaternion.LookRotation(playerTrans.position - this.transform.position),
-                    3.0f);
-                    this.transform.position += this.transform.forward * (shootSpeed * Time.deltaTime);
+                    if (Vector3.Cross(this.transform.forward, playerTrans.position - this.transform.position).y > 0)
+                    {
+                        this.transform.eulerAngles += new Vector3(0, addAngle, 0);
+                        this.transform.position += this.transform.forward * (shootSpeed * Time.deltaTime);
+                    }
+                    else if (Vector3.Cross(this.transform.forward, playerTrans.position - this.transform.position).y < 0)
+                    {
+                        this.transform.eulerAngles += new Vector3(0, -addAngle, 0);
+                        this.transform.position += this.transform.forward * (shootSpeed * Time.deltaTime);
+                    }
                 }
                 else
                 {
+                    // 発射1.5秒後は角度が固定される
                     this.transform.position += this.transform.forward * (shootSpeed * Time.deltaTime);
                 }
             }).AddTo(this.gameObject);
@@ -178,19 +175,6 @@ public class BulletManager : MonoBehaviour
             .Where(_ => GameManagement.Instance.isPause.Value == false)
             .Subscribe(_ => 
             {
-                // 移動処理
-                //this.GetComponent<Rigidbody>().velocity = this.transform.forward * (shootSpeed * Time.deltaTime);
-                // 二点間距離の更新
-                bulletDistance = (this.transform.position - originPos).sqrMagnitude;
-            }).AddTo(this.gameObject);
-
-        this.UpdateAsObservable()
-            .Where(_ => stateProperty.Value == BulletState.Active)
-            .Where(_ => GameManagement.Instance.isPause.Value == false)
-            .Subscribe(_ =>
-            {
-                // 移動処理
-                //this.GetComponent<Rigidbody>().velocity = this.transform.forward * (shootSpeed * Time.deltaTime);
                 // 二点間距離の更新
                 bulletDistance = (this.transform.position - originPos).sqrMagnitude;
             }).AddTo(this.gameObject);
@@ -267,20 +251,26 @@ public class BulletManager : MonoBehaviour
                 this.transform.forward = data.shootForward;
                 this.GetComponent<Rigidbody>().AddForce((this.transform.forward) * shootSpeed, ForceMode.Impulse);
                 break;
+                // 敵の弾設定
             case ShootChara.Enemy:
+                // 発射方向をプレイヤーに向ける
                 playerTrans = GameManagement.Instance.playerTrans;
                 moveFoward = (playerTrans.position - this.transform.position).normalized;
                 this.transform.forward = data.shootForward;
                 switch (bulletType)
                 {
+                    // 加速弾モードの設定
                     case BulletSetting.BulletList.Booster:
                         this.transform.forward = moveFoward;
                         shootBoost.OnNext(shootSpeed);
                         break;
+                    // 追尾弾モードの設定
                     case BulletSetting.BulletList.Forrow:
                         this.transform.forward = moveFoward;
-                        shootSpeed *= 0.5f;
-                        //shootFollow.OnNext(shootSpeed);
+                        // 速度を通常よりも遅めに
+                        shootSpeed *= 0.75f;
+                        Vector3 dis = (playerTrans.position - this.transform.position).normalized;
+                        deg = Mathf.Atan2(dis.x, dis.z) * Mathf.Rad2Deg;
                         break;
                     case BulletSetting.BulletList.BoostFireCombo:
                         break;
@@ -308,6 +298,8 @@ public class BulletManager : MonoBehaviour
         originAngle = 0.0f;
         // 二点間距離の初期化
         bulletDistance = 0.0f;
+        // プレイヤー間角度の初期化
+        deg = 0.0f;
         // 生成元座標の初期化
         shootOriginTrans = null;
         // 速度の初期化
@@ -320,7 +312,6 @@ public class BulletManager : MonoBehaviour
         shootChara = ShootChara.None;
         // 再生成待機モードに移行
         bulletState.Value = BulletState.Pool;
-
     }
 
     // カメラの範囲外に到達したら削除される
@@ -344,6 +335,20 @@ public class BulletStateReactiveProperty : ReactiveProperty<BulletManager.Bullet
 //float radian = originAngle * Mathf.Deg2Rad;
 //Vector3 foward = new Vector3(Mathf.Cos(radian), 0.0f, Mathf.Sin(radian));
 
+
+//Vector3 dis = (playerTrans.position - this.transform.position).normalized;
+//if (Mathf.Abs(deg) <= 90 || bulletDistance <= 1000.0f)
+//{
+
+//    //transform.rotation = Quaternion.Slerp(
+//    //this.transform.rotation,
+//    //Quaternion.LookRotation(playerTrans.position - this.transform.position),
+//    //10.0f);
+//}
+//else
+//{
+//    this.transform.position += this.transform.forward * (shootSpeed * Time.deltaTime);
+//}
 
 //if (shootChara == ShootChara.Enemy)
 //{

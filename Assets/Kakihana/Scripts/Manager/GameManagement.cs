@@ -30,9 +30,9 @@ public class GameManagement : GMSingleton<GameManagement>
     // スコア、達成率に影響
     public IntReactiveProperty gameScore = new IntReactiveProperty(0);
     // ダメージボーナス、攻撃がヒットする度に貰える
-    public int damageBonus;
+    [SerializeField] public int damageBonus = 10;
     // 撃破ボーナス、敵を撃破すると貰える
-    public int enemyDeathBonus;
+    [SerializeField] public int enemyDeathBonus = 100;
     // コンボ数、攻撃がヒットする度に上昇
     // 被弾し、HPが減ったときにリセット、バリア減少ではリセットされない
     [SerializeField] public IntReactiveProperty combo = new IntReactiveProperty(0);
