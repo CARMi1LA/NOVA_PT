@@ -263,7 +263,7 @@ public class PlayerManager : BulletSetting,IDamage
                     // アイテム取得で必殺技のリキャスト短縮
                     ultimateGage.Value++;
                     // 衝突したアイテムは消滅させる
-                    item.ItemDestroy();
+                    item.poolState.Value = ItemManager.ItemPoolState.Destroy;
                 }
             }).AddTo(this.gameObject);
 

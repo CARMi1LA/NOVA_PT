@@ -43,7 +43,7 @@ public class EnemyManager : BulletSetting,IDamage
     [SerializeField] private Vector3 movePos;               // 移動ベクトル
     [SerializeField] private Vector3 dif;
     [SerializeField] private Quaternion defaultRot;
-    [SerializeField] private int refrectPower;
+    [SerializeField] private int refrectPower = 10;
     Subject<EnemyStatus.EnemyType> atkSubject = new Subject<EnemyStatus.EnemyType>();
 
     void Awake()
@@ -153,28 +153,28 @@ public class EnemyManager : BulletSetting,IDamage
             }).AddTo(this.gameObject);
 
         this.OnCollisionEnterAsObservable()
-    .Where(c => c.gameObject.tag != this.gameObject.tag)
-    .Subscribe(c =>
-    {
-        if (c.gameObject.tag == "Block")
+        .Where(c => c.gameObject.tag != this.gameObject.tag)
+        .Subscribe(c =>
         {
-
-        }
-        else
-        {
-            isBarrier.Where(_ => isBarrier.Value == true)
-            .Subscribe(_ =>
+            if (c.gameObject.tag == "Block")
             {
 
-            }).AddTo(this.gameObject);
-
-            isBarrier.Where(_ => isBarrier.Value == false)
-            .Subscribe(_ =>
+            }
+            else
             {
-                dif = (c.transform.position - this.transform.position).normalized * refrectPower * Time.deltaTime;
-            }).AddTo(this.gameObject);
-        }
-    }).AddTo(this.gameObject);
+                isBarrier.Where(_ => isBarrier.Value == true)
+                .Subscribe(_ =>
+                {
+
+                }).AddTo(this.gameObject);
+
+                isBarrier.Where(_ => isBarrier.Value == false)
+                .Subscribe(_ =>
+                {
+                    dif = (c.transform.position - this.transform.position).normalized * refrectPower * Time.deltaTime;
+                }).AddTo(this.gameObject);
+            }
+        }).AddTo(this.gameObject);
 
         GameManagement.Instance.playerUlt.Where(_ => GameManagement.Instance.playerUlt.Value == true)
         .Subscribe(_ =>
