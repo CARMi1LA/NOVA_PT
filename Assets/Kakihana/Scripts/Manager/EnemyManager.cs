@@ -43,8 +43,8 @@ public class EnemyManager : BulletSetting,IDamage
     [SerializeField] private Vector3 movePos;               // 移動ベクトル
     [SerializeField] private Vector3 dif;
     [SerializeField] private Quaternion defaultRot;
-    [SerializeField] private int refrectPower;
-    Subject<int> atkSubject = new Subject<int>();
+    [SerializeField] private int refrectPower = 10;
+    Subject<EnemyStatus.EnemyType> atkSubject = new Subject<EnemyStatus.EnemyType>();
 
     void Awake()
     {
@@ -75,19 +75,42 @@ public class EnemyManager : BulletSetting,IDamage
         // 攻撃処理
         atkSubject.Subscribe(val =>
         {
-            GameManagement.Instance.bulletActManager.BulletShootSet(
-                this.transform,
-                bulletList,
-                BulletManager.ShootChara.Enemy,
-                shootInterval
-                );
+            switch (val)
+            {
+                case EnemyStatus.EnemyType.Common:
+                    GameManagement.Instance.bulletActManager.BulletShootSet(
+                    this.transform,
+                    bulletList,
+                    BulletManager.ShootChara.Enemy,
+                    shootInterval
+                    );
+                    break;
+                case EnemyStatus.EnemyType.Leader:
+                    GameManagement.Instance.bulletActManager.BulletShootSet(
+                    this.transform,
+                    leaderIndex[Random.Range(0,2)],
+                    BulletManager.ShootChara.Enemy,
+                    shootInterval
+                    );
+                    break;
+                case EnemyStatus.EnemyType.Boss:
+                    GameManagement.Instance.bulletActManager.BulletShootSet(
+                    this.transform,
+                    bossIndex[Random.Range(0, 2)],
+                    BulletManager.ShootChara.Enemy,
+                    shootInterval
+                    );
+                    break;
+                default:
+                    break;
+            }
         }).AddTo(this.gameObject);
 
         // 敵リーダークラスから攻撃許可が出れば攻撃開始
         enemyParent.attackFlg.Where(_ => enemyParent.attackFlg.Value == true)
             .Subscribe(_ => 
             {
-                atkSubject.OnNext(0);
+                atkSubject.OnNext(enemyStatus.enemyType);
             }).AddTo(this.gameObject);
 
         // 攻撃開始前、プレイヤーの方向を向く
@@ -130,28 +153,28 @@ public class EnemyManager : BulletSetting,IDamage
             }).AddTo(this.gameObject);
 
         this.OnCollisionEnterAsObservable()
-    .Where(c => c.gameObject.tag != this.gameObject.tag)
-    .Subscribe(c =>
-    {
-        if (c.gameObject.tag == "Block")
+        .Where(c => c.gameObject.tag != this.gameObject.tag)
+        .Subscribe(c =>
         {
-
-        }
-        else
-        {
-            isBarrier.Where(_ => isBarrier.Value == true)
-            .Subscribe(_ =>
+            if (c.gameObject.tag == "Block")
             {
 
-            }).AddTo(this.gameObject);
-
-            isBarrier.Where(_ => isBarrier.Value == false)
-            .Subscribe(_ =>
+            }
+            else
             {
-                dif = (c.transform.position - this.transform.position).normalized * refrectPower * Time.deltaTime;
-            }).AddTo(this.gameObject);
-        }
-    }).AddTo(this.gameObject);
+                isBarrier.Where(_ => isBarrier.Value == true)
+                .Subscribe(_ =>
+                {
+
+                }).AddTo(this.gameObject);
+
+                isBarrier.Where(_ => isBarrier.Value == false)
+                .Subscribe(_ =>
+                {
+                    dif = (c.transform.position - this.transform.position).normalized * refrectPower * Time.deltaTime;
+                }).AddTo(this.gameObject);
+            }
+        }).AddTo(this.gameObject);
 
         GameManagement.Instance.playerUlt.Where(_ => GameManagement.Instance.playerUlt.Value == true)
         .Subscribe(_ =>

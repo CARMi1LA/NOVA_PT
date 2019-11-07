@@ -28,6 +28,8 @@ public class BulletSetting : MonoBehaviour
 
     [SerializeField] protected float shootInterval;
 
+    [SerializeField] protected BulletList[] leaderIndex = new BulletList[] { BulletList.WhirlScatterCombo, BulletList.FireworksCombo, BulletList.UltMegaFireworks };
+    [SerializeField] protected BulletList[] bossIndex = new BulletList[] { BulletList.WhirlFireCombo, BulletList.BoostFireCombo, BulletList.WhirlBoostCombo };
 
     // Start is called before the first frame update
     void Start()

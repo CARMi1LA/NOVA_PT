@@ -17,7 +17,7 @@ MonoBehaviour:
     charaName: EnemyA
     enemyType: 0
     enemyPosition: 0
-    aiLevel: 2
+    aiLevel: 0
     bulletType: 0
     hp: 1
     barrier: 0

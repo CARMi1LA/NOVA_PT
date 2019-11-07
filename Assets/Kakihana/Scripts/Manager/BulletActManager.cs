@@ -95,19 +95,108 @@ public class BulletActManager : MonoBehaviour
                 bulletCreate.OnNext(new BulletData(origin.position, origin.forward, chara, list));
                 break;
             case BulletSetting.BulletList.WhirlScatterCombo:
-                //for (int rot = 0; rot < deg; rot += 10)
-                //{
-                //}
+                rot = 0.0f;
+                moveForward = (origin.position - GameManagement.Instance.playerTrans.position).normalized;
+                this.UpdateAsObservable()
+                    .Where(_ => rot < 360.0f)
+                    .Sample(TimeSpan.FromSeconds(0.05f))
+                    .Subscribe(_ =>
+                    {
+                        radius = rot * Mathf.Deg2Rad;
+                        Vector3 offset = new Vector3(Mathf.Cos(radius), 0, Mathf.Sin(radius));
+                        new BulletData(origin.position, offset, chara, list);
+                        rot += 12.0f;
+                    }).AddTo(this.gameObject);
+                for (rot = 0; rot < 60; rot += 15)
+                {
+                    moveForward = (GameManagement.Instance.playerTrans.position - origin.position).normalized;
+                    radius = rot * Mathf.Deg2Rad;
+                    Vector3 offset = new Vector3(Mathf.Cos(radius), 0, Mathf.Sin(radius));
+                    bulletCreate.OnNext(new BulletData(origin.position, moveForward + offset, BulletManager.ShootChara.Enemy, BulletSetting.BulletList.Scatter));
+                }
                 break;
             case BulletSetting.BulletList.FireworksCombo:
+                for (rot = 0; rot < 360; rot += 90)
+                {
+                    moveForward = (origin.position - GameManagement.Instance.playerTrans.position).normalized;
+                    radius = rot * Mathf.Deg2Rad;
+                    Vector3 offset = new Vector3(Mathf.Cos(radius), 0, Mathf.Sin(radius));
+                    bulletCreate.OnNext(new BulletData(origin.position, offset, BulletManager.ShootChara.Enemy, BulletSetting.BulletList.Scatter));
+                }
+                for (rot = 0; rot < 360; rot += 24)
+                {
+                    moveForward = (origin.position - GameManagement.Instance.playerTrans.position).normalized;
+                    radius = rot * Mathf.Deg2Rad;
+                    Vector3 offset = new Vector3(Mathf.Cos(radius), 0, Mathf.Sin(radius));
+                    bulletCreate.OnNext(new BulletData(origin.position, offset, BulletManager.ShootChara.Enemy, BulletSetting.BulletList.Scatter));
+                }
                 break;
             case BulletSetting.BulletList.UltMegaFireworks:
+                for (rot = 0; rot < 360; rot += 12)
+                {
+                    moveForward = (origin.position - GameManagement.Instance.playerTrans.position).normalized;
+                    radius = rot * Mathf.Deg2Rad;
+                    Vector3 offset = new Vector3(Mathf.Cos(radius), 0, Mathf.Sin(radius));
+                    bulletCreate.OnNext(new BulletData(origin.position, offset, BulletManager.ShootChara.Enemy, BulletSetting.BulletList.Scatter));
+                }
                 break;
             case BulletSetting.BulletList.WhirlFireCombo:
+                rot = 0.0f;
+                for (rot = 0; rot < 360; rot += 24)
+                {
+                    moveForward = (origin.position - GameManagement.Instance.playerTrans.position).normalized;
+                    radius = rot * Mathf.Deg2Rad;
+                    Vector3 offset = new Vector3(Mathf.Cos(radius), 0, Mathf.Sin(radius));
+                    bulletCreate.OnNext(new BulletData(origin.position, offset, BulletManager.ShootChara.Enemy, list));
+                }
+                moveForward = (origin.position - GameManagement.Instance.playerTrans.position).normalized;
+                float rotB = 0.0f;
+                this.UpdateAsObservable()
+                    .Where(_ => rotB < 360.0f)
+                    .Sample(TimeSpan.FromSeconds(0.05f))
+                    .Subscribe(_ =>
+                    {
+                        radius = rotB * Mathf.Deg2Rad;
+                        Vector3 offset = new Vector3(Mathf.Cos(radius), 0, Mathf.Sin(radius));
+                        new BulletData(origin.position, offset, chara, list);
+                        rotB += 12.0f;
+                    }).AddTo(this.gameObject);
                 break;
             case BulletSetting.BulletList.BoostFireCombo:
+                for (rot = 0; rot < 360; rot += 24)
+                {
+                    moveForward = (origin.position - GameManagement.Instance.playerTrans.position).normalized;
+                    radius = rot * Mathf.Deg2Rad;
+                    Vector3 offset = new Vector3(Mathf.Cos(radius), 0, Mathf.Sin(radius));
+                    bulletCreate.OnNext(new BulletData(origin.position, offset, BulletManager.ShootChara.Enemy, BulletSetting.BulletList.Fireworks));
+                }
+                for (rot = 0; rot < 90; rot += 15)
+                {
+                    moveForward = (GameManagement.Instance.playerTrans.position - origin.position).normalized;
+                    radius = rot * Mathf.Deg2Rad;
+                    Vector3 offset = new Vector3(Mathf.Cos(radius), 0, Mathf.Sin(radius));
+                    bulletCreate.OnNext(new BulletData(origin.position, moveForward + offset, BulletManager.ShootChara.Enemy, BulletSetting.BulletList.Booster));
+                }
                 break;
             case BulletSetting.BulletList.WhirlBoostCombo:
+                for (rot = 0; rot < 90; rot += 15)
+                {
+                    moveForward = (GameManagement.Instance.playerTrans.position - origin.position).normalized;
+                    radius = rot * Mathf.Deg2Rad;
+                    Vector3 offset = new Vector3(Mathf.Cos(radius), 0, Mathf.Sin(radius));
+                    bulletCreate.OnNext(new BulletData(origin.position, moveForward + offset, BulletManager.ShootChara.Enemy, BulletSetting.BulletList.Booster));
+                }
+                rotB = 0.0f;
+                this.UpdateAsObservable()
+                    .Where(_ => rotB < 360.0f)
+                    .Sample(TimeSpan.FromSeconds(0.05f))
+                    .Subscribe(_ =>
+                    {
+                        radius = rotB * Mathf.Deg2Rad;
+                        Vector3 offset = new Vector3(Mathf.Cos(radius), 0, Mathf.Sin(radius));
+                        new BulletData(origin.position, offset, chara, list);
+                        rotB += 12.0f;
+                    }).AddTo(this.gameObject);
                 break;
             case BulletSetting.BulletList.Ultimate:
                 break;

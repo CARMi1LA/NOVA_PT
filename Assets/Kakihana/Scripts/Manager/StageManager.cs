@@ -177,16 +177,7 @@ public class StageManager : SMSingleton<StageManager>
             .Sample(TimeSpan.FromSeconds(0.5f))
             .Subscribe(_ =>
             {
-            spawnPos[(int)SpawnList.Left] = new Vector3(
-                GameManagement.Instance.playerTrans.position.x - spawnOffset,
-                GameManagement.Instance.playerTrans.position.y,
-                GameManagement.Instance.playerTrans.position.z + Random.Range(-40, 40)
-                    );
-                spawnPos[(int)SpawnList.Right] = new Vector3(
-                    GameManagement.Instance.playerTrans.position.x + spawnOffset,
-                    GameManagement.Instance.playerTrans.position.y,
-                    GameManagement.Instance.playerTrans.position.z + Random.Range(-40, 40)
-                    );
+
             }).AddTo(this.gameObject);
 
         nowWave.Where(_ => nowWave.Value >= maxWave && enemyAliveNum.Value <= 0)
@@ -214,7 +205,17 @@ public class StageManager : SMSingleton<StageManager>
 
     public void EnemyUnitSpawn(int index)
     {
-        Instantiate(stageData.waveEnemyObj[index], spawnPos[Random.Range(0, 2)], Quaternion.identity);
+        spawnPos[(int)SpawnList.Left] = new Vector3(
+            GameManagement.Instance.playerTrans.position.x - spawnOffset,
+            GameManagement.Instance.playerTrans.position.y,
+            GameManagement.Instance.playerTrans.position.z + Random.Range(-40, 40)
+            );
+        spawnPos[(int)SpawnList.Right] = new Vector3(
+            GameManagement.Instance.playerTrans.position.x + spawnOffset,
+            GameManagement.Instance.playerTrans.position.y,
+            GameManagement.Instance.playerTrans.position.z + Random.Range(-40, 40)
+            );
+        Instantiate(stageData.waveEnemyObj[index], spawnPos[Random.Range(0, 1)], Quaternion.identity);
     }
 
     [System.Serializable]
