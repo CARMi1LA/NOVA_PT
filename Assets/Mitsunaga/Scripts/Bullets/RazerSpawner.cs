@@ -13,7 +13,7 @@ public class RazerSpawner : RazerSpawnerSingleton<RazerSpawner>
 
     public Subject<RazerData> RazerSubject = new Subject<RazerData>();
 
-    RazerPool razerPool;   // レーザーのオブジェクトプール
+    public RazerPool razerPool;   // レーザーのオブジェクトプール
 
     protected override void Awake()
     {

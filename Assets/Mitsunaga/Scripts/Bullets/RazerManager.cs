@@ -12,6 +12,41 @@ public class RazerManager : MonoBehaviour
 
     float playTime = 2.0f;
 
+    /*
+    public Subject<RazerData> InitPSSubject = new Subject<RazerData>();
+    void Start()
+    {
+        ParticleSystem thisPS = this.GetComponent<ParticleSystem>();
+
+        InitPSSubject
+            .Subscribe(value =>
+            {
+                thisPS.startLifetime = value.rDelay;
+
+                this.transform.localPosition = value.rPosition;
+
+                Vector3 euler = new Vector3(0.0f, Mathf.Atan2(value.rRotation.x, value.rRotation.z) * Mathf.Rad2Deg, 0.0f);
+
+                foreach (var ps in ChildrenPS)
+                {
+                    ps.transform.localEulerAngles = euler;
+                }
+
+                thisPS.Play();
+
+                Observable
+                    .Timer(TimeSpan.FromSeconds(value.rDelay + playTime))
+                    .Subscribe(_ =>
+                    {
+                        thisPS.Stop();
+
+                        RazerSpawner.Instance.razerPool.Return(this);
+                    })
+                    .AddTo(this.gameObject);
+            })
+            .AddTo(this.gameObject);
+    }*/
+
     public IObservable<Unit> InitParticle(RazerData razerData)
     {
         ParticleSystem thisPS = this.GetComponent<ParticleSystem>();

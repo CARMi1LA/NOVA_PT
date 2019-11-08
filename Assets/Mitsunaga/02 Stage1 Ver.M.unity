@@ -15671,7 +15671,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &420608182
@@ -48316,6 +48316,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletList: 0
   shootInterval: 0
+  leaderIndex: 0b0000000c0000000d000000
+  bossIndex: 150000001600000017000000
   dataList: {fileID: 11400000, guid: 8936d75801b00aa4db60fc5ec1128377, type: 2}
   status:
     ID: 0
