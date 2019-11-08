@@ -511,7 +511,7 @@ GameObject:
   - component: {fileID: 114261247}
   - component: {fileID: 114261246}
   m_Layer: 0
-  m_Name: Cube (2)
+  m_Name: SwordObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10612,7 +10612,7 @@ PrefabInstance:
     - target: {fileID: 7049308763387358713, guid: c715e6fdde6a48f40b5bb54805c9b988,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7049308763387358712, guid: c715e6fdde6a48f40b5bb54805c9b988,
         type: 3}
@@ -16435,7 +16435,7 @@ GameObject:
   - component: {fileID: 566598687}
   - component: {fileID: 566598686}
   m_Layer: 0
-  m_Name: Cube (3)
+  m_Name: SwordObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21428,8 +21428,9 @@ GameObject:
   m_Component:
   - component: {fileID: 937914276}
   - component: {fileID: 937914275}
+  - component: {fileID: 937914277}
   m_Layer: 0
-  m_Name: RazerManager
+  m_Name: RazerSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21447,8 +21448,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78c3124dbce87a848be16e2232c74927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitTime: 2
-  pT: {fileID: 5601864086238727120}
   razerPrefab: {fileID: 4731606841222902152, guid: aa43e3e8939bedd419eca8a59c2aea8c,
     type: 3}
 --- !u!4 &937914276
@@ -21465,6 +21464,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &937914277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 937914274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b660bc6ab67e9f438cc2fde3b1a54bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waitTime: 2
+  pT: {fileID: 5601864086238727120}
 --- !u!1 &963744120
 GameObject:
   m_ObjectHideFlags: 0
@@ -31513,7 +31526,7 @@ GameObject:
   - component: {fileID: 1331684088}
   - component: {fileID: 1331684087}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: SwordObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37275,7 +37288,7 @@ GameObject:
   - component: {fileID: 1982938755}
   - component: {fileID: 1982938754}
   m_Layer: 0
-  m_Name: Directional Light (1)
+  m_Name: Directional Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37443,7 +37456,7 @@ GameObject:
   - component: {fileID: 2129845782}
   - component: {fileID: 2129845781}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: SwordObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48301,6 +48314,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44c3d26f8f0d3c841aa5cd1449bf1590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletList: 0
+  shootInterval: 0
   dataList: {fileID: 11400000, guid: 8936d75801b00aa4db60fc5ec1128377, type: 2}
   status:
     ID: 0
@@ -48308,11 +48323,11 @@ MonoBehaviour:
     enemyType: 0
     enemyPosition: 0
     aiLevel: 0
+    bulletType: 0
     hp: 0
     barrier: 0
     energy: 0
     score: 0
-    moveSpeed: 0
   playerHUD: {fileID: 7071862154021169721}
   hp:
     value: 0
