@@ -11,12 +11,24 @@ public class BulletActManager : MonoBehaviour
 {
     // 弾生成Subject
     Subject<BulletData> bulletCreate = new Subject<BulletData>();
+
+    Subject<BulletData> normalShoot = new Subject<BulletData>();
     // Start is called before the first frame update
     void Start()
     {
         bulletCreate.Subscribe(_ => 
         {
             new BulletData(_.Origintrans,_.shootForward,_.shootChara,_.bulletType);
+        }).AddTo(this.gameObject);
+
+        normalShoot.Subscribe(_ => 
+        {
+            Observable.FromCoroutine<BulletData>(x => EnemyShootNormal(_))
+            .Subscribe(x => 
+            {
+
+            }).AddTo(this.gameObject);
+
         }).AddTo(this.gameObject);
     }
 
@@ -48,12 +60,14 @@ public class BulletActManager : MonoBehaviour
                 break;
                 // 拡散弾（3Way）処理
             case BulletSetting.BulletList.Scatter:
-                for (rot = 0; rot < 45; rot += 15)
+                float originRot;
+                for (rot = -15; rot < 30; rot += 15)
                 {
-                    moveForward = (GameManagement.Instance.playerTrans.position - origin.position).normalized;
-                    radius = rot * Mathf.Deg2Rad;
-                    Vector3 offset = new Vector3(Mathf.Cos(radius), 0, Mathf.Sin(radius));
-                    bulletCreate.OnNext(new BulletData(origin.position,moveForward + offset, BulletManager.ShootChara.Enemy, BulletSetting.BulletList.Scatter));
+                    Vector3 vec = new Vector3(0, Mathf.Atan2(origin.forward.z, origin.forward.x) * Mathf.Rad2Deg, 0);
+                    originRot = vec.y;
+                    radius = (vec.y - rot) * Mathf.Deg2Rad;
+                    Vector3 offset = new Vector3(Mathf.Cos(radius), 0,Mathf.Sin(radius));
+                    bulletCreate.OnNext(new BulletData(origin.position,origin.forward + offset, BulletManager.ShootChara.Enemy, BulletSetting.BulletList.Scatter));
                 }
                 break;
                 // 全方位弾（花火型）処理
@@ -79,6 +93,7 @@ public class BulletActManager : MonoBehaviour
             case BulletSetting.BulletList.Whirlpool:
                 rot = 0.0f;
                 moveForward = (origin.position - GameManagement.Instance.playerTrans.position).normalized;
+                //StartCoroutine(ShootWhirl(new BulletData(origin.position,origin.forward, chara, list)));
                 this.UpdateAsObservable()
                     .Where(_ => rot < 360.0f)
                     .Sample(TimeSpan.FromSeconds(0.05f))
@@ -201,6 +216,39 @@ public class BulletActManager : MonoBehaviour
             case BulletSetting.BulletList.Ultimate:
                 break;
         }
+    }
+
+    IEnumerator ShootWhirl(BulletData data)
+    {
+        float whirlRot = 0.0f;
+        float whirlRad = 0.0f;
+
+        for (int i = 0; i < 360; i+= 12)
+        {
+            whirlRad = i * Mathf.Deg2Rad;
+            Vector3 offset = new Vector3(Mathf.Cos(whirlRad), 0, Mathf.Sin(whirlRad));
+            new BulletData(data.Origintrans, offset, data.shootChara, data.bulletType);
+            whirlRot += 12.0f;
+            Debug.Log(whirlRot);
+            yield return new WaitForSeconds(0.05f);
+        }
+
+        //while (whirlRot <= 360.0f)
+        //{
+        //    whirlRad = whirlRot * Mathf.Deg2Rad;
+        //    Vector3 offset = new Vector3(Mathf.Cos(whirlRad), 0, Mathf.Sin(whirlRad));
+        //    new BulletData(data.Origintrans, offset, data.shootChara, data.bulletType);
+        //    whirlRot += 12.0f;
+        //    Debug.Log(whirlRot);
+        //    yield return new WaitForSeconds(0.05f);
+        //}
+        yield break;
+    }
+
+    IEnumerator EnemyShootNormal(BulletData data)
+    {
+
+        yield return new WaitForSeconds(0.1f);
     }
 
 }

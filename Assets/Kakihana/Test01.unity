@@ -20909,6 +20909,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletList: 0
   shootInterval: 0
+  leaderIndex: 0b0000000c0000000d000000
+  bossIndex: 150000001600000017000000
   dataList: {fileID: 11400000, guid: 8936d75801b00aa4db60fc5ec1128377, type: 2}
   status:
     ID: 0

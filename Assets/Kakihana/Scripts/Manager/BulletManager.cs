@@ -100,7 +100,6 @@ public class BulletManager : MonoBehaviour
             .Delay(TimeSpan.FromSeconds(2.0f))
             .Subscribe(val => 
             {
-                Debug.Log("boost");
                 shootSpeed = val * 8.0f;
             }).AddTo(this.gameObject);
 
@@ -213,8 +212,6 @@ public class BulletManager : MonoBehaviour
                 BulletSpawner.Instance.BulletRemove(this);
                 // 弾情報の初期化
                 bulletInit.OnNext(Unit.Default);
-                // このオブジェクトを非表示にする
-                this.gameObject.SetActive(false);
             }).AddTo(this.gameObject);
     }
 
@@ -227,8 +224,6 @@ public class BulletManager : MonoBehaviour
     // 弾生成処理
     public void BulletCreate(BulletData data)
     {
-        // このオブジェクトを表示する
-        this.gameObject.SetActive(true);
         // スポナーの生成数を増やす
         BulletSpawner.Instance.bulletCount.Value++;
         // ステートの初期化
@@ -284,34 +279,6 @@ public class BulletManager : MonoBehaviour
                 }
                 break;
         }
-    }
-    // プール返却前に行う初期化処理
-    void BulletInit()
-    {
-        // 進行方向の初期化
-        moveFoward = Vector3.zero;
-        // 回転角度の初期化
-        bulletRot = Quaternion.identity;
-        // 弾速の初期化
-        shootSpeed = 0.0f;
-        // 発射角度の初期化
-        originAngle = 0.0f;
-        // 二点間距離の初期化
-        bulletDistance = 0.0f;
-        // プレイヤー間角度の初期化
-        deg = 0.0f;
-        // 生成元座標の初期化
-        shootOriginTrans = null;
-        // 速度の初期化
-        this.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        // 座標の初期化
-        this.transform.position = Vector3.zero;
-        // 角度の初期化
-        this.transform.rotation = Quaternion.identity;
-        // 発射キャラクター識別情報の初期化
-        shootChara = ShootChara.None;
-        // 再生成待機モードに移行
-        bulletState.Value = BulletState.Pool;
     }
 
     // カメラの範囲外に到達したら削除される

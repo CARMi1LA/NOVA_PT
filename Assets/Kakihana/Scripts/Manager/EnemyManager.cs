@@ -113,13 +113,20 @@ public class EnemyManager : BulletSetting,IDamage
                 atkSubject.OnNext(enemyStatus.enemyType);
             }).AddTo(this.gameObject);
 
-        // 攻撃開始前、プレイヤーの方向を向く
-        enemyParent.actProp
-            .Where(_ => enemyParent.actProp.Value == EnemyCenterManager.ActionState.Attack)
+        this.UpdateAsObservable()
+            .Where(_ => enemyParent.attackFlg.Value == true)
             .Subscribe(_ => 
             {
-                this.transform.LookAt(playerTrans, Vector3.up);
+                this.transform.forward = Vector3.Lerp(this.transform.forward, (playerTrans.position - this.transform.position).normalized, 0.25f);
             }).AddTo(this.gameObject);
+
+        //// 攻撃開始前、プレイヤーの方向を向く
+        //enemyParent.actProp
+        //    .Where(_ => enemyParent.actProp.Value == EnemyCenterManager.ActionState.Attack)
+        //    .Subscribe(_ => 
+        //    {
+        //        this.transform.forward = Vector3.Lerp(this.transform.forward, (playerTrans.position - this.transform.position).normalized, 0.25f);
+        //    }).AddTo(this.gameObject);
 
         // 移動時は注視方向を初期に戻す
         enemyParent.actProp
