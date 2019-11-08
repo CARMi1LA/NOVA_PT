@@ -121,8 +121,6 @@ public class ItemManager : MonoBehaviour
                 ItemSpawner.Instance.ItemRemove(this);
                 // 初期化処理
                 itemInit.OnNext(Unit.Default);
-                // このオブジェクトを非表示にする
-                this.gameObject.SetActive(false);
             }).AddTo(this.gameObject);
     }
 
@@ -135,8 +133,6 @@ public class ItemManager : MonoBehaviour
     // アイテム生成メソッド、各種パラメータの初期設定を行う
     public void CreateItem(int score, int hp, int energy, ItemType type, Vector3 pos)
     {
-        // オブジェクトを表示させる
-        this.gameObject.SetActive(true);
         // プレイヤーの座標を取得
         playerTrans = GameManagement.Instance.playerTrans;
         // Rigidbodyの設定

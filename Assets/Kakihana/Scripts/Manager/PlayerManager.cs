@@ -25,7 +25,7 @@ public class PlayerManager : BulletSetting,IDamage
     [SerializeField] private IntReactiveProperty hp;              // 現在のHP
     [SerializeField] private IntReactiveProperty maxHp;           // 最大HP
     [SerializeField] private IntReactiveProperty energy;          // エネルギー
-    [SerializeField] private IntReactiveProperty ultimateGage;     // 必殺技ゲージ
+    [SerializeField] private IntReactiveProperty ultimateGage;    // 必殺技ゲージ
 
     [SerializeField] private Rigidbody playerRigid;               // プレイヤーのRigidbody
     [SerializeField] Speed speed = Speed.Law;                     // 速度モード

@@ -27,6 +27,40 @@ public class BulletData
                 bulletSpeed = 20.0f;
                 break;
         }
+
+        switch (bulletType)
+        {
+            case BulletSetting.BulletList.Normal:
+                break;
+            case BulletSetting.BulletList.Scatter:
+                break;
+            case BulletSetting.BulletList.Fireworks:
+                break;
+            case BulletSetting.BulletList.Booster:
+                break;
+            case BulletSetting.BulletList.None:
+                break;
+            case BulletSetting.BulletList.Whirlpool:
+                break;
+            case BulletSetting.BulletList.Forrow:
+                break;
+            case BulletSetting.BulletList.WhirlScatterCombo:
+                break;
+            case BulletSetting.BulletList.FireworksCombo:
+                break;
+            case BulletSetting.BulletList.UltMegaFireworks:
+                break;
+            case BulletSetting.BulletList.WhirlFireCombo:
+                break;
+            case BulletSetting.BulletList.BoostFireCombo:
+                break;
+            case BulletSetting.BulletList.WhirlBoostCombo:
+                break;
+            case BulletSetting.BulletList.Ultimate:
+                break;
+            default:
+                break;
+        }
         // 生成予定データリストにこのデータを追加
         BulletSpawner.Instance.bulletDataList.Add(this);
     }
