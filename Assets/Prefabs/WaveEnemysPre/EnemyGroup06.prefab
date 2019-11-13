@@ -75,11 +75,11 @@ MonoBehaviour:
     value: 0
   playerTrans: {fileID: 0}
   movePos: {x: 0, y: 0, z: 0}
-  maxDistance: 0
+  maxDistance: 20
   waitTimeLimit: 1
   atkTimeLimit: 1
   velocityMag: 0.99
-  moveSpeed: 0
+  moveSpeed: 3
   centerRigid: {fileID: 5254438267175930050}
   actState: 0
   groupType: 0

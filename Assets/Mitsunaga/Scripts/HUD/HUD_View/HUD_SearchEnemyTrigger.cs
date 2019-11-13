@@ -18,7 +18,6 @@ public class HUD_SearchEnemyTrigger : MonoBehaviour
             .Where(x => x.gameObject.tag == "Enemy")
             .Subscribe(value =>
             {
-                pm.apprEnemyInfo.OnNext(value.gameObject);
                 hModel.SearchEnemyRP.Value = value.gameObject.transform.position;
             })
             .AddTo(this.gameObject);

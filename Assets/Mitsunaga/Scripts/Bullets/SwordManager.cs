@@ -62,15 +62,6 @@ public class SwordManager : MonoBehaviour
                     .AddTo(this.gameObject);
             })
             .AddTo(this.gameObject);
-
-        // デバッグ用のイベント発行
-        this.UpdateAsObservable()
-            .Where(x => Input.GetMouseButtonDown(0))
-            .Subscribe(_ =>
-            {
-                SwordSubject.OnNext(rotTime);
-            })
-            .AddTo(this.gameObject);
     }
 
     // 剣の回転コルーチン

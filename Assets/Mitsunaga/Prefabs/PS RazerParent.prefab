@@ -4821,7 +4821,7 @@ GameObject:
   - component: {fileID: 7365333416656167472}
   - component: {fileID: 7365333416656167475}
   - component: {fileID: 7365333416656167474}
-  - component: {fileID: 4731606841222902152}
+  - component: {fileID: 1740917886005709550}
   m_Layer: 0
   m_Name: PS RazerParent
   m_TagString: Untagged
@@ -9646,7 +9646,7 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &4731606841222902152
+--- !u!114 &1740917886005709550
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9655,7 +9655,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7365333416656167469}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9da49a72de2b5d44ea41f64f556e604f, type: 3}
+  m_Script: {fileID: 11500000, guid: 78c3124dbce87a848be16e2232c74927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ChildrenPS:

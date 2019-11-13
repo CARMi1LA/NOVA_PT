@@ -97,7 +97,7 @@ MonoBehaviour:
   waitTimeLimit: 1
   atkTimeLimit: 1
   velocityMag: 0.99
-  moveSpeed: 5
+  moveSpeed: 3
   centerRigid: {fileID: 1877194037835202916}
   actState: 0
   groupType: 0
@@ -367,6 +367,11 @@ PrefabInstance:
       propertyPath: enemyParent
       value: 
       objectReference: {fileID: 2155392565640484039}
+    - target: {fileID: 4834093599112092102, guid: 928e7b4e7154a4b44b117bffacdb0861,
+        type: 3}
+      propertyPath: enemyID
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 928e7b4e7154a4b44b117bffacdb0861, type: 3}
 --- !u!4 &195109682461448690 stripped

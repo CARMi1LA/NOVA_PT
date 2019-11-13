@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Mitsunaga/HowToPlay/HowToPlayScene.unity
     guid: 9b8f68d5333b2454dbc1f1852a7174b7
+  - enabled: 1
+    path: Assets/Scenes/03 Stage2.unity
+    guid: ac36e51d56b2c2944a095a6d9ef8c92a
+  - enabled: 1
+    path: Assets/Scenes/04 Stage3.unity
+    guid: 5bab6cce54aa2cf49973bd486abad89e
   m_configObjects: {}

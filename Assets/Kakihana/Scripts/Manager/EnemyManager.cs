@@ -44,8 +44,9 @@ public class EnemyManager : BulletSetting,IDamage
     [SerializeField] private Vector3 dif;
     [SerializeField] private Quaternion defaultRot;
     [SerializeField] private int refrectPower = 10;
+    private Renderer enemyRenderer;
     Subject<EnemyStatus.EnemyType> atkSubject = new Subject<EnemyStatus.EnemyType>();
-
+    Subject<float> flashSubject = new Subject<float>();
     void Awake()
     {
         // IDより敵のデータリストを取得
@@ -67,6 +68,8 @@ public class EnemyManager : BulletSetting,IDamage
         defaultRot = this.transform.rotation;
         // 発射する弾の種類の設定
         bulletList = enemyStatus.bulletType;
+        // レンダラーの初期化
+        enemyRenderer = this.GetComponent<Renderer>();
     }
 
     // Start is called before the first frame update
@@ -105,6 +108,14 @@ public class EnemyManager : BulletSetting,IDamage
                     break;
             }
         }).AddTo(this.gameObject);
+
+        flashSubject
+            .Do(_ => enemyRenderer.material.SetInt("_IsDamage", 1))
+            .Delay(TimeSpan.FromSeconds(0.5f))
+            .Subscribe(_ => 
+            {
+                enemyRenderer.material.SetInt("_IsDamage", 0);
+            }).AddTo(this.gameObject);
 
         // 敵リーダークラスから攻撃許可が出れば攻撃開始
         enemyParent.attackFlg.Where(_ => enemyParent.attackFlg.Value == true)
@@ -199,9 +210,11 @@ public class EnemyManager : BulletSetting,IDamage
         // バリアが残っていればバリアを優先的に消費する
         if (enemyStatus.barrier >= 1)
         {
+            flashSubject.OnNext(0);
             enemyStatus.barrier--;
         }else if(enemyStatus.barrier <= 0)
         {
+            flashSubject.OnNext(0);
             hitCount.Value++;
         }
     }

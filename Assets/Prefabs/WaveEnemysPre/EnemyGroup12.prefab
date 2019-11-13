@@ -68,7 +68,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 4
   m_CollisionDetection: 0
 --- !u!114 &8726290214063762345
 MonoBehaviour:
@@ -97,7 +97,7 @@ MonoBehaviour:
   waitTimeLimit: 1
   atkTimeLimit: 1
   velocityMag: 0.99
-  moveSpeed: 5
+  moveSpeed: 3
   centerRigid: {fileID: 5532646494706630828}
   actState: 0
   groupType: 0
@@ -168,6 +168,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 124816936431159827, guid: 2d717a709a8bc924d8a597134956a3ce,
+        type: 3}
+      propertyPath: enemyParent
+      value: 
+      objectReference: {fileID: 8726290214063762345}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d717a709a8bc924d8a597134956a3ce, type: 3}
 --- !u!4 &2847243395934068266 stripped

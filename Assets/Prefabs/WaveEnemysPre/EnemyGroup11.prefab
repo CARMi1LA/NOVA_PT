@@ -83,7 +83,7 @@ MonoBehaviour:
   waitTimeLimit: 1
   atkTimeLimit: 1
   velocityMag: 0.99
-  moveSpeed: 5
+  moveSpeed: 3
   centerRigid: {fileID: 8636732490998429885}
   actState: 0
   groupType: 0

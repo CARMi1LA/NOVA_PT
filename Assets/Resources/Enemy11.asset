@@ -18,8 +18,8 @@ MonoBehaviour:
     enemyType: 1
     enemyPosition: 3
     aiLevel: 0
-    hp: 20
+    bulletType: 0
+    hp: 30
     barrier: 5
     energy: 100
-    score: 3000
-    moveSpeed: 5
+    score: 30000

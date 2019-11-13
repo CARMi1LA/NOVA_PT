@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1452866587706740316}
   - component: {fileID: 2446708513275848025}
   m_Layer: 0
-  m_Name: EnemyGroup12
+  m_Name: EnemyGroupL03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,7 +68,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 4
   m_CollisionDetection: 0
 --- !u!114 &2446708513275848025
 MonoBehaviour:
@@ -97,7 +97,7 @@ MonoBehaviour:
   waitTimeLimit: 1
   atkTimeLimit: 1
   velocityMag: 0.99
-  moveSpeed: 5
+  moveSpeed: 3
   centerRigid: {fileID: 1452866587706740316}
   actState: 0
   groupType: 0
@@ -173,6 +173,11 @@ PrefabInstance:
       propertyPath: enemyParent
       value: 
       objectReference: {fileID: 2446708513275848025}
+    - target: {fileID: 124816936431159827, guid: 2d717a709a8bc924d8a597134956a3ce,
+        type: 3}
+      propertyPath: enemyID
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d717a709a8bc924d8a597134956a3ce, type: 3}
 --- !u!4 &430326165049838142 stripped
@@ -265,6 +270,11 @@ PrefabInstance:
       propertyPath: enemyParent
       value: 
       objectReference: {fileID: 2446708513275848025}
+    - target: {fileID: 124816936431159827, guid: 2d717a709a8bc924d8a597134956a3ce,
+        type: 3}
+      propertyPath: enemyID
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d717a709a8bc924d8a597134956a3ce, type: 3}
 --- !u!4 &2999581666741817622 stripped
@@ -469,6 +479,11 @@ PrefabInstance:
       propertyPath: enemyParent
       value: 
       objectReference: {fileID: 2446708513275848025}
+    - target: {fileID: 4834093599112092102, guid: 928e7b4e7154a4b44b117bffacdb0861,
+        type: 3}
+      propertyPath: enemyID
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 928e7b4e7154a4b44b117bffacdb0861, type: 3}
 --- !u!4 &5050813174328325611 stripped
