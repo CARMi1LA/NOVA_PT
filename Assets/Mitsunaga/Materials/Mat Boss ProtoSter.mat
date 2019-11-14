@@ -21,7 +21,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Floats:
-    - Vector1_4079A163: 3.64
+    - Vector1_4079A163: 1.1
     - Vector1_900CBFF: 2.03
     - Vector1_90F23EDA: 15
     - Vector1_BFB60892: 0.5
@@ -31,6 +31,6 @@ Material:
     - _Smoothness: 0
     m_Colors:
     - Color_1E27BE75: {r: 1, g: 1, b: 1, a: 0}
-    - Color_282BC7E3: {r: 0.370025, g: 0.21771011, b: 1.0733615, a: 0}
+    - Color_282BC7E3: {r: 4.620547, g: 0.07984685, b: 0, a: 0}
     - _Albedo: {r: 0, g: 0, b: 0, a: 0}
     - _Rimlight: {r: 1, g: 0.4703693, b: 0.15566039, a: 0}
