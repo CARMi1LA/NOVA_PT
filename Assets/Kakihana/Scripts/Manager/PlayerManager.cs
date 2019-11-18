@@ -141,7 +141,6 @@ public class PlayerManager : BulletSetting,IDamage
             .Where(_ => GameManagement.Instance.isPause.Value == false)
             .Subscribe(_ =>
             {
-                Debug.Log(energy.Value);
                 // マウスのスクリーン座標を取得
                 cScreen = Input.mousePosition;
                 // カメラの焦点を補正

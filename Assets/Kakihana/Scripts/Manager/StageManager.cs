@@ -144,7 +144,6 @@ public class StageManager : SMSingleton<StageManager>
                         case StageData.WaveType.Random:
                             int seed = Random.Range(0, stageData.waveEnemyObj.Length - 1);
                             enemyAliveNum.Value = stageData.waveEnemyObj[seed].unitEnemys.Length;
-                            EnemyUnitSpawn(seed);
                             waveAct.Value = StageWaveAction.WavePlaying;
                             break;
                         case StageData.WaveType.Select:
@@ -205,6 +204,7 @@ public class StageManager : SMSingleton<StageManager>
 
     public void EnemyUnitSpawn(int index)
     {
+        int rand = Random.Range(0, 2);
         spawnPos[(int)SpawnList.Left] = new Vector3(
             GameManagement.Instance.playerTrans.position.x - spawnOffset,
             GameManagement.Instance.playerTrans.position.y,
@@ -215,7 +215,8 @@ public class StageManager : SMSingleton<StageManager>
             GameManagement.Instance.playerTrans.position.y,
             GameManagement.Instance.playerTrans.position.z + Random.Range(-40, 40)
             );
-        Instantiate(stageData.waveEnemyObj[index], spawnPos[Random.Range(0, 1)], Quaternion.identity);
+        Instantiate(stageData.waveEnemyObj[index], spawnPos[rand], Quaternion.identity);
+        Debug.Log(rand);
     }
 
     [System.Serializable]
