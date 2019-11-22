@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using System;
 using UniRx;
 using UniRx.Triggers;
+using GamepadInput;
 
 public class GameManagement : GMSingleton<GameManagement>
 {
@@ -20,6 +21,10 @@ public class GameManagement : GMSingleton<GameManagement>
     public HUD_Model gameHUD;
     public Result_Model resultUI;
     public BulletActManager bulletActManager;
+    public PlayerManager[] players;
+    public GameInputManager gameInput;
+    public InputValueData1P valueData1P;
+    public InputValueData2P valueData2P;
 
     public AudioSource[] bgms;
 
@@ -75,6 +80,11 @@ public class GameManagement : GMSingleton<GameManagement>
 
     void Start()
     {
+        for (int i = 0; i < players.Length; i++)
+        {
+            gameInput.Init(i);
+        }
+
         this.UpdateAsObservable()
             .Where(_ => SceneManager.GetActiveScene().name == "00 Title")
             .Subscribe(_ =>

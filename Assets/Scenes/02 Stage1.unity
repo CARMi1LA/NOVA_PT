@@ -14798,19 +14798,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}
+      propertyPath: players.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
+        type: 3}
       propertyPath: playerTrans
       value: 
-      objectReference: {fileID: 141048047}
+      objectReference: {fileID: 0}
     - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}
       propertyPath: cameraTrans
       value: 
-      objectReference: {fileID: 38128608}
+      objectReference: {fileID: 0}
     - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}
       propertyPath: listManager
       value: 
-      objectReference: {fileID: 1842577674}
+      objectReference: {fileID: 0}
     - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}
       propertyPath: isPause.value
@@ -14820,12 +14825,12 @@ PrefabInstance:
         type: 3}
       propertyPath: actManager
       value: 
-      objectReference: {fileID: 1842577675}
+      objectReference: {fileID: 0}
     - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}
       propertyPath: gameHUD
       value: 
-      objectReference: {fileID: 141048049}
+      objectReference: {fileID: 0}
     - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}
       propertyPath: damageBonus
@@ -14840,17 +14845,27 @@ PrefabInstance:
         type: 3}
       propertyPath: resultUI
       value: 
-      objectReference: {fileID: 141048048}
+      objectReference: {fileID: 0}
     - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}
       propertyPath: bulletActManager
       value: 
-      objectReference: {fileID: 1842577681}
+      objectReference: {fileID: 0}
     - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}
       propertyPath: atkComboResetLimit
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
+        type: 3}
+      propertyPath: players.Array.data[0]
+      value: 
+      objectReference: {fileID: 141048050}
+    - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
+        type: 3}
+      propertyPath: gameInput
+      value: 
+      objectReference: {fileID: 1842577675}
     - target: {fileID: 5529332785576108109, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}
       propertyPath: spawnPos.Array.size
@@ -14906,16 +14921,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49390fd0705cc9248a50f641b7f3c0f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1842577675 stripped
+--- !u!114 &1842577675
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5529332785576108106, guid: 5f5225042b3747c4babd26c866751226,
-    type: 3}
-  m_PrefabInstance: {fileID: 1842577672}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1842577673}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c871a44045f8d244be10a99a6dcb3e5, type: 3}
+  m_Script: {fileID: 11500000, guid: e74fdc89526e1cd45bf7e086f2c8dcdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1842577676 stripped
