@@ -26,6 +26,8 @@ public class StageManager : SMSingleton<StageManager>
         Right = 1
     }
 
+    [SerializeField] private DifficultyData
+
     // ステージID
     [SerializeField] private int stageID;
 
@@ -85,7 +87,7 @@ public class StageManager : SMSingleton<StageManager>
             stageData = dataList.stageDataList[stageID];
         }
         // 最大ウェーブ数の取得
-        maxWave = stageData.waveType.Length;
+        //maxWave = stageData.waveType.Length;
     }
 
     // Start is called before the first frame update
@@ -131,32 +133,32 @@ public class StageManager : SMSingleton<StageManager>
                 .Sample(TimeSpan.FromSeconds(3.0f))
                 .Subscribe(w => 
                 {
-                    // ウェーブで出現する敵パターンの設定
-                    switch (stageData.waveType[nowWave.Value - 1])
-                    {
-                        // 固定出現
-                        case StageData.WaveType.Fixed:
-                            enemyAliveNum.Value = stageData.waveEnemyObj[stageData.waveTable[nowWave.Value - 1]].unitEnemys.Length;
-                            EnemyUnitSpawn(stageData.waveTable[nowWave.Value - 1]);
-                            waveAct.Value = StageWaveAction.WavePlaying;
-                            break;
-                        // ランダム出現
-                        case StageData.WaveType.Random:
-                            int seed = Random.Range(0, stageData.waveEnemyObj.Length - 1);
-                            enemyAliveNum.Value = stageData.waveEnemyObj[seed].unitEnemys.Length;
-                            waveAct.Value = StageWaveAction.WavePlaying;
-                            break;
-                        case StageData.WaveType.Select:
-                            break;
-                        case StageData.WaveType.Event:
-                            break;
-                        // ボス出現（最終ウェーブ）
-                        case StageData.WaveType.Boss:
-                            enemyAliveNum.Value = stageData.waveEnemyObj[maxWave - 1].unitEnemys.Length;
-                            EnemyUnitSpawn(maxWave);
-                            waveAct.Value = StageWaveAction.WavePlaying;
-                            break;
-                    }
+                    //// ウェーブで出現する敵パターンの設定
+                    //switch (stageData.waveType[nowWave.Value - 1])
+                    //{
+                    //    // 固定出現
+                    //    case StageData.WaveType.Fixed:
+                    //        enemyAliveNum.Value = stageData.waveEnemyObj[stageData.waveTable[nowWave.Value - 1]].unitEnemys.Length;
+                    //        EnemyUnitSpawn(stageData.waveTable[nowWave.Value - 1]);
+                    //        waveAct.Value = StageWaveAction.WavePlaying;
+                    //        break;
+                    //    // ランダム出現
+                    //    case StageData.WaveType.Random:
+                    //        int seed = Random.Range(0, stageData.waveEnemyObj.Length - 1);
+                    //        enemyAliveNum.Value = stageData.waveEnemyObj[seed].unitEnemys.Length;
+                    //        waveAct.Value = StageWaveAction.WavePlaying;
+                    //        break;
+                    //    case StageData.WaveType.Select:
+                    //        break;
+                    //    case StageData.WaveType.Event:
+                    //        break;
+                    //    // ボス出現（最終ウェーブ）
+                    //    case StageData.WaveType.Boss:
+                    //        enemyAliveNum.Value = stageData.waveEnemyObj[maxWave - 1].unitEnemys.Length;
+                    //        EnemyUnitSpawn(maxWave);
+                    //        waveAct.Value = StageWaveAction.WavePlaying;
+                    //        break;
+                    //}
                 }).AddTo(this.gameObject);
 
                 waveAct.Where(w => w == StageWaveAction.WavePlaying)
@@ -215,7 +217,7 @@ public class StageManager : SMSingleton<StageManager>
             GameManagement.Instance.playerTrans.position.y,
             GameManagement.Instance.playerTrans.position.z + Random.Range(-40, 40)
             );
-        Instantiate(stageData.waveEnemyObj[index], spawnPos[rand], Quaternion.identity);
+        //Instantiate(stageData.waveEnemyObj[index], spawnPos[rand], Quaternion.identity);
         Debug.Log(rand);
     }
 

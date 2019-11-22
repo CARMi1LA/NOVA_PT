@@ -59,7 +59,7 @@ public class EnemySpawner : ESSingleton<EnemySpawner>
 
     public void EnemyUnitSpawn(int index)
     {
-        Instantiate(stageManager.stageData.waveEnemyObj[index], spawnPos[Random.Range(0, 2)], Quaternion.identity);
+        //Instantiate(stageManager.stageData.waveEnemyObj[index], spawnPos[Random.Range(0, 2)], Quaternion.identity);
     }
 
     //public void EnemySpawnUnitSet(EnemyUnitManager enemyUnit)

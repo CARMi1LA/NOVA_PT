@@ -7,24 +7,30 @@ public class StageData
 {
     // ステージ情報格納クラス
 
-    // Waveごとの敵出現パターン
-    public enum WaveType
+    public enum StageDifficuty
     {
-        Fixed = 0,      // 固定出現、敵パターンオブジェクトに格納されている順に生成
-        Random,         // 敵パターンオブジェクトに格納されているものからランダムに選び生成
-        Select,         // プレイヤーが敵パターンを任意で選び、生成
-        Event,          // イベント発生
-        Boss            // ボス生成
+        Easy = 0,
+        Normal = 1,
+        Hard = 2
     }
 
-    public int stageNo;               // ステージ番号
-    public string stageName;          // ステージ名
-    private int waveNum;              // ウェーブ数
-    public WaveType[] waveType;       // ウェーブごとの敵出現パターン
-    public int[] waveTable;           // 出現する敵をここで指定する
+    public StageDifficuty stageDifficuty;   // ステージ難易度
+    public int waveNum;                     // ウェーブ数
+    public float[] attackPhaseTime;         // 攻撃フェーズの時間
+    public float[] intervalTime;            // 次のフェーズまでの待機時間
 
-    public EnemyUnitManager[] waveEnemyObj; // 出現する敵パターン
-    public GameObject[] eventObj;     // イベント用パターン
+    public List<ValueList> spawnEnemyObj = new List<ValueList>();
 
-    public bool eventFlg;             // イベントが発生するステージかどうか
+}
+
+//Inspectorに複数データを表示するためのクラス
+[System.SerializableAttribute]
+public class ValueList
+{
+    public List<EnemyUnitManager> List = new List<EnemyUnitManager>();
+
+    public ValueList(List<EnemyUnitManager> list)
+    {
+        List = list;
+    }
 }

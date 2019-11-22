@@ -13,10 +13,33 @@ MonoBehaviour:
   m_Name: StageDataList
   m_EditorClassIdentifier: 
   stageDataList:
-  - stageNo: 0
-    stageName: Tutorial
-    waveType: 00000000000000000000000000000000000000000000000000000000000000000100000004000000
+  - stageDifficuty: 0
+    waveNum: 6
+    attackPhaseTime:
+    - 30
+    - 30
+    - 45
+    - 60
+    - 60
+    - 75
+    intervalTime:
+    - 120
+    - 60
+    - 60
+    - 60
+    - 60
+    - 60
     waveTable: 00000000010000000200000003000000040000000500000001000000050000000400000006000000
+    spawnEnemyObj:
+    - List:
+      - {fileID: 0}
+      - {fileID: 0}
+      - {fileID: 0}
+    - List: []
+    - List: []
+    - List: []
+    - List: []
+    - List: []
     waveEnemyObj:
     - {fileID: 5038815808675061437, guid: fb6d5b80a285b7b4980ab63f12c0c8fa, type: 3}
     - {fileID: 1011187536090813484, guid: f5faf5da5c61ab545bb9d98eabad0f90, type: 3}
@@ -25,12 +48,12 @@ MonoBehaviour:
     - {fileID: 7412226053551516704, guid: 73e68dd8062827048a4f7c300a3126c6, type: 3}
     - {fileID: 5031509390341922047, guid: 80038a13bde85ea4da97c007af314e3d, type: 3}
     - {fileID: 2499933175791654636, guid: b0e9b4accc7660241927a8f0af52feac, type: 3}
-    eventObj: []
-    eventFlg: 0
-  - stageNo: 1
-    stageName: Stage1
-    waveType: 00000000000000000000000000000000000000000000000000000000000000000000000004000000
+  - stageDifficuty: 1
+    waveNum: 6
+    attackPhaseTime: []
+    intervalTime: []
     waveTable: 00000000010000000200000000000000010000000300000005000000030000000400000006000000
+    spawnEnemyObj: []
     waveEnemyObj:
     - {fileID: 1011187536090813484, guid: f5faf5da5c61ab545bb9d98eabad0f90, type: 3}
     - {fileID: 6131702769376060113, guid: 7c328f12c2584e348b8347eea758cf39, type: 3}
@@ -39,12 +62,12 @@ MonoBehaviour:
     - {fileID: 5031509390341922047, guid: 80038a13bde85ea4da97c007af314e3d, type: 3}
     - {fileID: 2499933175791654636, guid: b0e9b4accc7660241927a8f0af52feac, type: 3}
     - {fileID: 2499933175791654636, guid: b0e9b4accc7660241927a8f0af52feac, type: 3}
-    eventObj: []
-    eventFlg: 0
-  - stageNo: 2
-    stageName: Stage2
-    waveType: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004000000
+  - stageDifficuty: 2
+    waveNum: 6
+    attackPhaseTime: []
+    intervalTime: []
     waveTable: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a00000008000000090000000b0000000b000000
+    spawnEnemyObj: []
     waveEnemyObj:
     - {fileID: 5038815808675061437, guid: fb6d5b80a285b7b4980ab63f12c0c8fa, type: 3}
     - {fileID: 1011187536090813484, guid: f5faf5da5c61ab545bb9d98eabad0f90, type: 3}
@@ -58,34 +81,3 @@ MonoBehaviour:
     - {fileID: 2499933175791654636, guid: b0e9b4accc7660241927a8f0af52feac, type: 3}
     - {fileID: 8533242545650184568, guid: d923982ae2ea97642b8563286aa29716, type: 3}
     - {fileID: 5252679743263808920, guid: 3c61a857fdec4e24b892b7a2ea2a809f, type: 3}
-    eventObj:
-    - {fileID: 0}
-    eventFlg: 1
-  - stageNo: 3
-    stageName: Stage3
-    waveType: 0000000000000000000000000000000000000000000000000000000000000000000000000000000004000000
-    waveTable: 0000000001000000020000000300000004000000050000000600000007000000080000000a0000000a000000
-    waveEnemyObj:
-    - {fileID: 6755733265890841904, guid: 7ca8a4555fe4def4090c14dfbe69e2f7, type: 3}
-    - {fileID: 7412226053551516704, guid: 73e68dd8062827048a4f7c300a3126c6, type: 3}
-    - {fileID: 2289422626960896303, guid: abd0a53dfd70c74469b657b78e6b4f56, type: 3}
-    - {fileID: 1026957865694117307, guid: 791dfac5e7e9ffa478c5e8d5851ac1e7, type: 3}
-    - {fileID: 1093938139831449301, guid: 6b8b9618b8512f840867d7e39d59f089, type: 3}
-    - {fileID: 5031509390341922047, guid: 80038a13bde85ea4da97c007af314e3d, type: 3}
-    - {fileID: 2499933175791654636, guid: b0e9b4accc7660241927a8f0af52feac, type: 3}
-    - {fileID: 8533242545650184568, guid: d923982ae2ea97642b8563286aa29716, type: 3}
-    - {fileID: 2251312748081114378, guid: a02b587664c2e2340ab8728275df47bb, type: 3}
-    - {fileID: 2603779705327539483, guid: bfc8d19c203507f4f8510366278135c7, type: 3}
-    - {fileID: 8992576858258971627, guid: 024c86c5c00dfa94cb4f2fb366e9f1ba, type: 3}
-    eventObj: []
-    eventFlg: 0
-  - stageNo: 11
-    stageName: Debug01
-    waveType: 000000000000000004000000
-    waveTable: 000000000100000002000000
-    waveEnemyObj:
-    - {fileID: 5038815808675061437, guid: fb6d5b80a285b7b4980ab63f12c0c8fa, type: 3}
-    - {fileID: 8882251027896803125, guid: 25701e8a6910e294286cf17c50cd0776, type: 3}
-    - {fileID: 1011187536090813484, guid: f5faf5da5c61ab545bb9d98eabad0f90, type: 3}
-    eventObj: []
-    eventFlg: 0
