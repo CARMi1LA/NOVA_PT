@@ -10,25 +10,34 @@ public class GameInputManager : MonoBehaviour
     // キー入力量を取得するクラス
 
     // ゲームパッドの番号
-    GamePad.Index inputPlayer;
+    [SerializeField] GamePad.Index[] inputPlayer;
     // どのプレイヤーでどのキーが押されたか
-    GamepadState[] inputState;
+    [SerializeField] GamepadState[] inputState;
+
+    public Subject<int> InitSubject = new Subject<int>();
     // Start is called before the first frame update
     void Start()
     {
-        switch (Random.Range(0, 3))
+        inputState[0] = GamePad.GetState(inputPlayer[0]);
+        inputState[1] = GamePad.GetState(inputPlayer[1]);
+        InitSubject.Subscribe(value => 
         {
-            case 1:
-                inputPlayer = GamePad.Index.One;
-                break;
-            case 2:
-                inputPlayer = GamePad.Index.Two;
-                break;
-        }
+            //switch (value)
+            //{
+            //    case 0:
+            //        inputState[0] = GamePad.GetState(GamePad.Index.One);
+            //        break;
+            //    case 1:
+            //        inputState[1] = GamePad.GetState(GamePad.Index.Two);
+            //        break;
+            //    default:
+            //        break;
+            //}
+        }).AddTo(this.gameObject);
 
         // プレイヤー1のキー入力処理
         this.UpdateAsObservable()
-            .Where(_ => inputState[0] != null)
+            .Where(_ => inputState[0] == GamePad.GetState(GamePad.Index.One))
             .Subscribe(_ =>
             {
                 // 左スティックの処理

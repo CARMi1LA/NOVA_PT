@@ -23,8 +23,9 @@ public class GameManagement : GMSingleton<GameManagement>
     public BulletActManager bulletActManager;
     public PlayerManager[] players;
     public GameInputManager gameInput;
-    public InputValueData1P valueData1P;
-    public InputValueData2P valueData2P;
+
+    [SerializeField] public InputValueData1P valueData1P;
+    [SerializeField] public InputValueData2P valueData2P;
 
     public AudioSource[] bgms;
 
@@ -74,16 +75,18 @@ public class GameManagement : GMSingleton<GameManagement>
         // カメラ座標の取得
         cameraPos = cameraTrans.position;
 
+        for (int i = 0; i > players.Length; i++)
+        {
+            Debug.LogFormat("Index{0}", i);
+            gameInput.InitSubject.OnNext(i);
+        }
+
         gameHUD.ScoreRP.Value = gameScore.Value;
         gameHUD.ComboRP.Value = combo.Value;
     }
 
     void Start()
     {
-        for (int i = 0; i < players.Length; i++)
-        {
-            gameInput.Init(i);
-        }
 
         this.UpdateAsObservable()
             .Where(_ => SceneManager.GetActiveScene().name == "00 Title")

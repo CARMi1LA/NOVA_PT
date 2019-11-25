@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 
-public class InputValueData1P
+public class InputValueData1P : MonoBehaviour
 {
     // 入力された情報を保存するクラス
     // プレイヤーはこのクラスに入っているデータから各種処理を行う
