@@ -26,7 +26,7 @@ public class StageManager : SMSingleton<StageManager>
         Right = 1
     }
 
-    [SerializeField] private DifficultyData
+    [SerializeField] private DifficultyData difficulty;
 
     // ステージID
     [SerializeField] private int stageID;

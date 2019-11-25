@@ -23,6 +23,7 @@ public class PlayerManager : BulletSetting,IDamage
     [SerializeField] HUD_Model playerHUD;                         // UI
     [SerializeField] SwordManager swordManager;
 
+    [SerializeField] private int ID;
     [SerializeField] private IntReactiveProperty playerHp;        // 現在のHP
     [SerializeField] private IntReactiveProperty maxHp;           // 最大HP
     [SerializeField] private IntReactiveProperty energy;          // エネルギー

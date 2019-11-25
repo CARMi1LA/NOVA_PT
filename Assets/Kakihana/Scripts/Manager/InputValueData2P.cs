@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
-using UniRx.Triggers;
 
-public class InputValueData : MonoBehaviour
+public class InputValueData2P : MonoBehaviour
 {
     // 入力された情報を保存するクラス
     // プレイヤーはこのクラスに入っているデータから各種処理を行う
 
+    // プレイヤー2のデータ //
 
     // 左スティックの入力値（処理：プレイヤー移動）
     public Vector3 leftStickValue;

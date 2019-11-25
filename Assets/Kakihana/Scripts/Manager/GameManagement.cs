@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using System;
 using UniRx;
 using UniRx.Triggers;
+using GamepadInput;
 
 public class GameManagement : GMSingleton<GameManagement>
 {
@@ -20,6 +21,11 @@ public class GameManagement : GMSingleton<GameManagement>
     public HUD_Model gameHUD;
     public Result_Model resultUI;
     public BulletActManager bulletActManager;
+    public PlayerManager[] players;
+    public GameInputManager gameInput;
+
+    [SerializeField] public InputValueData1P valueData1P;
+    [SerializeField] public InputValueData2P valueData2P;
 
     public AudioSource[] bgms;
 
@@ -69,12 +75,19 @@ public class GameManagement : GMSingleton<GameManagement>
         // カメラ座標の取得
         cameraPos = cameraTrans.position;
 
+        for (int i = 0; i > players.Length; i++)
+        {
+            Debug.LogFormat("Index{0}", i);
+            gameInput.InitSubject.OnNext(i);
+        }
+
         gameHUD.ScoreRP.Value = gameScore.Value;
         gameHUD.ComboRP.Value = combo.Value;
     }
 
     void Start()
     {
+
         this.UpdateAsObservable()
             .Where(_ => SceneManager.GetActiveScene().name == "00 Title")
             .Subscribe(_ =>
