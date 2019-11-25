@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyFormation : MonoBehaviour
+public class InputEventManager : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
