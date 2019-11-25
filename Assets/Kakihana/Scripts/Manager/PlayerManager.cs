@@ -23,6 +23,7 @@ public class PlayerManager : BulletSetting,IDamage
     [SerializeField] HUD_Model playerHUD;                         // UI
     [SerializeField] SwordManager swordManager;
 
+    [SerializeField] private int ID;
     [SerializeField] private IntReactiveProperty playerHp;        // 現在のHP
     [SerializeField] private IntReactiveProperty maxHp;           // 最大HP
     [SerializeField] private IntReactiveProperty energy;          // エネルギー
@@ -141,7 +142,6 @@ public class PlayerManager : BulletSetting,IDamage
             .Where(_ => GameManagement.Instance.isPause.Value == false)
             .Subscribe(_ =>
             {
-                Debug.Log(energy.Value);
                 // マウスのスクリーン座標を取得
                 cScreen = Input.mousePosition;
                 // カメラの焦点を補正
