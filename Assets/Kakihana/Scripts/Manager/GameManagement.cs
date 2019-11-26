@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 using System;
 using UniRx;
 using UniRx.Triggers;
-using GamepadInput;
 
 public class GameManagement : GMSingleton<GameManagement>
 {

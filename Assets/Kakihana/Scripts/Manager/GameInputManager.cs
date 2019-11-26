@@ -8,11 +8,14 @@ public class GameInputManager : MonoBehaviour
 {
     // キー入力量を取得するクラス
 
+    public Vector2 leftAxis;
+    public Vector2 rightAxis;
+
     public Subject<int> InitSubject = new Subject<int>();
     // Start is called before the first frame update
     void Start()
     {
-        InitSubject.Subscribe(value => 
+        InitSubject.Subscribe(value =>
         {
         }).AddTo(this.gameObject);
 
@@ -20,31 +23,13 @@ public class GameInputManager : MonoBehaviour
         this.UpdateAsObservable()
             .Subscribe(_ =>
             {
-                // 左スティックの処理
-                if (Input.GetAxisRaw("Horizontal") != 0)
-                {
-                    GameManagement.Instance.valueData1P.leftStickValue.x = Input.GetAxis("Horizontal");
-                }
-                if (Input.GetAxisRaw("Horizontal") != 0)
-                {
-                    GameManagement.Instance.valueData1P.leftStickValue.x = Input.GetAxis("Horizontal");
-                }
+                leftAxis.x = Input.GetAxis("Horizontal");
+                leftAxis.y = Input.GetAxis("Vertical");
+                rightAxis.x = Input.GetAxis("RightStickHorizontal");
 
-                // 左スティック（キーボード入力時）の処理
-                if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
-                {
-                    GameManagement.Instance.valueData1P.leftStickValue.x = Input.GetAxis("Horizontal");
-                }
-                if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
-                {
-                    GameManagement.Instance.valueData1P.leftStickValue.z = Input.GetAxis("Vertical");
-                }
-
-                // 右スティックの処理
-                if (Input.GetAxisRaw("RightStickHorizontal") != 0)
-                {
-                    GameManagement.Instance.valueData1P.rightStickValue.x = Input.GetAxis("RightStickHorizontal");
-                }
+                GameManagement.Instance.valueData1P.leftStickValue.x = leftAxis.x;
+                GameManagement.Instance.valueData1P.leftStickValue.z = leftAxis.y;
+                GameManagement.Instance.valueData1P.rightStickValue.x = rightAxis.x;
 
                 // 右スティック（キーボード入力時）の処理
                 if (Input.GetAxis("Mouse X") != 0)
@@ -53,7 +38,7 @@ public class GameInputManager : MonoBehaviour
                 }
 
                 // Aボタンプッシュ時の処理
-                if (inputState[0].A || Input.GetKey(KeyCode.E))
+                if (Input.GetButton("Button_A") == true)
                 {
                     GameManagement.Instance.valueData1P.pushBtnA.Value = true;
                 }
@@ -63,7 +48,7 @@ public class GameInputManager : MonoBehaviour
                 }
 
                 // Bボタンプッシュ時の処理
-                if (inputState[0].B || Input.GetKey(KeyCode.Space))
+                if (Input.GetButton("Button_B") == true)
                 {
                     GameManagement.Instance.valueData1P.pushBtnB.Value = true;
                 }
@@ -73,7 +58,7 @@ public class GameInputManager : MonoBehaviour
                 }
 
                 // Xボタンプッシュ時の処理
-                if (inputState[0].X || Input.GetMouseButtonDown(1))
+                if (Input.GetButton("Button_X") == true)
                 {
                     GameManagement.Instance.valueData1P.pushBtnX.Value = true;
                 }
@@ -83,7 +68,7 @@ public class GameInputManager : MonoBehaviour
                 }
 
                 // Yボタンプッシュ時の処理
-                if (inputState[0].Y || Input.GetKey(KeyCode.Q))
+                if (Input.GetButton("Button_Y") == true)
                 {
                     GameManagement.Instance.valueData1P.pushBtnY.Value = true;
                 }
@@ -93,7 +78,17 @@ public class GameInputManager : MonoBehaviour
                 }
 
                 // RBボタンプッシュ時の処理
-                if (inputState[0].RightShoulder || Input.GetMouseButtonDown(0))
+                if (Input.GetButton("Button_RB") == true)
+                {
+                    GameManagement.Instance.valueData1P.pushBtnRB.Value = true;
+                }
+                else
+                {
+                    GameManagement.Instance.valueData1P.pushBtnRB.Value = false;
+                }
+
+                // LBボタンプッシュ時の処理
+                if (Input.GetButton("Button_LB") == true)
                 {
                     GameManagement.Instance.valueData1P.pushBtnRB.Value = true;
                 }
@@ -103,7 +98,7 @@ public class GameInputManager : MonoBehaviour
                 }
 
                 // Startボタンプッシュ時の処理
-                if (inputState[0].Start || Input.GetKey(KeyCode.Escape))
+                if (Input.GetButton("Button_Start") == true)
                 {
                     GameManagement.Instance.valueData1P.pushBtnStart.Value = true;
                 }
@@ -112,4 +107,5 @@ public class GameInputManager : MonoBehaviour
                     GameManagement.Instance.valueData1P.pushBtnStart.Value = false;
                 }
             }).AddTo(this.gameObject);
+    }
 }
