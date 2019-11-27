@@ -37583,7 +37583,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2133824149}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.0061035063, z: 49999.93}
+  m_LocalPosition: {x: 10210, y: -23438, z: 19596}
   m_LocalScale: {x: 12000, y: 99.99988, z: 12000}
   m_Children: []
   m_Father: {fileID: 9149393204034540559}
@@ -47830,7 +47830,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!33 &2640037903691826144
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -48012,7 +48012,7 @@ Transform:
   m_GameObject: {fileID: 8037632042417277197}
   m_LocalRotation: {x: -0, y: 0.037062902, z: -0, w: 0.99931294}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 426482998918547893}
   - {fileID: 7616122516277848253}
@@ -48338,7 +48338,8 @@ MonoBehaviour:
     energy: 0
     score: 0
   playerHUD: {fileID: 7071862154021169721}
-  hp:
+  swordManager: {fileID: 0}
+  playerHp:
     value: 0
   maxHp:
     value: 0
@@ -48346,10 +48347,11 @@ MonoBehaviour:
     value: 0
   ultimateGage:
     value: 0
+  playerBarrier:
+    value: 0
   playerRigid: {fileID: 7878326303147055919}
   speed: 1
   maxBarrier: 0
-  maxSkillStock: 3
   maxEnergy: 0
   skillCost: 30
   maxultimateGage: 100
@@ -48366,8 +48368,9 @@ MonoBehaviour:
   refrectPower: 0
   bitRight: {fileID: 6294013773266971645}
   bitLeft: {fileID: 3894346179134861333}
-  apprEnemys: []
   score:
+    value: 0
+  isHit:
     value: 0
   deathPS: {fileID: 3801646852477183181, guid: d4a57cb993f05354fb8f526408f39c1a, type: 3}
   ultPS: {fileID: 5081799709106924779, guid: 310fd68089ac6b74ea4945686502e320, type: 3}
