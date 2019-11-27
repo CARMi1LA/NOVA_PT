@@ -16,6 +16,5 @@ public class BulletStatus : MonoBehaviour
     public Transform Origintrans; // 発射元の座標
 
     public ShootByChara shootChara; // 誰が発射したか
-    public AIListManager.AtkList bulletType;    // 弾の種類
     public Color bulletColor;                   // 弾の色情報
 }

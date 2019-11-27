@@ -8,9 +8,6 @@ public class BulletSpawner : BSSingleton<BulletSpawner>
 {
     // 弾生成管理クラス
 
-    public AIListManager aiList;
-    [SerializeField] AIListManager.AtkList atkList;
-
     [SerializeField] private int bulletValueMax;            // 弾の最大生成数
     [SerializeField] public IntReactiveProperty bulletCount = new IntReactiveProperty(0); // 弾の生成数
     [SerializeField] private BulletManager[] bulletObj;     // 弾のプレハブ
