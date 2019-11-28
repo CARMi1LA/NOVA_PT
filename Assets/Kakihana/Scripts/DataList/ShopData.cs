@@ -2,16 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShopData : MonoBehaviour
+[System.Serializable]
+public class ShopData
 {
-    public int[,] level_Player;     // プレイヤーの各パラメータレベル（パラメーター名,レベル）
-    public int[,,] level_Tower;     // タワーの各パラメータレベル（タワー番号,パラメーター名,レベル）
-    public int[] level_Ult;        // スキル＆必殺技の各パラメータ
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
+    public ShopPlayerPramData[] shopData_Player;
+    public ShopTowerPramData[] redData_Tower, blueData_Tower, yellowData_Tower, greenData_Tower;
+    public LevelData_Player levelData_Player;
 }

@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShopDataList : MonoBehaviour
+[CreateAssetMenu(
+  fileName = "ShopDataList",
+  menuName = "ScriptableObject/ShopDataList",
+  order = 1)
+]
+public class ShopDataList : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public List<ShopData> stageDataList = new List<ShopData>();
 }
