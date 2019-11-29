@@ -4,7 +4,7 @@ using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 
-public class TDPlayerManager : MonoBehaviour,IDamage,ICollision
+public class TDPlayerManager : MonoBehaviour
 {
     /* 
      タワーディフェンス用のプレイヤーの行動管理
@@ -18,11 +18,19 @@ public class TDPlayerManager : MonoBehaviour,IDamage,ICollision
     TDPlayerData pData;
 
     Rigidbody pRigidbody;   // 物理
+    [SerializeField] PlayerCollision    pCollision; // 当たり判定処理
+    [SerializeField] PlayerMove         pMove;      // 移動処理     トランスフォームを扱う
+    [SerializeField] PlayerAttack       pAttack;    // 攻撃処理     弾の生成を扱う
 
-    [SerializeField] PlayerDamage   pDamage;    // ダメージ処理
-    [SerializeField] PlayerDeath    pDeath;     // 死亡処理　
-    [SerializeField] PlayerMove     pMove;      // 移動処理　トランスフォームを扱う
-    [SerializeField] PlayerAttack   pAttack;    // 攻撃処理　弾の生成を扱う
+    // スキル発動イベント
+    public Subject<TDPlayerData.SkillTypeList> skillTrigger = new Subject<TDPlayerData.SkillTypeList>();
+    // アルティメット発動イベント
+    public Subject<TDPlayerData.UltimateTypeList> ultimateTrigger = new Subject<TDPlayerData.UltimateTypeList>();
+    // ダメージ演出発動イベント
+    public Subject<Unit> DamageTrigger = new Subject<Unit>();
+    // 死亡演出発動イベント
+    public Subject<Unit> DeathTrigger = new Subject<Unit>();
+
 
     void Awake()
     {
@@ -56,14 +64,22 @@ public class TDPlayerManager : MonoBehaviour,IDamage,ICollision
                 Debug.Log("アクセス");
 
             }).AddTo(this.gameObject);
-        inputData.pushBtnX .Subscribe(value =>
+        // Xボタン：スキル発動
+        inputData.pushBtnX 
+            .Where(x => pData.pEnergy.Value >= pData.pSkillCost)
+            .Subscribe(value =>
             {
                 Debug.Log("スキル発動");
+                skillTrigger.OnNext(pData.pSkillType);
 
             }).AddTo(this.gameObject);
-        inputData.pushBtnY .Subscribe(value =>
+        // Yボタン：アルティメット発動
+        inputData.pushBtnY 
+            .Where(x => pData.pUltimate.Value >= pData.pMaxUltimate)
+            .Subscribe(value =>
             {
                 Debug.Log("アルティメット発動");
+                ultimateTrigger.OnNext(pData.pUltimateType);
 
             }).AddTo(this.gameObject);
 
@@ -75,48 +91,5 @@ public class TDPlayerManager : MonoBehaviour,IDamage,ICollision
                 // スティック処理
                 pMove.ActionMove(inputData);
             }).AddTo(this.gameObject);
-
-        // 衝突判定
-        this.OnCollisionEnterAsObservable()
-            .Subscribe(col =>
-            {
-                // 相手をふっとばす
-                if (col.gameObject.GetComponent<ICollision>() != null)
-                {
-                    col.gameObject.GetComponent<ICollision>().HitCollision(this.transform.position);
-                }
-                // エネミーのオブジェクトと衝突した場合
-                if(col.gameObject.tag == "Enemy")
-                {
-                    HitDamage();
-                }
-            }).AddTo(this.gameObject);
-
-        // 重複判定
-        this.OnTriggerEnterAsObservable()
-            .Subscribe(col =>
-            {
-                // エネミーのオブジェクトと重複した場合
-                if(col.gameObject.tag == "Enemy")
-                {
-                    HitDamage();
-                }
-            }).AddTo(this.gameObject);
-    }
-
-    public void HitDamage()
-    {
-        // ダメージ処理
-        pDamage.ActionDamage();
-
-        if (true /* 現在HP <= 0 */)
-        {
-            // 死亡処理
-            pDeath.ActionDeath();
-        }
-    }
-    public void HitCollision(Vector3 targetPos)
-    {
-        Debug.Log("相手も反発できる");
     }
 }

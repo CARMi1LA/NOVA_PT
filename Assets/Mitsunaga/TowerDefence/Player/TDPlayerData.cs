@@ -11,12 +11,12 @@ public class TDPlayerData
     public IntReactiveProperty pHealth = new IntReactiveProperty();
 
     // エネルギー　　　最大 / 現在
-    public int pMaxEnergy = 100;
-    public IntReactiveProperty pEnergy = new IntReactiveProperty();
+    public float pMaxEnergy = 100.0f;
+    public FloatReactiveProperty pEnergy = new FloatReactiveProperty();
 
     // アルティメット　最大 / 現在
-    public int pMaxUltimate = 100;
-    public IntReactiveProperty pUltimate = new IntReactiveProperty();
+    public float pMaxUltimate = 100;
+    public FloatReactiveProperty pUltimate = new FloatReactiveProperty();
 
     public enum SkillTypeList
     {
@@ -38,6 +38,9 @@ public class TDPlayerData
 
     public float pSpeed;        // 移動速度
     public float pShotInterval; // 射撃間隔
+
+    public float pSkillCost;    // スキルの発動コスト
+    public float pDashCost;     // 回避の発動コスト
 
     // 初期化
     public TDPlayerData()
