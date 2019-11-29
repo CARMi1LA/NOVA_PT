@@ -9,5 +9,5 @@ using UnityEngine;
 ]
 public class ShopDataList : ScriptableObject
 {
-    public List<ShopData> stageDataList = new List<ShopData>();
+    public List<ShopData> dataList_Shop = new List<ShopData>();
 }

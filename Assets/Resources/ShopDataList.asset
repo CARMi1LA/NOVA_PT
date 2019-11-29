@@ -13,4 +13,139 @@ MonoBehaviour:
   m_Name: ShopDataList
   m_EditorClassIdentifier: 
   stageDataList:
-  - level_Ult: 000000000000000000000000
+  - shopData_Player:
+    - maxHP: 10
+      speedMul: 1
+      shootIntervalMul: 1
+      purchaseMater: 0
+    - maxHP: 12
+      speedMul: 1.05
+      shootIntervalMul: 0.95
+      purchaseMater: 1000
+    - maxHP: 15
+      speedMul: 1.1
+      shootIntervalMul: 0.85
+      purchaseMater: 3000
+    - maxHP: 20
+      speedMul: 1.25
+      shootIntervalMul: 0.5
+      purchaseMater: 6000
+    redData_Tower:
+    - trapParamIndex: 0
+      turretParamIndex: 0
+      towerParamIndex: 0
+      repairCount: 0
+      purchaseMater: 0
+    - trapParamIndex: 1
+      turretParamIndex: 1
+      towerParamIndex: 1
+      repairCount: 1
+      purchaseMater: 500
+    - trapParamIndex: 2
+      turretParamIndex: 2
+      towerParamIndex: 2
+      repairCount: 2
+      purchaseMater: 1500
+    - trapParamIndex: 3
+      turretParamIndex: 3
+      towerParamIndex: 3
+      repairCount: 3
+      purchaseMater: 3000
+    blueData_Tower:
+    - trapParamIndex: 0
+      turretParamIndex: 0
+      towerParamIndex: 0
+      repairCount: 0
+      purchaseMater: 0
+    - trapParamIndex: 1
+      turretParamIndex: 1
+      towerParamIndex: 1
+      repairCount: 1
+      purchaseMater: 500
+    - trapParamIndex: 2
+      turretParamIndex: 2
+      towerParamIndex: 2
+      repairCount: 2
+      purchaseMater: 1500
+    - trapParamIndex: 3
+      turretParamIndex: 3
+      towerParamIndex: 3
+      repairCount: 3
+      purchaseMater: 3000
+    yellowData_Tower:
+    - trapParamIndex: 0
+      turretParamIndex: 0
+      towerParamIndex: 0
+      repairCount: 0
+      purchaseMater: 0
+    - trapParamIndex: 1
+      turretParamIndex: 1
+      towerParamIndex: 1
+      repairCount: 1
+      purchaseMater: 500
+    - trapParamIndex: 2
+      turretParamIndex: 2
+      towerParamIndex: 2
+      repairCount: 2
+      purchaseMater: 1500
+    - trapParamIndex: 3
+      turretParamIndex: 3
+      towerParamIndex: 3
+      repairCount: 3
+      purchaseMater: 3000
+    greenData_Tower:
+    - trapParamIndex: 0
+      turretParamIndex: 0
+      towerParamIndex: 0
+      repairCount: 0
+      purchaseMater: 0
+    - trapParamIndex: 1
+      turretParamIndex: 1
+      towerParamIndex: 1
+      repairCount: 1
+      purchaseMater: 500
+    - trapParamIndex: 2
+      turretParamIndex: 2
+      towerParamIndex: 2
+      repairCount: 2
+      purchaseMater: 1500
+    - trapParamIndex: 3
+      turretParamIndex: 3
+      towerParamIndex: 3
+      repairCount: 3
+      purchaseMater: 3000
+    shopData_Ult:
+    - skillIndex: 0
+      ultIndex: 0
+      purchaseMater: 0
+    - skillIndex: 1
+      ultIndex: 1
+      purchaseMater: 5000
+    - skillIndex: 2
+      ultIndex: 2
+      purchaseMater: 7500
+    - skillIndex: 3
+      ultIndex: 3
+      purchaseMater: 12000
+    levelData_Player:
+      level_HP:
+        value: 0
+      level_Speed:
+        value: 0
+      level_Interval:
+        value: 0
+    levelData_Tower:
+      towerColor: 0
+      level_Trap:
+        value: 0
+      level_Turret:
+        value: 0
+      level_Tower:
+        value: 0
+      level_Repair:
+        value: 0
+    levelData_Ult:
+      level_Skill:
+        value: 0
+      level_Ult:
+        value: 0
