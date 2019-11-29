@@ -15,9 +15,13 @@ public class ShopManager : SPMSinleton<ShopManager>
     private ShopDataList shopDataList;      // 読み込むショップのデータリスト
     public ShopData shopData;               // 読み込まれたショップのデータ
 
-    public Subject<int> addLevel_Player = new Subject<int>();
-    public Subject<int> addLevel_Tower = new Subject<int>();
-    public Subject<int> addLevel_Ult = new Subject<int>();
+    public Subject<ShopData.Player_ParamList> addLevel_Player = new Subject<ShopData.Player_ParamList>();
+    public Subject<ShopData.TowerRed_ParamList> addLevel_TowerRed = new Subject<ShopData.TowerRed_ParamList>();
+    public Subject<ShopData.TowerBlue_ParamList> addLevel_TowerBlue = new Subject<ShopData.TowerBlue_ParamList>();
+    public Subject<ShopData.TowerYellow_ParamList> addLevel_TowerYellow = new Subject<ShopData.TowerYellow_ParamList>();
+    public Subject<ShopData.TowerGreen_ParamList> addLevel_TowerGreen = new Subject<ShopData.TowerGreen_ParamList>();
+    public Subject<ShopData.Skill_ParamList> addLevel_Skill = new Subject<ShopData.Skill_ParamList>();
+    public Subject<ShopData.Player_ParamList> addLevel_Ult = new Subject<ShopData.Player_ParamList>();
 
     protected override void Awake()
     {

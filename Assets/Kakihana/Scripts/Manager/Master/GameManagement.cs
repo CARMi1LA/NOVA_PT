@@ -21,6 +21,7 @@ public class GameManagement : GMSingleton<GameManagement>
     public BulletActManager bulletActManager;
     public PlayerManager[] players;
     public GameInputManager gameInput;
+    public TDPlayerData tdPlaerData;
 
     [SerializeField] public InputValueData1P valueData1P;
     [SerializeField] public InputValueData2P valueData2P;
@@ -70,6 +71,8 @@ public class GameManagement : GMSingleton<GameManagement>
     protected override void Awake()
     {
         base.Awake();
+        // プレイヤーデータの初期化
+        tdPlaerData = new TDPlayerData();
         // カメラ座標の取得
         cameraPos = cameraTrans.position;
 

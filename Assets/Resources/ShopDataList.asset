@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27b8c3a48611c04c823a68624341a27, type: 3}
   m_Name: ShopDataList
   m_EditorClassIdentifier: 
-  stageDataList:
+  dataList_Shop:
   - shopData_Player:
     - maxHP: 10
       speedMul: 1
@@ -23,7 +23,7 @@ MonoBehaviour:
       shootIntervalMul: 0.95
       purchaseMater: 1000
     - maxHP: 15
-      speedMul: 1.1
+      speedMul: 1.15
       shootIntervalMul: 0.85
       purchaseMater: 3000
     - maxHP: 20
@@ -115,18 +115,23 @@ MonoBehaviour:
       repairCount: 3
       purchaseMater: 3000
     shopData_Ult:
+    - ultIndex: 0
+      purchaseMater: 0
+    - ultIndex: 1
+      purchaseMater: 12000
+    - ultIndex: 2
+      purchaseMater: 7000
+    - ultIndex: 3
+      purchaseMater: 5000
+    shopData_Skill:
     - skillIndex: 0
-      ultIndex: 0
       purchaseMater: 0
     - skillIndex: 1
-      ultIndex: 1
-      purchaseMater: 5000
+      purchaseMater: 3000
     - skillIndex: 2
-      ultIndex: 2
-      purchaseMater: 7500
+      purchaseMater: 6000
     - skillIndex: 3
-      ultIndex: 3
-      purchaseMater: 12000
+      purchaseMater: 10000
     levelData_Player:
       level_HP:
         value: 0
@@ -145,7 +150,8 @@ MonoBehaviour:
       level_Repair:
         value: 0
     levelData_Ult:
-      level_Skill:
-        value: 0
       level_Ult:
+        value: 0
+    levelData_Skill:
+      level_Skill:
         value: 0
