@@ -18,6 +18,7 @@ public class TDPlayerData
     public float pMaxUltimate = 100;
     public FloatReactiveProperty pUltimate = new FloatReactiveProperty();
 
+    // スキル・アルティメットの型リスト
     public enum SkillTypeList
     {
         Sword   = 0,
@@ -36,12 +37,13 @@ public class TDPlayerData
     public SkillTypeList pSkillType = 0;        // スキルの型
     public UltimateTypeList pUltimateType = 0;  // アルティメットの型
 
-    public float pSpeed;        // 移動速度
+    public float pSpeed = 70;  // 移動速度
+    public float pSpeedMul = 10;
+
     public float pShotInterval; // 射撃間隔
 
     public float pSkillCost;    // スキルの発動コスト
     public float pDashCost;     // 回避の発動コスト
-
     // 初期化
     public TDPlayerData()
     {

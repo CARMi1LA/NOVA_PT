@@ -6,18 +6,26 @@ using UniRx.Triggers;
 
 public class PlayerSkill : MonoBehaviour
 {
-    // スキル発動イベント
-    public Subject<TDPlayerData.SkillTypeList> sTriggerSubject = new Subject<TDPlayerData.SkillTypeList>();
+    // スキルマネージャー
 
-    public void ActionSkill(TDPlayerData pData)
+    [SerializeField]
+    TDPlayerManager pManager;
+
+    TDPlayerData pData;
+
+    void Start()
     {
-        if(pData.pEnergy.Value >= pData.pSkillCost)
-        {
-            Debug.Log("スキルを使用");
-            sTriggerSubject.OnNext(pData.pSkillType);
+        pData = pManager.pData;
 
-            // エネルギーを減少させる
-            pData.pEnergy.Value += -pData.pSkillCost;
-        }
+        pManager.skillTrigger
+            .Where(x => pData.pEnergy.Value >= pData.pSkillCost)
+            .Subscribe(value =>
+            {
+                // スキルの実行
+                Debug.Log("スキル　実行");
+
+                pData.pEnergy.Value -= pData.pSkillCost;
+
+            }).AddTo(this.gameObject);
     }
 }

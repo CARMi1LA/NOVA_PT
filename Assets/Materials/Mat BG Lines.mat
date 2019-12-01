@@ -32,6 +32,6 @@ Material:
     - Vector1_AB8014AC: 45
     m_Colors:
     - Color_80176894: {r: 0.5, g: 0.051724136, b: 0, a: 0}
-    - Color_A714177F: {r: 0, g: 0, b: 0, a: 0}
+    - Color_A714177F: {r: 0.5, g: 0.051724136, b: 0, a: 0}
     - Vector2_9A7DB609: {r: 480, g: 270, b: 0, a: 0}
     - Vector3_8BD5ABF5: {r: 256, g: 128, b: 0, a: 0}

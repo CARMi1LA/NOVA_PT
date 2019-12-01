@@ -6,7 +6,10 @@ using UniRx.Triggers;
 
 public class PlayerCollision : MonoBehaviour, IDamage, ICollision
 {
-    public Subject<int> cDamageSubject = new Subject<int>();
+    // コライダーの管理
+    
+    // 衝突イベント
+    public Subject<Vector3> cImpactSubject = new Subject<Vector3>();
 
     void Start()
     {
@@ -14,6 +17,8 @@ public class PlayerCollision : MonoBehaviour, IDamage, ICollision
         this.OnCollisionEnterAsObservable()
             .Subscribe(col =>
             {
+                this.HitCollision(col.transform.position); // デバッグ用のセルフふっとばし
+
                 // エネミーのオブジェクトと衝突した場合
                 if (col.gameObject.tag == "Enemy")
                 {
@@ -29,6 +34,7 @@ public class PlayerCollision : MonoBehaviour, IDamage, ICollision
                     }
                     Debug.Log("エネミーと衝突した！");
                 }
+
             }).AddTo(this.gameObject);
 
         // 重複判定
@@ -46,11 +52,12 @@ public class PlayerCollision : MonoBehaviour, IDamage, ICollision
     public void HitDamage()
     {
         // ダメージを受ける
-        cDamageSubject.OnNext(1);
+        
     }
 
     public void HitCollision(Vector3 targetPos)
     {
-        // targetPosに弾かれるように移動する
+        // 衝突イベント発行
+        cImpactSubject.OnNext(targetPos);
     }
 }
