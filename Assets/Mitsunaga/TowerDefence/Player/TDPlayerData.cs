@@ -5,7 +5,6 @@ using UniRx;
 
 public class TDPlayerData
 {
-
     // ヘルス　　　　　最大 / 現在
     public int pMaxHealth = 10;
     public IntReactiveProperty pHealth = new IntReactiveProperty();
@@ -40,16 +39,17 @@ public class TDPlayerData
     public float pSpeed = 70;  // 移動速度
     public float pSpeedMul = 10;
 
-    public float pShotInterval; // 射撃間隔
+    public float pAttackInterval = 0.1f; // 射撃間隔
 
-    public float pSkillCost;    // スキルの発動コスト
-    public float pDashCost;     // 回避の発動コスト
+    public float pSkillCost = 10.0f;        // スキルの発動コスト
+    public float pDashCost = 5.0f;         // 回避の発動コスト
+    public float pDashTime = 0.5f;  // 回避の行動時間
     // 初期化
     public TDPlayerData()
     {
         pHealth.Value   = pMaxHealth;
         pEnergy.Value   = pMaxEnergy;
-        pUltimate.Value = 0;
+        pUltimate.Value = pMaxUltimate;
     }
 
     // 最大ヘルスの変更
@@ -69,7 +69,7 @@ public class TDPlayerData
     // 射撃間隔の変更
     public void SetShotInterval(float shotInterval)
     {
-        pShotInterval = shotInterval;
+        pAttackInterval = shotInterval;
     }
     // スキルの型の変更
     public void SetSkillType(SkillTypeList sType)

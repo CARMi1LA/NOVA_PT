@@ -11,20 +11,13 @@ public class PlayerUltimate : MonoBehaviour
     [SerializeField]
     TDPlayerManager pManager;
 
-    TDPlayerData pData;
-
     void Start()
     {
-        pData = pManager.pData;
-
         pManager.ultimateTrigger
-            .Where(x => pData.pUltimate.Value >= pData.pMaxUltimate)
             .Subscribe(value =>
             {
                 // アルティメットの実行
                 Debug.Log("アルティメット　実行");
-
-                pData.pUltimate.Value -= pData.pMaxUltimate;
 
             }).AddTo(this.gameObject);
     }

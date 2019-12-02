@@ -1,4 +1,4 @@
 ﻿public interface ISkill
 {
-    void TriggerSkill(TDPlayerData.SkillTypeList sType);
+    void ActSkill(TDPlayerData.SkillTypeList sType);
 }

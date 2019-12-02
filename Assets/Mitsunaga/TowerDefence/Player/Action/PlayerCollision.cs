@@ -7,9 +7,14 @@ using UniRx.Triggers;
 public class PlayerCollision : MonoBehaviour, IDamage, ICollision
 {
     // コライダーの管理
+    [SerializeField]
+    TDPlayerManager pManager;
     
     // 衝突イベント
     public Subject<Vector3> cImpactSubject = new Subject<Vector3>();
+
+    // ダッシュ中は弾によるダメージを受けない
+    bool isDash = false;
 
     void Start()
     {
@@ -42,22 +47,34 @@ public class PlayerCollision : MonoBehaviour, IDamage, ICollision
             .Subscribe(col =>
             {
                 // エネミーのオブジェクトと重複した場合
-                if (col.gameObject.tag == "Enemy")
+                if (!isDash && col.gameObject.tag == "Enemy")
                 {
                     Debug.Log("エネミーと衝突した！");
                 }
+
+            }).AddTo(this.gameObject);
+
+        // ダッシュ中の無敵判定
+        pManager.dashTrigger
+            .Do(_ => isDash = true)
+            .Delay(System.TimeSpan.FromSeconds(pManager.pData.pDashTime))
+            .Subscribe(_ =>
+            {
+                isDash = false;
+
             }).AddTo(this.gameObject);
     }
 
     public void HitDamage()
     {
         // ダメージを受ける
-        
+        Debug.Log("ダメージを受けた！");
+        pManager.DamageTrigger.OnNext(Unit.Default);
     }
 
     public void HitCollision(Vector3 targetPos)
     {
         // 衝突イベント発行
-        cImpactSubject.OnNext(targetPos);
+        pManager.impactTrigger.OnNext(targetPos);
     }
 }

@@ -11,14 +11,10 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]
     TDPlayerManager pManager;
 
-    TDPlayerData pData;
-
     bool isAttack = false;
 
     void Start()
     {
-        pData = pManager.pData;
-
         pManager.attackTrigger
             .Subscribe(value =>
             {
@@ -28,6 +24,7 @@ public class PlayerAttack : MonoBehaviour
 
         this.UpdateAsObservable()
             .Where(x => isAttack)
+            .ThrottleFirst(System.TimeSpan.FromSeconds(pManager.pData.pAttackInterval))
             .Subscribe(_ =>
             {
                 // 通常攻撃の実行
