@@ -33,6 +33,44 @@ public class ShopManager : SPMSinleton<ShopManager>
     // Start is called before the first frame update
     void Start()
     {
-        
+        addLevel_Player.Subscribe(_ => 
+        {
+
+        }).AddTo(this.gameObject);
+    }
+
+    public void OnClickPlayerParam(ShopData.Player_ParamList player_Param)
+    {
+
+    }
+
+    public void OnClickTowerParam(ShopData.TowerRed_ParamList towerRed_Param)
+    {
+
+    }
+
+    public void OnClickTowerParam(ShopData.TowerBlue_ParamList towerBlue_Param)
+    {
+
+    }
+
+    public void OnClickTowerParam(ShopData.TowerYellow_ParamList towerYellow_Param)
+    {
+
+    }
+
+    public void OnClickTowerParam(ShopData.TowerGreen_ParamList towerGreen_Param)
+    {
+
+    }
+
+    public void OnClickSkillParam()
+    {
+
+    }
+
+    public void OnClickUltParam()
+    {
+
     }
 }
