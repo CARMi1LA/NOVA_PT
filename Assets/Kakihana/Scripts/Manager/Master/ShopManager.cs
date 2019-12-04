@@ -83,38 +83,45 @@ public class ShopManager : SPMSinleton<ShopManager>
             }).AddTo(this.gameObject);
     }
 
-    public void OnClickPlayerParam(ShopData.Player_ParamList player_Param)
+    [EnumAction(typeof(ShopData.Player_ParamList))]
+    public void OnClickPlayerParam(int player_Param)
     {
-        addLevel_Player.OnNext(player_Param);
+        addLevel_Player.OnNext((ShopData.Player_ParamList)player_Param);
     }
 
-    public void OnClickTowerParam(ShopData.TowerRed_ParamList towerRed_Param)
+    [EnumAction(typeof(ShopData.TowerRed_ParamList))]
+    public void OnClickTowerRedParam(int towerRed_Param)
     {
-        addLevel_TowerRed.OnNext(towerRed_Param);
+        addLevel_TowerRed.OnNext((ShopData.TowerRed_ParamList)towerRed_Param);
     }
 
-    public void OnClickTowerParam(ShopData.TowerBlue_ParamList towerBlue_Param)
+    [EnumAction(typeof(ShopData.TowerBlue_ParamList))]
+    public void OnClickTowerBlueParam(int towerBlue_Param)
     {
-        addLevel_TowerBlue.OnNext(towerBlue_Param);
+        addLevel_TowerBlue.OnNext((ShopData.TowerBlue_ParamList)towerBlue_Param);
     }
 
-    public void OnClickTowerParam(ShopData.TowerYellow_ParamList towerYellow_Param)
+    [EnumAction(typeof(ShopData.TowerYellow_ParamList))]
+    public void OnClickTowerYellowParam(int towerYellow_Param)
     {
-        addLevel_TowerYellow.OnNext(towerYellow_Param);
+        addLevel_TowerYellow.OnNext((ShopData.TowerYellow_ParamList)towerYellow_Param);
     }
 
-    public void OnClickTowerParam(ShopData.TowerGreen_ParamList towerGreen_Param)
+    [EnumAction(typeof(ShopData.TowerYellow_ParamList))]
+    public void OnClickTowerGreenParam(int towerGreen_Param)
     {
-        addLevel_TowerGreen.OnNext(towerGreen_Param);
+        addLevel_TowerGreen.OnNext((ShopData.TowerGreen_ParamList)towerGreen_Param);
     }
 
-    public void OnClickSkillParam(ShopData.Skill_ParamList skill_ParamList)
+    [EnumAction(typeof(ShopData.Skill_ParamList))]
+    public void OnClickSkillParam(int skill_ParamList)
     {
-        addLevel_Skill.OnNext(skill_ParamList);
+        addLevel_Skill.OnNext((ShopData.Skill_ParamList)skill_ParamList);
     }
 
-    public void OnClickUltParam(ShopData.Ult_ParamList ult_ParamList)
+    [EnumAction(typeof(ShopData.Ult_ParamList))]
+    public void OnClickUltParam(int ult_ParamList)
     {
-        addLevel_Ult.OnNext(ult_ParamList);
+        addLevel_Ult.OnNext((ShopData.Ult_ParamList)ult_ParamList);
     }
 }
