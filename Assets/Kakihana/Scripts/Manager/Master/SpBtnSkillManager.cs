@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class SpBtnSkillManager : MonoBehaviour
 {
+    private LevelData_Skill skillData_Lv;
+    public ShopBtnManager[] spSKillBtn;
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        skillData_Lv = ShopManager.Instance.shopData.levelData_Skill;
     }
 }

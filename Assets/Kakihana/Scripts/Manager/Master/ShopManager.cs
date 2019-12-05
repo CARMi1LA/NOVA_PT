@@ -10,10 +10,12 @@ public class ShopManager : SPMSinleton<ShopManager>
     // 
     [SerializeField]
     const int LEVEL_ARRAYSIZE = 3;          // 最大レベル
-    public int mater = 0;                   // 所持マター
+    public IntReactiveProperty mater = new IntReactiveProperty(0);                   // 所持マター
 
     private ShopDataList shopDataList;      // 読み込むショップのデータリスト
     public ShopData shopData;               // 読み込まれたショップのデータ
+    public SpBtnPlayerManager btnPlayer;
+    public ShopBuyController spBuyControll;
 
     public Subject<ShopData.Player_ParamList> addLevel_Player = new Subject<ShopData.Player_ParamList>();
     public Subject<ShopData.TowerRed_ParamList> addLevel_TowerRed = new Subject<ShopData.TowerRed_ParamList>();
@@ -28,13 +30,15 @@ public class ShopManager : SPMSinleton<ShopManager>
         base.Awake();
         shopDataList = Resources.Load<ShopDataList>("ShopDataList");
         shopData = shopDataList.dataList_Shop[0];
+        btnPlayer.InitSubject.OnNext(shopData.levelData_Player);
+        spBuyControll.BuyControllerInit.OnNext(shopData);
     }
 
     // Start is called before the first frame update
     void Start()
     {
         addLevel_Player
-            .Where(val => mater >= shopData.shopData_Player[(int)val].purchaseMater)
+            .Where(val => mater.Value >= shopData.shopData_Player[(int)val].purchaseMater)
             .Subscribe(val => 
             {
                 switch (val)
@@ -55,7 +59,7 @@ public class ShopManager : SPMSinleton<ShopManager>
             .Subscribe(val => { }).AddTo(this.gameObject);
 
         addLevel_Skill
-            .Where(val => mater >= shopData.shopData_Skill[(int)val].purchaseMater)
+            .Where(val => mater.Value >= shopData.shopData_Skill[(int)val].purchaseMater)
             .Subscribe(val =>
             {
                 if ((int)val == shopData.levelData_Skill.level_Skill.Value)
@@ -69,7 +73,7 @@ public class ShopManager : SPMSinleton<ShopManager>
             }).AddTo(this.gameObject);
 
         addLevel_Ult
-            .Where(val => mater >= shopData.shopData_Ult[(int)val].purchaseMater)
+            .Where(val => mater.Value >= shopData.shopData_Ult[(int)val].purchaseMater)
             .Subscribe(val =>
             {
                 if ((int)val == shopData.levelData_Ult.level_Ult.Value)

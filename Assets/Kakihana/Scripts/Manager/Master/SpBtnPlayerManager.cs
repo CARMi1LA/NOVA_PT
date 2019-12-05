@@ -8,28 +8,108 @@ public class SpBtnPlayerManager : MonoBehaviour
 {
     public LevelData_Player levelData_Player;
 
-    Subject<Unit> InitSubject = new Subject<Unit>();
+    public ShopBtnManager[] spPlayerBtn;
+
+    public Subject<LevelData_Player> InitSubject = new Subject<LevelData_Player>();
+    public Subject<ShopData.Player_ParamList> ChangeLvText = new Subject<ShopData.Player_ParamList>();
+    public Subject<ShopData.Player_ParamList> ChangeValueText = new Subject<ShopData.Player_ParamList>();
+    public Subject<ShopData.Player_ParamList> BuyOkText = new Subject<ShopData.Player_ParamList>();
+    public Subject<ShopData.Player_ParamList> BuyNgText = new Subject<ShopData.Player_ParamList>();
+    Subject<ShopData.Player_ParamList> SoldOutText = new Subject<ShopData.Player_ParamList>();
     // Start is called before the first frame update
     void Start()
     {
         InitSubject.Subscribe(_ => 
         {
-            levelData_Player = ShopManager.Instance.shopData.levelData_Player;
+            levelData_Player = _;
         }).AddTo(this.gameObject);
 
-        levelData_Player.level_HP.Subscribe(_ =>
+        ChangeLvText.Subscribe(list => 
         {
-            //HPボタンUIの処理
+            switch (list)
+            {
+                case ShopData.Player_ParamList.Param_HP:
+                    spPlayerBtn[0].levelText.text = 
+                        string.Format("Lv{0}→Lv{1}", 
+                        levelData_Player.level_HP.Value, 
+                        levelData_Player.level_HP.Value++);
+                    break;
+                case ShopData.Player_ParamList.Param_Speed:
+                    spPlayerBtn[1].levelText.text =
+                        string.Format("Lv{0}→Lv{1}",
+                        levelData_Player.level_Speed.Value,
+                        levelData_Player.level_Speed.Value++);
+                    break;
+                case ShopData.Player_ParamList.Param_Interval:
+                    spPlayerBtn[2].levelText.text =
+                        string.Format("Lv{0}→Lv{1}",
+                        levelData_Player.level_Interval.Value,
+                        levelData_Player.level_Interval.Value++);
+                    break;
+            }
         }).AddTo(this.gameObject);
 
-        levelData_Player.level_Speed.Subscribe(_ =>
+        ChangeValueText.Subscribe(list =>
         {
-            //速度ボタンUIの処理
+            switch (list)
+            {
+                case ShopData.Player_ParamList.Param_HP:
+                    spPlayerBtn[0].materValueText.text =
+                        string.Format("{0}",
+                        ShopManager.Instance.shopData.
+                        shopData_Player[levelData_Player.level_HP.Value + 1].purchaseMater);
+                    break;
+                case ShopData.Player_ParamList.Param_Speed:
+                    spPlayerBtn[1].materValueText.text =
+                        string.Format("{0}",
+                        ShopManager.Instance.shopData.
+                        shopData_Player[levelData_Player.level_Speed.Value + 1].purchaseMater);
+                    break;
+                case ShopData.Player_ParamList.Param_Interval:
+                    spPlayerBtn[2].materValueText.text =
+                        string.Format("{0}",
+                        ShopManager.Instance.shopData.
+                        shopData_Player[levelData_Player.level_Interval.Value + 1].purchaseMater);
+                    break;
+            }
         }).AddTo(this.gameObject);
 
-        levelData_Player.level_Interval.Subscribe(_ =>
+        BuyOkText.Subscribe(list =>
         {
-            //発射間隔ボタンUIの処理
+            switch (list)
+            {
+                case ShopData.Player_ParamList.Param_HP:
+                    spPlayerBtn[0].materValueText.color = Color.black;
+                    spPlayerBtn[0].myBtn.interactable = true;
+                    break;
+                case ShopData.Player_ParamList.Param_Speed:
+                    spPlayerBtn[1].materValueText.color = Color.black;
+                    spPlayerBtn[1].myBtn.interactable = true;
+                    break;
+                case ShopData.Player_ParamList.Param_Interval:
+                    spPlayerBtn[2].materValueText.color = Color.black;
+                    spPlayerBtn[2].myBtn.interactable = true;
+                    break;
+            }
+        }).AddTo(this.gameObject);
+
+        BuyOkText.Subscribe(list =>
+        {
+            switch (list)
+            {
+                case ShopData.Player_ParamList.Param_HP:
+                    spPlayerBtn[0].materValueText.color = Color.red;
+                    spPlayerBtn[0].myBtn.interactable = false;
+                    break;
+                case ShopData.Player_ParamList.Param_Speed:
+                    spPlayerBtn[1].materValueText.color = Color.red;
+                    spPlayerBtn[1].myBtn.interactable = false;
+                    break;
+                case ShopData.Player_ParamList.Param_Interval:
+                    spPlayerBtn[2].materValueText.color = Color.red;
+                    spPlayerBtn[2].myBtn.interactable = false;
+                    break;
+            }
         }).AddTo(this.gameObject);
     }
 }

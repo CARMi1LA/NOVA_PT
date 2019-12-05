@@ -16,6 +16,15 @@ public class ShopData
         Param_Interval = 2
     }
 
+    // タワーのパラメータごとのレベル
+    public enum TowerColor
+    {
+        Red = 0,
+        Blue,
+        Yellow,
+        Green
+    }
+
     // タワー強化（赤）のパラメータ参照用リスト
     public enum TowerRed_ParamList
     {
@@ -81,7 +90,7 @@ public class ShopData
     [Header("パラメータごとのレベル（設定不要）")]
     public LevelData_Player levelData_Player;
     // タワー強化のパラメータごとのレベルが格納されているクラス
-    public LevelData_Tower levelData_Tower;
+    public LevelData_Tower[] levelData_Tower = new LevelData_Tower[4];
     // Ult変更のパラメータごとのレベルが格納されているクラス
     public LevelData_Ult levelData_Ult;
     // スキル変更のパラメータごとのレベルが格納されているクラス
