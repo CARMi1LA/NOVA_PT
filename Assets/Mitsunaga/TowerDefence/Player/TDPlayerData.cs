@@ -39,7 +39,7 @@ public class TDPlayerData
     public float pSpeed = 70;  // 移動速度
     public float pSpeedMul = 10;
 
-    public float pAttackInterval = 0.1f; // 射撃間隔
+    public int pAttackInterval = 6; // 射撃間隔(単位：フレーム)
 
     public float pSkillCost = 10.0f;        // スキルの発動コスト
     public float pDashCost = 5.0f;         // 回避の発動コスト
@@ -67,7 +67,7 @@ public class TDPlayerData
         pSpeed = speed;
     }
     // 射撃間隔の変更
-    public void SetShotInterval(float shotInterval)
+    public void SetShotInterval(int shotInterval)
     {
         pAttackInterval = shotInterval;
     }

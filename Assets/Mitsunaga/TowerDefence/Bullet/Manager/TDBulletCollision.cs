@@ -1,0 +1,34 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UniRx;
+using UniRx.Triggers;
+
+public class TDBulletCollision : MonoBehaviour
+{
+    // 弾の当たり判定の管理
+
+    [SerializeField]
+    TDBulletManager bManager;
+
+    void Start()
+    {
+        // 重複判定
+        this.OnTriggerEnterAsObservable()
+            .Subscribe(value =>
+            {
+                // 重複オブジェクトに衝突判定があるか
+                if (value.isTrigger == false)
+                {
+                    // ダメージ判定があるか
+                    if (value.GetComponent<IDamage>() != null)
+                    {
+                        value.GetComponent<IDamage>().HitDamage();
+                    }
+                    // この弾を消滅させる
+                    bManager.isReturn.Value = true;
+                }
+
+            }).AddTo(this.gameObject);
+    }
+}

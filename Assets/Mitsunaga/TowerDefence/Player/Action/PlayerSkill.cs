@@ -11,14 +11,16 @@ public class PlayerSkill : MonoBehaviour
     [SerializeField]
     TDPlayerManager pManager;
 
+    public Subject<TDPlayerData.SkillTypeList> SelectSkillTrigger = new Subject<TDPlayerData.SkillTypeList>();
+
     void Start()
     {
         pManager.skillTrigger
-            .Where(x => pManager.pData.pEnergy.Value >= pManager.pData.pSkillCost)
             .Subscribe(value =>
             {
                 // スキルの実行
                 Debug.Log("スキル　実行");
+                SelectSkillTrigger.OnNext(value);
 
             }).AddTo(this.gameObject);
     }
