@@ -59,6 +59,7 @@ public class GameManagement : GMSingleton<GameManagement>
     // 初回起動完了したか
     public BoolReactiveProperty starting = new BoolReactiveProperty(false);
 
+    public BoolReactiveProperty isDebug = new BoolReactiveProperty(false);
     // ゲームクリアフラグ
     public BoolReactiveProperty isClear = new BoolReactiveProperty(false);
     // ゲームオーバーフラグ
@@ -78,7 +79,6 @@ public class GameManagement : GMSingleton<GameManagement>
 
         for (int i = 0; i > players.Length; i++)
         {
-            Debug.LogFormat("Index{0}", i);
             gameInput.InitSubject.OnNext(i);
         }
 
@@ -108,7 +108,7 @@ public class GameManagement : GMSingleton<GameManagement>
         starting.Where(s => s == true && isPause.Value == false)
             .Subscribe(s =>
             {
-                isClear.Where(x => x).
+                isClear.Where(x => isClear.Value == true && isDebug.Value == false).
                 Subscribe(_ =>
                 {
                     resultUI.setState(Result_Model.GAMESTATE.CLEAR);

@@ -140,8 +140,39 @@ MonoBehaviour:
       level_Interval:
         value: 0
     levelData_Tower:
-      towerColor: 0
-      level_Trap:
+    - level_Trap:
+        value: 0
+      level_Turret:
+        value: 0
+      level_Tower:
+        value: 0
+      level_Repair:
+        value: 0
+    - level_Trap:
+        value: 0
+      level_Turret:
+        value: 0
+      level_Tower:
+        value: 0
+      level_Repair:
+        value: 0
+    - level_Trap:
+        value: 0
+      level_Turret:
+        value: 0
+      level_Tower:
+        value: 0
+      level_Repair:
+        value: 0
+    - level_Trap:
+        value: 0
+      level_Turret:
+        value: 0
+      level_Tower:
+        value: 0
+      level_Repair:
+        value: 0
+    - level_Trap:
         value: 0
       level_Turret:
         value: 0

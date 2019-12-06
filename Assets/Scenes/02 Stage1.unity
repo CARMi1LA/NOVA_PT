@@ -422,7 +422,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &38128607
 GameObject:
   m_ObjectHideFlags: 0
@@ -5851,7 +5851,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1 &711915534
 GameObject:
   m_ObjectHideFlags: 0
@@ -26822,6 +26822,11 @@ PrefabInstance:
       propertyPath: valueData1P
       value: 
       objectReference: {fileID: 1842577682}
+    - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
+        type: 3}
+      propertyPath: isDebug.value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5529332785576108109, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}
       propertyPath: spawnPos.Array.size
@@ -26934,6 +26939,8 @@ MonoBehaviour:
     levelData_Skill:
       level_Skill:
         value: 0
+  btnPlayer: {fileID: 1545843986}
+  spBuyControll: {fileID: 1842577677}
 --- !u!114 &1842577675 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5529332785576108106, guid: 5f5225042b3747c4babd26c866751226,
@@ -26958,6 +26965,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c3bd79346aa24e4ca23082734fe6c14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1842577677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842577673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fabfdc5c6f53ed54facba3a5d1029055, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  workFlg:
+    value: 0
+  spBtnPlayer: {fileID: 1545843986}
+  spBtnTowerR: {fileID: 520760989}
+  spBtnTowerB: {fileID: 1564476144}
+  spBtnTowerY: {fileID: 391481855}
+  spBtnTowerG: {fileID: 1010455144}
+  spBtnSkill: {fileID: 524067007}
+  spBtnUlt: {fileID: 1054233288}
 --- !u!114 &1842577681
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,6 +6,13 @@ using UniRx;
 [System.Serializable]
 public class LevelData_Tower
 {
+    public LevelData_Tower()
+    {
+        level_Trap = new IntReactiveProperty(0);
+        level_Turret = new IntReactiveProperty(0);
+        level_Tower = new IntReactiveProperty(0);
+    }
+
     public IntReactiveProperty level_Trap;      // トラップ
     public IntReactiveProperty level_Turret;    // タレット
     public IntReactiveProperty level_Tower;     // タワー本体

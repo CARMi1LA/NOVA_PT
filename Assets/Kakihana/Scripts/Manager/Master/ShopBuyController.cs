@@ -25,6 +25,14 @@ public class ShopBuyController : MonoBehaviour
     // スキル変更のパラメータごとのレベルが格納されているクラス
     private LevelData_Skill skillLv;
 
+    public SpBtnPlayerManager spBtnPlayer;
+    public SpBtnTowerRManager spBtnTowerR;
+    public SpBtnTowerBManager spBtnTowerB;
+    public SpBtnTowerYManager spBtnTowerY;
+    public SpBtnTowerGManager spBtnTowerG;
+    public SpBtnSkillManager spBtnSkill;
+    public SpBtnUltManager spBtnUlt;
+
     public Subject<ShopData> BuyControllerInit = new Subject<ShopData>();
     // Start is called before the first frame update
     void Start()
@@ -36,277 +44,283 @@ public class ShopBuyController : MonoBehaviour
             playerLv = buyData.levelData_Player;
             skillLv = buyData.levelData_Skill;
             ultLv = buyData.levelData_Ult;
-            for (int i = 0; i < buyData.levelData_Tower.Length; i++)
+            for (int i = 0; i > buyData.levelData_Tower.Length; i++)
             {
                 towerLv[i] = buyData.levelData_Tower[i];
             }
+
+            spBtnPlayer.InitSubject.OnNext(playerLv);
+            Debug.Log("BuyControllInit");
         }).AddTo(this.gameObject);
 
         ShopManager.Instance.mater
             .Where(mat => buyData != null)
             .Subscribe(mat => 
             {
+                Debug.Log("materSubsc");
                 // プレイヤー強化購入可能判断処理
                 if (mat >= buyData.shopData_Player[playerLv.level_HP.Value + 1].purchaseMater)
                 {
-                    // 
+                    // 購入可能
+                    Debug.Log("materSubsc1");
+                    spBtnPlayer.BuyOkText.OnNext(ShopData.Player_ParamList.Param_HP);
                 }
-                else
+                else if(mat < buyData.shopData_Player[playerLv.level_HP.Value + 1].purchaseMater)
                 {
-                    // 金額不足
+                    Debug.Log("materSubsc2");
+                    // 購入不可（金額不足）
+                    spBtnPlayer.BuyNgText.OnNext(ShopData.Player_ParamList.Param_HP);
                 }
 
                 if (mat >= buyData.shopData_Player[playerLv.level_Speed.Value + 1].purchaseMater)
                 {
                     // 購入可能
+                    spBtnPlayer.BuyOkText.OnNext(ShopData.Player_ParamList.Param_Speed);
                 }
                 else
                 {
-                    // 金額不足
+                    // 購入不可（金額不足）
+                    spBtnPlayer.BuyNgText.OnNext(ShopData.Player_ParamList.Param_Speed);
                 }
 
                 if (mat >= buyData.shopData_Player[playerLv.level_Interval.Value + 1].purchaseMater)
                 {
                     // 購入可能
+                    spBtnPlayer.BuyOkText.OnNext(ShopData.Player_ParamList.Param_Interval);
                 }
                 else
                 {
-                    // 金額不足
+                    // 購入不可（金額不足）
+                    spBtnPlayer.BuyNgText.OnNext(ShopData.Player_ParamList.Param_Interval);
                 }
 
-                // 赤タワー購入可能判断処理
+                //    // 赤タワー購入可能判断処理
 
-                if (mat >= buyData.redData_Tower[towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value + 1].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
+                //    if (mat >= buyData.redData_Tower[towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value + 1].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
 
-                if (mat >= buyData.redData_Tower[towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value + 1].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
+                //    if (mat >= buyData.redData_Tower[towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value + 1].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
 
-                if (mat >= buyData.redData_Tower[towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value + 1].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
+                //    if (mat >= buyData.redData_Tower[towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value + 1].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
 
-                if (mat >= buyData.redData_Tower[towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value + 1].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
+                //    if (mat >= buyData.redData_Tower[towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value + 1].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
 
-                // 青タワー購入可能判断処理
+                //    // 青タワー購入可能判断処理
 
-                if (mat >= buyData.blueData_Tower[towerLv[(int)ShopData.TowerColor.Blue].level_Trap.Value + 1].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
+                //    if (mat >= buyData.blueData_Tower[towerLv[(int)ShopData.TowerColor.Blue].level_Trap.Value + 1].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
 
-                if (mat >= buyData.blueData_Tower[towerLv[(int)ShopData.TowerColor.Blue].level_Turret.Value + 1].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
+                //    if (mat >= buyData.blueData_Tower[towerLv[(int)ShopData.TowerColor.Blue].level_Turret.Value + 1].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
 
-                if (mat >= buyData.blueData_Tower[towerLv[(int)ShopData.TowerColor.Blue].level_Tower.Value + 1].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
+                //    if (mat >= buyData.blueData_Tower[towerLv[(int)ShopData.TowerColor.Blue].level_Tower.Value + 1].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
 
-                if (mat >= buyData.blueData_Tower[towerLv[(int)ShopData.TowerColor.Blue].level_Repair.Value + 1].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
+                //    if (mat >= buyData.blueData_Tower[towerLv[(int)ShopData.TowerColor.Blue].level_Repair.Value + 1].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
 
-                // 黄タワー購入可能判断処理
+                //    // 黄タワー購入可能判断処理
 
-                if (mat >= buyData.yellowData_Tower[towerLv[(int)ShopData.TowerColor.Yellow].level_Trap.Value + 1].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
+                //    if (mat >= buyData.yellowData_Tower[towerLv[(int)ShopData.TowerColor.Yellow].level_Trap.Value + 1].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
 
-                if (mat >= buyData.yellowData_Tower[towerLv[(int)ShopData.TowerColor.Yellow].level_Turret.Value + 1].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
+                //    if (mat >= buyData.yellowData_Tower[towerLv[(int)ShopData.TowerColor.Yellow].level_Turret.Value + 1].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
 
-                if (mat >= buyData.yellowData_Tower[towerLv[(int)ShopData.TowerColor.Yellow].level_Tower.Value + 1].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
+                //    if (mat >= buyData.yellowData_Tower[towerLv[(int)ShopData.TowerColor.Yellow].level_Tower.Value + 1].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
 
-                if (mat >= buyData.yellowData_Tower[towerLv[(int)ShopData.TowerColor.Yellow].level_Repair.Value + 1].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
+                //    if (mat >= buyData.yellowData_Tower[towerLv[(int)ShopData.TowerColor.Yellow].level_Repair.Value + 1].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
 
 
-                // 緑タワー購入可能判断処理
+                //    // 緑タワー購入可能判断処理
 
-                if (mat >= buyData.greenData_Tower[towerLv[(int)ShopData.TowerColor.Green].level_Trap.Value + 1].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
+                //    if (mat >= buyData.greenData_Tower[towerLv[(int)ShopData.TowerColor.Green].level_Trap.Value + 1].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
 
-                if (mat >= buyData.greenData_Tower[towerLv[(int)ShopData.TowerColor.Green].level_Turret.Value + 1].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
+                //    if (mat >= buyData.greenData_Tower[towerLv[(int)ShopData.TowerColor.Green].level_Turret.Value + 1].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
 
-                if (mat >= buyData.greenData_Tower[towerLv[(int)ShopData.TowerColor.Green].level_Tower.Value + 1].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
+                //    if (mat >= buyData.greenData_Tower[towerLv[(int)ShopData.TowerColor.Green].level_Tower.Value + 1].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
 
-                if (mat >= buyData.greenData_Tower[towerLv[(int)ShopData.TowerColor.Green].level_Repair.Value + 1].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
+                //    if (mat >= buyData.greenData_Tower[towerLv[(int)ShopData.TowerColor.Green].level_Repair.Value + 1].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
 
-                // スキルの購入可能判断処理
+                //    // スキルの購入可能判断処理
 
-                if (mat >= buyData.shopData_Skill[(int)ShopData.Skill_ParamList.Normal].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
-                if (mat >= buyData.shopData_Skill[(int)ShopData.Skill_ParamList.Razer].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
+                //    if (mat >= buyData.shopData_Skill[(int)ShopData.Skill_ParamList.Normal].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
+                //    if (mat >= buyData.shopData_Skill[(int)ShopData.Skill_ParamList.Razer].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
 
-                if (mat >= buyData.shopData_Skill[(int)ShopData.Skill_ParamList.Missile].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
+                //    if (mat >= buyData.shopData_Skill[(int)ShopData.Skill_ParamList.Missile].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
 
-                if (mat >= buyData.shopData_Skill[(int)ShopData.Skill_ParamList.Bomb].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
+                //    if (mat >= buyData.shopData_Skill[(int)ShopData.Skill_ParamList.Bomb].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
 
-                // 必殺技の購入可能判断処理
+                //    // 必殺技の購入可能判断処理
 
-                if (mat >= buyData.shopData_Ult[(int)ShopData.Ult_ParamList.Normal].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
+                //    if (mat >= buyData.shopData_Ult[(int)ShopData.Ult_ParamList.Normal].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
 
-                if (mat >= buyData.shopData_Ult[(int)ShopData.Ult_ParamList.Trap].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
+                //    if (mat >= buyData.shopData_Ult[(int)ShopData.Ult_ParamList.Trap].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
 
-                if (mat >= buyData.shopData_Ult[(int)ShopData.Ult_ParamList.Bomb].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
+                //    if (mat >= buyData.shopData_Ult[(int)ShopData.Ult_ParamList.Bomb].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
 
-                if (mat >= buyData.shopData_Ult[(int)ShopData.Ult_ParamList.Repair].purchaseMater)
-                {
-                    // 購入可能
-                }
-                else
-                {
-                    // 金額不足
-                }
+                //    if (mat >= buyData.shopData_Ult[(int)ShopData.Ult_ParamList.Repair].purchaseMater)
+                //    {
+                //        // 購入可能
+                //    }
+                //    else
+                //    {
+                //        // 金額不足
+                //    }
             }).AddTo(this.gameObject);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
