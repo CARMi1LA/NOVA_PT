@@ -6,25 +6,22 @@ using UniRx.Triggers;
 
 public class PlayerUltimate : MonoBehaviour
 {
-    // スキルマネージャー
+    // アルティメットマネージャー
 
     [SerializeField]
     TDPlayerManager pManager;
 
-    TDPlayerData pData;
+    // public Subject<TDPlayerData.UltimateTypeList> StartUltimate = new Subject<TDPlayerData.UltimateTypeList>();
 
     void Start()
     {
-        pData = pManager.pData;
-
         pManager.ultimateTrigger
-            .Where(x => pData.pUltimate.Value >= pData.pMaxUltimate)
             .Subscribe(value =>
             {
                 // アルティメットの実行
                 Debug.Log("アルティメット　実行");
 
-                pData.pUltimate.Value -= pData.pMaxUltimate;
+                // StartUltimate.OnNext(value);
 
             }).AddTo(this.gameObject);
     }

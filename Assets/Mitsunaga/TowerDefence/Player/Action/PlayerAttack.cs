@@ -10,15 +10,15 @@ public class PlayerAttack : MonoBehaviour
 
     [SerializeField]
     TDPlayerManager pManager;
-
-    TDPlayerData pData;
+    [SerializeField]
+    TDBulletData.BulletTypeList bType;  // 攻撃タイプの実装テスト
+    [SerializeField]
+    int attackInterval = 1;   // 攻撃間隔の倍率　実装テスト
 
     bool isAttack = false;
 
     void Start()
     {
-        pData = pManager.pData;
-
         pManager.attackTrigger
             .Subscribe(value =>
             {
@@ -28,10 +28,13 @@ public class PlayerAttack : MonoBehaviour
 
         this.UpdateAsObservable()
             .Where(x => isAttack)
+            .ThrottleFirstFrame(pManager.pData.pAttackInterval * attackInterval)
             .Subscribe(_ =>
             {
                 // 通常攻撃の実行
                 Debug.Log("通常攻撃　実行");
+                TDBulletData bData = new TDBulletData(0,bType, this.transform.position, this.transform.eulerAngles);
+                TDBulletSpawner.Instance.bulletRentSubject.OnNext(bData);
 
             }).AddTo(this.gameObject);
     }
