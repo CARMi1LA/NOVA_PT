@@ -44,6 +44,9 @@ public class TDPlayerData
     public float pSkillCost = 10.0f;        // スキルの発動コスト
     public float pDashCost = 5.0f;         // 回避の発動コスト
     public float pDashTime = 0.5f;  // 回避の行動時間
+
+    public bool pBarrier = false;   // ダメージ無効時間の有効化
+
     // 初期化
     public TDPlayerData()
     {

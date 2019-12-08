@@ -14,7 +14,7 @@ public class SkillBomb : MonoBehaviour
     TDBulletData.BulletTypeList bType;  // 攻撃タイプの実装テスト
     void Start()
     {
-        pSkill.SelectSkillTrigger
+        pSkill.StartSkill
             .Subscribe(value =>
             {                
                 // 通常攻撃の実行

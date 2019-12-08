@@ -24,14 +24,11 @@ public class TDBulletManager : MonoBehaviour
                 TDBulletSpawner.Instance.bulletReturnSubject.OnNext(this);
 
             }).AddTo(this.gameObject);
-
     }
 
     // 初期化
     public void Init(TDBulletData bData)
     {
-        Debug.Log(bData.bPosition.ToString());
-
         // 返却フラグの設定
         isReturn.Value = false;
         // 移動処理の実行

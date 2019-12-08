@@ -6,10 +6,12 @@ using UniRx.Triggers;
 
 public class PlayerUltimate : MonoBehaviour
 {
-    // スキルマネージャー
+    // アルティメットマネージャー
 
     [SerializeField]
     TDPlayerManager pManager;
+
+    // public Subject<TDPlayerData.UltimateTypeList> StartUltimate = new Subject<TDPlayerData.UltimateTypeList>();
 
     void Start()
     {
@@ -18,6 +20,8 @@ public class PlayerUltimate : MonoBehaviour
             {
                 // アルティメットの実行
                 Debug.Log("アルティメット　実行");
+
+                // StartUltimate.OnNext(value);
 
             }).AddTo(this.gameObject);
     }

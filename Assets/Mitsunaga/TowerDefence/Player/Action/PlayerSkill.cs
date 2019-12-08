@@ -11,7 +11,7 @@ public class PlayerSkill : MonoBehaviour
     [SerializeField]
     TDPlayerManager pManager;
 
-    public Subject<TDPlayerData.SkillTypeList> SelectSkillTrigger = new Subject<TDPlayerData.SkillTypeList>();
+    public Subject<TDPlayerData.SkillTypeList> StartSkill = new Subject<TDPlayerData.SkillTypeList>();
 
     void Start()
     {
@@ -20,7 +20,7 @@ public class PlayerSkill : MonoBehaviour
             {
                 // スキルの実行
                 Debug.Log("スキル　実行");
-                SelectSkillTrigger.OnNext(value);
+                StartSkill.OnNext(value);
 
             }).AddTo(this.gameObject);
     }

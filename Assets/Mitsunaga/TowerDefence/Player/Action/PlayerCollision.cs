@@ -18,6 +18,14 @@ public class PlayerCollision : MonoBehaviour, IDamage, ICollision
 
     void Start()
     {
+        this.UpdateAsObservable()
+            .Where(x => Input.GetKeyDown(KeyCode.H))
+            .Subscribe(_ =>
+            {
+                HitDamage();
+
+            }).AddTo(this.gameObject);
+
         // 衝突判定
         this.OnCollisionEnterAsObservable()
             .Subscribe(col =>
@@ -67,9 +75,18 @@ public class PlayerCollision : MonoBehaviour, IDamage, ICollision
 
     public void HitDamage()
     {
-        // ダメージを受ける
-        Debug.Log("ダメージを受けた！");
-        pManager.DamageTrigger.OnNext(Unit.Default);
+        // ダメージ無効時間の確認
+        if (pManager.pData.pBarrier)
+        {
+            Debug.Log("ダメージ無効！");
+        }
+        else
+        {
+            // ダメージを受ける
+            Debug.Log("ダメージを受けた！");
+            pManager.DamageTrigger.OnNext(Unit.Default);
+        }
+
     }
 
     public void HitCollision(Vector3 targetPos)
