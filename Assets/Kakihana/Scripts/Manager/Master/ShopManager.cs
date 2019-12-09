@@ -27,23 +27,25 @@ public class ShopManager : SPMSinleton<ShopManager>
     public Subject<Unit> InitParamLevel = new Subject<Unit>();
     protected override void Awake()
     {
+        Debug.Log("Init1");
         base.Awake();
         shopDataList = Resources.Load<ShopDataList>("ShopDataList");
         shopData = shopDataList.dataList_Shop[0];
-
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        InitParamLevel.Subscribe(_ => 
+        InitParamLevel.Subscribe(_ =>
         {
+            Debug.Log("Init3");
+            spBuyControll.BuyInit(shopData);
+            spBuyControll.BuyControllerInit.OnNext(shopData);
             shopData.levelData_Player = new LevelData_Player();
         }).AddTo(this.gameObject);
-
+        Debug.Log("Init2");
         InitParamLevel.OnNext(Unit.Default);
 
-        spBuyControll.BuyControllerInit.OnNext(shopData);
         addLevel_Player
             .Subscribe(val => 
             {

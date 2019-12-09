@@ -17,13 +17,13 @@ public class ShopBuyController : MonoBehaviour
 
     // プレイヤー強化のパラメータごとのレベルが格納されているクラス
     [Header("パラメータごとのレベル（設定不要）")]
-    private LevelData_Player playerLv;
+    [SerializeField] private LevelData_Player playerLv;
     // タワー強化のパラメータごとのレベルが格納されているクラス
-    private LevelData_Tower[] towerLv;
+    [SerializeField] private LevelData_Tower[] towerLv;
     // Ult変更のパラメータごとのレベルが格納されているクラス
-    private LevelData_Ult ultLv;
+    [SerializeField] private LevelData_Ult ultLv;
     // スキル変更のパラメータごとのレベルが格納されているクラス
-    private LevelData_Skill skillLv;
+    [SerializeField] private LevelData_Skill skillLv;
 
     public SpBtnPlayerManager spBtnPlayer;
     public SpBtnTowerRManager spBtnTowerR;
@@ -39,18 +39,7 @@ public class ShopBuyController : MonoBehaviour
     {
         BuyControllerInit.Subscribe(data => 
         {
-            buyData = data;
 
-            playerLv = buyData.levelData_Player;
-            skillLv = buyData.levelData_Skill;
-            ultLv = buyData.levelData_Ult;
-            for (int i = 0; i > buyData.levelData_Tower.Length; i++)
-            {
-                towerLv[i] = buyData.levelData_Tower[i];
-            }
-
-            spBtnPlayer.InitSubject.OnNext(playerLv);
-            Debug.Log("BuyControllInit");
         }).AddTo(this.gameObject);
 
         ShopManager.Instance.mater
@@ -62,12 +51,10 @@ public class ShopBuyController : MonoBehaviour
                 if (mat >= buyData.shopData_Player[playerLv.level_HP.Value + 1].purchaseMater)
                 {
                     // 購入可能
-                    Debug.Log("materSubsc1");
                     spBtnPlayer.BuyOkText.OnNext(ShopData.Player_ParamList.Param_HP);
                 }
                 else if(mat < buyData.shopData_Player[playerLv.level_HP.Value + 1].purchaseMater)
                 {
-                    Debug.Log("materSubsc2");
                     // 購入不可（金額不足）
                     spBtnPlayer.BuyNgText.OnNext(ShopData.Player_ParamList.Param_HP);
                 }
@@ -322,5 +309,19 @@ public class ShopBuyController : MonoBehaviour
                 //        // 金額不足
                 //    }
             }).AddTo(this.gameObject);
+    }
+    public void BuyInit(ShopData data)
+    {
+        buyData = data;
+
+        playerLv = buyData.levelData_Player;
+        skillLv = buyData.levelData_Skill;
+        ultLv = buyData.levelData_Ult;
+        for (int i = 0; i > buyData.levelData_Tower.Length; i++)
+        {
+            towerLv[i] = buyData.levelData_Tower[i];
+        }
+        spBtnPlayer.InitSubject.OnNext(playerLv);
+        Debug.Log("BuyControllInit");
     }
 }

@@ -21,6 +21,7 @@ public class SpBtnPlayerManager : MonoBehaviour
     {
         InitSubject.Subscribe(_ => 
         {
+            Debug.Log("SPbtnInit");
             levelData_Player = _;
 
             spPlayerBtn[0].levelText.text =
