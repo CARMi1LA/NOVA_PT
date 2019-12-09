@@ -137,7 +137,8 @@ public class TDPlayerManager : MonoBehaviour
             }).AddTo(this.gameObject);
         // Xボタン：スキル発動
         inputData.pushBtnX
-            .Where(x => inputData.pushBtnX.Value)
+            .ThrottleFirstFrame(pData.pSkillInterval)
+            .Where(x => x)
             .Where(x => pData.pEnergy.Value >= pData.pSkillCost)
             .Subscribe(value =>
             {

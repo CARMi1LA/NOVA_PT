@@ -20,6 +20,6 @@ MonoBehaviour:
   - bType: 1
     size: {x: 1, y: 1, z: 2}
   - bType: 2
-    size: {x: 2, y: 2, z: 1}
+    size: {x: 2, y: 2, z: 2}
   - bType: 3
     size: {x: 1, y: 1, z: 1}
