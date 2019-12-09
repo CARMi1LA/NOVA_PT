@@ -5,8 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class ShopUltPramData
 {
-    // スキルと必殺技のインデックスが格納されているクラス
-    public int skillIndex;          // スキルのインデックス
+    // 必殺技のインデックスが格納されているクラス
     public int ultIndex;            // 必殺技のインデックス
     public int purchaseMater;       // 必要金額
 }

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5529332785576108108}
   - component: {fileID: 5529332785576108109}
   - component: {fileID: 5529332785576108106}
-  - component: {fileID: 5529332785576108110}
   m_Layer: 0
   m_Name: GameMaster
   m_TagString: Untagged
@@ -49,25 +48,49 @@ MonoBehaviour:
   playerTrans: {fileID: 0}
   cameraTrans: {fileID: 0}
   cameraPos: {x: 0, y: 0, z: 0}
-  listManager: {fileID: 0}
+  cScreen: {x: 0, y: 0, z: 0}
+  cWorld: {x: 0, y: 0, z: 0}
+  actManager: {fileID: 0}
+  gameHUD: {fileID: 0}
+  resultUI: {fileID: 0}
+  bulletActManager: {fileID: 0}
+  players: []
+  gameInput: {fileID: 0}
+  valueData1P: {fileID: 0}
+  valueData2P: {fileID: 0}
+  bgms: []
   gameLevel:
     value: 1
   playerLevel:
     value: 1
-  playerScore:
+  gameScore:
     value: 0
+  damageBonus: 10
+  enemyDeathBonus: 100
   combo:
     value: 0
   maxCombo:
     value: 0
+  enemyDeathCombo:
+    value: 0
+  attackCombo:
+    value: 0
+  attackScoreMul:
+    value: 0
   achievementRate: 0
+  atkComboResetCount: 0
+  atkComboResetLimit: 10
+  starting:
+    value: 0
   isClear:
     value: 0
   gameOver:
     value: 0
   isPause:
     value: 1
-  onClick:
+  playerUlt:
+    value: 0
+  enemyUlt:
     value: 0
 --- !u!114 &5529332785576108109
 MonoBehaviour:
@@ -81,6 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c3bd79346aa24e4ca23082734fe6c14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  difficulty: {fileID: 0}
   stageID: 0
   dataList: {fileID: 0}
   stageData:
@@ -91,13 +115,21 @@ MonoBehaviour:
     waveEnemyObj: []
     eventObj: []
     eventFlg: 0
+  enemySpawner: {fileID: 0}
   nowWave:
     value: 0
   maxWave: 0
   enemyAliveNum:
     value: 0
+  spawnOffset: 0
   eventFlg: 0
+  spawnPos: []
+  playerTrans: {fileID: 0}
   nextWaveFlg:
+    value: 0
+  startingFlg:
+    value: 0
+  waveAct:
     value: 0
 --- !u!114 &5529332785576108106
 MonoBehaviour:
@@ -114,23 +146,3 @@ MonoBehaviour:
   playerTrans: {fileID: 0}
   bossAtkList: 02000000030000000500000008000000090000000a000000
   leaderAtkList: 0b0000000c0000000d000000
---- !u!114 &5529332785576108110
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5529332785576108107}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49390fd0705cc9248a50f641b7f3c0f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  apprName: 0
-  waitName: 0
-  atkName: 0
-  escName: 0
-  AI_AtkList: {fileID: 0}
-  AI_DefList: {fileID: 0}
-  AI_LeaderList: {fileID: 0}
-  AI_BossList: {fileID: 0}

@@ -6,15 +6,13 @@ using UniRx;
 [System.Serializable]
 public class LevelData_Tower
 {
-    // タワーのパラメータごとのレベル
-    public enum TowerColor
+    public LevelData_Tower()
     {
-        Red = 0,
-        Blue,
-        Yellow,
-        Green
+        level_Trap = new IntReactiveProperty(0);
+        level_Turret = new IntReactiveProperty(0);
+        level_Tower = new IntReactiveProperty(0);
     }
-    public TowerColor towerColor;               // タワーの色
+
     public IntReactiveProperty level_Trap;      // トラップ
     public IntReactiveProperty level_Turret;    // タレット
     public IntReactiveProperty level_Tower;     // タワー本体

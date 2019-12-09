@@ -6,10 +6,13 @@ using UniRx;
 [System.Serializable]
 public class LevelData_Ult
 {
-    // Ult＆スキルのレベルデータ
+    // Ultのレベルデータ
     // （正確にはレベルの概念は無いが便宜上表記）
+    public LevelData_Ult()
+    {
+        level_Ult = new IntReactiveProperty(0);
+    }
 
-    public IntReactiveProperty level_Skill;         // スキル番号
     public IntReactiveProperty level_Ult;           // 必殺技番号
 
 }
