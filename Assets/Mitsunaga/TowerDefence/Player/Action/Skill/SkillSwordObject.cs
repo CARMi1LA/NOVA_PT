@@ -21,12 +21,15 @@ public class SkillSwordObject : MonoBehaviour
     Renderer sRenderer; // マテリアルの変更用
     Collider sCollider; // 当たり判定の変更用
 
-    void Start()
+    void Awake()
     {
         sRenderer = GetComponent<Renderer>();   // マテリアルの取得
         sCollider = GetComponent<Collider>();   // 当たり判定の取得
-        sCollider.enabled = false;              // 当たり判定を
+        sCollider.enabled = false;              // 当たり判定を消しておく
+    }
 
+    void Start()
+    {
         // 剣生成イベントの購読
         sSword.SwordGenerateTrigger
             .Subscribe(value =>
