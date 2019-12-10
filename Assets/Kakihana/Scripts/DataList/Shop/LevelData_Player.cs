@@ -6,15 +6,17 @@ using UniRx;
 [System.Serializable]
 public class LevelData_Player
 {
+    public int MAX_LV = 3;
+    // プレイヤーのパラメータごとのレベル
+    public IntReactiveProperty lv_HP = new IntReactiveProperty(0);            // HP
+    public IntReactiveProperty lv_Spd = new IntReactiveProperty(0);         // スピード
+    public IntReactiveProperty lv_Int = new IntReactiveProperty(0);    // 攻撃間隔
+
     public LevelData_Player()
     {
-        level_HP = new IntReactiveProperty(0);
-        level_Speed = new IntReactiveProperty(0);
-        level_Interval = new IntReactiveProperty(0);
+        lv_HP.Value = 0;
+        lv_Spd.Value = 0;
+        lv_Int.Value = 0;
     }
 
-    // プレイヤーのパラメータごとのレベル
-    public IntReactiveProperty level_HP;            // HP
-    public IntReactiveProperty level_Speed;         // スピード
-    public IntReactiveProperty level_Interval;      // 攻撃間隔
 }

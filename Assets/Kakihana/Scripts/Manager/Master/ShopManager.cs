@@ -16,6 +16,7 @@ public class ShopManager : SPMSinleton<ShopManager>
     public ShopData shopData;               // 読み込まれたショップのデータ
     public SpBtnPlayerManager btnPlayer;
     public ShopBuyController spBuyControll;
+    public SpLvData spLv;
 
     public Subject<ShopData.Player_ParamList> addLevel_Player = new Subject<ShopData.Player_ParamList>();
     public Subject<ShopData.TowerRed_ParamList> addLevel_TowerRed = new Subject<ShopData.TowerRed_ParamList>();
@@ -31,6 +32,7 @@ public class ShopManager : SPMSinleton<ShopManager>
         base.Awake();
         shopDataList = Resources.Load<ShopDataList>("ShopDataList");
         shopData = shopDataList.dataList_Shop[0];
+        spLv.SpLvInit.OnNext(Unit.Default);
     }
 
     // Start is called before the first frame update
@@ -38,10 +40,8 @@ public class ShopManager : SPMSinleton<ShopManager>
     {
         InitParamLevel.Subscribe(_ =>
         {
-            Debug.Log("Init3");
-            spBuyControll.BuyInit(shopData);
+            spBuyControll.BuyInit();
             spBuyControll.BuyControllerInit.OnNext(shopData);
-            shopData.levelData_Player = new LevelData_Player();
         }).AddTo(this.gameObject);
         Debug.Log("Init2");
         InitParamLevel.OnNext(Unit.Default);
@@ -49,23 +49,27 @@ public class ShopManager : SPMSinleton<ShopManager>
         addLevel_Player
             .Subscribe(val => 
             {
+                Debug.Log("AddLevel");
                 switch (val)
                 {
                     case ShopData.Player_ParamList.Param_HP:
-                        mater.Value -= shopData.shopData_Player[shopData.levelData_Player.level_HP.Value + 1].purchaseMater;
-                        shopData.levelData_Player.level_HP.Value++;
+                        mater.Value -= shopData.shopData_Player[spLv.playerLv.lv_HP.Value + 1].purchaseMater;
+                        spLv.playerLv.lv_HP.Value++;
+                        btnPlayer.NextLv.OnNext(ShopData.Player_ParamList.Param_HP);
                         btnPlayer.ChangeLvText.OnNext(ShopData.Player_ParamList.Param_HP);
                         btnPlayer.ChangeValueText.OnNext(ShopData.Player_ParamList.Param_HP);
                         break;
                     case ShopData.Player_ParamList.Param_Speed:
-                        mater.Value -= shopData.shopData_Player[shopData.levelData_Player.level_Speed.Value + 1].purchaseMater;
-                        shopData.levelData_Player.level_Speed.Value++;
+                        mater.Value -= shopData.shopData_Player[spLv.playerLv.lv_Spd.Value + 1].purchaseMater;
+                        spLv.playerLv.lv_Spd.Value++;
+                        btnPlayer.NextLv.OnNext(ShopData.Player_ParamList.Param_Speed);
                         btnPlayer.ChangeLvText.OnNext(ShopData.Player_ParamList.Param_Speed);
                         btnPlayer.ChangeValueText.OnNext(ShopData.Player_ParamList.Param_Speed);
                         break;
                     case ShopData.Player_ParamList.Param_Interval:
-                        mater.Value -= shopData.shopData_Player[shopData.levelData_Player.level_Interval.Value + 1].purchaseMater;
-                        shopData.levelData_Player.level_Interval.Value++;
+                        mater.Value -= shopData.shopData_Player[spLv.playerLv.lv_Int.Value + 1].purchaseMater;
+                        spLv.playerLv.lv_Int.Value++;
+                        btnPlayer.NextLv.OnNext(ShopData.Player_ParamList.Param_Interval);
                         btnPlayer.ChangeLvText.OnNext(ShopData.Player_ParamList.Param_Interval);
                         btnPlayer.ChangeValueText.OnNext(ShopData.Player_ParamList.Param_Interval);
                         break;

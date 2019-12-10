@@ -5851,7 +5851,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &711915534
 GameObject:
   m_ObjectHideFlags: 0
@@ -11167,7 +11167,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1 &1176487925
 GameObject:
   m_ObjectHideFlags: 0
@@ -26941,6 +26941,7 @@ MonoBehaviour:
         value: 0
   btnPlayer: {fileID: 1545843986}
   spBuyControll: {fileID: 1842577677}
+  spLv: {fileID: 1842577678}
 --- !u!114 &1842577675 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5529332785576108106, guid: 5f5225042b3747c4babd26c866751226,
@@ -26979,6 +26980,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   workFlg:
     value: 0
+  spLv: {fileID: 1842577678}
   spBtnPlayer: {fileID: 1545843986}
   spBtnTowerR: {fileID: 520760989}
   spBtnTowerB: {fileID: 1564476144}
@@ -26986,6 +26988,32 @@ MonoBehaviour:
   spBtnTowerG: {fileID: 1010455144}
   spBtnSkill: {fileID: 524067007}
   spBtnUlt: {fileID: 1054233288}
+--- !u!114 &1842577678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842577673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5df17118a37bc3b449c1ae3f1a7b8ad1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerLv:
+    level_HP:
+      value: 0
+    level_Speed:
+      value: 0
+    level_Interval:
+      value: 0
+  towerLv: []
+  skillLv:
+    level_Skill:
+      value: 0
+  ultLv:
+    level_Ult:
+      value: 0
 --- !u!114 &1842577681
 MonoBehaviour:
   m_ObjectHideFlags: 0
