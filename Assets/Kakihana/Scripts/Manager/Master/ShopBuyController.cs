@@ -13,17 +13,8 @@ public class ShopBuyController : MonoBehaviour
     // このスクリプトの動作フラグ
     public BoolReactiveProperty workFlg = new BoolReactiveProperty(false);
 
+    public SpLvData spLv;
     private ShopData buyData;
-
-    // プレイヤー強化のパラメータごとのレベルが格納されているクラス
-    [Header("パラメータごとのレベル（設定不要）")]
-    private LevelData_Player playerLv;
-    // タワー強化のパラメータごとのレベルが格納されているクラス
-    private LevelData_Tower[] towerLv;
-    // Ult変更のパラメータごとのレベルが格納されているクラス
-    private LevelData_Ult ultLv;
-    // スキル変更のパラメータごとのレベルが格納されているクラス
-    private LevelData_Skill skillLv;
 
     public SpBtnPlayerManager spBtnPlayer;
     public SpBtnTowerRManager spBtnTowerR;
@@ -39,98 +30,147 @@ public class ShopBuyController : MonoBehaviour
     {
         BuyControllerInit.Subscribe(data => 
         {
-            buyData = data;
 
-            playerLv = buyData.levelData_Player;
-            skillLv = buyData.levelData_Skill;
-            ultLv = buyData.levelData_Ult;
-            for (int i = 0; i > buyData.levelData_Tower.Length; i++)
-            {
-                towerLv[i] = buyData.levelData_Tower[i];
-            }
-
-            spBtnPlayer.InitSubject.OnNext(playerLv);
-            Debug.Log("BuyControllInit");
         }).AddTo(this.gameObject);
 
         ShopManager.Instance.mater
-            .Where(mat => buyData != null)
+            .Where(mat => buyData != null && spLv != null)
             .Subscribe(mat => 
             {
                 Debug.Log("materSubsc");
                 // プレイヤー強化購入可能判断処理
-                if (mat >= buyData.shopData_Player[playerLv.level_HP.Value + 1].purchaseMater)
+                if (spLv.playerLv.lv_HP.Value >= spLv.playerLv.MAX_LV)
                 {
-                    // 購入可能
-                    Debug.Log("materSubsc1");
-                    spBtnPlayer.BuyOkText.OnNext(ShopData.Player_ParamList.Param_HP);
-                }
-                else if(mat < buyData.shopData_Player[playerLv.level_HP.Value + 1].purchaseMater)
-                {
-                    Debug.Log("materSubsc2");
-                    // 購入不可（金額不足）
-                    spBtnPlayer.BuyNgText.OnNext(ShopData.Player_ParamList.Param_HP);
-                }
-
-                if (mat >= buyData.shopData_Player[playerLv.level_Speed.Value + 1].purchaseMater)
-                {
-                    // 購入可能
-                    spBtnPlayer.BuyOkText.OnNext(ShopData.Player_ParamList.Param_Speed);
+                    //spBtnPlayer.SoldOutText.OnNext(ShopData.Player_ParamList.Param_HP);
                 }
                 else
                 {
-                    // 購入不可（金額不足）
-                    spBtnPlayer.BuyNgText.OnNext(ShopData.Player_ParamList.Param_Speed);
+                    if (mat >= buyData.shopData_Player[spLv.playerLv.lv_HP.Value + 1].purchaseMater)
+                    {
+                        // 購入可能
+                        spBtnPlayer.BuyOkText.OnNext(ShopData.Player_ParamList.Param_HP);
+                    }
+                    else
+                    {
+                        // 購入不可（金額不足）
+                        spBtnPlayer.BuyNgText.OnNext(ShopData.Player_ParamList.Param_HP);
+                    }
                 }
 
-                if (mat >= buyData.shopData_Player[playerLv.level_Interval.Value + 1].purchaseMater)
+                // プレイヤー強化購入可能判断処理
+                if (spLv.playerLv.lv_Spd.Value >= spLv.playerLv.MAX_LV)
                 {
-                    // 購入可能
-                    spBtnPlayer.BuyOkText.OnNext(ShopData.Player_ParamList.Param_Interval);
+                    //spBtnPlayer.SoldOutText.OnNext(ShopData.Player_ParamList.Param_Speed);
                 }
                 else
                 {
-                    // 購入不可（金額不足）
-                    spBtnPlayer.BuyNgText.OnNext(ShopData.Player_ParamList.Param_Interval);
+                    if (mat >= buyData.shopData_Player[spLv.playerLv.lv_Spd.Value + 1].purchaseMater)
+                    {
+                        // 購入可能
+                        spBtnPlayer.BuyOkText.OnNext(ShopData.Player_ParamList.Param_Speed);
+                    }
+                    else
+                    {
+                        // 購入不可（金額不足）
+                        spBtnPlayer.BuyNgText.OnNext(ShopData.Player_ParamList.Param_Speed);
+                    }
                 }
 
-                //    // 赤タワー購入可能判断処理
+                // プレイヤー強化購入可能判断処理
+                if (spLv.playerLv.lv_Int.Value >= spLv.playerLv.MAX_LV)
+                {
+                    //spBtnPlayer.SoldOutText.OnNext(ShopData.Player_ParamList.Param_Interval);
+                }
+                else
+                {
+                    if (mat >= buyData.shopData_Player[spLv.playerLv.lv_Int.Value + 1].purchaseMater)
+                    {
+                        // 購入可能
+                        spBtnPlayer.BuyOkText.OnNext(ShopData.Player_ParamList.Param_Interval);
+                    }
+                    else
+                    {
+                        // 購入不可（金額不足）
+                        spBtnPlayer.BuyNgText.OnNext(ShopData.Player_ParamList.Param_Interval);
+                    }
+                }
 
-                //    if (mat >= buyData.redData_Tower[towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value + 1].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+                // 赤タワー購入可能判断処理
 
-                //    if (mat >= buyData.redData_Tower[towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value + 1].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+                // トラップ強化
+                if (spLv.towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value >= spLv.towerLv[(int)ShopData.TowerColor.Red].MAX_LV)
+                {
 
-                //    if (mat >= buyData.redData_Tower[towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value + 1].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+                }
+                else
+                {
+                    if (mat >= buyData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value + 1].purchaseMater)
+                    {
+                        // 購入可能
+                        spBtnTowerR.BuyOkText.OnNext(ShopData.TowerRed_ParamList.Param_Trap);
+                    }
+                    else
+                    {
+                        // 金額不足
+                        spBtnTowerR.BuyNgText.OnNext(ShopData.TowerRed_ParamList.Param_Trap);
+                    }
+                }
 
-                //    if (mat >= buyData.redData_Tower[towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value + 1].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+                // タレット強化
+                if (spLv.towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value >= spLv.playerLv.MAX_LV)
+                {
+
+                }
+                else
+                {
+                    if (mat >= buyData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value + 1].purchaseMater)
+                    {
+                        // 購入可能
+                        spBtnTowerR.BuyOkText.OnNext(ShopData.TowerRed_ParamList.Param_Turret);
+                    }
+                    else
+                    {
+                        // 金額不足
+                        spBtnTowerR.BuyOkText.OnNext(ShopData.TowerRed_ParamList.Param_Turret);
+                    }
+                }
+
+                // タワー強化
+                if (spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value >= spLv.playerLv.MAX_LV)
+                {
+
+                }
+                else
+                {
+                    if (mat >= buyData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value + 1].purchaseMater)
+                    {
+                        // 購入可能
+                        spBtnTowerR.BuyOkText.OnNext(ShopData.TowerRed_ParamList.Param_Tower);
+                    }
+                    else
+                    {
+                        // 金額不足
+                        spBtnTowerR.BuyOkText.OnNext(ShopData.TowerRed_ParamList.Param_Tower);
+                    }
+                }
+
+                if (spLv.towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value >= spLv.playerLv.MAX_LV)
+                {
+
+                }
+                else
+                {
+                    if (mat >= buyData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value + 1].purchaseMater)
+                    {
+                        // 購入可能
+                        spBtnTowerR.BuyOkText.OnNext(ShopData.TowerRed_ParamList.Repair);
+                    }
+                    else
+                    {
+                        // 金額不足
+                        spBtnTowerR.BuyNgText.OnNext(ShopData.TowerRed_ParamList.Repair);
+                    }
+                }
 
                 //    // 青タワー購入可能判断処理
 
@@ -322,5 +362,13 @@ public class ShopBuyController : MonoBehaviour
                 //        // 金額不足
                 //    }
             }).AddTo(this.gameObject);
+    }
+    public void BuyInit()
+    {
+        buyData = ShopManager.Instance.shopData;
+        spLv = ShopManager.Instance.spLv;
+        spBtnPlayer.InitSubject.OnNext(spLv.playerLv);
+        spBtnTowerR.InitSubject.OnNext(spLv.towerLv[(int)ShopData.TowerColor.Red]);
+        Debug.Log("BuyControllInit");
     }
 }

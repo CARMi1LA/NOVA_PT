@@ -7,65 +7,125 @@ using UniRx.Triggers;
 public class ShopManager : SPMSinleton<ShopManager>
 {
     // ショップクラス
-    // 
-    [SerializeField]
-    const int LEVEL_ARRAYSIZE = 3;          // 最大レベル
+    /*
+     * 【挙動】
+     * ・各ショップ関連のクラスの初期化
+     * ・購入に必要な通貨（マター）の保存
+     * ・ショップボタンが押されたときのイベントを管理
+     * ・各パラメータレベルの管理
+     * ・イベントに応じて、他クラスに特定の処理を命令させる
+    */ 
+
+    // 所持マター
     public IntReactiveProperty mater = new IntReactiveProperty(0);                   // 所持マター
 
     private ShopDataList shopDataList;      // 読み込むショップのデータリスト
     public ShopData shopData;               // 読み込まれたショップのデータ
-    public SpBtnPlayerManager btnPlayer;
-    public ShopBuyController spBuyControll;
+    public SpBtnPlayerManager btnPlayer;    // プレイヤー購入画面のボタン管理クラス
+    public SpBtnTowerRManager btnTwR;
+    public SpBtnTowerBManager btnTwB;
+    public SpBtnTowerYManager btnTwY;
+    public SpBtnTowerGManager btnTwG;
+    public SpBtnSkillManager btnSkill;
+    public SpBtnUltManager btnUlt;
+    public ShopBuyController spBuyControll; // マターを監視し、適切なUIを表示させるクラス
+    public SpLvData spLv;                   // 各ショップ運営に必要なレベルクラス
 
+    // プレイヤー購入画面のボタンが押されたときのイベント
     public Subject<ShopData.Player_ParamList> addLevel_Player = new Subject<ShopData.Player_ParamList>();
+    // タワー（赤）購入画面のボタンが押されたときのイベント
     public Subject<ShopData.TowerRed_ParamList> addLevel_TowerRed = new Subject<ShopData.TowerRed_ParamList>();
+    // タワー（青）購入画面のボタンが押されたときのイベント
     public Subject<ShopData.TowerBlue_ParamList> addLevel_TowerBlue = new Subject<ShopData.TowerBlue_ParamList>();
+    // タワー（黄）購入画面のボタンが押されたときのイベント
     public Subject<ShopData.TowerYellow_ParamList> addLevel_TowerYellow = new Subject<ShopData.TowerYellow_ParamList>();
+    // タワー（緑）購入画面のボタンが押されたときのイベント
     public Subject<ShopData.TowerGreen_ParamList> addLevel_TowerGreen = new Subject<ShopData.TowerGreen_ParamList>();
+    // スキル購入画面のボタンが押されたときのイベント
     public Subject<ShopData.Skill_ParamList> addLevel_Skill = new Subject<ShopData.Skill_ParamList>();
+    // 必殺技購入画面のボタンが押されたときのイベント
     public Subject<ShopData.Ult_ParamList> addLevel_Ult = new Subject<ShopData.Ult_ParamList>();
+    // 初期化イベント
     public Subject<Unit> InitParamLevel = new Subject<Unit>();
     protected override void Awake()
     {
         base.Awake();
+        // 読み込みたいショップデータリストをここで設定
         shopDataList = Resources.Load<ShopDataList>("ShopDataList");
+        // 実際に使うデータをインデックスより設定
         shopData = shopDataList.dataList_Shop[0];
-
+        // 各パラメータレベルの初期化
+        spLv.SpLvInit.OnNext(Unit.Default);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        InitParamLevel.Subscribe(_ => 
+        // 初期化処理
+        InitParamLevel.Subscribe(_ =>
         {
-            shopData.levelData_Player = new LevelData_Player();
+            // マター監視クラスの初期化
+            spBuyControll.BuyInit();
         }).AddTo(this.gameObject);
 
+        // 起動時に初期化を行う
         InitParamLevel.OnNext(Unit.Default);
 
-        spBuyControll.BuyControllerInit.OnNext(shopData);
+        // プレイヤー購入画面のボタンが押されたときのイベント
         addLevel_Player
             .Subscribe(val => 
             {
                 switch (val)
                 {
+                    // HP強化ボタンが押された
                     case ShopData.Player_ParamList.Param_HP:
-                        mater.Value -= shopData.shopData_Player[shopData.levelData_Player.level_HP.Value + 1].purchaseMater;
-                        shopData.levelData_Player.level_HP.Value++;
-                        btnPlayer.ChangeLvText.OnNext(ShopData.Player_ParamList.Param_HP);
-                        btnPlayer.ChangeValueText.OnNext(ShopData.Player_ParamList.Param_HP);
+                        // 所持マターを購入金額ぶん除算
+                        mater.Value -= shopData.shopData_Player[spLv.playerLv.lv_HP.Value + 1].purchaseMater;
+                        // パラメータレベルを１上げる
+                        spLv.playerLv.lv_HP.Value++;
+                        // 最大レベルであれば購入できないようにする
+                        if (spLv.playerLv.lv_HP.Value >= spLv.playerLv.MAX_LV)
+                        {
+                            // 最大レベル時の処理
+                            btnPlayer.SoldOutText.OnNext(ShopData.Player_ParamList.Param_HP);
+                        }
+                        else
+                        {
+                            // 通常処理
+                            btnPlayer.NextLv.OnNext(ShopData.Player_ParamList.Param_HP);
+                            btnPlayer.ChangeLvText.OnNext(ShopData.Player_ParamList.Param_HP);
+                            btnPlayer.ChangeValueText.OnNext(ShopData.Player_ParamList.Param_HP);
+                        }
                         break;
+                    // スピード強化ボタンが押された
                     case ShopData.Player_ParamList.Param_Speed:
-                        mater.Value -= shopData.shopData_Player[shopData.levelData_Player.level_Speed.Value + 1].purchaseMater;
-                        shopData.levelData_Player.level_Speed.Value++;
-                        btnPlayer.ChangeLvText.OnNext(ShopData.Player_ParamList.Param_Speed);
-                        btnPlayer.ChangeValueText.OnNext(ShopData.Player_ParamList.Param_Speed);
+                        mater.Value -= shopData.shopData_Player[spLv.playerLv.lv_Spd.Value + 1].purchaseMater;
+                        spLv.playerLv.lv_Spd.Value++;
+                        if (spLv.playerLv.lv_Spd.Value >= spLv.playerLv.MAX_LV)
+                        {
+                            btnPlayer.SoldOutText.OnNext(ShopData.Player_ParamList.Param_Speed);
+                        }
+                        else
+                        {
+                            btnPlayer.NextLv.OnNext(ShopData.Player_ParamList.Param_Speed);
+                            btnPlayer.ChangeLvText.OnNext(ShopData.Player_ParamList.Param_Speed);
+                            btnPlayer.ChangeValueText.OnNext(ShopData.Player_ParamList.Param_Speed);
+                        }
                         break;
+                    // 攻撃間隔強化ボタンが押された
                     case ShopData.Player_ParamList.Param_Interval:
-                        mater.Value -= shopData.shopData_Player[shopData.levelData_Player.level_Interval.Value + 1].purchaseMater;
-                        shopData.levelData_Player.level_Interval.Value++;
-                        btnPlayer.ChangeLvText.OnNext(ShopData.Player_ParamList.Param_Interval);
-                        btnPlayer.ChangeValueText.OnNext(ShopData.Player_ParamList.Param_Interval);
+                        mater.Value -= shopData.shopData_Player[spLv.playerLv.lv_Int.Value + 1].purchaseMater;
+                        spLv.playerLv.lv_Int.Value++;
+                        if (spLv.playerLv.lv_Int.Value >= spLv.playerLv.MAX_LV)
+                        {
+                            btnPlayer.SoldOutText.OnNext(ShopData.Player_ParamList.Param_Interval);
+                        }
+                        else
+                        {
+                            btnPlayer.NextLv.OnNext(ShopData.Player_ParamList.Param_Interval);
+                            btnPlayer.ChangeLvText.OnNext(ShopData.Player_ParamList.Param_Interval);
+                            btnPlayer.ChangeValueText.OnNext(ShopData.Player_ParamList.Param_Interval);
+                        }
                         break;
                 }
             }).AddTo(this.gameObject);
@@ -73,7 +133,67 @@ public class ShopManager : SPMSinleton<ShopManager>
         addLevel_TowerRed
             .Subscribe(val => 
             {
-
+                switch (val)
+                {
+                    case ShopData.TowerRed_ParamList.Param_Trap:
+                        mater.Value -= shopData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value].purchaseMater;
+                        spLv.towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value++;
+                        if (spLv.towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value >= spLv.towerLv[(int)ShopData.TowerColor.Red].MAX_LV)
+                        {
+                            btnTwR.SoldOutText.OnNext(ShopData.TowerRed_ParamList.Param_Trap);
+                        }
+                        else
+                        {
+                            btnTwR.NextLv.OnNext(ShopData.TowerRed_ParamList.Param_Trap);
+                            btnTwR.ChangeLvText.OnNext(ShopData.TowerRed_ParamList.Param_Trap);
+                            btnTwR.ChangeValueText.OnNext(ShopData.TowerRed_ParamList.Param_Trap);
+                        }
+                        break;
+                    case ShopData.TowerRed_ParamList.Param_Turret:
+                        mater.Value -= shopData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value].purchaseMater;
+                        spLv.towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value++;
+                        if (spLv.towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value >= spLv.towerLv[(int)ShopData.TowerColor.Red].MAX_LV)
+                        {
+                            btnTwR.SoldOutText.OnNext(ShopData.TowerRed_ParamList.Param_Turret);
+                        }
+                        else
+                        {
+                            btnTwR.NextLv.OnNext(ShopData.TowerRed_ParamList.Param_Turret);
+                            btnTwR.ChangeLvText.OnNext(ShopData.TowerRed_ParamList.Param_Turret);
+                            btnTwR.ChangeValueText.OnNext(ShopData.TowerRed_ParamList.Param_Turret);
+                        }
+                        break;
+                    case ShopData.TowerRed_ParamList.Param_Tower:
+                        mater.Value -= shopData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value].purchaseMater;
+                        spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value++;
+                        if (spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value >= spLv.towerLv[(int)ShopData.TowerColor.Red].MAX_LV)
+                        {
+                            btnTwR.SoldOutText.OnNext(ShopData.TowerRed_ParamList.Param_Tower);
+                        }
+                        else
+                        {
+                            btnTwR.NextLv.OnNext(ShopData.TowerRed_ParamList.Param_Tower);
+                            btnTwR.ChangeLvText.OnNext(ShopData.TowerRed_ParamList.Param_Tower);
+                            btnTwR.ChangeValueText.OnNext(ShopData.TowerRed_ParamList.Param_Tower);
+                        }
+                        break;
+                    case ShopData.TowerRed_ParamList.Repair:
+                        mater.Value -= (shopData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value].purchaseMater * 5);
+                        spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value++;
+                        if (spLv.towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value >= spLv.towerLv[(int)ShopData.TowerColor.Red].MAX_LV)
+                        {
+                            btnTwR.SoldOutText.OnNext(ShopData.TowerRed_ParamList.Repair);
+                        }
+                        else
+                        {
+                            btnTwR.NextLv.OnNext(ShopData.TowerRed_ParamList.Repair);
+                            btnTwR.ChangeLvText.OnNext(ShopData.TowerRed_ParamList.Repair);
+                            btnTwR.ChangeValueText.OnNext(ShopData.TowerRed_ParamList.Repair);
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }).AddTo(this.gameObject);
 
         addLevel_Skill
