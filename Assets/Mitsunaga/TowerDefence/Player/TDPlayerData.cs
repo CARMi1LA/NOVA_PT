@@ -5,19 +5,22 @@ using UniRx;
 
 public class TDPlayerData
 {
-    // ヘルス　　　　　最大 / 現在
+    // ヘルスゲージ           最大 / 現在
     public int pMaxHealth = 10;
     public IntReactiveProperty pHealth = new IntReactiveProperty();
 
-    // エネルギー　　　最大 / 現在
+    // エネルギーゲージ       最大 / 現在
     public float pMaxEnergy = 100.0f;
     public FloatReactiveProperty pEnergy = new FloatReactiveProperty();
 
-    // アルティメット　最大 / 現在
+    // アルティメットゲージ   最大 / 現在
     public float pMaxUltimate = 100;
     public FloatReactiveProperty pUltimate = new FloatReactiveProperty();
 
-    // スキル・アルティメットの型リスト
+    // 通常攻撃
+    public int pAttackInterval = 6;     // 通常攻撃の発動間隔(単位：フレーム)
+
+    // スキル
     public enum SkillTypeList
     {
         Sword   = 0,
@@ -25,6 +28,11 @@ public class TDPlayerData
         Missile = 2,
         Bomb    = 3
     }
+    public SkillTypeList pSkillType = SkillTypeList.Sword;    // スキルの型
+    public float pSkillCost = 10.0f;        // スキルの発動コスト
+    public int pSkillInterval = 30;         // スキルの発動間隔(単位：フレーム)
+
+    // アルティメット
     public enum UltimateTypeList
     {
         Strong  = 0,
@@ -32,19 +40,16 @@ public class TDPlayerData
         Bomb    = 2,
         Slow    = 3
     }
-
-    public SkillTypeList pSkillType = 0;        // スキルの型
     public UltimateTypeList pUltimateType = 0;  // アルティメットの型
 
+    // 移動
     public float pSpeed = 70;  // 移動速度
     public float pSpeedMul = 10;
+    // ダッシュ
+    public float pDashCost = 5.0f;      // 回避の発動コスト
+    public float pDashTime = 0.5f;      // 回避の行動時間
 
-    public int pAttackInterval = 6; // 射撃間隔(単位：フレーム)
-
-    public float pSkillCost = 10.0f;        // スキルの発動コスト
-    public float pDashCost = 5.0f;         // 回避の発動コスト
-    public float pDashTime = 0.5f;  // 回避の行動時間
-
+    // ダメージの無効化
     public bool pBarrier = false;   // ダメージ無効時間の有効化
 
     // 初期化

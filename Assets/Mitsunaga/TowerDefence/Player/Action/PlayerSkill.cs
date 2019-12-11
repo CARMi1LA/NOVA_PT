@@ -6,12 +6,11 @@ using UniRx.Triggers;
 
 public class PlayerSkill : MonoBehaviour
 {
-    // スキルマネージャー
+
+    // スキルでの共通行動
 
     [SerializeField]
     TDPlayerManager pManager;
-
-    public Subject<TDPlayerData.SkillTypeList> StartSkill = new Subject<TDPlayerData.SkillTypeList>();
 
     void Start()
     {
@@ -19,8 +18,8 @@ public class PlayerSkill : MonoBehaviour
             .Subscribe(value =>
             {
                 // スキルの実行
-                Debug.Log("スキル　実行");
-                StartSkill.OnNext(value);
+                Debug.Log("スキル　実行" + value.ToString());
+                // スキル発動時の共通行動などを記録しておく
 
             }).AddTo(this.gameObject);
     }

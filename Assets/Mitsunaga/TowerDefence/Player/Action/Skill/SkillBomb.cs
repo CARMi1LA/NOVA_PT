@@ -9,16 +9,16 @@ public class SkillBomb : MonoBehaviour
     // 通常攻撃
 
     [SerializeField]
-    PlayerSkill pSkill;
+    TDPlayerManager pManager;
     [SerializeField]
     TDBulletData.BulletTypeList bType;  // 攻撃タイプの実装テスト
     void Start()
     {
-        pSkill.StartSkill
+        pManager.skillTrigger
+            .Where(x => pManager.pData.pSkillType == TDPlayerData.SkillTypeList.Bomb)
             .Subscribe(value =>
             {                
                 // 通常攻撃の実行
-                Debug.Log("通常攻撃　実行");
                 TDBulletData bData = new TDBulletData(TDBulletData.BulletParentList.Enemy, bType, this.transform.position, this.transform.eulerAngles);
                 TDBulletSpawner.Instance.bulletRentSubject.OnNext(bData);
 
