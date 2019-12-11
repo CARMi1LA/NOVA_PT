@@ -41,7 +41,7 @@ public class ShopBuyController : MonoBehaviour
                 // プレイヤー強化購入可能判断処理
                 if (spLv.playerLv.lv_HP.Value >= spLv.playerLv.MAX_LV)
                 {
-                    spBtnPlayer.SoldOutText.OnNext(ShopData.Player_ParamList.Param_HP);
+                    //spBtnPlayer.SoldOutText.OnNext(ShopData.Player_ParamList.Param_HP);
                 }
                 else
                 {
@@ -60,7 +60,7 @@ public class ShopBuyController : MonoBehaviour
                 // プレイヤー強化購入可能判断処理
                 if (spLv.playerLv.lv_Spd.Value >= spLv.playerLv.MAX_LV)
                 {
-                    spBtnPlayer.SoldOutText.OnNext(ShopData.Player_ParamList.Param_Speed);
+                    //spBtnPlayer.SoldOutText.OnNext(ShopData.Player_ParamList.Param_Speed);
                 }
                 else
                 {
@@ -79,7 +79,7 @@ public class ShopBuyController : MonoBehaviour
                 // プレイヤー強化購入可能判断処理
                 if (spLv.playerLv.lv_Int.Value >= spLv.playerLv.MAX_LV)
                 {
-                    spBtnPlayer.SoldOutText.OnNext(ShopData.Player_ParamList.Param_Interval);
+                    //spBtnPlayer.SoldOutText.OnNext(ShopData.Player_ParamList.Param_Interval);
                 }
                 else
                 {
@@ -95,43 +95,82 @@ public class ShopBuyController : MonoBehaviour
                     }
                 }
 
-                //    // 赤タワー購入可能判断処理
+                // 赤タワー購入可能判断処理
 
-                //    if (mat >= buyData.redData_Tower[towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value + 1].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+                // トラップ強化
+                if (spLv.towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value >= spLv.towerLv[(int)ShopData.TowerColor.Red].MAX_LV)
+                {
 
-                //    if (mat >= buyData.redData_Tower[towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value + 1].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+                }
+                else
+                {
+                    if (mat >= buyData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value + 1].purchaseMater)
+                    {
+                        // 購入可能
+                        spBtnTowerR.BuyOkText.OnNext(ShopData.TowerRed_ParamList.Param_Trap);
+                    }
+                    else
+                    {
+                        // 金額不足
+                        spBtnTowerR.BuyNgText.OnNext(ShopData.TowerRed_ParamList.Param_Trap);
+                    }
+                }
 
-                //    if (mat >= buyData.redData_Tower[towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value + 1].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+                // タレット強化
+                if (spLv.towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value >= spLv.playerLv.MAX_LV)
+                {
 
-                //    if (mat >= buyData.redData_Tower[towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value + 1].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+                }
+                else
+                {
+                    if (mat >= buyData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value + 1].purchaseMater)
+                    {
+                        // 購入可能
+                        spBtnTowerR.BuyOkText.OnNext(ShopData.TowerRed_ParamList.Param_Turret);
+                    }
+                    else
+                    {
+                        // 金額不足
+                        spBtnTowerR.BuyOkText.OnNext(ShopData.TowerRed_ParamList.Param_Turret);
+                    }
+                }
+
+                // タワー強化
+                if (spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value >= spLv.playerLv.MAX_LV)
+                {
+
+                }
+                else
+                {
+                    if (mat >= buyData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value + 1].purchaseMater)
+                    {
+                        // 購入可能
+                        spBtnTowerR.BuyOkText.OnNext(ShopData.TowerRed_ParamList.Param_Tower);
+                    }
+                    else
+                    {
+                        // 金額不足
+                        spBtnTowerR.BuyOkText.OnNext(ShopData.TowerRed_ParamList.Param_Tower);
+                    }
+                }
+
+                if (spLv.towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value >= spLv.playerLv.MAX_LV)
+                {
+
+                }
+                else
+                {
+                    if (mat >= buyData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value + 1].purchaseMater)
+                    {
+                        // 購入可能
+                        spBtnTowerR.BuyOkText.OnNext(ShopData.TowerRed_ParamList.Repair);
+                    }
+                    else
+                    {
+                        // 金額不足
+                        spBtnTowerR.BuyNgText.OnNext(ShopData.TowerRed_ParamList.Repair);
+                    }
+                }
 
                 //    // 青タワー購入可能判断処理
 
@@ -329,6 +368,7 @@ public class ShopBuyController : MonoBehaviour
         buyData = ShopManager.Instance.shopData;
         spLv = ShopManager.Instance.spLv;
         spBtnPlayer.InitSubject.OnNext(spLv.playerLv);
+        spBtnTowerR.InitSubject.OnNext(spLv.towerLv[(int)ShopData.TowerColor.Red]);
         Debug.Log("BuyControllInit");
     }
 }

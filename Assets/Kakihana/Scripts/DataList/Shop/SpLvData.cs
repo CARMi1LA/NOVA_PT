@@ -10,14 +10,6 @@ public class SpLvData : MonoBehaviour
     public LevelData_Skill skillLv;
     public LevelData_Ult ultLv;
 
-    public SpBtnPlayerManager spBtnPlayer;
-    public SpBtnTowerRManager spBtnTowerR;
-    public SpBtnTowerBManager spBtnTowerB;
-    public SpBtnTowerYManager spBtnTowerY;
-    public SpBtnTowerGManager spBtnTowerG;
-    public SpBtnSkillManager spBtnSkill;
-    public SpBtnUltManager spBtnUlt;
-
     public Subject<Unit> SpLvInit = new Subject<Unit>();
     // Start is called before the first frame update
     void Awake()
@@ -33,12 +25,5 @@ public class SpLvData : MonoBehaviour
             ultLv = new LevelData_Ult();
             Debug.Log("LvInit");
         }).AddTo(this.gameObject);
-
-        playerLv.lv_HP
-            .Where(_ => playerLv.lv_HP.Value >= playerLv.MAX_LV)
-            .Subscribe(_ => 
-            {
-                spBtnPlayer.SoldOutText.OnNext(ShopData.Player_ParamList.Param_HP);
-            }).AddTo(this.gameObject);
     }
 }
