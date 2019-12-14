@@ -11,15 +11,20 @@ public class PlayerSkill : MonoBehaviour
 
     [SerializeField]
     TDPlayerManager pManager;
+    [SerializeField]
+    ParticleSystem skillParticle;
 
     void Start()
     {
         pManager.skillTrigger
             .Subscribe(value =>
             {
-                // スキルの実行
-                Debug.Log("スキル　実行" + value.ToString());
-                // スキル発動時の共通行動などを記録しておく
+                // スキル発動時の共通行動
+                // 発動エフェクトの再生(なぜかエラーが出る)
+                skillParticle.Play();
+                Observable.TimerFrame(20)
+                    .Subscribe(_ => skillParticle.Stop())
+                    .AddTo(this.gameObject);
 
             }).AddTo(this.gameObject);
     }

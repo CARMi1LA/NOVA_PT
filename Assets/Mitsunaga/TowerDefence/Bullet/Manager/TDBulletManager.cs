@@ -34,9 +34,14 @@ public class TDBulletManager : MonoBehaviour
         // 移動処理の実行
         initTrigger.OnNext(bData);
         // 時限制で消滅
+        var Return = Observable.EveryUpdate()
+            .Where(x => isReturn.Value);
+
         Observable.Timer(System.TimeSpan.FromSeconds(bData.bDeathCount))
+            .TakeUntil(Return)
             .Subscribe(_ =>
             {
+                Debug.Log("時間で消滅");
                 isReturn.Value = true;
 
             }).AddTo(this.gameObject);
