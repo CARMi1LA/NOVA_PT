@@ -31,6 +31,7 @@ public class ShopData
         Param_Trap = 0,
         Param_Turret = 1,
         Param_Tower = 2,
+        Repair = 3
     }
 
     // タワー強化（青）のパラメータ参照用リスト
@@ -39,6 +40,7 @@ public class ShopData
         Param_Trap = 0,
         Param_Turret = 1,
         Param_Tower = 2,
+        Repair = 3
     }
 
     // タワー強化（黄）のパラメータ参照用リスト
@@ -47,6 +49,7 @@ public class ShopData
         Param_Trap = 0,
         Param_Turret = 1,
         Param_Tower = 2,
+        Repair = 3
     }
 
     // タワー強化（緑）のパラメータ参照用リスト
@@ -55,6 +58,7 @@ public class ShopData
         Param_Trap = 0,
         Param_Turret = 1,
         Param_Tower = 2,
+        Repair = 3
     }
 
     // スキル変更のパラメータ参照用リスト
