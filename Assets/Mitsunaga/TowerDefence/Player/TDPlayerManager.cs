@@ -65,11 +65,21 @@ public class TDPlayerManager : MonoBehaviour
                 {
                     leftAxis.x = Input.GetAxis("Horizontal");
                     leftAxis.y = Input.GetAxis("Vertical");
-                    rightAxis.y = Input.GetAxis("RightStickHorizontal");
-                    inputData.leftStickValue.x = leftAxis.x;
-                    inputData.leftStickValue.y = leftAxis.y;
-                    inputData.rightStickValue.y = rightAxis.x;
-                    inputData.rightStickValue.y = Input.GetAxis("Mouse X");
+                    if (Mathf.Abs(Input.GetAxis("Mouse X")) > 0.2f)
+                    {
+                        rightAxis.y = Input.GetAxis("Mouse X");
+                    }
+                    else if (Mathf.Abs(Input.GetAxis("RightStickHorizontal")) > 0.2f)
+                    {
+                        rightAxis.y = Input.GetAxis("RightStickHorizontal");
+                    }
+                    else
+                    {
+                        rightAxis.y = 0.0f;
+                    }
+
+                    inputData.leftStickValue = leftAxis;
+                    inputData.rightStickValue = rightAxis;
                     inputData.pushBtnA.Value = Input.GetButton("Button_A");
                     inputData.pushBtnB.Value = Input.GetButton("Button_B");
                     inputData.pushBtnX.Value = Input.GetButton("Button_X");
