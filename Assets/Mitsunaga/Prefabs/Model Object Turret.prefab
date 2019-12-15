@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 28585550651392563}
   - component: {fileID: 28585550651392560}
   - component: {fileID: 28585550651392561}
-  - component: {fileID: 28585550651392562}
   m_Layer: 0
   m_Name: Cannon
   m_TagString: Untagged
@@ -78,19 +77,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &28585550651392562
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 28585550651392572}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &28585550665035049
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,7 +88,6 @@ GameObject:
   - component: {fileID: 28585550665035048}
   - component: {fileID: 28585550665035053}
   - component: {fileID: 28585550665035054}
-  - component: {fileID: 28585550665035055}
   m_Layer: 0
   m_Name: Cannon
   m_TagString: Untagged
@@ -169,19 +154,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &28585550665035055
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 28585550665035049}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &28585550707868521
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,7 +242,6 @@ GameObject:
   - component: {fileID: 28585550858994634}
   - component: {fileID: 28585550858994639}
   - component: {fileID: 28585550858994632}
-  - component: {fileID: 28585550858994633}
   m_Layer: 0
   m_Name: Cannon
   m_TagString: Untagged
@@ -337,19 +308,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &28585550858994633
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 28585550858994635}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &28585551141742914
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,7 +321,7 @@ GameObject:
   - component: {fileID: 28585551141742919}
   - component: {fileID: 28585551141742912}
   m_Layer: 0
-  m_Name: Object Turret
+  m_Name: Model Object Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -21,9 +21,18 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Floats:
-    - Vector1_12789668: 0.433
+    - Vector1_12789668: 0.78
+    - Vector1_4E6ACBA8: 0
     - Vector1_7F89452F: 0
-    - Vector1_9A548E39: 1.7
-    - Vector1_B8B7214F: 1.5
+    - Vector1_8FD5AFDE: 0.7
+    - Vector1_9A548E39: 1.75
+    - Vector1_B07970A8: 0.45
+    - Vector1_B8B7214F: 1.45
+    - Vector1_E64488: 1
+    - _ArcCenter: 0
+    - _ArcRange: 0.45
+    - _RingMax: 1
+    - _RingMin: 0.7
     m_Colors:
-    - _MainColor: {r: 0, g: 2, b: 1.4344625, a: 0}
+    - _MainColor: {r: 0, g: 2, b: 1.4344625, a: 1}
+    - _SubColor: {r: 0, g: 0, b: 0, a: 0.9019608}

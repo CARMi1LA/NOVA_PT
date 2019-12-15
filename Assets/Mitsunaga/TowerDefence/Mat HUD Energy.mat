@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mat Stage Ring
+  m_Name: Mat HUD Energy
   m_Shader: {fileID: -6465566751694194690, guid: 42f03b9b170abcf4ebd245ec6788ca47,
     type: 3}
   m_ShaderKeywords: 
@@ -21,18 +21,18 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Floats:
-    - Vector1_12789668: 1.733
-    - Vector1_4E6ACBA8: 0
-    - Vector1_7F89452F: 0
-    - Vector1_8FD5AFDE: 0.98
-    - Vector1_9A548E39: 1.7
-    - Vector1_B07970A8: 1
-    - Vector1_B8B7214F: 1.68
+    - Vector1_12789668: 0.78
+    - Vector1_4E6ACBA8: 1
+    - Vector1_7F89452F: 1
+    - Vector1_8FD5AFDE: 0.7
+    - Vector1_9A548E39: 1.75
+    - Vector1_B07970A8: 0.45
+    - Vector1_B8B7214F: 1.45
     - Vector1_E64488: 1
-    - _ArcCenter: 0
-    - _ArcRange: 1
+    - _ArcCenter: 1
+    - _ArcRange: 0.45
     - _RingMax: 1
-    - _RingMin: 0.98
+    - _RingMin: 0.7
     m_Colors:
-    - _MainColor: {r: 2, g: 2, b: 2, a: 1}
-    - _SubColor: {r: 0, g: 0, b: 0, a: 1}
+    - _MainColor: {r: 0.121896416, g: 1.5660378, b: 0, a: 1}
+    - _SubColor: {r: 0, g: 0, b: 0, a: 0.9019608}
