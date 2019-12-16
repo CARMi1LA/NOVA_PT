@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "TDBulletFormList", menuName = "TDScriptable/TDBulletFormList", order = 0)]
+[CreateAssetMenu(fileName = "TDBulletFormList", menuName = "TDScriptable/TDBulletFormList", order = 1)]
 public class TDBulletFormList : ScriptableObject
 {
     // 陣営によって弾のカラーを変更する

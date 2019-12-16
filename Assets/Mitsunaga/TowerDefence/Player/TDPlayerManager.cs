@@ -8,11 +8,16 @@ public class TDPlayerManager : MonoBehaviour
 {
     /* 
      タワーディフェンス用のプレイヤーの行動管理
+     * コントローラのインプットの割り当て
+     * 各パラメータの変更
+        などの処理
+
      * 攻撃
      * 移動
      * ダメージ
      * 死亡
-     などの処理とマスターデータをつなぐ
+     * 各アクション時エフェクト
+        などの処理とマスターデータをつなぐ
      */
     
     // 変数の宣言
@@ -65,11 +70,21 @@ public class TDPlayerManager : MonoBehaviour
                 {
                     leftAxis.x = Input.GetAxis("Horizontal");
                     leftAxis.y = Input.GetAxis("Vertical");
-                    rightAxis.y = Input.GetAxis("RightStickHorizontal");
-                    inputData.leftStickValue.x = leftAxis.x;
-                    inputData.leftStickValue.y = leftAxis.y;
-                    inputData.rightStickValue.y = rightAxis.x;
-                    inputData.rightStickValue.y = Input.GetAxis("Mouse X");
+                    if (Mathf.Abs(Input.GetAxis("Mouse X")) > 0.2f)
+                    {
+                        rightAxis.y = Input.GetAxis("Mouse X");
+                    }
+                    else if (Mathf.Abs(Input.GetAxis("RightStickHorizontal")) > 0.2f)
+                    {
+                        rightAxis.y = Input.GetAxis("RightStickHorizontal");
+                    }
+                    else
+                    {
+                        rightAxis.y = 0.0f;
+                    }
+
+                    inputData.leftStickValue = leftAxis;
+                    inputData.rightStickValue = rightAxis;
                     inputData.pushBtnA.Value = Input.GetButton("Button_A");
                     inputData.pushBtnB.Value = Input.GetButton("Button_B");
                     inputData.pushBtnX.Value = Input.GetButton("Button_X");
@@ -83,8 +98,10 @@ public class TDPlayerManager : MonoBehaviour
 
             }).AddTo(this.gameObject);
 
+        // 更新処理
+        // エネルギー、アルティメットゲージの自動回復(雑)
         this.UpdateAsObservable()
-            .Sample(System.TimeSpan.FromSeconds(0.2f))
+            .SampleFrame(20)
             .Subscribe(_ =>
             {
                 if(pData.pEnergy.Value < pData.pMaxEnergy)
@@ -102,39 +119,45 @@ public class TDPlayerManager : MonoBehaviour
         // RBボタン：通常攻撃
         inputData.pushBtnRB.Subscribe(value =>
             {
-                Debug.Log("通常攻撃" + value.ToString());
+                Debug.Log("通常攻撃：" + value.ToString());
                 attackTrigger.OnNext(value);
 
             }).AddTo(this.gameObject);
+
         // LBボタン：未使用
         inputData.pushBtnLB
-            .Where(x => inputData.pushBtnLB.Value)
+            .Where(x => x)
             .Subscribe(value =>
             {
                 Debug.Log("LBキーは未使用です");
 
             }).AddTo(this.gameObject);
+
         // Aボタン：ダッシュ発動
         inputData.pushBtnA 
-            .Where(x => inputData.pushBtnA.Value)                        // ボタンが押された
+            .Where(x => x)                        // ボタンが押された
             .Where(x => pData.pEnergy.Value >= pData.pDashCost)          // エネルギーがある
             .ThrottleFirst(System.TimeSpan.FromSeconds(pData.pDashTime)) // ダッシュ中ではない
             .Subscribe(value =>
             {
-                // エネルギーを消費する
-                pData.pEnergy.Value -= pData.pDashCost;
                 // ダッシュの実行
+                Debug.Log("ダッシュ実行");
                 dashTrigger.OnNext(Unit.Default);
 
+                // エネルギーを消費する
+                pData.pEnergy.Value -= pData.pDashCost;
+
             }).AddTo(this.gameObject);
+
         // Bボタン：各種アクセス
         inputData.pushBtnB
-            .Where(x => inputData.pushBtnB.Value)
+            .Where(x => x)
             .Subscribe(value =>
             {
                 Debug.Log("アクセス");
 
             }).AddTo(this.gameObject);
+
         // Xボタン：スキル発動
         inputData.pushBtnX
             .ThrottleFirstFrame(pData.pSkillInterval)
@@ -142,29 +165,26 @@ public class TDPlayerManager : MonoBehaviour
             .Where(x => pData.pEnergy.Value >= pData.pSkillCost)
             .Subscribe(value =>
             {
-                // エネルギーを消費
-                pData.pEnergy.Value -= pData.pSkillCost;
                 // スキルの実行
+                Debug.Log("スキル実行：" + value.ToString());
                 skillTrigger.OnNext(pData.pSkillType);
 
+                // エネルギーを消費
+                pData.pEnergy.Value -= pData.pSkillCost;
+
             }).AddTo(this.gameObject);
+
         // Yボタン：アルティメット発動
         inputData.pushBtnY
-            .Where(x => inputData.pushBtnY.Value)
+            .Where(x => x)
             .Where(x => pData.pUltimate.Value >= pData.pMaxUltimate)
             .Subscribe(value =>
             {
+                // アルティメットの実行
+                Debug.Log("アルティメット実行：" + value.ToString());
+                ultimateTrigger.OnNext(pData.pUltimateType);
                 // アルティメットゲージを消費
                 pData.pUltimate.Value = 0;
-                // アルティメットの実行
-                ultimateTrigger.OnNext(pData.pUltimateType);
-
-            }).AddTo(this.gameObject);
-
-        pData.pEnergy
-            .Subscribe(value =>
-            {
-                Debug.Log("Energy : " + value.ToString());
 
             }).AddTo(this.gameObject);
     }
