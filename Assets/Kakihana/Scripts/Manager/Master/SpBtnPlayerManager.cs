@@ -57,6 +57,7 @@ public class SpBtnPlayerManager : MonoBehaviour
         // 初期化処理
         InitSubject.Subscribe(_ => 
         {
+            Debug.Log("ken2222");
             // プレイヤーのレベルデータを設定
             levelData_Player = _;
 

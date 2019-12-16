@@ -136,7 +136,7 @@ public class ShopManager : SPMSinleton<ShopManager>
                 switch (val)
                 {
                     case ShopData.TowerRed_ParamList.Param_Trap:
-                        mater.Value -= shopData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value].purchaseMater;
+                        mater.Value -= shopData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value + 1].purchaseMater;
                         spLv.towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value++;
                         if (spLv.towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value >= spLv.towerLv[(int)ShopData.TowerColor.Red].MAX_LV)
                         {
@@ -150,7 +150,7 @@ public class ShopManager : SPMSinleton<ShopManager>
                         }
                         break;
                     case ShopData.TowerRed_ParamList.Param_Turret:
-                        mater.Value -= shopData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value].purchaseMater;
+                        mater.Value -= shopData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value + 1].purchaseMater;
                         spLv.towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value++;
                         if (spLv.towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value >= spLv.towerLv[(int)ShopData.TowerColor.Red].MAX_LV)
                         {
@@ -164,7 +164,7 @@ public class ShopManager : SPMSinleton<ShopManager>
                         }
                         break;
                     case ShopData.TowerRed_ParamList.Param_Tower:
-                        mater.Value -= shopData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value].purchaseMater;
+                        mater.Value -= shopData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value + 1].purchaseMater;
                         spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value++;
                         if (spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value >= spLv.towerLv[(int)ShopData.TowerColor.Red].MAX_LV)
                         {
@@ -178,9 +178,9 @@ public class ShopManager : SPMSinleton<ShopManager>
                         }
                         break;
                     case ShopData.TowerRed_ParamList.Repair:
-                        mater.Value -= (shopData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value].purchaseMater * 5);
-                        spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value++;
-                        if (spLv.towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value >= spLv.towerLv[(int)ShopData.TowerColor.Red].MAX_LV)
+                        mater.Value -= (shopData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value + 1].purchaseMater * 5);
+                        spLv.towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value++;
+                        if (spLv.towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value >= spLv.MAX_LEVEL)
                         {
                             btnTwR.SoldOutText.OnNext(ShopData.TowerRed_ParamList.Repair);
                         }

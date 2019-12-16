@@ -5,6 +5,9 @@ using UniRx;
 using UniRx.Triggers;
 public class SpLvData : MonoBehaviour
 {
+    public int MAX_LEVEL = 3;
+    public int MAX_REPAIR = 10;
+
     public LevelData_Player playerLv;
     public LevelData_Tower[] towerLv;
     public LevelData_Skill skillLv;

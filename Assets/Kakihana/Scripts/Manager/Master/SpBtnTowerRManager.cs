@@ -9,7 +9,7 @@ public class SpBtnTowerRManager : MonoBehaviour
     // ショップの赤タワー購入画面の管理クラス
     // 基本はShopManagerやShopByControllerの命令により各処理を実行する
     private LevelData_Tower redTower_Lv;
-    public ShopBtnManager[] spPlayerBtn;
+    public ShopBtnManager[] spBtn;
 
     // 次のレベルを保存する変数
     private int nextLvTrap;
@@ -50,7 +50,7 @@ public class SpBtnTowerRManager : MonoBehaviour
                     nextLvTower = ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value + 1;
                     break;
                 case ShopData.TowerRed_ParamList.Repair:
-                    nextLvTurret = ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value + 1;
+                    nextLvRepair = ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value + 1;
                     nextRepairVal = (ShopManager.Instance.shopData.redData_Tower[nextLvRepair].purchaseMater * 5);
                     break;
                 default:
@@ -61,6 +61,7 @@ public class SpBtnTowerRManager : MonoBehaviour
         // 初期化処理
         InitSubject.Subscribe(_ =>
         {
+            Debug.Log("ken1111");
             // プレイヤーのレベルデータを設定
             redTower_Lv = _;
 
@@ -71,42 +72,42 @@ public class SpBtnTowerRManager : MonoBehaviour
             NextLv.OnNext(ShopData.TowerRed_ParamList.Repair);
 
             // 強化内容テキストを設定
-            spPlayerBtn[0].levelText.text =
+            spBtn[0].levelText.text =
                 string.Format("Lv{0}→Lv{1}",
                 ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value,
                 nextLvTrap);
 
-            spPlayerBtn[1].levelText.text =
+            spBtn[1].levelText.text =
                 string.Format("Lv{0}→Lv{1}",
                 ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value,
                 nextLvTurret);
 
-            spPlayerBtn[2].levelText.text =
+            spBtn[2].levelText.text =
                 string.Format("Lv{0}→Lv{1}",
                 ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value,
                 nextLvTower);
 
-            spPlayerBtn[3].levelText.text =
+            spBtn[3].levelText.text =
                 string.Format("{0}回目",nextLvRepair);
 
             // 必要金額テキストを設定
-            spPlayerBtn[0].materValueText.text =
+            spBtn[0].materValueText.text =
                 string.Format("{0}",
                 ShopManager.Instance.shopData.
                 redData_Tower[nextLvTrap].purchaseMater);
 
-            spPlayerBtn[1].materValueText.text =
+            spBtn[1].materValueText.text =
                 string.Format("{0}",
                 ShopManager.Instance.shopData.
                 redData_Tower[nextLvTurret].purchaseMater);
 
 
-            spPlayerBtn[2].materValueText.text =
+            spBtn[2].materValueText.text =
                 string.Format("{0}",
                 ShopManager.Instance.shopData.
                 redData_Tower[nextLvTower].purchaseMater);
 
-            spPlayerBtn[3].materValueText.text =
+            spBtn[3].materValueText.text =
                 string.Format("{0}",nextRepairVal);
         }).AddTo(this.gameObject);
 
@@ -117,21 +118,21 @@ public class SpBtnTowerRManager : MonoBehaviour
             {
                 case ShopData.TowerRed_ParamList.Param_Trap:
                     // 色を通常に
-                    spPlayerBtn[0].materValueText.color = Color.black;
+                    spBtn[0].materValueText.color = Color.black;
                     // ボタンを押せるようにする
-                    spPlayerBtn[0].myBtn.interactable = true;
+                    spBtn[0].myBtn.interactable = true;
                     break;
                 case ShopData.TowerRed_ParamList.Param_Turret:
-                    spPlayerBtn[1].materValueText.color = Color.black;
-                    spPlayerBtn[1].myBtn.interactable = true;
+                    spBtn[1].materValueText.color = Color.black;
+                    spBtn[1].myBtn.interactable = true;
                     break;
                 case ShopData.TowerRed_ParamList.Param_Tower:
-                    spPlayerBtn[2].materValueText.color = Color.black;
-                    spPlayerBtn[2].myBtn.interactable = true;
+                    spBtn[2].materValueText.color = Color.black;
+                    spBtn[2].myBtn.interactable = true;
                     break;
                 case ShopData.TowerRed_ParamList.Repair:
-                    spPlayerBtn[3].materValueText.color = Color.black;
-                    spPlayerBtn[3].myBtn.interactable = true;
+                    spBtn[3].materValueText.color = Color.black;
+                    spBtn[3].myBtn.interactable = true;
                     break;
             }
         }).AddTo(this.gameObject);
@@ -142,21 +143,21 @@ public class SpBtnTowerRManager : MonoBehaviour
             {
                 case ShopData.TowerRed_ParamList.Param_Trap:
                     // 文字を赤色に
-                    spPlayerBtn[0].materValueText.color = Color.red;
+                    spBtn[0].materValueText.color = Color.red;
                     // ボタンを押せなくなるようにする
-                    spPlayerBtn[0].myBtn.interactable = false;
+                    spBtn[0].myBtn.interactable = false;
                     break;
                 case ShopData.TowerRed_ParamList.Param_Turret:
-                    spPlayerBtn[1].materValueText.color = Color.red;
-                    spPlayerBtn[1].myBtn.interactable = false;
+                    spBtn[1].materValueText.color = Color.red;
+                    spBtn[1].myBtn.interactable = false;
                     break;
                 case ShopData.TowerRed_ParamList.Param_Tower:
-                    spPlayerBtn[2].materValueText.color = Color.red;
-                    spPlayerBtn[2].myBtn.interactable = false;
+                    spBtn[2].materValueText.color = Color.red;
+                    spBtn[2].myBtn.interactable = false;
                     break;
                 case ShopData.TowerRed_ParamList.Repair:
-                    spPlayerBtn[3].materValueText.color = Color.red;
-                    spPlayerBtn[3].myBtn.interactable = false;
+                    spBtn[3].materValueText.color = Color.red;
+                    spBtn[3].myBtn.interactable = false;
                     break;
             }
         }).AddTo(this.gameObject);
@@ -169,25 +170,25 @@ public class SpBtnTowerRManager : MonoBehaviour
                 case ShopData.TowerRed_ParamList.Param_Trap:
                     // 購入内容テキストを更新する
                     // 表示内容：（現在のLv→次のLv）
-                    spPlayerBtn[0].levelText.text =
+                    spBtn[0].levelText.text =
                         string.Format("Lv{0}→Lv{1}",
-                        ShopManager.Instance.spLv.playerLv.lv_HP.Value,
+                        ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value,
                         nextLvTrap);
                     break;
                 case ShopData.TowerRed_ParamList.Param_Turret:
-                    spPlayerBtn[1].levelText.text =
+                    spBtn[1].levelText.text =
                         string.Format("Lv{0}→Lv{1}",
-                        ShopManager.Instance.spLv.playerLv.lv_Spd.Value,
+                        ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value,
                         nextLvTurret);
                     break;
                 case ShopData.TowerRed_ParamList.Param_Tower:
-                    spPlayerBtn[2].levelText.text =
+                    spBtn[2].levelText.text =
                         string.Format("Lv{0}→Lv{1}",
-                        ShopManager.Instance.spLv.playerLv.lv_Int.Value,
+                        ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value,
                         nextLvTower);
                     break;
                 case ShopData.TowerRed_ParamList.Repair:
-                    spPlayerBtn[3].levelText.text =
+                    spBtn[3].levelText.text =
                     string.Format("{0}",nextLvRepair);
                     break;
             }
@@ -200,25 +201,25 @@ public class SpBtnTowerRManager : MonoBehaviour
             {
                 // 必要金額のUIを変更する
                 case ShopData.TowerRed_ParamList.Param_Trap:
-                    spPlayerBtn[0].materValueText.text =
+                    spBtn[0].materValueText.text =
                         string.Format("{0}",
                         ShopManager.Instance.shopData.
                         redData_Tower[nextLvTrap].purchaseMater);
                     break;
                 case ShopData.TowerRed_ParamList.Param_Turret:
-                    spPlayerBtn[1].materValueText.text =
+                    spBtn[1].materValueText.text =
                         string.Format("{0}",
                         ShopManager.Instance.shopData.
                         redData_Tower[nextLvTurret].purchaseMater);
                     break;
                 case ShopData.TowerRed_ParamList.Param_Tower:
-                    spPlayerBtn[2].materValueText.text =
+                    spBtn[2].materValueText.text =
                         string.Format("{0}",
                         ShopManager.Instance.shopData.
                         redData_Tower[nextLvTower].purchaseMater);
                     break;
                 case ShopData.TowerRed_ParamList.Repair:
-                    spPlayerBtn[3].materValueText.text =
+                    spBtn[3].materValueText.text =
                     string.Format("{0}",nextRepairVal);
                     break;
             }
@@ -231,31 +232,31 @@ public class SpBtnTowerRManager : MonoBehaviour
             {
                 case ShopData.TowerRed_ParamList.Param_Trap:
                     // 必要金額UIに売り切れを表示させる
-                    spPlayerBtn[0].materValueText.text = string.Format("SOLD OUT");
+                    spBtn[0].materValueText.text = string.Format("SOLD OUT");
                     // 現在のレベルUIにレベル最大を表示させる
-                    spPlayerBtn[0].levelText.text = string.Format("LvMAX!");
+                    spBtn[0].levelText.text = string.Format("LvMAX!");
                     // 文字を赤色にする
-                    spPlayerBtn[0].materValueText.color = Color.red;
+                    spBtn[0].materValueText.color = Color.red;
                     // ボタンが押せなくなるようにする
-                    spPlayerBtn[0].myBtn.interactable = false;
+                    spBtn[0].myBtn.interactable = false;
                     break;
                 case ShopData.TowerRed_ParamList.Param_Turret:
-                    spPlayerBtn[1].materValueText.text = string.Format("SOLD OUT");
-                    spPlayerBtn[1].levelText.text = string.Format("LvMAX!");
-                    spPlayerBtn[1].materValueText.color = Color.red;
-                    spPlayerBtn[1].myBtn.interactable = false;
+                    spBtn[1].materValueText.text = string.Format("SOLD OUT");
+                    spBtn[1].levelText.text = string.Format("LvMAX!");
+                    spBtn[1].materValueText.color = Color.red;
+                    spBtn[1].myBtn.interactable = false;
                     break;
                 case ShopData.TowerRed_ParamList.Param_Tower:
-                    spPlayerBtn[2].materValueText.text = string.Format("SOLD OUT");
-                    spPlayerBtn[2].levelText.text = string.Format("LvMAX!");
-                    spPlayerBtn[2].materValueText.color = Color.red;
-                    spPlayerBtn[2].myBtn.interactable = false;
+                    spBtn[2].materValueText.text = string.Format("SOLD OUT");
+                    spBtn[2].levelText.text = string.Format("LvMAX!");
+                    spBtn[2].materValueText.color = Color.red;
+                    spBtn[2].myBtn.interactable = false;
                     break;
                 case ShopData.TowerRed_ParamList.Repair:
-                    spPlayerBtn[3].materValueText.text = string.Format("SOLD OUT");
-                    spPlayerBtn[3].levelText.text = string.Format("Max Repaired...");
-                    spPlayerBtn[3].materValueText.color = Color.red;
-                    spPlayerBtn[3].myBtn.interactable = false;
+                    spBtn[3].materValueText.text = string.Format("SOLD OUT");
+                    spBtn[3].levelText.text = string.Format("Max Repaired...");
+                    spBtn[3].materValueText.color = Color.red;
+                    spBtn[3].myBtn.interactable = false;
                     break;
                 default:
                     break;

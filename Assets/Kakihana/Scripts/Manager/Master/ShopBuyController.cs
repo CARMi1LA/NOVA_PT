@@ -131,7 +131,7 @@ public class ShopBuyController : MonoBehaviour
                     else
                     {
                         // 金額不足
-                        spBtnTowerR.BuyOkText.OnNext(ShopData.TowerRed_ParamList.Param_Turret);
+                        spBtnTowerR.BuyNgText.OnNext(ShopData.TowerRed_ParamList.Param_Turret);
                     }
                 }
 
@@ -150,11 +150,11 @@ public class ShopBuyController : MonoBehaviour
                     else
                     {
                         // 金額不足
-                        spBtnTowerR.BuyOkText.OnNext(ShopData.TowerRed_ParamList.Param_Tower);
+                        spBtnTowerR.BuyNgText.OnNext(ShopData.TowerRed_ParamList.Param_Tower);
                     }
                 }
 
-                if (spLv.towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value >= spLv.playerLv.MAX_LV)
+                if (spLv.towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value >= spLv.MAX_LEVEL)
                 {
 
                 }
