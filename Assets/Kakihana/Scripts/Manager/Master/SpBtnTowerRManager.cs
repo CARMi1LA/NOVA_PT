@@ -11,6 +11,8 @@ public class SpBtnTowerRManager : MonoBehaviour
     private LevelData_Tower redTower_Lv;
     public ShopBtnManager[] spBtn;
 
+    private ShopData.TowerRed_ParamList param;
+
     // 次のレベルを保存する変数
     private int nextLvTrap;
     private int nextLvTurret;
@@ -189,7 +191,7 @@ public class SpBtnTowerRManager : MonoBehaviour
                     break;
                 case ShopData.TowerRed_ParamList.Repair:
                     spBtn[3].levelText.text =
-                    string.Format("{0}",nextLvRepair);
+                    string.Format("{0}回目",nextLvRepair);
                     break;
             }
         }).AddTo(this.gameObject);

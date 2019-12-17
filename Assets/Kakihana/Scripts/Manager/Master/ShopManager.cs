@@ -130,6 +130,7 @@ public class ShopManager : SPMSinleton<ShopManager>
                 }
             }).AddTo(this.gameObject);
 
+        // 赤タワー購入ボタンプッシュイベント //
         addLevel_TowerRed
             .Subscribe(val => 
             {
@@ -195,6 +196,208 @@ public class ShopManager : SPMSinleton<ShopManager>
                         break;
                 }
             }).AddTo(this.gameObject);
+
+        // 青タワー購入ボタンプッシュイベント //
+        addLevel_TowerBlue
+            .Subscribe(val =>
+            {
+                switch (val)
+                {
+                    case ShopData.TowerBlue_ParamList.Param_Trap:
+                        mater.Value -= shopData.blueData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Blue].level_Trap.Value + 1].purchaseMater;
+                        spLv.towerLv[(int)ShopData.TowerColor.Blue].level_Trap.Value++;
+                        if (spLv.towerLv[(int)ShopData.TowerColor.Blue].level_Trap.Value >= spLv.towerLv[(int)ShopData.TowerColor.Blue].MAX_LV)
+                        {
+                            btnTwB.SoldOutText.OnNext(ShopData.TowerBlue_ParamList.Param_Trap);
+                        }
+                        else
+                        {
+                            btnTwB.NextLv.OnNext(ShopData.TowerBlue_ParamList.Param_Trap);
+                            btnTwB.ChangeLvText.OnNext(ShopData.TowerBlue_ParamList.Param_Trap);
+                            btnTwB.ChangeValueText.OnNext(ShopData.TowerBlue_ParamList.Param_Trap);
+                        }
+                        break;
+                    case ShopData.TowerBlue_ParamList.Param_Turret:
+                        mater.Value -= shopData.blueData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Blue].level_Turret.Value + 1].purchaseMater;
+                        spLv.towerLv[(int)ShopData.TowerColor.Blue].level_Turret.Value++;
+                        if (spLv.towerLv[(int)ShopData.TowerColor.Blue].level_Turret.Value >= spLv.towerLv[(int)ShopData.TowerColor.Blue].MAX_LV)
+                        {
+                            btnTwB.SoldOutText.OnNext(ShopData.TowerBlue_ParamList.Param_Turret);
+                        }
+                        else
+                        {
+                            btnTwB.NextLv.OnNext(ShopData.TowerBlue_ParamList.Param_Turret);
+                            btnTwB.ChangeLvText.OnNext(ShopData.TowerBlue_ParamList.Param_Turret);
+                            btnTwB.ChangeValueText.OnNext(ShopData.TowerBlue_ParamList.Param_Turret);
+                        }
+                        break;
+                    case ShopData.TowerBlue_ParamList.Param_Tower:
+                        mater.Value -= shopData.blueData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Blue].level_Tower.Value + 1].purchaseMater;
+                        spLv.towerLv[(int)ShopData.TowerColor.Blue].level_Tower.Value++;
+                        if (spLv.towerLv[(int)ShopData.TowerColor.Blue].level_Tower.Value >= spLv.towerLv[(int)ShopData.TowerColor.Blue].MAX_LV)
+                        {
+                            btnTwB.SoldOutText.OnNext(ShopData.TowerBlue_ParamList.Param_Tower);
+                        }
+                        else
+                        {
+                            btnTwB.NextLv.OnNext(ShopData.TowerBlue_ParamList.Param_Tower);
+                            btnTwB.ChangeLvText.OnNext(ShopData.TowerBlue_ParamList.Param_Tower);
+                            btnTwB.ChangeValueText.OnNext(ShopData.TowerBlue_ParamList.Param_Tower);
+                        }
+                        break;
+                    case ShopData.TowerBlue_ParamList.Repair:
+                        mater.Value -= (shopData.blueData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Blue].level_Repair.Value + 1].purchaseMater * 5);
+                        spLv.towerLv[(int)ShopData.TowerColor.Blue].level_Repair.Value++;
+                        if (spLv.towerLv[(int)ShopData.TowerColor.Blue].level_Repair.Value >= spLv.MAX_LEVEL)
+                        {
+                            btnTwB.SoldOutText.OnNext(ShopData.TowerBlue_ParamList.Repair);
+                        }
+                        else
+                        {
+                            btnTwB.NextLv.OnNext(ShopData.TowerBlue_ParamList.Repair);
+                            btnTwB.ChangeLvText.OnNext(ShopData.TowerBlue_ParamList.Repair);
+                            btnTwB.ChangeValueText.OnNext(ShopData.TowerBlue_ParamList.Repair);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }).AddTo(this.gameObject);
+
+        // 黄タワー購入ボタンプッシュイベント //
+        addLevel_TowerYellow
+            .Subscribe(val =>
+            {
+                switch (val)
+                {
+                    case ShopData.TowerYellow_ParamList.Param_Trap:
+                        mater.Value -= shopData.yellowData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Yellow].level_Trap.Value + 1].purchaseMater;
+                        spLv.towerLv[(int)ShopData.TowerColor.Yellow].level_Trap.Value++;
+                        if (spLv.towerLv[(int)ShopData.TowerColor.Yellow].level_Trap.Value >= spLv.towerLv[(int)ShopData.TowerColor.Yellow].MAX_LV)
+                        {
+                            btnTwY.SoldOutText.OnNext(ShopData.TowerYellow_ParamList.Param_Trap);
+                        }
+                        else
+                        {
+                            btnTwY.NextLv.OnNext(ShopData.TowerYellow_ParamList.Param_Trap);
+                            btnTwY.ChangeLvText.OnNext(ShopData.TowerYellow_ParamList.Param_Trap);
+                            btnTwY.ChangeValueText.OnNext(ShopData.TowerYellow_ParamList.Param_Trap);
+                        }
+                        break;
+                    case ShopData.TowerYellow_ParamList.Param_Turret:
+                        mater.Value -= shopData.yellowData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Yellow].level_Turret.Value + 1].purchaseMater;
+                        spLv.towerLv[(int)ShopData.TowerColor.Yellow].level_Turret.Value++;
+                        if (spLv.towerLv[(int)ShopData.TowerColor.Yellow].level_Turret.Value >= spLv.towerLv[(int)ShopData.TowerColor.Yellow].MAX_LV)
+                        {
+                            btnTwY.SoldOutText.OnNext(ShopData.TowerYellow_ParamList.Param_Turret);
+                        }
+                        else
+                        {
+                            btnTwY.NextLv.OnNext(ShopData.TowerYellow_ParamList.Param_Turret);
+                            btnTwY.ChangeLvText.OnNext(ShopData.TowerYellow_ParamList.Param_Turret);
+                            btnTwY.ChangeValueText.OnNext(ShopData.TowerYellow_ParamList.Param_Turret);
+                        }
+                        break;
+                    case ShopData.TowerYellow_ParamList.Param_Tower:
+                        mater.Value -= shopData.yellowData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Yellow].level_Tower.Value + 1].purchaseMater;
+                        spLv.towerLv[(int)ShopData.TowerColor.Yellow].level_Tower.Value++;
+                        if (spLv.towerLv[(int)ShopData.TowerColor.Yellow].level_Tower.Value >= spLv.towerLv[(int)ShopData.TowerColor.Yellow].MAX_LV)
+                        {
+                            btnTwY.SoldOutText.OnNext(ShopData.TowerYellow_ParamList.Param_Tower);
+                        }
+                        else
+                        {
+                            btnTwY.NextLv.OnNext(ShopData.TowerYellow_ParamList.Param_Tower);
+                            btnTwY.ChangeLvText.OnNext(ShopData.TowerYellow_ParamList.Param_Tower);
+                            btnTwY.ChangeValueText.OnNext(ShopData.TowerYellow_ParamList.Param_Tower);
+                        }
+                        break;
+                    case ShopData.TowerYellow_ParamList.Repair:
+                        mater.Value -= (shopData.yellowData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Yellow].level_Repair.Value + 1].purchaseMater * 5);
+                        spLv.towerLv[(int)ShopData.TowerColor.Yellow].level_Repair.Value++;
+                        if (spLv.towerLv[(int)ShopData.TowerColor.Yellow].level_Repair.Value >= spLv.MAX_LEVEL)
+                        {
+                            btnTwY.SoldOutText.OnNext(ShopData.TowerYellow_ParamList.Repair);
+                        }
+                        else
+                        {
+                            btnTwY.NextLv.OnNext(ShopData.TowerYellow_ParamList.Repair);
+                            btnTwY.ChangeLvText.OnNext(ShopData.TowerYellow_ParamList.Repair);
+                            btnTwY.ChangeValueText.OnNext(ShopData.TowerYellow_ParamList.Repair);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }).AddTo(this.gameObject);
+
+        // 緑タワー購入ボタンプッシュイベント //
+        addLevel_TowerGreen
+            .Subscribe(val =>
+            {
+                switch (val)
+                {
+                    case ShopData.TowerGreen_ParamList.Param_Trap:
+                        mater.Value -= shopData.greenData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Green].level_Trap.Value + 1].purchaseMater;
+                        spLv.towerLv[(int)ShopData.TowerColor.Green].level_Trap.Value++;
+                        if (spLv.towerLv[(int)ShopData.TowerColor.Green].level_Trap.Value >= spLv.towerLv[(int)ShopData.TowerColor.Green].MAX_LV)
+                        {
+                            btnTwG.SoldOutText.OnNext(ShopData.TowerGreen_ParamList.Param_Trap);
+                        }
+                        else
+                        {
+                            btnTwG.NextLv.OnNext(ShopData.TowerGreen_ParamList.Param_Trap);
+                            btnTwG.ChangeLvText.OnNext(ShopData.TowerGreen_ParamList.Param_Trap);
+                            btnTwG.ChangeValueText.OnNext(ShopData.TowerGreen_ParamList.Param_Trap);
+                        }
+                        break;
+                    case ShopData.TowerGreen_ParamList.Param_Turret:
+                        mater.Value -= shopData.greenData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Green].level_Turret.Value + 1].purchaseMater;
+                        spLv.towerLv[(int)ShopData.TowerColor.Green].level_Turret.Value++;
+                        if (spLv.towerLv[(int)ShopData.TowerColor.Green].level_Turret.Value >= spLv.towerLv[(int)ShopData.TowerColor.Green].MAX_LV)
+                        {
+                            btnTwG.SoldOutText.OnNext(ShopData.TowerGreen_ParamList.Param_Turret);
+                        }
+                        else
+                        {
+                            btnTwG.NextLv.OnNext(ShopData.TowerGreen_ParamList.Param_Turret);
+                            btnTwG.ChangeLvText.OnNext(ShopData.TowerGreen_ParamList.Param_Turret);
+                            btnTwG.ChangeValueText.OnNext(ShopData.TowerGreen_ParamList.Param_Turret);
+                        }
+                        break;
+                    case ShopData.TowerGreen_ParamList.Param_Tower:
+                        mater.Value -= shopData.greenData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Green].level_Tower.Value + 1].purchaseMater;
+                        spLv.towerLv[(int)ShopData.TowerColor.Green].level_Tower.Value++;
+                        if (spLv.towerLv[(int)ShopData.TowerColor.Green].level_Tower.Value >= spLv.towerLv[(int)ShopData.TowerColor.Yellow].MAX_LV)
+                        {
+                            btnTwG.SoldOutText.OnNext(ShopData.TowerGreen_ParamList.Param_Tower);
+                        }
+                        else
+                        {
+                            btnTwG.NextLv.OnNext(ShopData.TowerGreen_ParamList.Param_Tower);
+                            btnTwG.ChangeLvText.OnNext(ShopData.TowerGreen_ParamList.Param_Tower);
+                            btnTwG.ChangeValueText.OnNext(ShopData.TowerGreen_ParamList.Param_Tower);
+                        }
+                        break;
+                    case ShopData.TowerGreen_ParamList.Repair:
+                        mater.Value -= (shopData.greenData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Green].level_Repair.Value + 1].purchaseMater * 5);
+                        spLv.towerLv[(int)ShopData.TowerColor.Green].level_Repair.Value++;
+                        if (spLv.towerLv[(int)ShopData.TowerColor.Green].level_Repair.Value >= spLv.MAX_LEVEL)
+                        {
+                            btnTwG.SoldOutText.OnNext(ShopData.TowerGreen_ParamList.Repair);
+                        }
+                        else
+                        {
+                            btnTwG.NextLv.OnNext(ShopData.TowerGreen_ParamList.Repair);
+                            btnTwG.ChangeLvText.OnNext(ShopData.TowerGreen_ParamList.Repair);
+                            btnTwG.ChangeValueText.OnNext(ShopData.TowerGreen_ParamList.Repair);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }).AddTo(this.gameObject);
+
 
         addLevel_Skill
             .Where(val => mater.Value >= shopData.shopData_Skill[(int)val].purchaseMater)

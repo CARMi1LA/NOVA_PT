@@ -15,6 +15,7 @@ public class ShopBuyController : MonoBehaviour
 
     public SpLvData spLv;
     private ShopData buyData;
+    private ShopData.TowerColor twCol;
 
     public SpBtnPlayerManager spBtnPlayer;
     public SpBtnTowerRManager spBtnTowerR;
@@ -172,195 +173,236 @@ public class ShopBuyController : MonoBehaviour
                     }
                 }
 
-                //    // 青タワー購入可能判断処理
+            ///////////// 青タワー購入可能判断処理  ////////////////
 
-                //    if (mat >= buyData.blueData_Tower[towerLv[(int)ShopData.TowerColor.Blue].level_Trap.Value + 1].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+            // トラップ強化
+            if (spLv.towerLv[(int)ShopData.TowerColor.Blue].level_Trap.Value >= spLv.towerLv[(int)ShopData.TowerColor.Blue].MAX_LV)
+            {
 
-                //    if (mat >= buyData.blueData_Tower[towerLv[(int)ShopData.TowerColor.Blue].level_Turret.Value + 1].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+            }
+            else
+            {
+                if (mat >= buyData.blueData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Blue].level_Trap.Value + 1].purchaseMater)
+                {
+                    // 購入可能
+                    spBtnTowerB.BuyOkText.OnNext(ShopData.TowerBlue_ParamList.Param_Trap);
+                }
+                else
+                {
+                    // 金額不足
+                    spBtnTowerB.BuyNgText.OnNext(ShopData.TowerBlue_ParamList.Param_Trap);
+                }
+            }
 
-                //    if (mat >= buyData.blueData_Tower[towerLv[(int)ShopData.TowerColor.Blue].level_Tower.Value + 1].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+            // タレット強化
+            if (spLv.towerLv[(int)ShopData.TowerColor.Blue].level_Turret.Value >= spLv.playerLv.MAX_LV)
+            {
 
-                //    if (mat >= buyData.blueData_Tower[towerLv[(int)ShopData.TowerColor.Blue].level_Repair.Value + 1].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+            }
+            else
+            {
+                if (mat >= buyData.blueData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Blue].level_Turret.Value + 1].purchaseMater)
+                {
+                    // 購入可能
+                    spBtnTowerB.BuyOkText.OnNext(ShopData.TowerBlue_ParamList.Param_Turret);
+                }
+                else
+                {
+                    // 金額不足
+                    spBtnTowerB.BuyNgText.OnNext(ShopData.TowerBlue_ParamList.Param_Turret);
+                }
+            }
 
-                //    // 黄タワー購入可能判断処理
+            // タワー強化
+            if (spLv.towerLv[(int)ShopData.TowerColor.Blue].level_Tower.Value >= spLv.playerLv.MAX_LV)
+            {
 
-                //    if (mat >= buyData.yellowData_Tower[towerLv[(int)ShopData.TowerColor.Yellow].level_Trap.Value + 1].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+            }
+            else
+            {
+                if (mat >= buyData.blueData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Blue].level_Tower.Value + 1].purchaseMater)
+                {
+                    // 購入可能
+                    spBtnTowerB.BuyOkText.OnNext(ShopData.TowerBlue_ParamList.Param_Tower);
+                }
+                else
+                {
+                    // 金額不足
+                    spBtnTowerB.BuyNgText.OnNext(ShopData.TowerBlue_ParamList.Param_Tower);
+                }
+            }
 
-                //    if (mat >= buyData.yellowData_Tower[towerLv[(int)ShopData.TowerColor.Yellow].level_Turret.Value + 1].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+                if (spLv.towerLv[(int)ShopData.TowerColor.Blue].level_Repair.Value >= spLv.MAX_LEVEL)
+                {
 
-                //    if (mat >= buyData.yellowData_Tower[towerLv[(int)ShopData.TowerColor.Yellow].level_Tower.Value + 1].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+                }
+                else
+                {
+                    if (mat >= buyData.blueData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Blue].level_Tower.Value + 1].purchaseMater)
+                    {
+                        // 購入可能
+                        spBtnTowerB.BuyOkText.OnNext(ShopData.TowerBlue_ParamList.Repair);
+                    }
+                    else
+                    {
+                        // 金額不足
+                        spBtnTowerB.BuyNgText.OnNext(ShopData.TowerBlue_ParamList.Repair);
+                    }
 
-                //    if (mat >= buyData.yellowData_Tower[towerLv[(int)ShopData.TowerColor.Yellow].level_Repair.Value + 1].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+                    ///////////// 黄タワー購入可能判断処理  ////////////////
 
+                    // トラップ強化
+                    if (spLv.towerLv[(int)ShopData.TowerColor.Yellow].level_Trap.Value >= spLv.towerLv[(int)ShopData.TowerColor.Yellow].MAX_LV)
+                    {
 
-                //    // 緑タワー購入可能判断処理
+                    }
+                    else
+                    {
+                        if (mat >= buyData.blueData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Yellow].level_Trap.Value + 1].purchaseMater)
+                        {
+                            // 購入可能
+                            spBtnTowerY.BuyOkText.OnNext(ShopData.TowerYellow_ParamList.Param_Trap);
+                        }
+                        else
+                        {
+                            // 金額不足
+                            spBtnTowerY.BuyNgText.OnNext(ShopData.TowerYellow_ParamList.Param_Trap);
+                        }
+                    }
 
-                //    if (mat >= buyData.greenData_Tower[towerLv[(int)ShopData.TowerColor.Green].level_Trap.Value + 1].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+                    // タレット強化
+                    if (spLv.towerLv[(int)ShopData.TowerColor.Yellow].level_Turret.Value >= spLv.playerLv.MAX_LV)
+                    {
 
-                //    if (mat >= buyData.greenData_Tower[towerLv[(int)ShopData.TowerColor.Green].level_Turret.Value + 1].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+                    }
+                    else
+                    {
+                        if (mat >= buyData.yellowData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Yellow].level_Turret.Value + 1].purchaseMater)
+                        {
+                            // 購入可能
+                            spBtnTowerY.BuyOkText.OnNext(ShopData.TowerYellow_ParamList.Param_Turret);
+                        }
+                        else
+                        {
+                            // 金額不足
+                            spBtnTowerY.BuyNgText.OnNext(ShopData.TowerYellow_ParamList.Param_Turret);
+                        }
+                    }
 
-                //    if (mat >= buyData.greenData_Tower[towerLv[(int)ShopData.TowerColor.Green].level_Tower.Value + 1].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+                    // タワー強化
+                    if (spLv.towerLv[(int)ShopData.TowerColor.Yellow].level_Tower.Value >= spLv.playerLv.MAX_LV)
+                    {
 
-                //    if (mat >= buyData.greenData_Tower[towerLv[(int)ShopData.TowerColor.Green].level_Repair.Value + 1].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+                    }
+                    else
+                    {
+                        if (mat >= buyData.yellowData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Yellow].level_Tower.Value + 1].purchaseMater)
+                        {
+                            // 購入可能
+                            spBtnTowerY.BuyOkText.OnNext(ShopData.TowerYellow_ParamList.Param_Tower);
+                        }
+                        else
+                        {
+                            // 金額不足
+                            spBtnTowerY.BuyNgText.OnNext(ShopData.TowerYellow_ParamList.Param_Tower);
+                        }
+                    }
 
-                //    // スキルの購入可能判断処理
+                    if (spLv.towerLv[(int)ShopData.TowerColor.Yellow].level_Repair.Value >= spLv.MAX_LEVEL)
+                    {
 
-                //    if (mat >= buyData.shopData_Skill[(int)ShopData.Skill_ParamList.Normal].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
-                //    if (mat >= buyData.shopData_Skill[(int)ShopData.Skill_ParamList.Razer].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+                    }
+                    else
+                    {
+                        if (mat >= buyData.yellowData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Yellow].level_Tower.Value + 1].purchaseMater)
+                        {
+                            // 購入可能
+                            spBtnTowerY.BuyOkText.OnNext(ShopData.TowerYellow_ParamList.Repair);
+                        }
+                        else
+                        {
+                            // 金額不足
+                            spBtnTowerY.BuyNgText.OnNext(ShopData.TowerYellow_ParamList.Repair);
+                        }
 
-                //    if (mat >= buyData.shopData_Skill[(int)ShopData.Skill_ParamList.Missile].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+                        ///////////// 緑タワー購入可能判断処理  ////////////////
 
-                //    if (mat >= buyData.shopData_Skill[(int)ShopData.Skill_ParamList.Bomb].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+                        // トラップ強化
+                        if (spLv.towerLv[(int)ShopData.TowerColor.Green].level_Trap.Value >= spLv.towerLv[(int)ShopData.TowerColor.Green].MAX_LV)
+                        {
 
-                //    // 必殺技の購入可能判断処理
+                        }
+                        else
+                        {
+                            if (mat >= buyData.greenData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Green].level_Trap.Value + 1].purchaseMater)
+                            {
+                                // 購入可能
+                                spBtnTowerG.BuyOkText.OnNext(ShopData.TowerGreen_ParamList.Param_Trap);
+                            }
+                            else
+                            {
+                                // 金額不足
+                                spBtnTowerG.BuyNgText.OnNext(ShopData.TowerGreen_ParamList.Param_Trap);
+                            }
+                        }
 
-                //    if (mat >= buyData.shopData_Ult[(int)ShopData.Ult_ParamList.Normal].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+                        // タレット強化
+                        if (spLv.towerLv[(int)ShopData.TowerColor.Green].level_Turret.Value >= spLv.playerLv.MAX_LV)
+                        {
 
-                //    if (mat >= buyData.shopData_Ult[(int)ShopData.Ult_ParamList.Trap].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+                        }
+                        else
+                        {
+                            if (mat >= buyData.greenData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Green].level_Turret.Value + 1].purchaseMater)
+                            {
+                                // 購入可能
+                                spBtnTowerG.BuyOkText.OnNext(ShopData.TowerGreen_ParamList.Param_Turret);
+                            }
+                            else
+                            {
+                                // 金額不足
+                                spBtnTowerG.BuyNgText.OnNext(ShopData.TowerGreen_ParamList.Param_Turret);
+                            }
+                        }
 
-                //    if (mat >= buyData.shopData_Ult[(int)ShopData.Ult_ParamList.Bomb].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+                        // タワー強化
+                        if (spLv.towerLv[(int)ShopData.TowerColor.Green].level_Tower.Value >= spLv.playerLv.MAX_LV)
+                        {
 
-                //    if (mat >= buyData.shopData_Ult[(int)ShopData.Ult_ParamList.Repair].purchaseMater)
-                //    {
-                //        // 購入可能
-                //    }
-                //    else
-                //    {
-                //        // 金額不足
-                //    }
+                        }
+                        else
+                        {
+                            if (mat >= buyData.greenData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Green].level_Tower.Value + 1].purchaseMater)
+                            {
+                                // 購入可能
+                                spBtnTowerG.BuyOkText.OnNext(ShopData.TowerGreen_ParamList.Param_Tower);
+                            }
+                            else
+                            {
+                                // 金額不足
+                                spBtnTowerG.BuyNgText.OnNext(ShopData.TowerGreen_ParamList.Param_Tower);
+                            }
+                        }
+
+                        if (spLv.towerLv[(int)ShopData.TowerColor.Green].level_Repair.Value >= spLv.MAX_LEVEL)
+                        {
+
+                        }
+                        else
+                        {
+                            if (mat >= buyData.greenData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Green].level_Repair.Value + 1].purchaseMater)
+                            {
+                                // 購入可能
+                                spBtnTowerG.BuyOkText.OnNext(ShopData.TowerGreen_ParamList.Repair);
+                            }
+                            else
+                            {
+                                // 金額不足
+                                spBtnTowerG.BuyNgText.OnNext(ShopData.TowerGreen_ParamList.Repair);
+                            }
+                        }
+                    }
+                }
             }).AddTo(this.gameObject);
     }
     public void BuyInit()
@@ -369,6 +411,9 @@ public class ShopBuyController : MonoBehaviour
         spLv = ShopManager.Instance.spLv;
         spBtnPlayer.InitSubject.OnNext(spLv.playerLv);
         spBtnTowerR.InitSubject.OnNext(spLv.towerLv[(int)ShopData.TowerColor.Red]);
+        spBtnTowerB.InitSubject.OnNext(spLv.towerLv[(int)ShopData.TowerColor.Blue]);
+        spBtnTowerY.InitSubject.OnNext(spLv.towerLv[(int)ShopData.TowerColor.Yellow]);
+        spBtnTowerG.InitSubject.OnNext(spLv.towerLv[(int)ShopData.TowerColor.Green]);
         Debug.Log("BuyControllInit");
     }
 }
