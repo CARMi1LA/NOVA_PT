@@ -59,6 +59,7 @@ public class HUDManager : MonoBehaviour
             {
                 if(hHealth != null)
                 {
+                    Debug.Log(value);
                     hHealth.SetHealth(value, pData.pMaxHealth);
                 }
 

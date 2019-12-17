@@ -11,7 +11,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]
     TDPlayerManager pManager;
     [SerializeField]
-    TDBulletData.BulletTypeList bType;  // 攻撃タイプの実装テスト
+    TDList.BulletTypeList bType = TDList.BulletTypeList.Normal;  // 攻撃タイプの実装テスト
     [SerializeField]
     int attackInterval = 1;   // 攻撃間隔の倍率　実装テスト
 
@@ -32,8 +32,7 @@ public class PlayerAttack : MonoBehaviour
             .Subscribe(_ =>
             {
                 // 通常攻撃の実行
-                Debug.Log("通常攻撃　実行");
-                TDBulletData bData = new TDBulletData(0,bType, this.transform.position, this.transform.eulerAngles);
+                TDBulletData bData = new TDBulletData(pManager.pData.pParent,bType, this.transform.position, this.transform.eulerAngles);
                 TDBulletSpawner.Instance.bulletRentSubject.OnNext(bData);
 
             }).AddTo(this.gameObject);

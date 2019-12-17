@@ -5,6 +5,9 @@ using UniRx;
 
 public class TDPlayerData
 {
+    // 陣営データ
+    public TDList.ParentList pParent = TDList.ParentList.Player;
+
     // ヘルスゲージ           最大 / 現在
     public int pMaxHealth = 10;
     public IntReactiveProperty pHealth = new IntReactiveProperty();
@@ -47,7 +50,7 @@ public class TDPlayerData
     public float pSpeedMul = 10;
     // ダッシュ
     public float pDashCost = 5.0f;      // 回避の発動コスト
-    public float pDashTime = 0.5f;      // 回避の行動時間
+    public float pDashTime = 0.3f;      // 回避の行動時間
 
     // ダメージの無効化
     public bool pBarrier = false;   // ダメージ無効時間の有効化

@@ -16,8 +16,10 @@ public class HUDHealth : MonoBehaviour
         hRenderer = this.GetComponent<Renderer>();
     }
 
-    public void SetHealth(int health,int maxHealth)
+    public void SetHealth(float health,float maxHealth)
     {
+        Debug.Log(health / maxHealth * maxRange);
+
         hRenderer.material.SetFloat("_ArcRange", health / maxHealth * maxRange);
     }
 }

@@ -26,6 +26,8 @@ public class TDPlayerManager : MonoBehaviour
     public TDPlayerData pData;
     InputValueData1P inputData;
 
+    public TDList.ParentList pParent = TDList.ParentList.Player;   // 陣営データ
+
     // デバッグ用の入力値の保存
     public Vector3 leftAxis, rightAxis;
 
@@ -48,6 +50,8 @@ public class TDPlayerManager : MonoBehaviour
     public Subject<Unit>                            DamageTrigger   = new Subject<Unit>();
     // 死亡演出発動 <>
     public Subject<Unit>                            DeathTrigger    = new Subject<Unit>();
+    // 回復イベント
+    public Subject<Unit>                            HealTrigger     = new Subject<Unit>();
 
     void Awake()
     {
@@ -63,6 +67,7 @@ public class TDPlayerManager : MonoBehaviour
     void Start()
     {
         // 更新処理
+        // 入力
         this.UpdateAsObservable()
             .Subscribe(_ =>
             {
@@ -98,10 +103,9 @@ public class TDPlayerManager : MonoBehaviour
 
             }).AddTo(this.gameObject);
 
-        // 更新処理
         // エネルギー、アルティメットゲージの自動回復(雑)
         this.UpdateAsObservable()
-            .SampleFrame(20)
+            .SampleFrame(5)
             .Subscribe(_ =>
             {
                 if(pData.pEnergy.Value < pData.pMaxEnergy)
@@ -115,77 +119,92 @@ public class TDPlayerManager : MonoBehaviour
 
             }).AddTo(this.gameObject);
 
+        // ダメージ処理
+        DamageTrigger
+            .Subscribe(_ =>
+            {
+                pData.pHealth.Value -= 1;
+                Debug.Log(pData.pHealth.Value.ToString());
+
+            }).AddTo(this.gameObject);
+        // 回復処理
+        HealTrigger
+            .Subscribe(_ =>
+            {
+                pData.pHealth.Value = pData.pMaxHealth;
+
+            }).AddTo(this.gameObject);
+
         // ボタン処理
-        // RBボタン：通常攻撃
-        inputData.pushBtnRB.Subscribe(value =>
-            {
-                Debug.Log("通常攻撃：" + value.ToString());
-                attackTrigger.OnNext(value);
+        {
+            // RBボタン：通常攻撃
+            inputData.pushBtnRB.Subscribe(value =>
+                {
+                    Debug.Log("通常攻撃：" + value.ToString());
+                    attackTrigger.OnNext(value);
 
-            }).AddTo(this.gameObject);
+                }).AddTo(this.gameObject);
 
-        // LBボタン：未使用
-        inputData.pushBtnLB
-            .Where(x => x)
-            .Subscribe(value =>
-            {
-                Debug.Log("LBキーは未使用です");
+            // LBボタン：未使用
+            inputData.pushBtnLB
+                .Where(x => x)
+                .Subscribe(value =>
+                {
+                    Debug.Log("LBキーは未使用です");
 
-            }).AddTo(this.gameObject);
+                }).AddTo(this.gameObject);
 
-        // Aボタン：ダッシュ発動
-        inputData.pushBtnA 
-            .Where(x => x)                        // ボタンが押された
-            .Where(x => pData.pEnergy.Value >= pData.pDashCost)          // エネルギーがある
-            .ThrottleFirst(System.TimeSpan.FromSeconds(pData.pDashTime)) // ダッシュ中ではない
-            .Subscribe(value =>
-            {
+            // Aボタン：ダッシュ発動
+            inputData.pushBtnA
+                .Where(x => x)                                                  // ボタンが押された
+                .Where(x => pData.pEnergy.Value >= pData.pDashCost)             // エネルギーがある
+                .ThrottleFirst(System.TimeSpan.FromSeconds(pData.pDashTime))    // ダッシュ中ではない
+                .Subscribe(value =>
+                {
                 // ダッシュの実行
-                Debug.Log("ダッシュ実行");
                 dashTrigger.OnNext(Unit.Default);
 
                 // エネルギーを消費する
                 pData.pEnergy.Value -= pData.pDashCost;
 
-            }).AddTo(this.gameObject);
+                }).AddTo(this.gameObject);
 
-        // Bボタン：各種アクセス
-        inputData.pushBtnB
-            .Where(x => x)
-            .Subscribe(value =>
-            {
-                Debug.Log("アクセス");
+            // Bボタン：各種アクセス
+            inputData.pushBtnB
+                .Where(x => x)
+                .Subscribe(value =>
+                {
+                    Debug.Log("アクセス");
 
-            }).AddTo(this.gameObject);
+                }).AddTo(this.gameObject);
 
-        // Xボタン：スキル発動
-        inputData.pushBtnX
-            .ThrottleFirstFrame(pData.pSkillInterval)
-            .Where(x => x)
-            .Where(x => pData.pEnergy.Value >= pData.pSkillCost)
-            .Subscribe(value =>
-            {
+            // Xボタン：スキル発動
+            inputData.pushBtnX
+                .ThrottleFirstFrame(pData.pSkillInterval)
+                .Where(x => x)
+                .Where(x => pData.pEnergy.Value >= pData.pSkillCost)
+                .Subscribe(value =>
+                {
                 // スキルの実行
-                Debug.Log("スキル実行：" + value.ToString());
                 skillTrigger.OnNext(pData.pSkillType);
 
                 // エネルギーを消費
                 pData.pEnergy.Value -= pData.pSkillCost;
 
-            }).AddTo(this.gameObject);
+                }).AddTo(this.gameObject);
 
-        // Yボタン：アルティメット発動
-        inputData.pushBtnY
-            .Where(x => x)
-            .Where(x => pData.pUltimate.Value >= pData.pMaxUltimate)
-            .Subscribe(value =>
-            {
+            // Yボタン：アルティメット発動
+            inputData.pushBtnY
+                .Where(x => x)
+                .Where(x => pData.pUltimate.Value >= pData.pMaxUltimate)
+                .Subscribe(value =>
+                {
                 // アルティメットの実行
-                Debug.Log("アルティメット実行：" + value.ToString());
                 ultimateTrigger.OnNext(pData.pUltimateType);
                 // アルティメットゲージを消費
                 pData.pUltimate.Value = 0;
 
-            }).AddTo(this.gameObject);
+                }).AddTo(this.gameObject);
+        }
     }
 }

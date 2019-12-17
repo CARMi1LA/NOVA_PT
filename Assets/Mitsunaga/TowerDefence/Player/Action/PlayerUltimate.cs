@@ -10,18 +10,13 @@ public class PlayerUltimate : MonoBehaviour
 
     [SerializeField]
     TDPlayerManager pManager;
-
-    // public Subject<TDPlayerData.UltimateTypeList> StartUltimate = new Subject<TDPlayerData.UltimateTypeList>();
-
+    
     void Start()
     {
         pManager.ultimateTrigger
             .Subscribe(value =>
             {
-                // アルティメットの実行
-                Debug.Log("アルティメット　実行");
-
-                // StartUltimate.OnNext(value);
+                // アルティメット実行時の共通行動(エフェクトなど)
 
             }).AddTo(this.gameObject);
     }

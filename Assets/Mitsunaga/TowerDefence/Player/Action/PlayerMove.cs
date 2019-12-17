@@ -99,8 +99,6 @@ public class PlayerMove : MonoBehaviour
             //.Where(x => pManager.pData.pEnergy.Value >= pManager.pData.pDashCost)
             .Subscribe(_ =>
             {
-                Debug.Log("ダッシュ　実行");
-
                 // ダッシュの実行
                 isDash = true;
                 // 一定時間行動不能にする
@@ -113,7 +111,6 @@ public class PlayerMove : MonoBehaviour
         pManager.impactTrigger
             .Subscribe(value =>
             {
-                Debug.Log("ふっとび　実行");
                 Vector3 dir = (this.transform.position - value).normalized;
                 pRigidbody.AddForce(dir * impactSpeed, ForceMode.Impulse);
                 // 一定時間行動不能にする
