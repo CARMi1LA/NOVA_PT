@@ -403,7 +403,82 @@ public class ShopBuyController : MonoBehaviour
                         }
                     }
                 }
+
+                ///////////// スキル購入可否処理 ///////////////
+                if (mat >= buyData.shopData_Skill[(int)ShopData.Skill_ParamList.Normal].purchaseMater && spBtnSkill.normal.Value == false)
+                {
+                    spBtnSkill.BuyOkText.OnNext(ShopData.Skill_ParamList.Normal);
+                }
+                else
+                {
+                    spBtnSkill.BuyNgText.OnNext(ShopData.Skill_ParamList.Normal);
+                }
+
+                if (mat >= buyData.shopData_Skill[(int)ShopData.Skill_ParamList.Razer].purchaseMater && spBtnSkill.razer.Value == false)
+                {
+                    spBtnSkill.BuyOkText.OnNext(ShopData.Skill_ParamList.Razer);
+                }
+                else
+                {
+                    spBtnSkill.BuyNgText.OnNext(ShopData.Skill_ParamList.Razer);
+                }
+
+                if (mat >= buyData.shopData_Skill[(int)ShopData.Skill_ParamList.Missile].purchaseMater && spBtnSkill.missile.Value == false)
+                {
+                    spBtnSkill.BuyOkText.OnNext(ShopData.Skill_ParamList.Missile);
+                }
+                else
+                {
+                    spBtnSkill.BuyNgText.OnNext(ShopData.Skill_ParamList.Missile);
+                }
+
+                if (mat >= buyData.shopData_Skill[(int)ShopData.Skill_ParamList.Bomb].purchaseMater && spBtnSkill.bomb.Value == false)
+                {
+                    spBtnSkill.BuyOkText.OnNext(ShopData.Skill_ParamList.Bomb);
+                }
+                else
+                {
+                    spBtnSkill.BuyNgText.OnNext(ShopData.Skill_ParamList.Bomb);
+                }
+
+                ///////////// 必殺技購入可否処理 ///////////////
+                if (mat >= buyData.shopData_Skill[(int)ShopData.Ult_ParamList.Normal].purchaseMater && spBtnUlt.normal.Value == false)
+                {
+                    spBtnUlt.BuyOkText.OnNext(ShopData.Ult_ParamList.Normal);
+                }
+                else
+                {
+                    spBtnUlt.BuyNgText.OnNext(ShopData.Ult_ParamList.Normal);
+                }
+
+                if (mat >= buyData.shopData_Skill[(int)ShopData.Ult_ParamList.Trap].purchaseMater && spBtnUlt.trap.Value == false)
+                {
+                    spBtnUlt.BuyOkText.OnNext(ShopData.Ult_ParamList.Trap);
+                }
+                else
+                {
+                    spBtnUlt.BuyNgText.OnNext(ShopData.Ult_ParamList.Trap);
+                }
+
+                if (mat >= buyData.shopData_Skill[(int)ShopData.Ult_ParamList.Bomb].purchaseMater && spBtnUlt.bomb.Value == false)
+                {
+                    spBtnUlt.BuyOkText.OnNext(ShopData.Ult_ParamList.Bomb);
+                }
+                else
+                {
+                    spBtnUlt.BuyNgText.OnNext(ShopData.Ult_ParamList.Bomb);
+                }
+
+                if (mat >= buyData.shopData_Skill[(int)ShopData.Ult_ParamList.Repair].purchaseMater && spBtnUlt.repair.Value == false)
+                {
+                    spBtnUlt.BuyOkText.OnNext(ShopData.Ult_ParamList.Repair);
+                }
+                else
+                {
+                    spBtnUlt.BuyNgText.OnNext(ShopData.Ult_ParamList.Repair);
+                }
             }).AddTo(this.gameObject);
+
     }
     public void BuyInit()
     {
@@ -414,6 +489,7 @@ public class ShopBuyController : MonoBehaviour
         spBtnTowerB.InitSubject.OnNext(spLv.towerLv[(int)ShopData.TowerColor.Blue]);
         spBtnTowerY.InitSubject.OnNext(spLv.towerLv[(int)ShopData.TowerColor.Yellow]);
         spBtnTowerG.InitSubject.OnNext(spLv.towerLv[(int)ShopData.TowerColor.Green]);
+        //spBtnSkill.InitSubject.OnNext(spLv.skillLv);
         Debug.Log("BuyControllInit");
     }
 }

@@ -66,6 +66,8 @@ public class ShopManager : SPMSinleton<ShopManager>
         {
             // マター監視クラスの初期化
             spBuyControll.BuyInit();
+            btnSkill.normal.Value = true;
+            btnUlt.normal.Value = true;
         }).AddTo(this.gameObject);
 
         // 起動時に初期化を行う
@@ -400,31 +402,51 @@ public class ShopManager : SPMSinleton<ShopManager>
 
 
         addLevel_Skill
-            .Where(val => mater.Value >= shopData.shopData_Skill[(int)val].purchaseMater)
             .Subscribe(val =>
             {
-                if ((int)val == shopData.levelData_Skill.level_Skill.Value)
+                switch (val)
                 {
-
+                    case ShopData.Skill_ParamList.Normal:
+                        btnSkill.normal.Value = true;
+                        break;
+                    case ShopData.Skill_ParamList.Razer:
+                        btnSkill.razer.Value = true;
+                        break;
+                    case ShopData.Skill_ParamList.Missile:
+                        btnSkill.missile.Value = true;
+                        break;
+                    case ShopData.Skill_ParamList.Bomb:
+                        btnSkill.bomb.Value = true;
+                        break;
+                    default:
+                        break;
                 }
-                else
-                {
-                    shopData.levelData_Skill.level_Skill.Value = (int)val;
-                }
+                mater.Value -= shopData.shopData_Skill[(int)val].purchaseMater;
+                spLv.skillLv.level_Skill.Value = (int)val;
             }).AddTo(this.gameObject);
 
         addLevel_Ult
-            .Where(val => mater.Value >= shopData.shopData_Ult[(int)val].purchaseMater)
             .Subscribe(val =>
             {
-                if ((int)val == shopData.levelData_Ult.level_Ult.Value)
+                switch (val)
                 {
-
+                    case ShopData.Ult_ParamList.Normal:
+                        btnUlt.normal.Value = true;
+                        break;
+                    case ShopData.Ult_ParamList.Trap:
+                        btnUlt.trap.Value = true;
+                        break;
+                    case ShopData.Ult_ParamList.Bomb:
+                        btnUlt.bomb.Value = true;
+                        break;
+                    case ShopData.Ult_ParamList.Repair:
+                        btnUlt.repair.Value = true;
+                        break;
+                    default:
+                        break;
                 }
-                else
-                {
-                    shopData.levelData_Ult.level_Ult.Value = (int)val;
-                }
+                mater.Value -= shopData.shopData_Ult[(int)val].purchaseMater;
+                spLv.ultLv.level_Ult.Value = (int)val;
             }).AddTo(this.gameObject);
     }
 
