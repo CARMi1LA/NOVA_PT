@@ -24,4 +24,18 @@ public class TDList
         Bomb = 2,
         Boost = 3
     }
+    public enum EnemySizeList
+    {
+        Small = 0,
+        Medium = 1,
+        Big = 2,
+        Extra = 3,
+    }
+    public enum EnemyTypeList
+    {
+        Attack = 0,
+        Defence = 1,
+        Speed = 2,
+        Other = 3,
+    }
 }
