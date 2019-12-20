@@ -24,15 +24,24 @@ public class HUDManager : MonoBehaviour
     public TDPlayerData pData;
     // HUDのView
     // プレイヤーのキャンバス
-    [SerializeField] HUDHealth      hHealth;    // ヘルスゲージ
-    [SerializeField] HUDEnergy      hEnergy;    // エネルギーゲージ
-    [SerializeField] HUDUltimate    hUltimate;  // アルティメットゲージ
+    [SerializeField] HUDHealth      hHealth;        // ヘルスゲージ
+    [SerializeField] HUDEnergy      hEnergy;        // エネルギーゲージ
+    [SerializeField] HUDUltimate    hUltimate;      // アルティメットゲージ
     // カメラ左キャンバス
-    [SerializeField] HUDMater       hMater;     // 所持マテリアル
+    [SerializeField] HUDMater       hMater;         // 所持マテリアル
+    [SerializeField] HUDTowerHealth hTowerHealth;   // タワーのヘルスゲージ
     // カメラ右キャンバス
-    [SerializeField] HUDWaveCount   hWaveCount; // ウェーブ数
+    [SerializeField] HUDWaveCount   hWaveCount;     // ウェーブ数
     // カメラ中央キャンバス
-    [SerializeField] HUDBossHealth  hBossHealth;// ボスのヘルスゲージ
+    [SerializeField] HUDBossHealth  hBossHealth;    // ボスのヘルスゲージ
+
+
+    // 所持マテリアル　マスターから取得する予定
+    [SerializeField] int mater;
+    // タワーのHP　マスターから取得する予定
+    [SerializeField] float[] towerHealth;
+    [SerializeField] int waveCount = 1;
+    int maxCount = 5;
 
     void Awake()
     {
@@ -44,14 +53,13 @@ public class HUDManager : MonoBehaviour
     }
     void Start()
     {
-        pData = pManager.pData;
-
         // ヘルス表示
         pData.pHealth
             .Subscribe(value =>
             {
                 if(hHealth != null)
                 {
+                    Debug.Log(value);
                     hHealth.SetHealth(value, pData.pMaxHealth);
                 }
 
@@ -74,6 +82,15 @@ public class HUDManager : MonoBehaviour
                 {
                     hUltimate.SetUltimate(value, pData.pMaxUltimate);
                 }
+
+            }).AddTo(this.gameObject);
+
+        this.UpdateAsObservable()
+            .Subscribe(_ =>
+            {
+                hMater.SetMater(mater);
+                hTowerHealth.SetTowerHealth(100, towerHealth);
+                hWaveCount.SetWaveCount(waveCount, maxCount);
 
             }).AddTo(this.gameObject);
     }

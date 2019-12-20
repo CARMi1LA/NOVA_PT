@@ -38,6 +38,7 @@ public class SkillSword : MonoBehaviour
     {
         // 初期設定
         startRotation = this.transform.localEulerAngles;
+        bool b;
 
         // 剣の生成→回転→消滅　イベント
         pManager.skillTrigger
@@ -53,7 +54,7 @@ public class SkillSword : MonoBehaviour
             // 剣の回転コルーチンの再生
             Observable.FromCoroutine(_ => RotationCoroutine(rotTime))
             .Subscribe(
-                    _ => Debug.Log(""),
+                    _ => b = true,
                     () => 
                     {
                         SwordGenerateTrigger.Value = false;      // 剣の消滅

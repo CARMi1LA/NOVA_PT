@@ -6,16 +6,18 @@ using UnityEngine.UI;
 public class HUDEnergy : MonoBehaviour
 {
     // エネルギーゲージ表示
+    [SerializeField]
+    float maxRange = 0.45f;
 
-    Image imgEnergy;
+    Renderer eRenderer;
 
     void Start()
     {
-        imgEnergy = this.GetComponent<Image>();
+        eRenderer = this.GetComponent<Renderer>();
     }
 
     public void SetEnergy(float energy,float maxEnergy)
     {
-        imgEnergy.fillAmount = energy / maxEnergy;
+        eRenderer.material.SetFloat("_ArcRange", energy / maxEnergy * maxRange);
     }
 }

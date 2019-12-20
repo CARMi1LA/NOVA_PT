@@ -4,15 +4,12 @@ using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 
-public class PlayerCollision : MonoBehaviour, IDamage, ICollision
+public class PlayerCollision : MonoBehaviour, IDamageTD, ICollisionTD
 {
     // コライダーの管理
     [SerializeField]
     TDPlayerManager pManager;
     
-    // 衝突イベント
-    public Subject<Vector3> cImpactSubject = new Subject<Vector3>();
-
     // ダッシュ中は弾によるダメージを受けない
     bool isDash = false;
 
@@ -22,7 +19,7 @@ public class PlayerCollision : MonoBehaviour, IDamage, ICollision
             .Where(x => Input.GetKeyDown(KeyCode.H))
             .Subscribe(_ =>
             {
-                HitDamage();
+                HitDamage(pManager.pData.pParent);
 
             }).AddTo(this.gameObject);
 
@@ -41,9 +38,9 @@ public class PlayerCollision : MonoBehaviour, IDamage, ICollision
                         col.gameObject.GetComponent<IDamage>().HitDamage();
                     }
                     // 相手をふっとばす
-                    if (col.gameObject.GetComponent<ICollision>() != null)
+                    if (col.gameObject.GetComponent<ICollisionTD>() != null)
                     {
-                        col.gameObject.GetComponent<ICollision>().HitCollision(this.transform.position);
+                        col.gameObject.GetComponent<ICollisionTD>().HitCollision(this.transform.position);
                     }
                     Debug.Log("エネミーと衝突した！");
                 }
@@ -73,20 +70,22 @@ public class PlayerCollision : MonoBehaviour, IDamage, ICollision
             }).AddTo(this.gameObject);
     }
 
-    public void HitDamage()
+    public void HitDamage(TDList.ParentList parent)
     {
-        // ダメージ無効時間の確認
-        if (pManager.pData.pBarrier)
+        if(parent != pManager.pData.pParent)
         {
-            Debug.Log("ダメージ無効！");
+            // ダメージ無効時間の確認
+            if (pManager.pData.pBarrier || isDash)
+            {
+                Debug.Log("ダメージ無効！");
+            }
+            else
+            {
+                // ダメージを受ける
+                Debug.Log("ダメージを受けた！");
+                pManager.DamageTrigger.OnNext(Unit.Default);
+            }
         }
-        else
-        {
-            // ダメージを受ける
-            Debug.Log("ダメージを受けた！");
-            pManager.DamageTrigger.OnNext(Unit.Default);
-        }
-
     }
 
     public void HitCollision(Vector3 targetPos)

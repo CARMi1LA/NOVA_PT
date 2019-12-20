@@ -21,9 +21,9 @@ public class TDBulletCollision : MonoBehaviour
                 if (value.isTrigger == false)
                 {
                     // ダメージ判定があるか
-                    if (value.GetComponent<IDamage>() != null)
+                    if (value.GetComponent<IDamageTD>() != null)
                     {
-                        value.GetComponent<IDamage>().HitDamage();
+                        value.GetComponent<IDamageTD>().HitDamage(bManager.bData.bParent);
                     }
                     // この弾を消滅させる
                     bManager.isReturn.Value = true;

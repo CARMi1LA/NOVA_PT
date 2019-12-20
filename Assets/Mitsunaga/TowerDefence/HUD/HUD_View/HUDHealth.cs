@@ -6,16 +6,20 @@ using UnityEngine.UI;
 public class HUDHealth : MonoBehaviour
 {
     // ヘルスゲージ表示
-
-    Image imgHealth;
+    [SerializeField]
+    float maxRange = 0.45f;
+    
+    Renderer hRenderer;
 
     void Start()
     {
-        imgHealth = this.GetComponent<Image>();
+        hRenderer = this.GetComponent<Renderer>();
     }
 
-    public void SetHealth(int health,int maxHealth)
+    public void SetHealth(float health,float maxHealth)
     {
-        imgHealth.fillAmount = health / maxHealth;
+        Debug.Log(health / maxHealth * maxRange);
+
+        hRenderer.material.SetFloat("_ArcRange", health / maxHealth * maxRange);
     }
 }

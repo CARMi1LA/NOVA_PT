@@ -11,7 +11,7 @@ public class SkillBomb : MonoBehaviour
     [SerializeField]
     TDPlayerManager pManager;
     [SerializeField]
-    TDBulletData.BulletTypeList bType;  // 攻撃タイプの実装テスト
+    TDList.BulletTypeList bType;  // 攻撃タイプの実装テスト
     void Start()
     {
         pManager.skillTrigger
@@ -19,7 +19,7 @@ public class SkillBomb : MonoBehaviour
             .Subscribe(value =>
             {                
                 // 通常攻撃の実行
-                TDBulletData bData = new TDBulletData(TDBulletData.BulletParentList.Enemy, bType, this.transform.position, this.transform.eulerAngles);
+                TDBulletData bData = new TDBulletData(TDList.ParentList.Enemy, bType, this.transform.position, this.transform.eulerAngles);
                 TDBulletSpawner.Instance.bulletRentSubject.OnNext(bData);
 
             }).AddTo(this.gameObject);

@@ -49,11 +49,13 @@ public class TDBulletMove : MonoBehaviour
     }
 
 
-    void bulletMove(TDBulletData.BulletTypeList type)
+    void bulletMove(TDList.BulletTypeList type)
     {
         switch (type)
         {
-            case TDBulletData.BulletTypeList.Normal:
+            case TDList.BulletTypeList.Normal:
+                break;
+            default:
                 break;
         }
     }

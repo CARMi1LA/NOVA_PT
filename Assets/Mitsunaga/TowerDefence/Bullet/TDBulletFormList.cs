@@ -9,10 +9,10 @@ public class TDBulletFormList : ScriptableObject
     [ColorUsage(false, true)] public Color playerColor;
     [ColorUsage(false, true)] public Color enemyColor;
     // BulletData.BulletParentListから陣営に合わせて弾のカラーを返す
-    public Color FormParent(TDBulletData.BulletParentList parent)
+    public Color FormParent(TDList.ParentList parent)
     {
 
-        if(parent == TDBulletData.BulletParentList.Player)
+        if(parent == TDList.ParentList.Player)
         {
             return playerColor;
         }
@@ -25,7 +25,7 @@ public class TDBulletFormList : ScriptableObject
     // タイプによって弾の形を変更する
     public List<TDBulletForm> bFormList = new List<TDBulletForm>();
     // BulletData.BulletTypeList からタイプに合わせて弾の形を返す
-    public TDBulletForm FormType(TDBulletData.BulletTypeList type)
+    public TDBulletForm FormType(TDList.BulletTypeList type)
     {
         TDBulletForm bForm = new TDBulletForm();
 
@@ -44,8 +44,7 @@ public class TDBulletFormList : ScriptableObject
 [System.Serializable]
 public class TDBulletForm
 {
-    // 弾のタイプ
-    public TDBulletData.BulletTypeList bType;
-    public Vector3 size;  // 弾の大きさ
+    public TDList.BulletTypeList bType; // 弾のタイプ
+    public Vector3 size;                // 弾の大きさ
 }
 

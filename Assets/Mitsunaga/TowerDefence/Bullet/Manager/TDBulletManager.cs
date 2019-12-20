@@ -14,6 +14,8 @@ public class TDBulletManager : MonoBehaviour
 
     public Subject<TDBulletData> initTrigger = new Subject<TDBulletData>();
 
+    public TDBulletData bData;
+
     void Start()
     {
         // Bullet返却
@@ -27,21 +29,22 @@ public class TDBulletManager : MonoBehaviour
     }
 
     // 初期化
-    public void Init(TDBulletData bData)
+    public void Init(TDBulletData data)
     {
         // 返却フラグの設定
         isReturn.Value = false;
+        // データの格納
+        bData = data;
         // 移動処理の実行
         initTrigger.OnNext(bData);
         // 時限制で消滅
         var Return = Observable.EveryUpdate()
             .Where(x => isReturn.Value);
 
-        Observable.Timer(System.TimeSpan.FromSeconds(bData.bDeathCount))
+        Observable.Timer(System.TimeSpan.FromSeconds(data.bDeathCount))
             .TakeUntil(Return)
             .Subscribe(_ =>
             {
-                Debug.Log("時間で消滅");
                 isReturn.Value = true;
 
             }).AddTo(this.gameObject);
