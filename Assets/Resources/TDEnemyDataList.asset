@@ -12,4 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc66b390c0461cd4994f9f284ead0406, type: 3}
   m_Name: TDEnemyDataList
   m_EditorClassIdentifier: 
-  enemyDataList: []
+  enemyDataList:
+  - eSize: 0
+    eType: 0
+    eHealth: 10
+    eCoreHealth: 20
+    eSpeed: 100
+    eDashSpeed: 300
+    eDropMater: 50
