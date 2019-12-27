@@ -9,16 +9,66 @@ public class TDEnemyUnit : MonoBehaviour
 {
     // エネミーのユニットの管理
     [SerializeField]
-    TDEnemyManager eManager;
+    public TDEnemyManager eManager;
 
-    int eHealth;
+    [SerializeField]
+    bool isCoreUnit = false;
 
-    public Subject<int> DeathTrigger = new Subject<int>();
+    // ヘルス
+    public IntReactiveProperty eHealth = new IntReactiveProperty(100);
 
+    // ダメージ処理
+    public Subject<Unit> DamageTrigger = new Subject<Unit>();
+    // 死亡処理
+    public Subject<Unit> DeathTrigger = new Subject<Unit>();
+    private void Awake()
+    {
+        // ユニットの初期化
+        eManager.InitTrigger
+            .Do(value =>        // 通常ユニットの場合
+            {
+                Debug.Log("HP変更" + value.eHealth);
+                eHealth.Value = value.eHealth;
+            })
+            .Where(x => isCoreUnit)
+            .Subscribe(value => // コアユニットの場合
+            {
+                Debug.Log("HP変更" + value.eCoreHealth);
+                eHealth.Value = value.eCoreHealth;
+            })
+            .AddTo(this.gameObject);
+    }
     void Start()
     {
-        eManager.unitInitTrigger
-            .Subscribe()
-    }
+        // ヘルスが0になった時の処理
+        this.UpdateAsObservable()
+            .Where(x => eHealth.Value == 0)
+            .Subscribe(_ =>
+            {
+                Debug.Log("あぷでーと");
 
+                if (isCoreUnit)
+                {
+                    Debug.Log("ちょくし");
+
+                    eManager.CoreDeathTrigger.OnNext(Unit.Default);
+                }
+                else
+                {
+                    DeathTrigger.OnNext(Unit.Default);
+                }
+
+            }).AddTo(this.gameObject);
+
+        Debug.Log("さいごまで読んでる？");
+
+
+        // 直死
+        eManager.CoreDeathTrigger
+            .Subscribe(_ =>
+            {
+                DeathTrigger.OnNext(Unit.Default);
+
+            }).AddTo(this.gameObject);
+    }
 }

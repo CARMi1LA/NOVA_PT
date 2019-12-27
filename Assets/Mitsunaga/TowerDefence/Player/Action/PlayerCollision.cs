@@ -7,19 +7,22 @@ using UniRx.Triggers;
 public class PlayerCollision : MonoBehaviour, IDamageTD, ICollisionTD
 {
     // コライダーの管理
+    // オブジェクトと衝突したとき、IDamage,ICollisionインターフェイスを取得してそれぞれを起動する
+    // また、IDamageとICollisionインターフェイスを継承しそれぞれの処理を行う
+
     [SerializeField]
     TDPlayerManager pManager;
     
-    // ダッシュ中は弾によるダメージを受けない
-    bool isDash = false;
+    bool isDash = false;    // ダッシュ中は弾によるダメージを受けない
 
     void Start()
     {
+        // デバッグ用 xキー入力でダメージ発生
         this.UpdateAsObservable()
             .Where(x => Input.GetKeyDown(KeyCode.H))
             .Subscribe(_ =>
             {
-                HitDamage(pManager.pData.pParent);
+                HitDamage(TDList.ParentList.Other);
 
             }).AddTo(this.gameObject);
 
@@ -27,41 +30,25 @@ public class PlayerCollision : MonoBehaviour, IDamageTD, ICollisionTD
         this.OnCollisionEnterAsObservable()
             .Subscribe(col =>
             {
-                this.HitCollision(col.transform.position); // デバッグ用のセルフふっとばし
-
-                // エネミーのオブジェクトと衝突した場合
-                if (col.gameObject.tag == "Enemy")
+                // 相手にダメージを与える
+                if (col.gameObject.GetComponent<IDamageTD>() != null)
                 {
-                    // 相手にダメージを与える
-                    if (col.gameObject.GetComponent<IDamage>() != null)
-                    {
-                        col.gameObject.GetComponent<IDamage>().HitDamage();
-                    }
-                    // 相手をふっとばす
-                    if (col.gameObject.GetComponent<ICollisionTD>() != null)
-                    {
-                        col.gameObject.GetComponent<ICollisionTD>().HitCollision(this.transform.position);
-                    }
-                    Debug.Log("エネミーと衝突した！");
+                    col.gameObject.GetComponent<IDamageTD>().HitDamage(pManager.pData.pParent);
                 }
-
-            }).AddTo(this.gameObject);
-
-        // 重複判定
-        this.OnTriggerEnterAsObservable()
-            .Subscribe(col =>
-            {
-                // エネミーのオブジェクトと重複した場合
-                if (!isDash && col.gameObject.tag == "Enemy")
+                // 相手をふっとばす
+                if (col.gameObject.GetComponent<ICollisionTD>() != null)
                 {
-                    Debug.Log("エネミーと衝突した！");
+                    col.gameObject.GetComponent<ICollisionTD>().HitCollision(pManager.pData.pParent,this.transform.position);
                 }
 
             }).AddTo(this.gameObject);
 
         // ダッシュ中の無敵判定
         pManager.dashTrigger
-            .Do(_ => isDash = true)
+            .Do(_ =>
+            {
+                isDash = true;
+            })
             .Delay(System.TimeSpan.FromSeconds(pManager.pData.pDashTime))
             .Subscribe(_ =>
             {
@@ -70,8 +57,10 @@ public class PlayerCollision : MonoBehaviour, IDamageTD, ICollisionTD
             }).AddTo(this.gameObject);
     }
 
+    // 被ダメージ処理
     public void HitDamage(TDList.ParentList parent)
     {
+        // 陣営の確認
         if(parent != pManager.pData.pParent)
         {
             // ダメージ無効時間の確認
@@ -87,10 +76,14 @@ public class PlayerCollision : MonoBehaviour, IDamageTD, ICollisionTD
             }
         }
     }
-
-    public void HitCollision(Vector3 targetPos)
+    // 衝突処理
+    public void HitCollision(TDList.ParentList parent,Vector3 targetPos)
     {
-        // 衝突イベント発行
-        pManager.impactTrigger.OnNext(targetPos);
+        // 陣営の確認
+        if(parent != pManager.pData.pParent)
+        {
+            // 衝突イベント発行
+            pManager.impactTrigger.OnNext(targetPos);
+        }
     }
 }
