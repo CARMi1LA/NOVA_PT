@@ -9963,6 +9963,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85b35b6c3afa8ed4296aec2d6e42417d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyWaveList:
+  - {fileID: 11400000, guid: db931b4fecf73234a939733c06e6c7c9, type: 2}
+  - {fileID: 11400000, guid: 26dd85a08546d07438fe3cc97a6c9cda, type: 2}
+  isBattleFase:
+    value: 0
 --- !u!4 &1270956187
 Transform:
   m_ObjectHideFlags: 0
