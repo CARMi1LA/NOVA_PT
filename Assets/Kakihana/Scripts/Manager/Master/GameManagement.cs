@@ -8,6 +8,13 @@ using UniRx.Triggers;
 
 public class GameManagement : GMSingleton<GameManagement>
 {
+    public enum BattleMode
+    {
+        Wait = 0,
+        Attack = 1,
+        Clear = 2,
+        GameOver = 3
+    }
     // ゲームシステムクラス
 
     public Transform playerTrans;           // プレイヤーの座標
@@ -71,6 +78,9 @@ public class GameManagement : GMSingleton<GameManagement>
     public BoolReactiveProperty isPause = new BoolReactiveProperty(true);
     public BoolReactiveProperty playerUlt = new BoolReactiveProperty(false);
     public BoolReactiveProperty enemyUlt = new BoolReactiveProperty(false);
+
+    // 敵情報追加用Subject
+    public Subject<Transform> enemyInfoAdd = new Subject<Transform>();
 
     protected override void Awake()
     {

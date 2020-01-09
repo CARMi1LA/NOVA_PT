@@ -6,7 +6,7 @@ using UniRx;
 using UniRx.Triggers;
 
 using Random = UnityEngine.Random;
-public class EnemyManager : BulletSetting,IDamage
+public class EnemyManager : BulletSetting/*,IDamage*/
 {
     // 敵のAI
     public enum EnemyAI
@@ -160,7 +160,7 @@ public class EnemyManager : BulletSetting,IDamage
                 if (bullet.shootChara == BulletManager.ShootChara.Player)
                 {
                     // プレイヤーによる攻撃であればダメージを受ける
-                    HitDamage();
+                    // HitDamage();
                     // 衝突した弾は消滅する
                     bullet.bulletState.Value = BulletManager.BulletState.Destroy;
                 }
@@ -198,20 +198,20 @@ public class EnemyManager : BulletSetting,IDamage
         }).AddTo(this.gameObject);
     }
 
-    public void HitDamage()
-    {
-        GameManagement.Instance.DamageScore();
-        GameManagement.Instance.HitCombo();
-        // １ヒットごとに１ダメージ受ける
-        // バリアが残っていればバリアを優先的に消費する
-        if (enemyStatus.barrier >= 1)
-        {
-            flashSubject.OnNext(0);
-            enemyStatus.barrier--;
-        }else if(enemyStatus.barrier <= 0)
-        {
-            flashSubject.OnNext(0);
-            hitCount.Value++;
-        }
-    }
+    //public void HitDamage()
+    //{
+    //    GameManagement.Instance.DamageScore();
+    //    GameManagement.Instance.HitCombo();
+    //    // １ヒットごとに１ダメージ受ける
+    //    // バリアが残っていればバリアを優先的に消費する
+    //    if (enemyStatus.barrier >= 1)
+    //    {
+    //        flashSubject.OnNext(0);
+    //        enemyStatus.barrier--;
+    //    }else if(enemyStatus.barrier <= 0)
+    //    {
+    //        flashSubject.OnNext(0);
+    //        hitCount.Value++;
+    //    }
+    //}
 }
