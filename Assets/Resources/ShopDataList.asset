@@ -133,14 +133,16 @@ MonoBehaviour:
     - skillIndex: 3
       purchaseMater: 10000
     levelData_Player:
-      level_HP:
+      MAX_LV: 3
+      lv_HP:
         value: 0
-      level_Speed:
+      lv_Spd:
         value: 0
-      level_Interval:
+      lv_Int:
         value: 0
     levelData_Tower:
-    - level_Trap:
+    - MAX_LV: 3
+      level_Trap:
         value: 0
       level_Turret:
         value: 0
@@ -148,7 +150,8 @@ MonoBehaviour:
         value: 0
       level_Repair:
         value: 0
-    - level_Trap:
+    - MAX_LV: 3
+      level_Trap:
         value: 0
       level_Turret:
         value: 0
@@ -156,7 +159,8 @@ MonoBehaviour:
         value: 0
       level_Repair:
         value: 0
-    - level_Trap:
+    - MAX_LV: 3
+      level_Trap:
         value: 0
       level_Turret:
         value: 0
@@ -164,7 +168,8 @@ MonoBehaviour:
         value: 0
       level_Repair:
         value: 0
-    - level_Trap:
+    - MAX_LV: 3
+      level_Trap:
         value: 0
       level_Turret:
         value: 0
@@ -172,7 +177,8 @@ MonoBehaviour:
         value: 0
       level_Repair:
         value: 0
-    - level_Trap:
+    - MAX_LV: 3
+      level_Trap:
         value: 0
       level_Turret:
         value: 0

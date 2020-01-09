@@ -6,21 +6,23 @@ using UniRx.Triggers;
 
 public class TowerManager : MonoBehaviour
 {
-    // 拠点の色（仮）
-    public enum TowerColor
-    {
-        Red,
-        Yellow,
-        Blue,
-        Green
-    }
+    // 拠点の色、タワー識別用
+    private ShopData.TowerColor towerColor;
+    private LevelData_Tower towerLv;
+    private EnemyInfoList enemyList;
 
-    public TowerColor towerColor;
+    [SerializeField] private int tower_MaxHP = 100;
+    [SerializeField] private IntReactiveProperty towerHp = new IntReactiveProperty(0);
+    [SerializeField] private TrapManager[] traps;
+    [SerializeField] private TurretManager[] turrets;
 
-    [SerializeField] private int tower_MaxHP = 0;
+    public BoolReactiveProperty towerDeath = new BoolReactiveProperty(false);
+
     // Start is called before the first frame update
     void Start()
     {
+        towerLv = ShopManager.Instance.shopData.levelData_Tower[(int)towerColor];
+        towerHp.Value = tower_MaxHP;
         
     }
 }

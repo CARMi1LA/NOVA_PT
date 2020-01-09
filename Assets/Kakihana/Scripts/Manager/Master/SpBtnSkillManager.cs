@@ -27,35 +27,56 @@ public class SpBtnSkillManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // 初期化処理
-        InitSubject.Subscribe(_ =>
-        {
-            switch (_.level_Skill.Value)
-            {
-                case (int)ShopData.Skill_ParamList.Normal:
-                    normal.Value = true;
-                    break;
-                case (int)ShopData.Skill_ParamList.Razer:
-                    razer.Value = true;
-                    break;
-                case (int)ShopData.Skill_ParamList.Missile:
-                    missile.Value = true;
-                    break;
-                case (int)ShopData.Skill_ParamList.Bomb:
-                    bomb.Value = true;
-                    break;
-                default:
-                    break;
-            }
-        }).AddTo(this.gameObject);
-
         normal.Where(_ => normal.Value == true)
             .Subscribe(_ => 
             {
-                SoldOutText.OnNext(ShopData.Skill_ParamList.Normal);
-
+                buyInfoText.OnNext(ShopData.Skill_ParamList.Normal);
             }).AddTo(this.gameObject);
 
+        normal.Where(_ => normal.Value == false)
+            .Subscribe(_ =>
+            {
+                spBtn[0].materValueText.text = string.Format("{0}", ShopManager.Instance.shopData.shopData_Skill[(int)ShopData.Skill_ParamList.Normal].purchaseMater);
+                spBtn[0].levelText.text = string.Format("前方に範囲攻撃");
+            }).AddTo(this.gameObject);
+
+        razer.Where(_ => razer.Value == true)
+            .Subscribe(_ => 
+            {
+                buyInfoText.OnNext(ShopData.Skill_ParamList.Razer);
+            }).AddTo(this.gameObject);
+        razer.Where(_ => razer.Value == false)
+            .Subscribe(_ =>
+            {
+                spBtn[1].materValueText.text = string.Format("{0}", ShopManager.Instance.shopData.shopData_Skill[(int)ShopData.Skill_ParamList.Razer].purchaseMater);
+                spBtn[1].levelText.text = string.Format("直線の貫通攻撃");
+            }).AddTo(this.gameObject);
+
+        missile.Where(_ => missile.Value == true)
+            .Subscribe(_ =>
+            {
+                buyInfoText.OnNext(ShopData.Skill_ParamList.Missile);
+            }).AddTo(this.gameObject);
+
+        missile.Where(_ => missile.Value == false)
+            .Subscribe(_ =>
+            {
+                spBtn[2].materValueText.text = string.Format("{0}", ShopManager.Instance.shopData.shopData_Skill[(int)ShopData.Skill_ParamList.Missile].purchaseMater);
+                spBtn[2].levelText.text = string.Format("敵単体に必中攻撃");
+            }).AddTo(this.gameObject);
+
+        bomb.Where(_ => bomb.Value == true)
+            .Subscribe(_ =>
+            {
+                buyInfoText.OnNext(ShopData.Skill_ParamList.Bomb);
+            }).AddTo(this.gameObject);
+
+        bomb.Where(_ => bomb.Value == false)
+            .Subscribe(_ =>
+            {
+                spBtn[3].materValueText.text = string.Format("{0}", ShopManager.Instance.shopData.shopData_Skill[(int)ShopData.Skill_ParamList.Bomb].purchaseMater);
+                spBtn[3].levelText.text = string.Format("着弾で広範囲爆撃");
+            }).AddTo(this.gameObject);
         // 購入可能時のイベント
         BuyOkText.Subscribe(list =>
         {
@@ -113,20 +134,28 @@ public class SpBtnSkillManager : MonoBehaviour
             switch (list)
             {
                 case ShopData.Skill_ParamList.Normal:
-                    spBtn[0].materValueText.text = string.Format("{0}",ShopManager.Instance.shopData.shopData_Skill[(int)ShopData.Skill_ParamList.Normal].purchaseMater);
-                    spBtn[0].levelText.text = string.Format("スキルを旋風剣に変更します");
+                    SoldOutText.OnNext(ShopData.Skill_ParamList.Normal);
+                    razer.Value = false;
+                    missile.Value = false;
+                    bomb.Value = false;
                     break;
                 case ShopData.Skill_ParamList.Razer:
-                    spBtn[1].materValueText.text = string.Format("{0}", ShopManager.Instance.shopData.shopData_Skill[(int)ShopData.Skill_ParamList.Razer].purchaseMater);
-                    spBtn[1].levelText.text = string.Format("スキルをレーザーに変更します");
+                    SoldOutText.OnNext(list);
+                    normal.Value = false;
+                    missile.Value = false;
+                    bomb.Value = false;
                     break;
                 case ShopData.Skill_ParamList.Missile:
-                    spBtn[2].materValueText.text = string.Format("{0}", ShopManager.Instance.shopData.shopData_Skill[(int)ShopData.Skill_ParamList.Missile].purchaseMater);
-                    spBtn[2].levelText.text = string.Format("スキルを追尾弾に変更します");
+                    SoldOutText.OnNext(list);
+                    normal.Value = false;
+                    razer.Value = false;
+                    bomb.Value = false;
                     break;
                 case ShopData.Skill_ParamList.Bomb:
-                    spBtn[3].materValueText.text = string.Format("{0}", ShopManager.Instance.shopData.shopData_Skill[(int)ShopData.Skill_ParamList.Bomb].purchaseMater);
-                    spBtn[3].levelText.text = string.Format("スキルを爆撃に変更します");
+                    SoldOutText.OnNext(list);
+                    normal.Value = false;
+                    razer.Value = false;
+                    missile.Value = false;
                     break;
                 default:
                     break;

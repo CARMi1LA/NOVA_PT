@@ -22,6 +22,7 @@ public class GameManagement : GMSingleton<GameManagement>
     public PlayerManager[] players;
     public GameInputManager gameInput;
     public TDPlayerData tdPlaerData;
+    public TowerManager redTw, blueTw, yellowTw, greenTw;
 
     [SerializeField] public InputValueData1P valueData1P;
     [SerializeField] public InputValueData2P valueData2P;
@@ -32,6 +33,8 @@ public class GameManagement : GMSingleton<GameManagement>
     [SerializeField] public IntReactiveProperty gameLevel = new IntReactiveProperty(1);
     // プレイヤーレベル、上がるほどスコア上昇率に影響する
     [SerializeField] public IntReactiveProperty playerLevel = new IntReactiveProperty(1);
+    // タワーの生存数
+    public IntReactiveProperty towerAliveNum = new IntReactiveProperty(4);
     // スコア、達成率に影響
     public IntReactiveProperty gameScore = new IntReactiveProperty(0);
     // ダメージボーナス、攻撃がヒットする度に貰える
