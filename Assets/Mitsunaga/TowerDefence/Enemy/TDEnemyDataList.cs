@@ -26,14 +26,14 @@ public class TDEnemyDataList : ScriptableObject
 [System.Serializable]
 public class TDEnemyData
 {
-    public TDList.EnemySizeList eSize;
-    public TDList.EnemyTypeList eType;
+    public TDList.EnemySizeList eSize;  // S,M,L,XL
+    public TDList.EnemyTypeList eType;  // Attack,Defence,Speed
 
     public int eHealth;
     public int eCoreHealth;
 
-    public float eSpeed = 100.0f;
-    public float eDashSpeed = 300.0f;
+    public float eSpeed;
+    public float eDashSpeed;
 
-    public int eDropMater = 50;
+    public int eDropMater;
 }
