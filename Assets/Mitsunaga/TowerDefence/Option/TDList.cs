@@ -28,7 +28,7 @@ public class TDList
     {
         Small = 0,
         Medium = 1,
-        Big = 2,
+        Large = 2,
         Extra = 3,
     }
     public enum EnemyTypeList

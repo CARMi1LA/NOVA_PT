@@ -6,20 +6,22 @@ using UniRx.Triggers;
 
 public class EnemyDeath : MonoBehaviour
 {
-    // エネミーの死亡処理
+    // ユニットの死亡処理
 
     [SerializeField]
-    TDEnemyManager eManager;        // エネミーマネージャー
+    TDEnemyUnit eUnit;
 
     [SerializeField]
     ParticleSystem eDeathParticle;  // 死亡時のエフェクト
 
     void Start()
     {
-        eManager.DeathTrigger
+        eUnit.DeathTrigger
             .Subscribe(_ =>
             {
+                Debug.Log("死んだ");
                 Instantiate(eDeathParticle.gameObject, this.transform.position, Quaternion.identity);
+                Destroy(eUnit.gameObject);
 
             }).AddTo(this.gameObject);
         
