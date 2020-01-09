@@ -9,7 +9,7 @@ public class TowerManager : MonoBehaviour
     // 拠点の色、タワー識別用
     private ShopData.TowerColor towerColor;
     private LevelData_Tower towerLv;
-    private EnemyPosList enemyList;
+    private EnemyInfoList enemyList;
 
     [SerializeField] private int tower_MaxHP = 100;
     [SerializeField] private IntReactiveProperty towerHp = new IntReactiveProperty(0);
