@@ -12,11 +12,11 @@ public class TDEnemyDataList : ScriptableObject
     {
         TDEnemyData eData = null;
 
-        foreach(var data in enemyDataList)
+        foreach(var item in enemyDataList)
         {
-            if (size == data.eSize && type == data.eType)
+            if (size == item.eSize && type == item.eType)
             {
-                eData = data;
+                eData = item;
             }
         }
         return eData;
@@ -33,7 +33,7 @@ public class TDEnemyData
     public int eCoreHealth;
 
     public float eSpeed;
-    public float eDashSpeed;
+    public float eSpeedMul;
 
     public int eDropMater;
 }

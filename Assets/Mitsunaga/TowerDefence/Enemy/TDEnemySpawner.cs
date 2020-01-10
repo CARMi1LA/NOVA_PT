@@ -8,15 +8,28 @@ public class TDEnemySpawner : MonoBehaviour
 {
     [SerializeField]
     List<TDEnemyWaveList> enemyWaveList; // Wave数
+    [SerializeField]
+    List<TDEnemyManager> enemyPrefabList;
 
     List<TDEnemyWave> enemyWave;
     float enemyWaveInterval;
 
+    TDEnemyDataList enemyDataList;
+
+    /// <summary>
+    /// タワーの情報を取得する(準備フェイズ開始時)
+    /// 
+    /// 1．生存しているタワーのカラー、それぞれの位置を取得
+    /// 2．敵を集中させるタワーのカラーを取得
+    /// 3．敵を集中させるタワーのカラーをマップ上に反映させる
+    /// </summary>
+
+    // マスターからフェイズの情報を取得するため不要になった
     public BoolReactiveProperty isBattleFase = new BoolReactiveProperty(false);
 
     void Awake()
     {
-        
+        enemyDataList = Resources.Load<TDEnemyDataList>("TDEnemyDataList");
     }
     void Start()
     {
@@ -37,6 +50,8 @@ public class TDEnemySpawner : MonoBehaviour
                     {
                         // enemyWavePartに応じたサイズの敵を生成(タイプはランダムの予定)
                         Debug.Log(enemy.ToString());
+
+                        enemyInstance(enemy);
                     }
                     enemyWave.RemoveAt(0);
                 }
@@ -57,5 +72,27 @@ public class TDEnemySpawner : MonoBehaviour
                 waveCount++;
 
             }).AddTo(this.gameObject);
+        // 準備フェイズに切り替わるたびにタワーデータを読み込む
+        isBattleFase
+            .Where(x => !x)
+            .Subscribe(_ =>
+            {
+                // 生存しているタワーの情報を取得
+                
+                // その中から標的にするタワーを設定
+
+            }).AddTo(this.gameObject);
+    }
+
+    Transform enemyInstance(TDList.EnemySizeList size)
+    {
+        // エネミーのタイプと生成するタワーをランダムに指定
+
+        // エネミーを生成
+        GameObject enemy = Instantiate(enemyPrefabList[0].gameObject);
+        // 初期位置と向きを設定
+
+        // 生成したエネミーのTransformを返す
+        return enemy.transform;
     }
 }

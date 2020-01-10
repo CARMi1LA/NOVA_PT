@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: TDEnemyWaveList_02
   m_EditorClassIdentifier: 
   enemyWaveInterval: 5
-  enemyWave: []
+  enemyWave:
+  - enemyWavePart: 0000000000000000
+  - enemyWavePart: 0000000000000000000000000000000000000000

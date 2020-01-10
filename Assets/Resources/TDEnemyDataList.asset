@@ -18,5 +18,5 @@ MonoBehaviour:
     eHealth: 10
     eCoreHealth: 20
     eSpeed: 100
-    eDashSpeed: 300
+    eSpeedMul: 5
     eDropMater: 50
