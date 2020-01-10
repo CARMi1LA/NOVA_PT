@@ -33,8 +33,6 @@ public class TowerManager : MonoBehaviour,ITwDamage
     // 現在タワーが生存しているか
     public BoolReactiveProperty towerDeath = new BoolReactiveProperty(false);
 
-    public Subject<int> trapUpdate = new Subject<int>();
-
     // Start is called before the first frame update
     void Start()
     {
@@ -43,16 +41,20 @@ public class TowerManager : MonoBehaviour,ITwDamage
         // 現在HPの設定
         towerHp.Value = tower_MaxHP;
 
+        // トラップ購入ボタンが押された時の処理
         towerLv.level_Trap.Subscribe(_ =>
             {
+                // 各レベルの情報を適用する
                 trap.trapSpeed = trap.trapSpeedData[towerLv.level_Trap.Value];
             }).AddTo(this.gameObject);
 
+        // タレット購入ボタンが押された時の処理
         towerLv.level_Turret.Subscribe(_ =>
             {
                 turrets[towerLv.level_Turret.Value].turretActive.Value = true;
             }).AddTo(this.gameObject);
 
+        // タワー購入ボタンが押された時の処理
         towerLv.level_Tower.Subscribe(_ =>
             {
 
@@ -67,6 +69,13 @@ public class TowerManager : MonoBehaviour,ITwDamage
                 {
                     towerHp.Value = tower_MaxHP;
                 }
+            }).AddTo(this.gameObject);
+
+        // HPが0になるとタワー消滅
+        towerHp.Where(_ => towerHp.Value <= 0 && towerDeath.Value == false)
+            .Subscribe(_ => 
+            {
+                towerDeath.Value = true;
             }).AddTo(this.gameObject);
 
         // １秒毎に敵情報リストと自タワーとの距離を測り、接近していればバリア起動
@@ -95,6 +104,8 @@ public class TowerManager : MonoBehaviour,ITwDamage
 
 
     }
+
+    // タワーダメージインターフェース
      void ITwDamage.HitDamage(int atk)
     {
         towerHp.Value -= atk;
