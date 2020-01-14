@@ -6,7 +6,7 @@ using UniRx;
 using UniRx.Triggers;
 using System.Linq;
 
-public class PlayerManager : BulletSetting,IDamage
+public class PlayerManager : BulletSetting
 {
 
     // プレイヤースクリプト
@@ -224,7 +224,7 @@ public class PlayerManager : BulletSetting,IDamage
                     // ヒットした弾は消滅させる
                     bullet.bulletState.Value = BulletManager.BulletState.Destroy;
                     // 敵による攻撃であればダメージを受ける
-                    HitDamage();
+                    //HitDamage();
                 }
             }).AddTo(this.gameObject);
 
@@ -341,23 +341,23 @@ public class PlayerManager : BulletSetting,IDamage
             }).AddTo(this.gameObject);
     }
 
-    public void HitDamage()
-    {
-        isHit.Value = true;
-        GameManagement.Instance.enemyDeathCombo.Value = 0;
-        if(status.barrier >= 1)
-        {
-            status.barrier--;
-            playerHUD.BarrierRP.Value = status.barrier;
-        }else if(invincible.Value == false)
-        {
-            playerHp.Value--;
-            playerHUD.HealthRP.Value = playerHp.Value;
-            FlashSubject.OnNext(0.5f);
-            invincible.Value = true;
-            GameManagement.Instance.combo.Value = 0;
-        }
-    }
+    //public void HitDamage()
+    //{
+    //    isHit.Value = true;
+    //    GameManagement.Instance.enemyDeathCombo.Value = 0;
+    //    if(status.barrier >= 1)
+    //    {
+    //        status.barrier--;
+    //        playerHUD.BarrierRP.Value = status.barrier;
+    //    }else if(invincible.Value == false)
+    //    {
+    //        playerHp.Value--;
+    //        playerHUD.HealthRP.Value = playerHp.Value;
+    //        FlashSubject.OnNext(0.5f);
+    //        invincible.Value = true;
+    //        GameManagement.Instance.combo.Value = 0;
+    //    }
+    //}
 }
 
 /*

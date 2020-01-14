@@ -195,7 +195,6 @@ public class StageManager : SMSingleton<StageManager>
         {
             // 現在のウェーブの敵生存数を減らす
             enemyAliveNum.Value--;
-            GameManagement.Instance.DestoyScore();
             for (int i = 0; i < 5; i++)
             {
                 new ItemData(enemy.enemyStatus.score / 5, 0, 0, ItemManager.ItemType.Score, enemy.transform.position);

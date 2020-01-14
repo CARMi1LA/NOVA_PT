@@ -6,8 +6,17 @@ using System;
 using UniRx;
 using UniRx.Triggers;
 
+// Unity側のランダム関数を使用
+using Random = UnityEngine.Random;
 public class GameManagement : GMSingleton<GameManagement>
 {
+    public enum BattleMode
+    {
+        Wait = 0,
+        Attack = 1,
+        Clear = 2,
+        GameOver = 3
+    }
     // ゲームシステムクラス
 
     public Transform playerTrans;           // プレイヤーの座標
@@ -22,6 +31,8 @@ public class GameManagement : GMSingleton<GameManagement>
     public PlayerManager[] players;
     public GameInputManager gameInput;
     public TDPlayerData tdPlaerData;
+    public MasterData masterData;
+    public MasterDataList masterDataList;
     public TowerManager redTw, blueTw, yellowTw, greenTw;
 
     [SerializeField] public InputValueData1P valueData1P;
@@ -29,39 +40,26 @@ public class GameManagement : GMSingleton<GameManagement>
 
     public AudioSource[] bgms;
 
-    // ゲームレベル、上がるほど敵が強化される
-    [SerializeField] public IntReactiveProperty gameLevel = new IntReactiveProperty(1);
-    // プレイヤーレベル、上がるほどスコア上昇率に影響する
-    [SerializeField] public IntReactiveProperty playerLevel = new IntReactiveProperty(1);
+    public MasterData.TowerColor[] twList;
+    public MasterData.TowerColor targetTw;
+    public float masterTime = 0.0f;
+
+    // 現在のウェーブ
+    public IntReactiveProperty waveNum = new IntReactiveProperty(0);
     // タワーの生存数
     public IntReactiveProperty towerAliveNum = new IntReactiveProperty(4);
     // スコア、達成率に影響
     public IntReactiveProperty gameScore = new IntReactiveProperty(0);
-    // ダメージボーナス、攻撃がヒットする度に貰える
-    [SerializeField] public int damageBonus = 10;
-    // 撃破ボーナス、敵を撃破すると貰える
-    [SerializeField] public int enemyDeathBonus = 100;
-    // コンボ数、攻撃がヒットする度に上昇
-    // 被弾し、HPが減ったときにリセット、バリア減少ではリセットされない
-    [SerializeField] public IntReactiveProperty combo = new IntReactiveProperty(0);
-    // 最大コンボ数
-    [SerializeField] IntReactiveProperty maxCombo = new IntReactiveProperty(0);
-    // 敵撃破コンボ数
-    [SerializeField] public IntReactiveProperty enemyDeathCombo = new IntReactiveProperty(0);
-    // 攻撃コンボ数
-    [SerializeField] IntReactiveProperty attackCombo = new IntReactiveProperty(0);
-    // 攻撃コンボ時、取得できるスコアの倍率
-    [SerializeField] IntReactiveProperty attackScoreMul = new IntReactiveProperty(0);
+    // 所持マター、タワーや自キャラの強化が可能
+    public IntReactiveProperty mater = new IntReactiveProperty(0);
     // 達成率、評価に影響
     [SerializeField] float achievementRate = 0.0f;
-    // 攻撃コンボリセットカウント
-    [SerializeField] float atkComboResetCount = 0.0f;
-    // 攻撃コンボリセット時間
-    [SerializeField] float atkComboResetLimit = 10.0f;
 
     // 初回起動完了したか
     public BoolReactiveProperty starting = new BoolReactiveProperty(false);
-
+    // ウェーブ進行可能か
+    public BoolReactiveProperty waveSettingFlg = new BoolReactiveProperty(false);
+    // デバッグモード
     public BoolReactiveProperty isDebug = new BoolReactiveProperty(false);
     // ゲームクリアフラグ
     public BoolReactiveProperty isClear = new BoolReactiveProperty(false);
@@ -71,6 +69,14 @@ public class GameManagement : GMSingleton<GameManagement>
     public BoolReactiveProperty isPause = new BoolReactiveProperty(true);
     public BoolReactiveProperty playerUlt = new BoolReactiveProperty(false);
     public BoolReactiveProperty enemyUlt = new BoolReactiveProperty(false);
+
+    // ゲームステートプロパティ
+    public ReactiveProperty<BattleMode> gameState = new ReactiveProperty<BattleMode>();
+
+    // 敵情報追加用Subject
+    public Subject<Transform> enemyInfoAdd = new Subject<Transform>();
+    // マター取得Subject
+    public Subject<int> addMater = new Subject<int>();
 
     protected override void Awake()
     {
@@ -86,12 +92,42 @@ public class GameManagement : GMSingleton<GameManagement>
         }
 
         gameHUD.ScoreRP.Value = gameScore.Value;
-        gameHUD.ComboRP.Value = combo.Value;
+        masterDataList = Resources.Load<MasterDataList>("MasterDataList");
+        masterData = masterDataList.masterDataList[0];
+        gameState.Value = BattleMode.Wait;
+        targetTw = twList[Random.Range(0, twList.Length)];
     }
 
     void Start()
     {
+        addMater.Subscribe(value => 
+        {
+            mater.Value = value;
+        }).AddTo(this.gameObject);
 
+        gameState
+            .Where(_ => gameState.Value == BattleMode.Wait && waveSettingFlg.Value == false)
+            .Subscribe(_ => 
+            {
+                if (waveNum.Value == 0)
+                {
+                    masterTime = masterData.waitTime * 2;
+                    targetTw = twList[Random.Range(0, twList.Length)];
+                }
+                else
+                {
+                    masterTime = masterData.waitTime;
+                    targetTw = twList[Random.Range(0, twList.Length)];
+                }
+            }).AddTo(this.gameObject);
+
+        this.UpdateAsObservable()
+            .Where(_ => waveSettingFlg.Value == true)
+            .Where(_ => masterTime >= 0 && gameState.Value == BattleMode.Wait)
+            .Subscribe(_ => 
+            {
+                masterTime -= Time.deltaTime;
+            }).AddTo(this.gameObject);
         this.UpdateAsObservable()
             .Where(_ => SceneManager.GetActiveScene().name == "00 Title")
             .Subscribe(_ =>
@@ -103,10 +139,10 @@ public class GameManagement : GMSingleton<GameManagement>
             }).AddTo(this.gameObject);
 
         starting.Where(s => s == false)
-       .Subscribe(s =>
-       {
-           isPause.Value = true;
-       }).AddTo(this.gameObject);
+            .Subscribe(s =>
+            {
+                   isPause.Value = true;
+            }).AddTo(this.gameObject);
 
         starting.Where(s => s == true && isPause.Value == false)
             .Subscribe(s =>
@@ -115,8 +151,6 @@ public class GameManagement : GMSingleton<GameManagement>
                 Subscribe(_ =>
                 {
                     resultUI.setState(Result_Model.GAMESTATE.CLEAR);
-                    // クリア処理
-                    gameHUD.maxCombo = maxCombo.Value;
                 }).AddTo(this.gameObject);
 
                 gameOver
@@ -151,8 +185,6 @@ public class GameManagement : GMSingleton<GameManagement>
                 cScreen.z = 50.0f;
                 // スクリーン座標からワールド座標へ変換
                 cWorld = Camera.main.ScreenToWorldPoint(cScreen);
-
-
             }).AddTo(this.gameObject);
         this.UpdateAsObservable()
         .Where(_ => starting.Value == false)
@@ -164,54 +196,11 @@ public class GameManagement : GMSingleton<GameManagement>
             }
         }).AddTo(this.gameObject);
 
-        attackCombo.Where(_ => attackCombo.Value >= 1)
-            .Subscribe(_ =>
-            {
-                attackScoreMul.Value = 1;
-                atkComboResetCount += Time.deltaTime;
-                if (atkComboResetCount >= atkComboResetLimit)
-                {
-                    attackCombo.Value = 0;
-                }
-            }).AddTo(this.gameObject);
-
-        attackCombo.Where(_ => attackCombo.Value >= 100).Subscribe(_ => 
-        {
-            attackScoreMul.Value = 2;
-        }).AddTo(this.gameObject);
-
-        attackCombo.Where(_ => attackCombo.Value >= 200).Subscribe(_ =>
-        {
-            attackScoreMul.Value = 3;
-        }).AddTo(this.gameObject);
-
-        attackCombo.Where(_ => attackCombo.Value >= 300).Subscribe(_ =>
-        {
-            attackScoreMul.Value = 4;
-        }).AddTo(this.gameObject);
-
-        attackCombo.Where(_ => attackCombo.Value >= 500).Subscribe(_ =>
-        {
-            attackScoreMul.Value = 5;
-        }).AddTo(this.gameObject);
-
         gameScore.Where(_ => isClear.Value == false)
             .Subscribe(_ =>
         {
             gameHUD.ScoreRP.Value = gameScore.Value;
         }).AddTo(this.gameObject);
-
-        combo.Where(_ => isClear.Value == false)
-            .Subscribe(_ =>
-        {
-            gameHUD.ComboRP.Value = combo.Value;
-        }).AddTo(this.gameObject);
-
-        maxCombo.Where(_ => combo.Value >= maxCombo.Value)
-            .Subscribe(_ => 
-            {
-                maxCombo.Value = combo.Value;
-            }).AddTo(this.gameObject);
 
         playerUlt.Where(_ => playerUlt.Value == true)
             .Sample(TimeSpan.FromSeconds(1.0f))
@@ -226,31 +215,6 @@ public class GameManagement : GMSingleton<GameManagement>
         {
             enemyUlt.Value = false;
         }).AddTo(this.gameObject);
-    }
-
-    public void HitCombo()
-    {
-        combo.Value++;
-    }
-
-    // ダメージボーナス処理
-    public void DamageScore()
-    {
-        // コンボを加算
-        attackCombo.Value++;
-        // コンボリセットまでの時間を0に
-        atkComboResetCount = 0.0f;
-        // ダメージボーナスと連続攻撃に応じて追加でスコアを加算
-        gameScore.Value += damageBonus * attackScoreMul.Value;
-    }
-
-    // 敵撃破ボーナス処理
-    public void DestoyScore()
-    {
-        // 敵撃破を加算
-        enemyDeathCombo.Value++;
-        // スコアを加算、被弾せずに撃破し続けると更に加算
-        gameScore.Value += enemyDeathBonus * enemyDeathCombo.Value;
     }
 
     // 次シーン移行処理
