@@ -9,5 +9,5 @@ using UnityEngine;
 ]
 public class MasterDataList : ScriptableObject
 {
-    public List<MasterData> stageDataList = new List<MasterData>();
+    public List<MasterData> masterDataList = new List<MasterData>();
 }

@@ -20,6 +20,8 @@ public class MasterData
         Green = 3
     }
 
+    public Difficulty difficulty;
+
     public int waitTime;
     public int[] waveTime;
 }

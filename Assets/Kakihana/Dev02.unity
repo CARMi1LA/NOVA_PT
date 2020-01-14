@@ -9375,6 +9375,7 @@ Transform:
   - {fileID: 868656716}
   - {fileID: 1741370173}
   - {fileID: 1659437741}
+  - {fileID: 1829211980}
   m_Father: {fileID: 1852345840}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -11589,7 +11590,8 @@ MonoBehaviour:
   towerColor: 3
   tower_MaxHP: 100
   tower_RecogDis: 5
-  targetEnemy: {fileID: 0}
+  targetEnemy: {fileID: 1990812375}
+  spawnPos: {fileID: 0}
   towerHp:
     value: 0
   trap: {fileID: 1155685473}
@@ -13245,6 +13247,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 664415675}
   m_CullTransparentMesh: 0
+--- !u!1 &669386012
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 669386013}
+  m_Layer: 0
+  m_Name: TwRed_Spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &669386013
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669386012}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 750}
+  m_LocalScale: {x: 100, y: 1, z: 50}
+  m_Children: []
+  m_Father: {fileID: 2107006184}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &671526173
 GameObject:
   m_ObjectHideFlags: 0
@@ -13798,7 +13830,7 @@ Transform:
   m_GameObject: {fileID: 703257826}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 115}
-  m_LocalScale: {x: 100, y: 1, z: 20}
+  m_LocalScale: {x: 100, y: 1, z: 50}
   m_Children: []
   m_Father: {fileID: 945257363}
   m_RootOrder: 4
@@ -21024,6 +21056,7 @@ Transform:
   - {fileID: 1727429873}
   - {fileID: 933964909}
   - {fileID: 703257827}
+  - {fileID: 1669023141}
   m_Father: {fileID: 1852345840}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -23227,6 +23260,7 @@ Transform:
   - {fileID: 509872878}
   - {fileID: 308548632}
   - {fileID: 1155685472}
+  - {fileID: 1990812375}
   m_Father: {fileID: 1852345840}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -24034,7 +24068,7 @@ Transform:
   m_GameObject: {fileID: 1155685471}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 115}
-  m_LocalScale: {x: 100, y: 1, z: 20}
+  m_LocalScale: {x: 100, y: 1, z: 50}
   m_Children: []
   m_Father: {fileID: 1068044408}
   m_RootOrder: 4
@@ -27494,6 +27528,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}
+      propertyPath: targetTw.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
+        type: 3}
       propertyPath: playerTrans
       value: 
       objectReference: {fileID: 0}
@@ -27587,6 +27626,21 @@ PrefabInstance:
       propertyPath: greenTw
       value: 
       objectReference: {fileID: 509872880}
+    - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
+        type: 3}
+      propertyPath: targetTw.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
+        type: 3}
+      propertyPath: targetTw.Array.data[2]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
+        type: 3}
+      propertyPath: targetTw.Array.data[3]
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5529332785576108109, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}
       propertyPath: spawnPos.Array.size
@@ -29291,7 +29345,8 @@ MonoBehaviour:
   towerColor: 0
   tower_MaxHP: 100
   tower_RecogDis: 5
-  targetEnemy: {fileID: 0}
+  targetEnemy: {fileID: 669386013}
+  spawnPos: {fileID: 0}
   towerHp:
     value: 0
   trap: {fileID: 1773951622}
@@ -29771,7 +29826,8 @@ MonoBehaviour:
   towerColor: 1
   tower_MaxHP: 100
   tower_RecogDis: 5
-  targetEnemy: {fileID: 0}
+  targetEnemy: {fileID: 1669023141}
+  spawnPos: {fileID: 0}
   towerHp:
     value: 0
   trap: {fileID: 703257829}
@@ -31645,7 +31701,7 @@ Transform:
   m_GameObject: {fileID: 1659437740}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 115}
-  m_LocalScale: {x: 100, y: 1, z: 20}
+  m_LocalScale: {x: 100, y: 1, z: 50}
   m_Children: []
   m_Father: {fileID: 331135433}
   m_RootOrder: 4
@@ -31681,6 +31737,36 @@ MonoBehaviour:
   - 0.75
   - 0.5
   trapSpeed: 1
+--- !u!1 &1669023140
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1669023141}
+  m_Layer: 0
+  m_Name: TwBlue_Spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1669023141
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1669023140}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 750}
+  m_LocalScale: {x: 100, y: 1, z: 50}
+  m_Children: []
+  m_Father: {fileID: 945257363}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1702855957
 GameObject:
   m_ObjectHideFlags: 0
@@ -32345,7 +32431,8 @@ MonoBehaviour:
   towerColor: 2
   tower_MaxHP: 100
   tower_RecogDis: 5
-  targetEnemy: {fileID: 0}
+  targetEnemy: {fileID: 1829211980}
+  spawnPos: {fileID: 0}
   towerHp:
     value: 0
   trap: {fileID: 1659437743}
@@ -32542,7 +32629,7 @@ Transform:
   m_GameObject: {fileID: 1773951619}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 115}
-  m_LocalScale: {x: 100, y: 1, z: 20}
+  m_LocalScale: {x: 100, y: 1, z: 50}
   m_Children: []
   m_Father: {fileID: 2107006184}
   m_RootOrder: 4
@@ -33427,6 +33514,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1820593198}
   m_CullTransparentMesh: 0
+--- !u!1 &1829211979
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1829211980}
+  m_Layer: 0
+  m_Name: TwYellow_Spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1829211980
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829211979}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 750}
+  m_LocalScale: {x: 100, y: 1, z: 50}
+  m_Children: []
+  m_Father: {fileID: 331135433}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1839014769
 GameObject:
   m_ObjectHideFlags: 0
@@ -35403,6 +35520,36 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: "Lv0\u2192Lv1"
+--- !u!1 &1990812374
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1990812375}
+  m_Layer: 0
+  m_Name: TwGreen_Spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1990812375
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990812374}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 750}
+  m_LocalScale: {x: 100, y: 1, z: 50}
+  m_Children: []
+  m_Father: {fileID: 1068044408}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2017281728
 GameObject:
   m_ObjectHideFlags: 0
@@ -46015,6 +46162,7 @@ Transform:
   - {fileID: 751149044}
   - {fileID: 982694074}
   - {fileID: 1773951620}
+  - {fileID: 669386013}
   m_Father: {fileID: 1852345840}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}

@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: MasterDataList
   m_EditorClassIdentifier: 
   stageDataList:
-  - waitTime: 60
-    waveTime: 3c0000003c00000000000000000000000000000000000000
+  - difficulty: 0
+    waitTime: 60
+    waveTime: 1e0000003c0000003c0000005a0000005a00000078000000

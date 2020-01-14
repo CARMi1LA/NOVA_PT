@@ -21,6 +21,8 @@ public class TowerManager : MonoBehaviour,ITwDamage
     [SerializeField] private int tower_RecogDis;
     // 現在の標的
     [SerializeField] Transform targetEnemy;
+    // 敵スポーン位置
+    public Transform spawnPos;
     // 現在のHP
     [SerializeField] private IntReactiveProperty towerHp = new IntReactiveProperty(0);
     // 自タワーのトラップ情報

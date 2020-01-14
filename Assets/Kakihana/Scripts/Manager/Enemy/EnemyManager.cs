@@ -50,7 +50,7 @@ public class EnemyManager : BulletSetting/*,IDamage*/
         // IDより敵のデータリストを取得
         enemyDataList = Resources.Load<EnemyDataList>(string.Format("Enemy{0}", enemyID));
         // 現在のレベルより各パラメータを設定
-        enemyStatus = enemyDataList.EnemyStatusList[GameManagement.Instance.gameLevel.Value - 1];
+        enemyStatus = enemyDataList.EnemyStatusList[0];
         // プレイヤーの座標を取得
         playerTrans = GameManagement.Instance.playerTrans;
         // AI処理クラスのコンポーネント取得
