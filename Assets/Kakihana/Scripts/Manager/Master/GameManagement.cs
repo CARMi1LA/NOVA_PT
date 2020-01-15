@@ -77,6 +77,11 @@ public class GameManagement : GMSingleton<GameManagement>
     public Subject<Transform> enemyInfoAdd = new Subject<Transform>();
     // マター取得Subject
     public Subject<int> addMater = new Subject<int>();
+    // 待機モード進行用Subject
+    public Subject<Unit> waitModeSub = new Subject<Unit>();
+    // 戦闘モード進行用Subject
+    public Subject<Unit> battleModeSub = new Subject<Unit>();
+
 
     protected override void Awake()
     {
@@ -90,8 +95,6 @@ public class GameManagement : GMSingleton<GameManagement>
         {
             gameInput.InitSubject.OnNext(i);
         }
-
-        gameHUD.ScoreRP.Value = gameScore.Value;
         masterDataList = Resources.Load<MasterDataList>("MasterDataList");
         masterData = masterDataList.masterDataList[0];
         gameState.Value = BattleMode.Wait;
@@ -100,34 +103,82 @@ public class GameManagement : GMSingleton<GameManagement>
 
     void Start()
     {
+        // マター獲得処理
         addMater.Subscribe(value => 
         {
             mater.Value = value;
         }).AddTo(this.gameObject);
 
+        // デバッグ用、F1キーを押すと進行時間の短縮が可能
+        this.UpdateAsObservable()
+            .Where(_ => Input.GetKeyDown(KeyCode.F1) && isDebug.Value == true)
+            .Subscribe(_ => 
+            {
+                masterTime = 3.0f;
+            }).AddTo(this.gameObject);
+
+        // 待機モード時の準備処理
         gameState
             .Where(_ => gameState.Value == BattleMode.Wait && waveSettingFlg.Value == false)
             .Subscribe(_ => 
             {
+                // 初回のみ待機時間を倍にする
                 if (waveNum.Value == 0)
                 {
                     masterTime = masterData.waitTime * 2;
+                    // ターゲットタワーを設定
                     targetTw = twList[Random.Range(0, twList.Length)];
+                    // 準備完了通知
+                    waveSettingFlg.Value = true;
                 }
                 else
                 {
+                    // 待機時間を設定
                     masterTime = masterData.waitTime;
+                    // ターゲットタワーを設定
                     targetTw = twList[Random.Range(0, twList.Length)];
+                    // 準備完了通知
+                    waveSettingFlg.Value = true;
                 }
             }).AddTo(this.gameObject);
 
+        // 待機モード時の処理
         this.UpdateAsObservable()
             .Where(_ => waveSettingFlg.Value == true)
-            .Where(_ => masterTime >= 0 && gameState.Value == BattleMode.Wait)
+            .Do(_ =>
+            {
+                // 準備完了なら実行、設定された待機時間をカウント
+                masterTime -= Time.deltaTime;
+            })
+            .Where(_ => masterTime <= 0 && gameState.Value == BattleMode.Wait)
             .Subscribe(_ => 
             {
-                masterTime -= Time.deltaTime;
+                // 設定時間経過後、戦闘モードへ
+                // ウェーブを進行させる
+                waveNum.Value++;
+                // 戦闘モードへ移行
+                gameState.Value = BattleMode.Attack;
+                // 準備完了状態を解除
+                waveSettingFlg.Value = false;
+                // 戦闘時間の設定
+                masterTime = masterData.waveTime[waveNum.Value];
             }).AddTo(this.gameObject);
+
+        // 戦闘モード時の処理
+        this.UpdateAsObservable()
+            .Where(_ => waveSettingFlg.Value == false)
+            .Do(_ =>
+            {
+                // 戦闘時間をカウント
+                masterTime -= Time.deltaTime;
+            })
+            .Where(_ => masterTime <= 0 && gameState.Value == BattleMode.Attack)
+            .Subscribe(_ =>
+            {
+                // 設定時間経過後、待機モードへ
+                gameState.Value = BattleMode.Wait;
+            }).AddTo(this.gameObject);
+
         this.UpdateAsObservable()
             .Where(_ => SceneManager.GetActiveScene().name == "00 Title")
             .Subscribe(_ =>
