@@ -27,13 +27,11 @@ public class TDEnemyUnit : MonoBehaviour
         eManager.InitTrigger
             .Do(value =>        // 通常ユニットの場合
             {
-                Debug.Log("HP変更" + value.eHealth);
                 eHealth.Value = value.eHealth;
             })
             .Where(x => isCoreUnit)
             .Subscribe(value => // コアユニットの場合
             {
-                Debug.Log("HP変更" + value.eCoreHealth);
                 eHealth.Value = value.eCoreHealth;
             })
             .AddTo(this.gameObject);
@@ -45,12 +43,8 @@ public class TDEnemyUnit : MonoBehaviour
             .Where(x => eHealth.Value == 0)
             .Subscribe(_ =>
             {
-                Debug.Log("あぷでーと");
-
                 if (isCoreUnit)
                 {
-                    Debug.Log("ちょくし");
-
                     eManager.CoreDeathTrigger.OnNext(Unit.Default);
                 }
                 else
@@ -59,9 +53,6 @@ public class TDEnemyUnit : MonoBehaviour
                 }
 
             }).AddTo(this.gameObject);
-
-        Debug.Log("さいごまで読んでる？");
-
 
         // 直死
         eManager.CoreDeathTrigger

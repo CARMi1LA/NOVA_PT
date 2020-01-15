@@ -25,11 +25,12 @@ public class TDEnemyManager : MonoBehaviour
     public Subject<TDEnemyData>                     InitTrigger     = new Subject<TDEnemyData>();
 
     // AIによる操作イベント
-    // 移動 <入力データ>
-    public Subject<Unit>                            MoveTrigger     = new Subject<Unit>();
     // 通常攻撃 <On/Off>
     public Subject<bool>                            AttackTrigger   = new Subject<bool>();
+    
     /*
+    // 移動 <入力データ>
+    public Subject<Unit>                            MoveTrigger     = new Subject<Unit>();
     // スキル発動 <スキルの型>
     public Subject<TDPlayerData.SkillTypeList>      skillTrigger    = new Subject<TDPlayerData.SkillTypeList>();
     // アルティメット発動 <アルティメットの型>
@@ -46,15 +47,12 @@ public class TDEnemyManager : MonoBehaviour
 
     void Start()
     {
-        playerPosition = GameManagement.Instance.playerTrans.position;
-
-        initEnemy(0, 0);
+        //playerPosition = GameManagement.Instance.playerTrans.position;
 
         // コアが破壊された場合の処理
         CoreDeathTrigger
             .Subscribe(_ =>
             {
-                Debug.Log("こあしんだ");
                 Destroy(this.gameObject);
 
             }).AddTo(this.gameObject);
@@ -73,13 +71,10 @@ public class TDEnemyManager : MonoBehaviour
 
             }).AddTo(this.gameObject);
     }
-
-    // これスポナーにやらせよう
-    public void initEnemy(TDList.EnemySizeList size,TDList.EnemyTypeList type)
+    // スポナーからのエネミーデータの受け取りおよび反映
+    public void InitEnemyData(TDEnemyData data)
     {
-        // リソースからエネミーのサイズとタイプに応じた情報を取得、それぞれを初期化する
-        eData = Resources.Load<TDEnemyDataList>("TDEnemyDataList").GetEnemyData(size, type);
-        Debug.Log(eData.ToString());
+        eData = data;
         InitTrigger.OnNext(eData);
     }
 }

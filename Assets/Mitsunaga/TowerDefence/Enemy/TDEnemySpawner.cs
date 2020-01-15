@@ -35,10 +35,12 @@ public class TDEnemySpawner : MonoBehaviour
     {
         float timeCount = 0.0f; // 敵生成のインターバル
         int waveCount = 0;      // 現在のWave
+        int enemyCount = 0;     // Wave内のエネミー生成状況
 
         this.UpdateAsObservable()
-            .Where(x => true) // 一時停止用
+            //.Where(x => GameManagement.Instance.isPause.Value) // 一時停止用
             .Where(x => isBattleFase.Value) // 戦闘フェイズか待機フェイズかの確認
+            .Where(x => enemyCount < enemyWave.Count)
             .Subscribe(_ =>
             {
                 timeCount += Time.deltaTime;
@@ -46,16 +48,16 @@ public class TDEnemySpawner : MonoBehaviour
                 {
                     timeCount = 0.0f;
 
-                    foreach(var enemy in enemyWave[0].enemyWavePart)
+                    foreach(var enemy in enemyWave[enemyCount].enemyWavePart)
                     {
                         // enemyWavePartに応じたサイズの敵を生成(タイプはランダムの予定)
-                        Debug.Log(enemy.ToString());
-
                         enemyInstance(enemy);
                     }
-                    enemyWave.RemoveAt(0);
+                    enemyCount++;
                 }
-                if (enemyWave.Count == 0)
+
+                // 生成しきったらウェーブ終了(デバッグ用)
+                if (enemyCount >= enemyWave.Count)
                 {
                     isBattleFase.Value = false;
                 }
@@ -67,6 +69,7 @@ public class TDEnemySpawner : MonoBehaviour
             .Where(x => x)
             .Subscribe(_ =>
             {
+                // 生成するエネミー量、生成間隔の取得
                 enemyWave = enemyWaveList[waveCount].enemyWave;
                 enemyWaveInterval = enemyWaveList[waveCount].enemyWaveInterval;
                 waveCount++;
@@ -78,6 +81,7 @@ public class TDEnemySpawner : MonoBehaviour
             .Subscribe(_ =>
             {
                 // 生存しているタワーの情報を取得
+                // 必要な情報：生存タワーの色、タワーの位置、生成ポイント
                 
                 // その中から標的にするタワーを設定
 
@@ -89,10 +93,24 @@ public class TDEnemySpawner : MonoBehaviour
         // エネミーのタイプと生成するタワーをランダムに指定
 
         // エネミーを生成
-        GameObject enemy = Instantiate(enemyPrefabList[0].gameObject);
+        List<TDEnemyManager> enemyList = new List<TDEnemyManager>();
+        enemyList.Clear();
+        foreach(var item in enemyPrefabList)
+        {
+            if(size == item.eSize)
+            {
+                enemyList.Add(item);
+            }
+        }
+        int pickup = Random.Range(0, enemyList.Count);
+        TDEnemyManager createEnemy = Instantiate(enemyList[pickup]);
+        createEnemy.InitEnemyData(enemyDataList.GetEnemyData(createEnemy.eSize, createEnemy.eType));
         // 初期位置と向きを設定
+        Vector3 towerPosition = Vector3.zero;
+
+        createEnemy.transform.LookAt(towerPosition);
 
         // 生成したエネミーのTransformを返す
-        return enemy.transform;
+        return createEnemy.transform;
     }
 }
