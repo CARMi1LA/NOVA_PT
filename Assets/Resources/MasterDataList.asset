@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e58d6c171dca246b055e5c4ab92cbd, type: 3}
   m_Name: MasterDataList
   m_EditorClassIdentifier: 
-  stageDataList:
-  - difficulty: 0
+  masterDataList:
+  - difficulty: 1
     waitTime: 60
-    waveTime: 1e0000003c0000003c0000005a0000005a00000078000000
+    waveTime: 1e0000001e0000003c0000005a0000005a00000078000000

@@ -400,6 +400,7 @@ MonoBehaviour:
   enemyWaveList:
   - {fileID: 11400000, guid: db931b4fecf73234a939733c06e6c7c9, type: 2}
   - {fileID: 11400000, guid: 26dd85a08546d07438fe3cc97a6c9cda, type: 2}
+  enemyPrefabList: []
   isBattleFase:
     value: 0
 --- !u!4 &25709513
@@ -5908,10 +5909,10 @@ RectTransform:
   m_Father: {fileID: 587126558}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 167.5, y: -60}
+  m_SizeDelta: {x: 335, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &92466139
 MonoBehaviour:
@@ -8175,6 +8176,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3358878454169799398, guid: 3b7abdd76c895514b98cd1350a62ef1e,
+        type: 3}
+      propertyPath: PlayerObject
+      value: 
+      objectReference: {fileID: 1477167707}
     - target: {fileID: 3358878454169799397, guid: 3b7abdd76c895514b98cd1350a62ef1e,
         type: 3}
       propertyPath: m_Name
@@ -8235,11 +8241,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3358878454169799398, guid: 3b7abdd76c895514b98cd1350a62ef1e,
-        type: 3}
-      propertyPath: PlayerObject
-      value: 
-      objectReference: {fileID: 1477167707}
     - target: {fileID: 2109013589713318877, guid: 3b7abdd76c895514b98cd1350a62ef1e,
         type: 3}
       propertyPath: eUnit
@@ -10782,6 +10783,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3358878454169799398, guid: 3b7abdd76c895514b98cd1350a62ef1e,
+        type: 3}
+      propertyPath: PlayerObject
+      value: 
+      objectReference: {fileID: 1477167707}
     - target: {fileID: 3358878454169799397, guid: 3b7abdd76c895514b98cd1350a62ef1e,
         type: 3}
       propertyPath: m_Name
@@ -10842,11 +10848,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3358878454169799398, guid: 3b7abdd76c895514b98cd1350a62ef1e,
-        type: 3}
-      propertyPath: PlayerObject
-      value: 
-      objectReference: {fileID: 1477167707}
     - target: {fileID: 2109013589713318877, guid: 3b7abdd76c895514b98cd1350a62ef1e,
         type: 3}
       propertyPath: eUnit
@@ -11152,7 +11153,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &494158232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23897,10 +23898,10 @@ RectTransform:
   m_Father: {fileID: 587126558}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 502.5, y: -60}
+  m_SizeDelta: {x: 335, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1137706317
 MonoBehaviour:
@@ -24365,10 +24366,10 @@ RectTransform:
   m_Father: {fileID: 587126558}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 837.5, y: -60}
+  m_SizeDelta: {x: 335, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1173106312
 MonoBehaviour:
@@ -24429,7 +24430,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &1184652763
 GameObject:
   m_ObjectHideFlags: 0
@@ -27533,14 +27534,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}
+      propertyPath: twList.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
+        type: 3}
       propertyPath: playerTrans
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1477167717}
     - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}
       propertyPath: cameraTrans
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1427129718}
     - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}
       propertyPath: listManager
@@ -27639,6 +27645,21 @@ PrefabInstance:
     - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
         type: 3}
       propertyPath: targetTw.Array.data[3]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
+        type: 3}
+      propertyPath: twList.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
+        type: 3}
+      propertyPath: twList.Array.data[2]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529332785576108108, guid: 5f5225042b3747c4babd26c866751226,
+        type: 3}
+      propertyPath: twList.Array.data[3]
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5529332785576108109, guid: 5f5225042b3747c4babd26c866751226,
@@ -33297,10 +33318,10 @@ RectTransform:
   m_Father: {fileID: 587126558}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1172.5, y: -60}
+  m_SizeDelta: {x: 335, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1816575466
 MonoBehaviour:
@@ -33361,7 +33382,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1 &1819167439
 GameObject:
   m_ObjectHideFlags: 0
@@ -34700,6 +34721,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3358878454169799398, guid: 3b7abdd76c895514b98cd1350a62ef1e,
+        type: 3}
+      propertyPath: PlayerObject
+      value: 
+      objectReference: {fileID: 1477167707}
     - target: {fileID: 3358878454169799397, guid: 3b7abdd76c895514b98cd1350a62ef1e,
         type: 3}
       propertyPath: m_Name
@@ -34760,11 +34786,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3358878454169799398, guid: 3b7abdd76c895514b98cd1350a62ef1e,
-        type: 3}
-      propertyPath: PlayerObject
-      value: 
-      objectReference: {fileID: 1477167707}
     - target: {fileID: 2109013589713318877, guid: 3b7abdd76c895514b98cd1350a62ef1e,
         type: 3}
       propertyPath: eUnit
@@ -35277,6 +35298,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3358878454169799398, guid: 3b7abdd76c895514b98cd1350a62ef1e,
+        type: 3}
+      propertyPath: PlayerObject
+      value: 
+      objectReference: {fileID: 1477167707}
     - target: {fileID: 3358878454169799397, guid: 3b7abdd76c895514b98cd1350a62ef1e,
         type: 3}
       propertyPath: m_Name
@@ -35337,11 +35363,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3358878454169799398, guid: 3b7abdd76c895514b98cd1350a62ef1e,
-        type: 3}
-      propertyPath: PlayerObject
-      value: 
-      objectReference: {fileID: 1477167707}
     - target: {fileID: 2109013589713318877, guid: 3b7abdd76c895514b98cd1350a62ef1e,
         type: 3}
       propertyPath: eUnit
