@@ -19,7 +19,8 @@ public class EnemyMove : MonoBehaviour
     float eSpeedSlow    = 2.0f;
 
     Vector3 targetPosition;     // ターゲットの位置(タワー、もしくはプレイヤー)
-    float rotSpeed = 50.0f;    // 回転速度
+    [SerializeField]
+    float rotSpeed = 30.0f;    // 回転速度
 
     void Awake()
     {
@@ -46,10 +47,11 @@ public class EnemyMove : MonoBehaviour
                     //{
                     //    rotAngle = 50.0f;
                     //}
-                    float angle = -Vector3.Cross(target, this.transform.forward).y;
+                    //float angle = -Vector3.Cross(target, this.transform.forward).y;;
 
-                    Vector3 targetRot = new Vector3(0, angle * rotSpeed * Time.deltaTime, 0);
-                    eRigidbody.AddTorque(targetRot);
+                    rotAngle = Vector3.Cross(this.transform.forward, target).y;
+                    this.transform.localEulerAngles = new Vector3(0, Mathf.Lerp(this.transform.localEulerAngles.y,rotAngle,0.1f), 0);
+                    //eRigidbody.AddTorque(targetRot);
                 }
 
                 // 加速

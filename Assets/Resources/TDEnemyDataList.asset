@@ -17,6 +17,6 @@ MonoBehaviour:
     eType: 0
     eHealth: 10
     eCoreHealth: 20
-    eSpeed: 100
+    eSpeed: 50
     eSpeedMul: 10
     eDropMater: 50
