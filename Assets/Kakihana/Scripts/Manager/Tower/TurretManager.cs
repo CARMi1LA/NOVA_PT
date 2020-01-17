@@ -13,6 +13,8 @@ public class TurretManager : MonoBehaviour
     // 敵情報リスト
     public EnemyInfoList enemyInfoList;
 
+    public Material matAplha;
+
     // 防衛認識距離
     [SerializeField] private int turret_RecogDis;
     // 攻撃する標的

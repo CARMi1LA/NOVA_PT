@@ -16,3 +16,5 @@ MonoBehaviour:
   - difficulty: 1
     waitTime: 60
     waveTime: 1e0000001e0000003c0000005a0000005a00000078000000
+    enemyCoreMax: 50
+    itemDropMax: 100

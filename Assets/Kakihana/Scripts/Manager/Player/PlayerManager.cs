@@ -237,9 +237,9 @@ public class PlayerManager : BulletSetting
                 ItemManager item;
                 item = c.gameObject.GetComponent<ItemManager>();
 
-                if (item.itemType == ItemManager.ItemType.Score)
+                if (item.itemType == ItemManager.ItemType.Mater)
                 {
-                    GameManagement.Instance.gameScore.Value += item.itemScore;
+                    GameManagement.Instance.gameScore.Value += item.itemMater;
                     // アイテム取得で必殺技のリキャスト短縮
                     ultimateGage.Value++;
                     // 衝突したアイテムは消滅させる
