@@ -20,7 +20,15 @@ public class EnemyMove : MonoBehaviour
 
     Vector3 targetPosition;     // ターゲットの位置(タワー、もしくはプレイヤー)
     [SerializeField]
-    float rotSpeed = 30.0f;    // 回転速度
+    float maxRotate = 2.0f;    // 回転速度
+
+    // 何らかのアクション
+    bool isAction = false;
+    float actionCount = 0.0f;       // 行動不能のカウント
+    // 衝突
+    float impactSpeed = 100.0f;        // 衝突のふっとび速度
+    float impactInterval = 0.2f;    // 衝突の行動不能時間
+
 
     void Awake()
     {
@@ -31,30 +39,53 @@ public class EnemyMove : MonoBehaviour
     {
         eData = eManager.eData;
 
+        // アクション時の操作不能時間を計測
+        this.UpdateAsObservable()
+            .Where(x => isAction)
+            .Subscribe(_ =>
+            {
+                actionCount += -Time.deltaTime;
+                if (actionCount <= 0.0f)
+                {
+                    isAction = false;
+                }
+            }).AddTo(this.gameObject);
+
         this.UpdateAsObservable()
             .Subscribe(_ =>
             {
+
                 // 方向転換
                 {
                     float rotAngle = 0;
 
                     Vector3 target = targetPosition - this.transform.position;
-                    //if(Vector3.Cross(target,this.transform.forward).y > 0.1)
-                    //{
-                    //    rotAngle = -50.0f;
-                    //}
-                    //else if (Vector3.Cross(target, this.transform.forward).y < -0.1)
-                    //{
-                    //    rotAngle = 50.0f;
-                    //}
-                    //float angle = -Vector3.Cross(target, this.transform.forward).y;;
+                    Vector3 cross = Vector3.Cross(target, this.transform.forward);
+                    if (cross.y > 0)
+                    {
+                        rotAngle = -1.0f;
+                    }
+                    else if (cross.y < 0)
+                    {
+                        rotAngle = 1.0f;
+                    }
+                    float angle = Vector3.Angle(this.transform.forward, target) * rotAngle;
+                    if(angle > maxRotate)
+                    {
+                        angle = maxRotate;
+                    }
+                    else if(angle < -maxRotate)
+                    {
+                        angle = -maxRotate;
+                    }
+                    this.transform.localEulerAngles += new Vector3(0, angle, 0);
 
-                    rotAngle = Vector3.Cross(this.transform.forward, target).y;
-                    this.transform.localEulerAngles = new Vector3(0, Mathf.Lerp(this.transform.localEulerAngles.y,rotAngle,0.1f), 0);
-                    //eRigidbody.AddTorque(targetRot);
+                    //rotAngle = Vector3.Cross(this.transform.forward, target).y;
+                    //this.transform.localEulerAngles = new Vector3(0, Mathf.Lerp(this.transform.localEulerAngles.y,rotAngle,0.1f), 0);
                 }
 
                 // 加速
+                if(!isAction)
                 eRigidbody.AddForce(this.transform.forward * eData.eSpeed * eData.eSpeedMul);
                 // 減速　摩擦等
                 eRigidbody.AddForce(-eRigidbody.velocity * eData.eSpeedMul * eSpeedDownMul);
@@ -87,6 +118,18 @@ public class EnemyMove : MonoBehaviour
                 {
                     eSpeedDownMul = eSpeedNormal;
                 }
+
+            }).AddTo(this.gameObject);
+
+        // 衝突
+        eManager.ImpactTrigger
+            .Subscribe(value =>
+            {
+                Vector3 dir = (this.transform.position - value).normalized;
+                eRigidbody.AddForce(dir * impactSpeed, ForceMode.Impulse);
+                // 一定時間行動不能にする
+                actionCount = impactInterval;
+                isAction = true;
 
             }).AddTo(this.gameObject);
     }

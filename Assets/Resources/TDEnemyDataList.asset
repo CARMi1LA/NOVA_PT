@@ -15,8 +15,15 @@ MonoBehaviour:
   enemyDataList:
   - eSize: 0
     eType: 0
-    eHealth: 10
-    eCoreHealth: 20
-    eSpeed: 50
+    eHealth: 5
+    eCoreHealth: 3
+    eSpeed: 30
     eSpeedMul: 10
     eDropMater: 50
+  - eSize: 1
+    eType: 0
+    eHealth: 10
+    eCoreHealth: 3
+    eSpeed: 50
+    eSpeedMul: 10
+    eDropMater: 100

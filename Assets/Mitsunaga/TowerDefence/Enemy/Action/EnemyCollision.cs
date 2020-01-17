@@ -11,19 +11,10 @@ public class EnemyCollision : MonoBehaviour, IDamageTD, ICollisionTD
     // また、IDamageとICollisionインターフェイスを継承しそれぞれの処理を行う
 
     [SerializeField]
-    TDEnemyUnit eUnit;  // 参照1個にしてえええええええええええええええ した！ 
+    TDEnemyUnit eUnit;
 
     void Start()
     {
-        // デバッグ用 cキー入力でダメージ発生
-        this.UpdateAsObservable()
-            .Where(x => Input.GetKeyDown(KeyCode.H))
-            .Subscribe(_ =>
-            {
-                HitDamage(TDList.ParentList.Other);
-
-            }).AddTo(this.gameObject);
-
         // 衝突判定
         this.OnCollisionEnterAsObservable()
             .Subscribe(col =>
@@ -36,31 +27,27 @@ public class EnemyCollision : MonoBehaviour, IDamageTD, ICollisionTD
                 // 相手をふっとばす
                 if (col.gameObject.GetComponent<ICollisionTD>() != null)
                 {
-                    col.gameObject.GetComponent<ICollisionTD>().HitCollision(eUnit.eManager.eParent,this.transform.position);
+                    col.gameObject.GetComponent<ICollisionTD>().HitCollision(this.transform.position);
                 }
-
             }).AddTo(this.gameObject);
     }
 
     // ダメージ処理
-    public void HitDamage(TDList.ParentList parent)
+    public void HitDamage(TDList.ParentList eparent)
     {
         // 陣営の確認
-        if (parent != eUnit.eManager.eParent)
+        if (eparent != eUnit.eManager.eParent)
         {
             // ダメージを受ける
             Debug.Log("ダメージを受けた！");
             eUnit.DamageTrigger.OnNext(Unit.Default);
         }
     }
+
     // 衝突処理
-    public void HitCollision(TDList.ParentList parent, Vector3 targetPos)
+    public void HitCollision(Vector3 targetPos)
     {
-        // 陣営の確認
-        if (parent != eUnit.eManager.eParent)
-        {
-            // 衝突イベント発行
-            eUnit.eManager.ImpactTrigger.OnNext(targetPos);
-        }
+        // 衝突イベント発行
+        eUnit.eManager.ImpactTrigger.OnNext(targetPos);
     }
 }

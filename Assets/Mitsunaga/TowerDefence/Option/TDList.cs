@@ -9,6 +9,7 @@ public class TDList
         Other = 0,
         Player,
         Enemy,
+        Turret,
     }
     public enum TowerList
     {

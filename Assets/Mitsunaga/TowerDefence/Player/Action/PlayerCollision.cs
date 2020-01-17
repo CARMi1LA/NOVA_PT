@@ -17,15 +17,6 @@ public class PlayerCollision : MonoBehaviour, IDamageTD, ICollisionTD
 
     void Start()
     {
-        // デバッグ用 xキー入力でダメージ発生
-        this.UpdateAsObservable()
-            .Where(x => Input.GetKeyDown(KeyCode.H))
-            .Subscribe(_ =>
-            {
-                HitDamage(TDList.ParentList.Other);
-
-            }).AddTo(this.gameObject);
-
         // 衝突判定
         this.OnCollisionEnterAsObservable()
             .Subscribe(col =>
@@ -38,7 +29,7 @@ public class PlayerCollision : MonoBehaviour, IDamageTD, ICollisionTD
                 // 相手をふっとばす
                 if (col.gameObject.GetComponent<ICollisionTD>() != null)
                 {
-                    col.gameObject.GetComponent<ICollisionTD>().HitCollision(pManager.pData.pParent,this.transform.position);
+                    col.gameObject.GetComponent<ICollisionTD>().HitCollision(this.transform.position);
                 }
 
             }).AddTo(this.gameObject);
@@ -77,13 +68,9 @@ public class PlayerCollision : MonoBehaviour, IDamageTD, ICollisionTD
         }
     }
     // 衝突処理
-    public void HitCollision(TDList.ParentList parent,Vector3 targetPos)
+    public void HitCollision(Vector3 targetPos)
     {
-        // 陣営の確認
-        if(parent != pManager.pData.pParent)
-        {
             // 衝突イベント発行
             pManager.impactTrigger.OnNext(targetPos);
-        }
     }
 }

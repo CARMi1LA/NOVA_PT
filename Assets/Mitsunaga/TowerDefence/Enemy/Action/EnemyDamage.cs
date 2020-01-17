@@ -23,8 +23,10 @@ public class EnemyDamage : MonoBehaviour
         eUnit.DamageTrigger
         .Subscribe(_ =>
         {
-            // ダメージをヘルスに適用、キャラを点滅
+            // ダメージをヘルスに適用、キャラを点滅、プレイヤー狙いに変更
             eUnit.eHealth.Value--;
+            eUnit.eManager.isTargetPlayer.Value = true;
+            Debug.Log("ターゲットを変更");
             DamageTrigger.OnNext(damageTime);
 
         }).AddTo(this.gameObject);

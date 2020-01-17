@@ -8339,6 +8339,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 26dd85a08546d07438fe3cc97a6c9cda, type: 2}
   enemyPrefabList:
   - {fileID: 5805954570662241966, guid: 30fd7fcc3635cca42a619407efaace25, type: 3}
+  - {fileID: 5805954570662241966, guid: 23f493d2a14220847806e0db8ff975f2, type: 3}
+  - {fileID: 5805954570662241966, guid: 0608eee9888a173488ba2f0a4bf3d882, type: 3}
   isBattleFase:
     value: 1
 --- !u!4 &1270956187

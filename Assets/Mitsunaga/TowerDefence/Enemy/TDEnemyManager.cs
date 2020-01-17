@@ -66,6 +66,7 @@ public class TDEnemyManager : MonoBehaviour
                 float dis = Mathf.Abs((this.transform.position - playerPosition).sqrMagnitude);
                 if(dis >= Mathf.Pow(TargetPlayerDistance, 2))
                 {
+                    Debug.Log("ターゲットを見失った");
                     isTargetPlayer.Value = false;
                 }
 

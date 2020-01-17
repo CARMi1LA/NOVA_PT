@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ae73e03fef3d154999c9345941d638d, type: 3}
   m_Name: TDEnemyWaveList_01
   m_EditorClassIdentifier: 
-  enemyWaveInterval: 5
+  enemyWaveInterval: 3
   enemyWave:
-  - enemyWavePart: 000000000000000000000000
-  - enemyWavePart: 000000000000000000000000
-  - enemyWavePart: 000000000000000000000000
-  - enemyWavePart: 000000000000000000000000
+  - enemyWavePart: 00000000
+  - enemyWavePart: 0000000001000000
+  - enemyWavePart: 0100000001000000
