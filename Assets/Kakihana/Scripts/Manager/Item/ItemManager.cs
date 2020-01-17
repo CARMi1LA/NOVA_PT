@@ -12,7 +12,7 @@ public class ItemManager : MonoBehaviour
     // アイテムの種類
     public enum ItemType
     {
-        Score = 0,      // スコア
+        Mater = 0,      // スコア
         Life,           // 回復
         Energy          // エネルギー
     }
@@ -24,7 +24,7 @@ public class ItemManager : MonoBehaviour
         Pool            // 生成待機状態
     }
 
-    public int itemScore;   // アイテムのスコア
+    public int itemMater;   // マター
     public int itemLife;    // HP回復量
     public int itemEnergy;  // エネルギー回復量
 
@@ -131,7 +131,7 @@ public class ItemManager : MonoBehaviour
     }
 
     // アイテム生成メソッド、各種パラメータの初期設定を行う
-    public void CreateItem(int score, int hp, int energy, ItemType type, Vector3 pos)
+    public void CreateItem(int mater, int hp, int energy, ItemType type, Vector3 pos)
     {
         // プレイヤーの座標を取得
         playerTrans = GameManagement.Instance.playerTrans;
@@ -150,7 +150,7 @@ public class ItemManager : MonoBehaviour
         itemDir = Random.Range(-180.0f, 180.0f);
 
         // 各種パラメータを設定する
-        itemScore = score;
+        itemMater = mater;
         itemLife = hp;
         itemEnergy = energy;
         itemType = type;

@@ -5,6 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class MasterData 
 {
+    // ゲームに必要なデータ
+    // 難易度
     public enum Difficulty
     {
         Easy = 0,
@@ -12,6 +14,7 @@ public class MasterData
         Hard = 2
     }
 
+    // タワーの色
     public enum TowerColor
     {
         Red = 0,
@@ -22,6 +25,13 @@ public class MasterData
 
     public Difficulty difficulty;
 
+    // 待機時間
     public int waitTime;
+    // 各戦闘ウェーブの時間
     public int[] waveTime;
+
+    // 敵最大出現数
+    public int enemyCoreMax;
+    // アイテム最大出現数
+    public int itemDropMax;
 }

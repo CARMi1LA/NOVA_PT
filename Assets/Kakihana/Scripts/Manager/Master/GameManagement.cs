@@ -21,6 +21,7 @@ public class GameManagement : GMSingleton<GameManagement>
 
     public Transform playerTrans;           // プレイヤーの座標
     public Transform cameraTrans;           // カメラの座標
+    public Transform centerTrans;           // 中心座標
     public Vector3 cameraPos;               // カメラ移動量
     public Vector3 cScreen;
     public Vector3 cWorld;

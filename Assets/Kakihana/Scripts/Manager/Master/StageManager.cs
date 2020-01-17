@@ -197,7 +197,7 @@ public class StageManager : SMSingleton<StageManager>
             enemyAliveNum.Value--;
             for (int i = 0; i < 5; i++)
             {
-                new ItemData(enemy.enemyStatus.score / 5, 0, 0, ItemManager.ItemType.Score, enemy.transform.position);
+                new ItemData(enemy.enemyStatus.score / 5, 0, 0, ItemManager.ItemType.Mater, enemy.transform.position);
             }
             Destroy(enemy.gameObject);
         }
