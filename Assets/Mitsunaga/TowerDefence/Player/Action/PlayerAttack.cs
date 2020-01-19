@@ -12,8 +12,6 @@ public class PlayerAttack : MonoBehaviour
     TDPlayerManager pManager;
     [SerializeField]
     TDList.BulletTypeList bType = TDList.BulletTypeList.Normal;  // 攻撃タイプの実装テスト
-    [SerializeField]
-    int attackInterval = 1;   // 攻撃間隔の倍率　実装テスト
 
     bool isAttack = false;
 
@@ -28,7 +26,7 @@ public class PlayerAttack : MonoBehaviour
 
         this.UpdateAsObservable()
             .Where(x => isAttack)
-            .ThrottleFirstFrame(pManager.pData.pAttackInterval * attackInterval)
+            .ThrottleFirstFrame(pManager.pData.pAttackInterval)
             .Subscribe(_ =>
             {
                 // 通常攻撃の実行

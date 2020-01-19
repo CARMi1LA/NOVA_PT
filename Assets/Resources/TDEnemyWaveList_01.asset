@@ -16,4 +16,4 @@ MonoBehaviour:
   enemyWave:
   - enemyWavePart: 00000000
   - enemyWavePart: 0000000001000000
-  - enemyWavePart: 0100000001000000
+  - enemyWavePart: 00000000000000000100000001000000

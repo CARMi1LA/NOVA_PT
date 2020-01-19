@@ -18,7 +18,7 @@ public class TDEnemyUnit : MonoBehaviour
     public IntReactiveProperty eHealth = new IntReactiveProperty(100);
 
     // ダメージ処理
-    public Subject<Unit> DamageTrigger = new Subject<Unit>();
+    public Subject<TDList.ParentList> DamageTrigger = new Subject<TDList.ParentList>();
     // 死亡処理
     public Subject<Unit> DeathTrigger = new Subject<Unit>();
     private void Awake()

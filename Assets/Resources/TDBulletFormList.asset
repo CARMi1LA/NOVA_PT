@@ -23,3 +23,9 @@ MonoBehaviour:
     size: {x: 2, y: 2, z: 2}
   - bType: 3
     size: {x: 1, y: 1, z: 1}
+  - bType: 4
+    size: {x: 1, y: 1, z: 1}
+  - bType: 5
+    size: {x: 1, y: 1, z: 1}
+  - bType: 6
+    size: {x: 1, y: 1, z: 1}
