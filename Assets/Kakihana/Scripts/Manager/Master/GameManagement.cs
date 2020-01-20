@@ -52,7 +52,7 @@ public class GameManagement : GMSingleton<GameManagement>
     // スコア、達成率に影響
     public IntReactiveProperty gameScore = new IntReactiveProperty(0);
     // 所持マター、タワーや自キャラの強化が可能
-    public IntReactiveProperty mater = new IntReactiveProperty(0);
+    public IntReactiveProperty mater = new IntReactiveProperty(-1);
     // 達成率、評価に影響
     [SerializeField] float achievementRate = 0.0f;
 
@@ -70,16 +70,18 @@ public class GameManagement : GMSingleton<GameManagement>
     public BoolReactiveProperty isPause = new BoolReactiveProperty(true);
     public BoolReactiveProperty playerUlt = new BoolReactiveProperty(false);
     public BoolReactiveProperty enemyUlt = new BoolReactiveProperty(false);
+    // ショップCanvas表示フラグ
+    public BoolReactiveProperty shopCanvasEnable = new BoolReactiveProperty(false);
 
     // ゲームステートプロパティ
     public ReactiveProperty<BattleMode> gameState = new ReactiveProperty<BattleMode>();
+    // ショップのCanvas
+    public CanvasGroup shopCanvas;
 
     // 敵情報追加用Subject
     public Subject<Transform> enemyInfoAdd = new Subject<Transform>();
     // マター取得Subject
     public Subject<int> addMater = new Subject<int>();
-    // 待機モード進行用Subject
-    public Subject<Unit> waitModeSub = new Subject<Unit>();
     // 戦闘モード進行用Subject
     public Subject<Unit> battleModeSub = new Subject<Unit>();
 
@@ -100,6 +102,7 @@ public class GameManagement : GMSingleton<GameManagement>
         masterData = masterDataList.masterDataList[0];
         gameState.Value = BattleMode.Wait;
         targetTw = twList[Random.Range(0, twList.Length)];
+        shopCanvas.alpha = 0;
     }
 
     void Start()
@@ -116,6 +119,24 @@ public class GameManagement : GMSingleton<GameManagement>
             .Subscribe(_ => 
             {
                 masterTime = 3.0f;
+            }).AddTo(this.gameObject);
+
+        // デバッグ用、F1キーを押すと進行時間の短縮が可能
+        this.UpdateAsObservable()
+            .Where(_ => Input.GetKeyDown(KeyCode.F2) && isDebug.Value == true)
+            .Subscribe(_ =>
+            {
+                shopCanvas.alpha = 1.0f;
+                shopCanvasEnable.Value = true;
+            }).AddTo(this.gameObject);
+
+        // デバッグ用、F1キーを押すと進行時間の短縮が可能
+        this.UpdateAsObservable()
+            .Where(_ => Input.GetKeyDown(KeyCode.F3) && isDebug.Value == true)
+            .Subscribe(_ =>
+            {
+                shopCanvas.alpha = 0.0f;
+                shopCanvasEnable.Value = false;
             }).AddTo(this.gameObject);
 
         // 待機モード時の準備処理
@@ -267,6 +288,20 @@ public class GameManagement : GMSingleton<GameManagement>
         {
             enemyUlt.Value = false;
         }).AddTo(this.gameObject);
+
+        this.UpdateAsObservable()
+            .Where(_ => shopCanvasEnable.Value == true)
+            .Subscribe(_ =>
+            {
+                shopCanvas.alpha = 1.0f;
+            }).AddTo(this.gameObject);
+
+        this.UpdateAsObservable()
+            .Where(_ => shopCanvasEnable.Value == false)
+            .Subscribe(_ =>
+            {
+                shopCanvas.alpha = 0.0f;
+            }).AddTo(this.gameObject);
     }
 
     // 次シーン移行処理

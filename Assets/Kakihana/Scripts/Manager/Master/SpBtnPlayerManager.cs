@@ -57,6 +57,7 @@ public class SpBtnPlayerManager : MonoBehaviour
         // 初期化処理
         InitSubject.Subscribe(_ => 
         {
+            Debug.Log("initbtnPlayer");
             // プレイヤーのレベルデータを設定
             levelData_Player = _;
 
@@ -97,6 +98,8 @@ public class SpBtnPlayerManager : MonoBehaviour
                 ShopManager.Instance.shopData.
                 shopData_Player[nextLvInt].purchaseMater);
         }).AddTo(this.gameObject);
+
+        InitSubject.OnNext(ShopManager.Instance.spLv.playerLv);
 
         // 購入可能時のイベント
         BuyOkText.Subscribe(list =>

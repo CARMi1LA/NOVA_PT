@@ -34,7 +34,7 @@ public class ShopBuyController : MonoBehaviour
 
         }).AddTo(this.gameObject);
 
-        ShopManager.Instance.mater
+        GameManagement.Instance.mater
             .Where(mat => buyData != null && spLv != null)
             .Subscribe(mat => 
             {
@@ -484,12 +484,6 @@ public class ShopBuyController : MonoBehaviour
     {
         buyData = ShopManager.Instance.shopData;
         spLv = ShopManager.Instance.spLv;
-        spBtnPlayer.InitSubject.OnNext(spLv.playerLv);
-        spBtnTowerR.InitSubject.OnNext(spLv.towerLv[(int)ShopData.TowerColor.Red]);
-        spBtnTowerB.InitSubject.OnNext(spLv.towerLv[(int)ShopData.TowerColor.Blue]);
-        spBtnTowerY.InitSubject.OnNext(spLv.towerLv[(int)ShopData.TowerColor.Yellow]);
-        spBtnTowerG.InitSubject.OnNext(spLv.towerLv[(int)ShopData.TowerColor.Green]);
-        //spBtnSkill.InitSubject.OnNext(spLv.skillLv);
         Debug.Log("BuyControllInit");
     }
 }

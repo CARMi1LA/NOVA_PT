@@ -113,6 +113,8 @@ public class SpBtnTowerRManager : MonoBehaviour
                 string.Format("{0}",nextRepairVal);
         }).AddTo(this.gameObject);
 
+        InitSubject.OnNext(ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red]);
+
         // 購入可能時のイベント
         BuyOkText.Subscribe(list =>
         {
