@@ -26,6 +26,7 @@ public class TDBulletSpawner : TDBulletSpawnerSingleton<TDBulletSpawner>
         bulletRentSubject
             .Subscribe(value =>
             {
+                Debug.Log("Bullet生成：" + value.bParent);
                 // プールから借りる
                 TDBulletManager bManager = bPool.Rent();
                 bManager.Init(value);

@@ -11,6 +11,12 @@ public class TDEnemySpawner : MonoBehaviour
     [SerializeField]
     List<TDEnemyManager> enemyPrefabList;
 
+    // デバッグ用
+    [SerializeField]
+    List<Transform> towerTransform;
+    [SerializeField]
+    Transform playerTransform;
+
     List<TDEnemyWave> enemyWave;
     float enemyWaveInterval;
 
@@ -102,13 +108,35 @@ public class TDEnemySpawner : MonoBehaviour
                 enemyList.Add(item);
             }
         }
-        int pickup = Random.Range(0, enemyList.Count);
-        TDEnemyManager createEnemy = Instantiate(enemyList[pickup]);
-        createEnemy.InitEnemyData(enemyDataList.GetEnemyData(createEnemy.eSize, createEnemy.eType));
-        // 初期位置と向きを設定
-        Vector3 towerPosition = Vector3.zero;
+        int pickupEnemyPrefab = Random.Range(0, enemyList.Count);
+        TDEnemyManager createEnemy = Instantiate(enemyList[pickupEnemyPrefab]);
 
+        // 初期位置と向きを設定
+        float startRange = 600.0f;
+        Vector3 randomCircle = Random.insideUnitCircle;
+        createEnemy.transform.position = startRange * new Vector3(randomCircle.x,0,randomCircle.y);
+        Vector3 towerPosition = Vector3.zero;
         createEnemy.transform.LookAt(towerPosition);
+
+        int pickupTargetTower = Random.Range(0, towerTransform.Count);
+
+        // デバッグ用エネミー生成
+        float towerDst = 1000000.0f;
+        Transform targetTsf = towerTransform[0];
+        foreach(var item in towerTransform)
+        {
+            float itemDist = (item.position - createEnemy.transform.position).sqrMagnitude;
+            // ランダムに生成された中で最も近いタワーを標的にする
+            if (towerDst >= itemDist)
+            {
+                towerDst = itemDist;
+                targetTsf = item;
+            }
+        }
+        createEnemy.targetTsf = targetTsf;
+        createEnemy.playerTsf = playerTransform;
+        createEnemy.InitEnemyData(enemyDataList.GetEnemyData(createEnemy.eSize, createEnemy.eType));
+
 
         // 生成したエネミーのTransformを返す
         return createEnemy.transform;

@@ -13,14 +13,12 @@ public class EnemyMove : MonoBehaviour
 
     Rigidbody eRigidbody;
 
-    float eSpeedDownMul;
+    float eSpeedDownMul = 1.0f;
 
     float eSpeedNormal  = 1.0f;
     float eSpeedSlow    = 2.0f;
 
     Vector3 targetPosition;     // ターゲットの位置(タワー、もしくはプレイヤー)
-    [SerializeField]
-    float maxRotate = 2.0f;    // 回転速度
 
     // 何らかのアクション
     bool isAction = false;
@@ -33,12 +31,17 @@ public class EnemyMove : MonoBehaviour
     void Awake()
     {
         eRigidbody = this.GetComponent<Rigidbody>();
-        targetPosition = eManager.targetPosition;
+
+        eManager.InitTrigger
+            .Subscribe(value =>
+            {
+                eData = value;
+                targetPosition = eManager.targetTsf.position;
+
+            }).AddTo(this.gameObject);
     }
     void Start()
     {
-        eData = eManager.eData;
-
         // アクション時の操作不能時間を計測
         this.UpdateAsObservable()
             .Where(x => isAction)
@@ -57,6 +60,15 @@ public class EnemyMove : MonoBehaviour
 
                 // 方向転換
                 {
+                    if (eManager.isTargetPlayer.Value)
+                    {
+                        targetPosition = eManager.playerTsf.position;
+                    }
+                    else
+                    {
+                        targetPosition = eManager.targetTsf.position;
+                    }
+
                     float rotAngle = 0;
 
                     Vector3 target = targetPosition - this.transform.position;
@@ -70,15 +82,15 @@ public class EnemyMove : MonoBehaviour
                         rotAngle = 1.0f;
                     }
                     float angle = Vector3.Angle(this.transform.forward, target) * rotAngle;
-                    if(angle > maxRotate)
+                    if(angle > eData.eRotSpeed)
                     {
-                        angle = maxRotate;
+                        angle = eData.eRotSpeed;
                     }
-                    else if(angle < -maxRotate)
+                    else if(angle < -eData.eRotSpeed)
                     {
-                        angle = -maxRotate;
+                        angle = -eData.eRotSpeed;
                     }
-                    this.transform.localEulerAngles += new Vector3(0, angle, 0);
+                    this.transform.localEulerAngles += new Vector3(0, angle, 0) * Time.deltaTime;
 
                     //rotAngle = Vector3.Cross(this.transform.forward, target).y;
                     //this.transform.localEulerAngles = new Vector3(0, Mathf.Lerp(this.transform.localEulerAngles.y,rotAngle,0.1f), 0);
@@ -92,20 +104,6 @@ public class EnemyMove : MonoBehaviour
 
             }).AddTo(this.gameObject);
 
-        // プレイヤーをターゲット
-        eManager.isTargetPlayer
-            .Subscribe(value =>
-            {
-                if (value)
-                {
-                    targetPosition = eManager.playerPosition;
-                }
-                else
-                {
-                    targetPosition = eManager.targetPosition;
-                }
-
-            }).AddTo(this.gameObject);
         // スロートラップを踏んだ
         eManager.SlowTrigger
             .Subscribe(value =>

@@ -40,7 +40,7 @@ public class EnemyCollision : MonoBehaviour, IDamageTD, ICollisionTD
         {
             // ダメージを受ける
             Debug.Log("ダメージを受けた！");
-            eUnit.DamageTrigger.OnNext(Unit.Default);
+            eUnit.DamageTrigger.OnNext(eparent);
         }
     }
 

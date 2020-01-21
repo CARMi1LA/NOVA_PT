@@ -25,7 +25,10 @@ public class EnemyDamage : MonoBehaviour
         {
             // ダメージをヘルスに適用、キャラを点滅、プレイヤー狙いに変更
             eUnit.eHealth.Value--;
-            eUnit.eManager.isTargetPlayer.Value = true;
+            if(eUnit.eManager != null)
+            {
+                eUnit.eManager.isTargetPlayer.Value = true;
+            }
             Debug.Log("ターゲットを変更");
             DamageTrigger.OnNext(damageTime);
 

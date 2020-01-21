@@ -17,9 +17,9 @@ public class TDEnemyManager : MonoBehaviour
     // 標的の設定
     // プレイヤーを標的にするか
     public BoolReactiveProperty isTargetPlayer = new BoolReactiveProperty(false);
-    public Vector3 targetPosition;              // 標的のタワーの位置
-    public Vector3 playerPosition;              // プレイヤーの位置
-    float TargetPlayerDistance = 100.0f;        // プレイヤーを追い続ける距離(離れすぎるとタワー狙いに戻る)
+    public Transform targetTsf;              // 標的のタワーの位置
+    public Transform playerTsf;              // プレイヤーの位置
+    float TargetPlayerDistance = 150.0f;        // プレイヤーを追い続ける距離(離れすぎるとタワー狙いに戻る)
 
     // ユニットの初期化 <生成タイプ毎のエネミーデータ>
     public Subject<TDEnemyData>                     InitTrigger     = new Subject<TDEnemyData>();
@@ -63,7 +63,7 @@ public class TDEnemyManager : MonoBehaviour
             .Subscribe(_ =>
             {
                 // プレイヤーとの距離を計算し、離れすぎた場合にターゲットをタワーに戻す
-                float dis = Mathf.Abs((this.transform.position - playerPosition).sqrMagnitude);
+                float dis = (this.transform.position - playerTsf.position).sqrMagnitude;
                 if(dis >= Mathf.Pow(TargetPlayerDistance, 2))
                 {
                     Debug.Log("ターゲットを見失った");
