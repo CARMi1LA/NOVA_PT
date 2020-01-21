@@ -55,6 +55,8 @@ public class GameManagement : GMSingleton<GameManagement>
     public IntReactiveProperty mater = new IntReactiveProperty(-1);
     // 達成率、評価に影響
     [SerializeField] float achievementRate = 0.0f;
+    // ショップに入った事があるか
+    public bool firstShopWindow = false;
 
     // 初回起動完了したか
     public BoolReactiveProperty starting = new BoolReactiveProperty(false);
@@ -84,29 +86,41 @@ public class GameManagement : GMSingleton<GameManagement>
     public Subject<int> addMater = new Subject<int>();
     // 戦闘モード進行用Subject
     public Subject<Unit> battleModeSub = new Subject<Unit>();
+    // 初期化用Subject
+    public Subject<Unit> masterInit = new Subject<Unit>();
 
 
     protected override void Awake()
     {
         base.Awake();
+        masterInit.Subscribe(_ => 
+        {
+            mater.Value = 0;
+        }).AddTo(this.gameObject);
         // プレイヤーデータの初期化
         tdPlaerData = new TDPlayerData();
         // カメラ座標の取得
         cameraPos = cameraTrans.position;
-
+        // 入力スクリプト初期化
         for (int i = 0; i > players.Length; i++)
         {
             gameInput.InitSubject.OnNext(i);
         }
+        // マスタデータリストの取得
         masterDataList = Resources.Load<MasterDataList>("MasterDataList");
+        // マスタデータの取得
         masterData = masterDataList.masterDataList[0];
+        // ゲームステートの設定
         gameState.Value = BattleMode.Wait;
+        // ターゲットタワー設定
         targetTw = twList[Random.Range(0, twList.Length)];
+        // ショップウィンドウは初期では非表示に
         shopCanvas.alpha = 0;
     }
 
     void Start()
     {
+        masterInit.OnNext(Unit.Default);
         // マター獲得処理
         addMater.Subscribe(value => 
         {
@@ -121,16 +135,27 @@ public class GameManagement : GMSingleton<GameManagement>
                 masterTime = 3.0f;
             }).AddTo(this.gameObject);
 
-        // デバッグ用、F1キーを押すと進行時間の短縮が可能
+        // デバッグ用、ショップ入店処理
         this.UpdateAsObservable()
             .Where(_ => Input.GetKeyDown(KeyCode.F2) && isDebug.Value == true)
             .Subscribe(_ =>
             {
-                shopCanvas.alpha = 1.0f;
-                shopCanvasEnable.Value = true;
+                if (firstShopWindow == false)
+                {
+                    addMater.OnNext(3000);
+                    shopCanvas.alpha = 1.0f;
+                    shopCanvasEnable.Value = true;
+                    firstShopWindow = true;
+                }
+                else
+                {
+                    shopCanvas.alpha = 1.0f;
+                    shopCanvasEnable.Value = true;
+                }
+
             }).AddTo(this.gameObject);
 
-        // デバッグ用、F1キーを押すと進行時間の短縮が可能
+        // デバッグ用、ショップ退出処理
         this.UpdateAsObservable()
             .Where(_ => Input.GetKeyDown(KeyCode.F3) && isDebug.Value == true)
             .Subscribe(_ =>

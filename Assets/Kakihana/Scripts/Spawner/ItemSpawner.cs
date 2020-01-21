@@ -42,6 +42,9 @@ public class ItemSpawner : ISSingleton<ItemSpawner>
             {
                 switch (GameManagement.Instance.waveNum.Value)
                 {
+                    case 0:
+                        materValue = 10;
+                        break;
                     case 1:
                         materValue = 10;
                         break;
@@ -58,7 +61,7 @@ public class ItemSpawner : ISSingleton<ItemSpawner>
 
         this.UpdateAsObservable()
             .Where(_ => itemSpawnCount <= itemSpawnCountMax)
-            .Sample(System.TimeSpan.FromSeconds(1.0f))
+            .Sample(System.TimeSpan.FromSeconds(0.25f))
             .Subscribe(_ => 
             {
                 x = Random.Range(-spawnMaxRadius, spawnMaxRadius);

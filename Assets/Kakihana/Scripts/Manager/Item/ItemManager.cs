@@ -70,7 +70,7 @@ public class ItemManager : MonoBehaviour
         itemInit.Subscribe(_ => 
             {
                 // 大きさの初期化
-                this.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                this.transform.localScale = new Vector3(5.0f, 5.0f, 5.0f);
                 // 生成後カウントの初期化
                 createdTime = 0.0f;
                 // 回転の初期化

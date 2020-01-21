@@ -56,11 +56,7 @@ public class ShopManager : SPMSinleton<ShopManager>
         shopData = shopDataList.dataList_Shop[0];
         // 各パラメータレベルの初期化
         spLv.SpLvInit.OnNext(Unit.Default);
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
         // 初期化処理
         InitParamLevel.Subscribe(_ =>
         {
@@ -69,6 +65,11 @@ public class ShopManager : SPMSinleton<ShopManager>
             btnSkill.normal.Value = true;
             btnUlt.normal.Value = true;
         }).AddTo(this.gameObject);
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
 
         // 起動時に初期化を行う
         InitParamLevel.OnNext(Unit.Default);
