@@ -14,9 +14,9 @@ public class SpBtnPlayerManager : MonoBehaviour
     // プレイヤー購入画面のボタン
     public ShopBtnManager[] spPlayerBtn;
     // 次のレベルを保存する変数
-    private int nextLvHp;
-    private int nextLvSpd;
-    private int nextLvInt;
+    public int nextLvHp;
+    public int nextLvSpd;
+    public int nextLvInt;
 
     // 初期化イベント
     public Subject<LevelData_Player> InitSubject = new Subject<LevelData_Player>();
@@ -34,26 +34,6 @@ public class SpBtnPlayerManager : MonoBehaviour
     public Subject<ShopData.Player_ParamList> NextLv = new Subject<ShopData.Player_ParamList>();
     private void Awake()
     {
-        // UIで使用するため次レベルを保存しておく
-        NextLv.Subscribe(_ =>
-        {
-            Debug.Log("NextLvPlayer");
-            switch (_)
-            {
-                case ShopData.Player_ParamList.Param_HP:
-                    nextLvHp = ShopManager.Instance.spLv.playerLv.lv_HP.Value + 1;
-                    break;
-                case ShopData.Player_ParamList.Param_Speed:
-                    nextLvSpd = ShopManager.Instance.spLv.playerLv.lv_Spd.Value + 1;
-                    break;
-                case ShopData.Player_ParamList.Param_Interval:
-                    nextLvInt = ShopManager.Instance.spLv.playerLv.lv_Int.Value + 1;
-                    break;
-                default:
-                    break;
-            }
-        }).AddTo(this.gameObject);
-
         // 初期化処理
         InitSubject.Subscribe(_ =>
         {
@@ -102,6 +82,25 @@ public class SpBtnPlayerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // UIで使用するため次レベルを保存しておく
+        NextLv.Subscribe(_ =>
+        {
+            Debug.Log("NextLvPlayer");
+            switch (_)
+            {
+                case ShopData.Player_ParamList.Param_HP:
+                    nextLvHp = ShopManager.Instance.spLv.playerLv.lv_HP.Value + 1;
+                    break;
+                case ShopData.Player_ParamList.Param_Speed:
+                    nextLvSpd = ShopManager.Instance.spLv.playerLv.lv_Spd.Value + 1;
+                    break;
+                case ShopData.Player_ParamList.Param_Interval:
+                    nextLvInt = ShopManager.Instance.spLv.playerLv.lv_Int.Value + 1;
+                    break;
+                default:
+                    break;
+            }
+        }).AddTo(this.gameObject);
 
         InitSubject.OnNext(ShopManager.Instance.spLv.playerLv);
 

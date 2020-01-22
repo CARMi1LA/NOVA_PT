@@ -46,13 +46,14 @@ public class ShopBuyController : MonoBehaviour
                 }
                 else
                 {
-                    if (mat >= buyData.shopData_Player[spLv.playerLv.lv_HP.Value + 1].purchaseMater)
+                    if (mat >= buyData.shopData_Player[spBtnPlayer.nextLvHp].purchaseMater)
                     {
                         // 購入可能
                         spBtnPlayer.BuyOkText.OnNext(ShopData.Player_ParamList.Param_HP);
                     }
                     else
                     {
+                        Debug.Log("False1");
                         // 購入不可（金額不足）
                         spBtnPlayer.BuyNgText.OnNext(ShopData.Player_ParamList.Param_HP);
                     }

@@ -190,12 +190,12 @@ public class EnemyManager : BulletSetting/*,IDamage*/
             }
         }).AddTo(this.gameObject);
 
-        GameManagement.Instance.playerUlt.Where(_ => GameManagement.Instance.playerUlt.Value == true)
-        .Subscribe(_ =>
-        {
-            Instantiate(destroyPS, this.transform.position, Quaternion.identity);
-            StageManager.Instance.EnemyDestroy(this);
-        }).AddTo(this.gameObject);
+        //GameManagement.Instance.playerUlt.Where(_ => GameManagement.Instance.playerUlt.Value == true)
+        //.Subscribe(_ =>
+        //{
+        //    Instantiate(destroyPS, this.transform.position, Quaternion.identity);
+        //    StageManager.Instance.EnemyDestroy(this);
+        //}).AddTo(this.gameObject);
     }
 
     //public void HitDamage()

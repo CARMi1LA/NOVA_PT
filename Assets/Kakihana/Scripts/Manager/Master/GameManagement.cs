@@ -70,8 +70,6 @@ public class GameManagement : GMSingleton<GameManagement>
     public BoolReactiveProperty gameOver = new BoolReactiveProperty(false);
     // ポーズフラグ
     public BoolReactiveProperty isPause = new BoolReactiveProperty(true);
-    public BoolReactiveProperty playerUlt = new BoolReactiveProperty(false);
-    public BoolReactiveProperty enemyUlt = new BoolReactiveProperty(false);
     // ショップCanvas表示フラグ
     public BoolReactiveProperty shopCanvasEnable = new BoolReactiveProperty(false);
 
@@ -298,20 +296,6 @@ public class GameManagement : GMSingleton<GameManagement>
             .Subscribe(_ =>
         {
             gameHUD.ScoreRP.Value = gameScore.Value;
-        }).AddTo(this.gameObject);
-
-        playerUlt.Where(_ => playerUlt.Value == true)
-            .Sample(TimeSpan.FromSeconds(1.0f))
-            .Subscribe(_ => 
-            {
-                playerUlt.Value = false;
-            }).AddTo(this.gameObject);
-
-        enemyUlt.Where(_ => enemyUlt.Value == true)
-        .Sample(TimeSpan.FromSeconds(1.0f))
-        .Subscribe(_ =>
-        {
-            enemyUlt.Value = false;
         }).AddTo(this.gameObject);
 
         this.UpdateAsObservable()
