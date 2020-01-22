@@ -10,6 +10,8 @@ public class PlayerUltimate : MonoBehaviour
 
     [SerializeField]
     TDPlayerManager pManager;
+    [SerializeField]
+    ParticleSystem ultParticle;
     
     void Start()
     {
@@ -17,6 +19,10 @@ public class PlayerUltimate : MonoBehaviour
             .Subscribe(value =>
             {
                 // アルティメット実行時の共通行動(エフェクトなど)
+                ultParticle.Play();
+                Observable.TimerFrame(20)
+                    .Subscribe(_ => ultParticle.Stop())
+                    .AddTo(this.gameObject);
 
             }).AddTo(this.gameObject);
     }
