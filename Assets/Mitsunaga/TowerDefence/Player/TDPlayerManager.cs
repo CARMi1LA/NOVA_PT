@@ -105,7 +105,7 @@ public class TDPlayerManager : MonoBehaviour
 
         // エネルギー、アルティメットゲージの自動回復(雑)
         this.UpdateAsObservable()
-            .SampleFrame(5)
+            .Sample(System.TimeSpan.FromSeconds(0.02f))
             .Subscribe(_ =>
             {
                 if(pData.pEnergy.Value < pData.pMaxEnergy)
@@ -180,16 +180,16 @@ public class TDPlayerManager : MonoBehaviour
 
             // Xボタン：スキル発動
             inputData.pushBtnX
-                .ThrottleFirstFrame(pData.pSkillInterval)
+                .ThrottleFirst(System.TimeSpan.FromSeconds(pData.pSkillInterval))
                 .Where(x => x)
                 .Where(x => pData.pEnergy.Value >= pData.pSkillCost)
                 .Subscribe(value =>
                 {
-                // スキルの実行
-                skillTrigger.OnNext(pData.pSkillType);
+                    // スキルの実行
+                    skillTrigger.OnNext(pData.pSkillType);
 
-                // エネルギーを消費
-                pData.pEnergy.Value -= pData.pSkillCost;
+                    // エネルギーを消費
+                    pData.pEnergy.Value -= pData.pSkillCost;
 
                 }).AddTo(this.gameObject);
 

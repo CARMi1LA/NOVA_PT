@@ -40,12 +40,13 @@ public class TDEnemyUnit : MonoBehaviour
     {
         // ヘルスが0になった時の処理
         this.UpdateAsObservable()
-            .Where(x => eHealth.Value == 0)
+            .Where(x => eHealth.Value <= 0)
             .Subscribe(_ =>
             {
                 if (isCoreUnit)
                 {
                     eManager.CoreDeathTrigger.OnNext(Unit.Default);
+                    DeathTrigger.OnNext(Unit.Default);
                 }
                 else
                 {

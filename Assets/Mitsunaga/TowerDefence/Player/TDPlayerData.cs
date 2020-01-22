@@ -32,8 +32,8 @@ public class TDPlayerData
         Bomb    = 3
     }
     public SkillTypeList pSkillType = SkillTypeList.Sword;    // スキルの型
-    public float pSkillCost = 10.0f;        // スキルの発動コスト
-    public int pSkillInterval = 30;         // スキルの発動間隔(単位：フレーム)
+    public float pSkillCost = 20.0f;        // スキルの発動コスト
+    public float pSkillInterval = 1.0f;         // スキルの発動間隔(単位：フレーム)
 
     // アルティメット
     public enum UltimateTypeList
@@ -49,8 +49,8 @@ public class TDPlayerData
     public float pSpeed = 70;  // 移動速度
     public float pSpeedMul = 10;
     // ダッシュ
-    public float pDashCost = 5.0f;      // 回避の発動コスト
-    public float pDashTime = 0.3f;      // 回避の行動時間
+    public float pDashCost = 20.0f;      // 回避の発動コスト
+    public float pDashTime = 0.5f;      // 回避の行動時間
 
     // ダメージの無効化
     public bool pBarrier = false;   // ダメージ無効時間の有効化

@@ -53,6 +53,7 @@ public class SkillSword : MonoBehaviour
             {
             // 剣の回転コルーチンの再生
             Observable.FromCoroutine(_ => RotationCoroutine(rotTime))
+            .Delay(System.TimeSpan.FromSeconds(0.1f))// 残心
             .Subscribe(
                     _ => b = true,
                     () => 
