@@ -50,14 +50,13 @@ public class SkillSwordObject : MonoBehaviour
         this.OnTriggerEnterAsObservable()
             .Subscribe(value =>
             {
-                // 重なったオブジェクトのタグが"Enemy"であれば
-                if(value.gameObject.tag == "Enemy")
+                if (value.gameObject.GetComponent<IDamageTD>() != null)
                 {
                     // ダメージを与える
-                    value.gameObject.GetComponent<IDamage>().HitDamage();
+                    value.gameObject.GetComponent<IDamageTD>().HitDamage(TDList.ParentList.Player);
+                    value.gameObject.GetComponent<IDamageTD>().HitDamage(TDList.ParentList.Player);
                 }
-            })
-            .AddTo(this.gameObject);
+            }).AddTo(this.gameObject);
     }
 
     // 剣のアルファ値変更コルーチン

@@ -17,7 +17,7 @@ public class TDEnemySpawner : MonoBehaviour
     [SerializeField]
     Transform playerTransform;
 
-    List<TDEnemyWave> enemyWave;
+    public List<TDEnemyWave> enemyWave;
     float enemyWaveInterval;
 
     TDEnemyDataList enemyDataList;
@@ -79,6 +79,7 @@ public class TDEnemySpawner : MonoBehaviour
                 enemyWave = enemyWaveList[waveCount].enemyWave;
                 enemyWaveInterval = enemyWaveList[waveCount].enemyWaveInterval;
                 waveCount++;
+                enemyCount = 0;
 
             }).AddTo(this.gameObject);
         // 準備フェイズに切り替わるたびにタワーデータを読み込む
