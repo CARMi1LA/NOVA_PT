@@ -23,7 +23,11 @@ public class TDList
         Normal = 0,
         Missile = 1,
         Bomb = 2,
-        Boost = 3
+        Boost = 3,
+        E_Single,
+        E_3Way,
+        E_AllRange,
+        None,
     }
     public enum EnemySizeList
     {

@@ -24,8 +24,8 @@ public class PlayerMove : MonoBehaviour
 
     // ダッシュ
     bool isDash = false;
-    float dashSpeed = 300.0f;       // ダッシュの速度
-    float dashInterval = 0.3f;      // ダッシュの行動不能時間
+    float dashSpeed = 350.0f;       // ダッシュの速度
+    float dashInterval = 0.7f;      // ダッシュの行動不能時間
 
     void Awake()
     {
@@ -65,7 +65,7 @@ public class PlayerMove : MonoBehaviour
                 if (isAction)
                 {
                     // 静止力を弱める
-                    speedMul *= 0.75f;
+                    speedMul *= 0.3f;
                 }
                 else
                 {
