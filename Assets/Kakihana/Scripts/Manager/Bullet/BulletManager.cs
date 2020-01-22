@@ -187,21 +187,21 @@ public class BulletManager : MonoBehaviour
                 bulletState.Value = BulletState.Destroy;
             }).AddTo(this.gameObject);
 
-        GameManagement.Instance.playerUlt.Where(_ => GameManagement.Instance.isPause.Value == true)
-            .Where(_ => GameManagement.Instance.playerUlt.Value == true)
-            .Where(_ => shootChara == ShootChara.Enemy)
-            .Subscribe(_ => 
-            {
-                bulletState.Value = BulletState.Destroy;
-            }).AddTo(this.gameObject);
+        //GameManagement.Instance.playerUlt.Where(_ => GameManagement.Instance.isPause.Value == true)
+        //    .Where(_ => GameManagement.Instance.playerUlt.Value == true)
+        //    .Where(_ => shootChara == ShootChara.Enemy)
+        //    .Subscribe(_ => 
+        //    {
+        //        bulletState.Value = BulletState.Destroy;
+        //    }).AddTo(this.gameObject);
 
-        GameManagement.Instance.enemyUlt.Where(_ => GameManagement.Instance.isPause.Value == false)
-            .Where(_ => GameManagement.Instance.enemyUlt.Value == true)
-            .Where(_ => shootChara == ShootChara.Player)
-            .Subscribe(_ =>
-            {
-                bulletState.Value = BulletState.Destroy;
-            }).AddTo(this.gameObject);
+        //GameManagement.Instance.enemyUlt.Where(_ => GameManagement.Instance.isPause.Value == false)
+        //    .Where(_ => GameManagement.Instance.enemyUlt.Value == true)
+        //    .Where(_ => shootChara == ShootChara.Player)
+        //    .Subscribe(_ =>
+        //    {
+        //        bulletState.Value = BulletState.Destroy;
+        //    }).AddTo(this.gameObject);
 
         stateProperty.Where(_ => stateProperty.Value == BulletState.Destroy)
             .Subscribe(_ => 

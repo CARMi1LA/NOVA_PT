@@ -121,14 +121,14 @@ public class PlayerManager : BulletSetting
             swordManager.SwordSubject.OnNext(0.7f);
         }).AddTo(this.gameObject);
 
-        // 必殺技処理
-        ultimate.Subscribe(val => 
-        {
-            Instantiate(ultPS, this.transform.position, Quaternion.identity);
-            GameManagement.Instance.playerUlt.Value = true;
-            ultimateGage.Value -= maxultimateGage;
-            playerHUD.UltimateRP.Value = ultimateGage.Value;
-        }).AddTo(this.gameObject);
+        //// 必殺技処理
+        //ultimate.Subscribe(val => 
+        //{
+        //    Instantiate(ultPS, this.transform.position, Quaternion.identity);
+        //    GameManagement.Instance.playerUlt.Value = true;
+        //    ultimateGage.Value -= maxultimateGage;
+        //    playerHUD.UltimateRP.Value = ultimateGage.Value;
+        //}).AddTo(this.gameObject);
 
         FlashSubject
             .Do(_ => playerRenderer.material.SetInt("_IsDamage", 1))
@@ -205,12 +205,12 @@ public class PlayerManager : BulletSetting
             shootSubject.OnNext(BulletList.Normal);
         }).AddTo(this.gameObject);
 
-        GameManagement.Instance.enemyUlt.Where(x => GameManagement.Instance.enemyUlt.Value == true)
-        .Subscribe(x =>
-        {
-            Debug.Log("KEN");
-            playerHp.Value = 0;
-        }).AddTo(this.gameObject);
+        //GameManagement.Instance.enemyUlt.Where(x => GameManagement.Instance.enemyUlt.Value == true)
+        //.Subscribe(x =>
+        //{
+        //    Debug.Log("KEN");
+        //    playerHp.Value = 0;
+        //}).AddTo(this.gameObject);
 
         // 衝突判定（弾）
         this.OnTriggerEnterAsObservable()

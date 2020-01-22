@@ -34,32 +34,9 @@ public class SpBtnTowerRManager : MonoBehaviour
     public Subject<ShopData.TowerRed_ParamList> SoldOutText = new Subject<ShopData.TowerRed_ParamList>();
     // 次レベル設定イベント
     public Subject<ShopData.TowerRed_ParamList> NextLv = new Subject<ShopData.TowerRed_ParamList>();
-    // Start is called before the first frame update
-    void Start()
-    {
-        // UIで使用するため次レベルを保存しておく
-        NextLv.Subscribe(_ =>
-        {
-            switch (_)
-            {
-                case ShopData.TowerRed_ParamList.Param_Trap:
-                    nextLvTrap = ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value + 1;
-                    break;
-                case ShopData.TowerRed_ParamList.Param_Turret:
-                    nextLvTurret = ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value + 1;
-                    break;
-                case ShopData.TowerRed_ParamList.Param_Tower:
-                    nextLvTower = ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value + 1;
-                    break;
-                case ShopData.TowerRed_ParamList.Repair:
-                    nextLvRepair = ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value + 1;
-                    nextRepairVal = (ShopManager.Instance.shopData.redData_Tower[nextLvRepair].purchaseMater * 5);
-                    break;
-                default:
-                    break;
-            }
-        }).AddTo(this.gameObject);
 
+    private void Awake()
+    {
         // 初期化処理
         InitSubject.Subscribe(_ =>
         {
@@ -90,7 +67,7 @@ public class SpBtnTowerRManager : MonoBehaviour
                 nextLvTower);
 
             spBtn[3].levelText.text =
-                string.Format("{0}回目",nextLvRepair);
+                string.Format("{0}回目", nextLvRepair);
 
             // 必要金額テキストを設定
             spBtn[0].materValueText.text =
@@ -110,7 +87,34 @@ public class SpBtnTowerRManager : MonoBehaviour
                 redData_Tower[nextLvTower].purchaseMater);
 
             spBtn[3].materValueText.text =
-                string.Format("{0}",nextRepairVal);
+                string.Format("{0}", nextRepairVal);
+        }).AddTo(this.gameObject);
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        // UIで使用するため次レベルを保存しておく
+        NextLv.Subscribe(_ =>
+        {
+            switch (_)
+            {
+                case ShopData.TowerRed_ParamList.Param_Trap:
+                    nextLvTrap = ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value + 1;
+                    break;
+                case ShopData.TowerRed_ParamList.Param_Turret:
+                    nextLvTurret = ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value + 1;
+                    break;
+                case ShopData.TowerRed_ParamList.Param_Tower:
+                    nextLvTower = ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value + 1;
+                    break;
+                case ShopData.TowerRed_ParamList.Repair:
+                    nextLvRepair = ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value + 1;
+                    nextRepairVal = (ShopManager.Instance.shopData.redData_Tower[nextLvRepair].purchaseMater * 5);
+                    break;
+                default:
+                    break;
+            }
         }).AddTo(this.gameObject);
 
         InitSubject.OnNext(ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red]);
@@ -143,6 +147,7 @@ public class SpBtnTowerRManager : MonoBehaviour
         // 購入不可能時のイベント
         BuyNgText.Subscribe(list =>
         {
+            Debug.Log("TwRbuyNG");
             switch (list)
             {
                 case ShopData.TowerRed_ParamList.Param_Trap:

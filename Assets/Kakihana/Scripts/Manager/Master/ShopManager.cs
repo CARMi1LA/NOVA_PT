@@ -82,8 +82,6 @@ public class ShopManager : SPMSinleton<ShopManager>
                 {
                     // HP強化ボタンが押された
                     case ShopData.Player_ParamList.Param_HP:
-                        // 所持マターを購入金額ぶん除算
-                        GameManagement.Instance.mater.Value -= shopData.shopData_Player[spLv.playerLv.lv_HP.Value + 1].purchaseMater;
                         // パラメータレベルを１上げる
                         spLv.playerLv.lv_HP.Value++;
                         // 最大レベルであれば購入できないようにする
@@ -99,10 +97,11 @@ public class ShopManager : SPMSinleton<ShopManager>
                             btnPlayer.ChangeLvText.OnNext(ShopData.Player_ParamList.Param_HP);
                             btnPlayer.ChangeValueText.OnNext(ShopData.Player_ParamList.Param_HP);
                         }
+                        // 所持マターを購入金額ぶん除算
+                        GameManagement.Instance.mater.Value -= shopData.shopData_Player[spLv.playerLv.lv_HP.Value].purchaseMater;
                         break;
                     // スピード強化ボタンが押された
                     case ShopData.Player_ParamList.Param_Speed:
-                        GameManagement.Instance.mater.Value -= shopData.shopData_Player[spLv.playerLv.lv_Spd.Value + 1].purchaseMater;
                         spLv.playerLv.lv_Spd.Value++;
                         if (spLv.playerLv.lv_Spd.Value >= spLv.playerLv.MAX_LV)
                         {
@@ -114,10 +113,10 @@ public class ShopManager : SPMSinleton<ShopManager>
                             btnPlayer.ChangeLvText.OnNext(ShopData.Player_ParamList.Param_Speed);
                             btnPlayer.ChangeValueText.OnNext(ShopData.Player_ParamList.Param_Speed);
                         }
+                        GameManagement.Instance.mater.Value -= shopData.shopData_Player[spLv.playerLv.lv_Spd.Value].purchaseMater;
                         break;
                     // 攻撃間隔強化ボタンが押された
                     case ShopData.Player_ParamList.Param_Interval:
-                        GameManagement.Instance.mater.Value -= shopData.shopData_Player[spLv.playerLv.lv_Int.Value + 1].purchaseMater;
                         spLv.playerLv.lv_Int.Value++;
                         if (spLv.playerLv.lv_Int.Value >= spLv.playerLv.MAX_LV)
                         {
@@ -129,6 +128,7 @@ public class ShopManager : SPMSinleton<ShopManager>
                             btnPlayer.ChangeLvText.OnNext(ShopData.Player_ParamList.Param_Interval);
                             btnPlayer.ChangeValueText.OnNext(ShopData.Player_ParamList.Param_Interval);
                         }
+                        GameManagement.Instance.mater.Value -= shopData.shopData_Player[spLv.playerLv.lv_Int.Value].purchaseMater;
                         break;
                 }
             }).AddTo(this.gameObject);
@@ -140,7 +140,6 @@ public class ShopManager : SPMSinleton<ShopManager>
                 switch (val)
                 {
                     case ShopData.TowerRed_ParamList.Param_Trap:
-                        GameManagement.Instance.mater.Value -= shopData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value + 1].purchaseMater;
                         spLv.towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value++;
                         if (spLv.towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value >= spLv.towerLv[(int)ShopData.TowerColor.Red].MAX_LV)
                         {
@@ -152,9 +151,9 @@ public class ShopManager : SPMSinleton<ShopManager>
                             btnTwR.ChangeLvText.OnNext(ShopData.TowerRed_ParamList.Param_Trap);
                             btnTwR.ChangeValueText.OnNext(ShopData.TowerRed_ParamList.Param_Trap);
                         }
+                        GameManagement.Instance.mater.Value -= shopData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value].purchaseMater;
                         break;
                     case ShopData.TowerRed_ParamList.Param_Turret:
-                        GameManagement.Instance.mater.Value -= shopData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value + 1].purchaseMater;
                         spLv.towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value++;
                         if (spLv.towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value >= spLv.towerLv[(int)ShopData.TowerColor.Red].MAX_LV)
                         {
@@ -166,9 +165,9 @@ public class ShopManager : SPMSinleton<ShopManager>
                             btnTwR.ChangeLvText.OnNext(ShopData.TowerRed_ParamList.Param_Turret);
                             btnTwR.ChangeValueText.OnNext(ShopData.TowerRed_ParamList.Param_Turret);
                         }
+                        GameManagement.Instance.mater.Value -= shopData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value].purchaseMater;
                         break;
                     case ShopData.TowerRed_ParamList.Param_Tower:
-                        GameManagement.Instance.mater.Value -= shopData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value + 1].purchaseMater;
                         spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value++;
                         if (spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value >= spLv.towerLv[(int)ShopData.TowerColor.Red].MAX_LV)
                         {
@@ -180,9 +179,9 @@ public class ShopManager : SPMSinleton<ShopManager>
                             btnTwR.ChangeLvText.OnNext(ShopData.TowerRed_ParamList.Param_Tower);
                             btnTwR.ChangeValueText.OnNext(ShopData.TowerRed_ParamList.Param_Tower);
                         }
+                        GameManagement.Instance.mater.Value -= shopData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value].purchaseMater;
                         break;
                     case ShopData.TowerRed_ParamList.Repair:
-                        GameManagement.Instance.mater.Value -= (shopData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value + 1].purchaseMater * 5);
                         spLv.towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value++;
                         if (spLv.towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value >= spLv.MAX_LEVEL)
                         {
@@ -194,6 +193,7 @@ public class ShopManager : SPMSinleton<ShopManager>
                             btnTwR.ChangeLvText.OnNext(ShopData.TowerRed_ParamList.Repair);
                             btnTwR.ChangeValueText.OnNext(ShopData.TowerRed_ParamList.Repair);
                         }
+                        GameManagement.Instance.mater.Value -= (shopData.redData_Tower[spLv.towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value].purchaseMater * 5);
                         break;
                     default:
                         break;
