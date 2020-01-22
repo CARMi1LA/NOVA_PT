@@ -7,6 +7,10 @@ using UniRx.Triggers;
 public class TurretManager : MonoBehaviour
 {
     // タレットスクリプト
+    public enum TurretState
+    {
+        
+    }
 
     // 親のタワースクリプト
     public TowerManager tower;
@@ -25,23 +29,23 @@ public class TurretManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // ショップ画面で購入されない限りは非表示に
-        turretActive.Where(_ => turretActive.Value == false)
-            .Subscribe(_ =>
-            {
-                Color aplha = gameObject.GetComponent<Material>().color;
-                aplha.a = 0.0f;
-                this.GetComponent<Renderer>().material.color = aplha;
-            }).AddTo(this.gameObject);
+        //// ショップ画面で購入されない限りは非表示に
+        //turretActive.Where(_ => turretActive.Value == false)
+        //    .Subscribe(_ =>
+        //    {
+        //        Color aplha = gameObject.GetComponent<Material>().color;
+        //        aplha.a = 0.0f;
+        //        this.GetComponent<Renderer>().material.color = aplha;
+        //    }).AddTo(this.gameObject);
 
-        // タレット表示処理
-        turretActive.Where(_ => turretActive.Value == true)
-            .Subscribe(_ => 
-            {
-                Color aplha = gameObject.GetComponent<Material>().color;
-                aplha.a = 1.0f;
-                this.GetComponent<Renderer>().material.color = aplha;
-            }).AddTo(this.gameObject);
+        //// タレット表示処理
+        //turretActive.Where(_ => turretActive.Value == true)
+        //    .Subscribe(_ => 
+        //    {
+        //        Color aplha = gameObject.GetComponent<Material>().color;
+        //        aplha.a = 1.0f;
+        //        this.GetComponent<Renderer>().material.color = aplha;
+        //    }).AddTo(this.gameObject);
 
         // タレットが表示されていて標的が設定されなければ動作
         // タワーが生存していなければ動作しない

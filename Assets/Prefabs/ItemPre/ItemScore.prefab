@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 3683246110546083560}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -121,15 +121,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1af90b2964f10f749b2f42d4f0d13c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemScore: 0
+  itemMater: 0
   itemLife: 0
   itemEnergy: 0
   itemType: 0
-  maxDistance: 4
+  maxDistance: 10
   itemRot: {x: 0, y: 0, z: 0}
+  originScale: {x: 0, y: 0, z: 0}
   originPos: {x: 0, y: 0, z: 0}
   itemDir: 0
+  createdTime: 0
   distance:
     value: 0
   playerTrans: {fileID: 0}
   itemRigid: {fileID: 3683246110546083563}
+  poolState:
+    value: 0

@@ -70,7 +70,7 @@ public class ItemManager : MonoBehaviour
         itemInit.Subscribe(_ => 
             {
                 // 大きさの初期化
-                this.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                this.transform.localScale = new Vector3(5.0f, 5.0f, 5.0f);
                 // 生成後カウントの初期化
                 createdTime = 0.0f;
                 // 回転の初期化
@@ -78,6 +78,7 @@ public class ItemManager : MonoBehaviour
                 // ステートをプール状態に
                 poolState.Value = ItemPoolState.Pool;
             }).AddTo(this.gameObject);
+
         this.UpdateAsObservable()
             .Where(_ => stateProperty.Value == ItemPoolState.Active)
             .Subscribe(_ =>
@@ -114,6 +115,15 @@ public class ItemManager : MonoBehaviour
                 }
             }).AddTo(this.gameObject);
 
+        this.OnTriggerEnterAsObservable()
+            .Where(_ => stateProperty.Value == ItemPoolState.Active)
+            .Where(_ => _.gameObject.tag == "Player")
+            .Subscribe(_ => 
+            {
+                GameManagement.Instance.mater.Value += itemMater;
+                poolState.Value = ItemPoolState.Destroy;
+            }).AddTo(this.gameObject);
+
         stateProperty.Where(_ => stateProperty.Value == ItemPoolState.Destroy)
             .Subscribe(_ => 
             {
@@ -122,12 +132,6 @@ public class ItemManager : MonoBehaviour
                 // 初期化処理
                 itemInit.OnNext(Unit.Default);
             }).AddTo(this.gameObject);
-    }
-
-    // アイテム消滅処理
-    public void ItemDestroy()
-    {
-
     }
 
     // アイテム生成メソッド、各種パラメータの初期設定を行う

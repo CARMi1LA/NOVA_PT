@@ -11,7 +11,7 @@ public class TowerManager : MonoBehaviour,ITwDamage
     // 拠点の色、タワー識別用
     public ShopData.TowerColor towerColor;
     // タワーのレベル
-    private LevelData_Tower towerLv;
+    public LevelData_Tower towerLv;
     // 敵情報リスト
     private EnemyInfoList enemyList;
 
@@ -24,7 +24,7 @@ public class TowerManager : MonoBehaviour,ITwDamage
     // 敵スポーン位置
     public Transform spawnPos;
     // 現在のHP
-    [SerializeField] private IntReactiveProperty towerHp = new IntReactiveProperty(0);
+    public IntReactiveProperty towerHp = new IntReactiveProperty(0);
     // 自タワーのトラップ情報
     [SerializeField] private TrapManager trap;
     // 自タワーのタレット情報
@@ -39,9 +39,14 @@ public class TowerManager : MonoBehaviour,ITwDamage
     void Start()
     {
         // タワー情報をショップより取得
-        towerLv = ShopManager.Instance.shopData.levelData_Tower[(int)towerColor];
+        towerLv = ShopManager.Instance.spLv.towerLv[(int)towerColor];
         // 現在HPの設定
         towerHp.Value = tower_MaxHP;
+
+        for (int i = 0; i < turrets.Length; i++)
+        {
+            turrets[i].gameObject.SetActive(false);
+        }
 
         // トラップ購入ボタンが押された時の処理
         towerLv.level_Trap.Subscribe(_ =>
@@ -51,9 +56,13 @@ public class TowerManager : MonoBehaviour,ITwDamage
             }).AddTo(this.gameObject);
 
         // タレット購入ボタンが押された時の処理
-        towerLv.level_Turret.Subscribe(_ =>
+        towerLv.level_Turret
+            .Where(_ => towerLv.level_Turret.Value >= 1)
+            .Subscribe(_ =>
             {
-                turrets[towerLv.level_Turret.Value].turretActive.Value = true;
+                Debug.Log("LoadTurretSub");
+                turrets[towerLv.level_Turret.Value - 1].gameObject.SetActive(true);
+                turrets[towerLv.level_Turret.Value - 1].turretActive.Value = true;
             }).AddTo(this.gameObject);
 
         // タワー購入ボタンが押された時の処理

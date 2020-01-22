@@ -32,12 +32,12 @@ public class SpBtnPlayerManager : MonoBehaviour
     public Subject<ShopData.Player_ParamList> SoldOutText = new Subject<ShopData.Player_ParamList>();
     // 次レベル設定イベント
     public Subject<ShopData.Player_ParamList> NextLv = new Subject<ShopData.Player_ParamList>();
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         // UIで使用するため次レベルを保存しておく
-        NextLv.Subscribe(_ => 
+        NextLv.Subscribe(_ =>
         {
+            Debug.Log("NextLvPlayer");
             switch (_)
             {
                 case ShopData.Player_ParamList.Param_HP:
@@ -55,8 +55,9 @@ public class SpBtnPlayerManager : MonoBehaviour
         }).AddTo(this.gameObject);
 
         // 初期化処理
-        InitSubject.Subscribe(_ => 
+        InitSubject.Subscribe(_ =>
         {
+            Debug.Log("initbtnPlayer");
             // プレイヤーのレベルデータを設定
             levelData_Player = _;
 
@@ -97,6 +98,12 @@ public class SpBtnPlayerManager : MonoBehaviour
                 ShopManager.Instance.shopData.
                 shopData_Player[nextLvInt].purchaseMater);
         }).AddTo(this.gameObject);
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+
+        InitSubject.OnNext(ShopManager.Instance.spLv.playerLv);
 
         // 購入可能時のイベント
         BuyOkText.Subscribe(list =>

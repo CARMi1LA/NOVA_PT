@@ -52,9 +52,11 @@ public class GameManagement : GMSingleton<GameManagement>
     // スコア、達成率に影響
     public IntReactiveProperty gameScore = new IntReactiveProperty(0);
     // 所持マター、タワーや自キャラの強化が可能
-    public IntReactiveProperty mater = new IntReactiveProperty(0);
+    public IntReactiveProperty mater = new IntReactiveProperty(-1);
     // 達成率、評価に影響
     [SerializeField] float achievementRate = 0.0f;
+    // ショップに入った事があるか
+    public bool firstShopWindow = false;
 
     // 初回起動完了したか
     public BoolReactiveProperty starting = new BoolReactiveProperty(false);
@@ -70,40 +72,55 @@ public class GameManagement : GMSingleton<GameManagement>
     public BoolReactiveProperty isPause = new BoolReactiveProperty(true);
     public BoolReactiveProperty playerUlt = new BoolReactiveProperty(false);
     public BoolReactiveProperty enemyUlt = new BoolReactiveProperty(false);
+    // ショップCanvas表示フラグ
+    public BoolReactiveProperty shopCanvasEnable = new BoolReactiveProperty(false);
 
     // ゲームステートプロパティ
     public ReactiveProperty<BattleMode> gameState = new ReactiveProperty<BattleMode>();
+    // ショップのCanvas
+    public CanvasGroup shopCanvas;
 
     // 敵情報追加用Subject
     public Subject<Transform> enemyInfoAdd = new Subject<Transform>();
     // マター取得Subject
     public Subject<int> addMater = new Subject<int>();
-    // 待機モード進行用Subject
-    public Subject<Unit> waitModeSub = new Subject<Unit>();
     // 戦闘モード進行用Subject
     public Subject<Unit> battleModeSub = new Subject<Unit>();
+    // 初期化用Subject
+    public Subject<Unit> masterInit = new Subject<Unit>();
 
 
     protected override void Awake()
     {
         base.Awake();
+        masterInit.Subscribe(_ => 
+        {
+            mater.Value = 0;
+        }).AddTo(this.gameObject);
         // プレイヤーデータの初期化
         tdPlaerData = new TDPlayerData();
         // カメラ座標の取得
         cameraPos = cameraTrans.position;
-
+        // 入力スクリプト初期化
         for (int i = 0; i > players.Length; i++)
         {
             gameInput.InitSubject.OnNext(i);
         }
+        // マスタデータリストの取得
         masterDataList = Resources.Load<MasterDataList>("MasterDataList");
+        // マスタデータの取得
         masterData = masterDataList.masterDataList[0];
+        // ゲームステートの設定
         gameState.Value = BattleMode.Wait;
+        // ターゲットタワー設定
         targetTw = twList[Random.Range(0, twList.Length)];
+        // ショップウィンドウは初期では非表示に
+        shopCanvas.alpha = 0;
     }
 
     void Start()
     {
+        masterInit.OnNext(Unit.Default);
         // マター獲得処理
         addMater.Subscribe(value => 
         {
@@ -116,6 +133,35 @@ public class GameManagement : GMSingleton<GameManagement>
             .Subscribe(_ => 
             {
                 masterTime = 3.0f;
+            }).AddTo(this.gameObject);
+
+        // デバッグ用、ショップ入店処理
+        this.UpdateAsObservable()
+            .Where(_ => Input.GetKeyDown(KeyCode.F2) && isDebug.Value == true)
+            .Subscribe(_ =>
+            {
+                if (firstShopWindow == false)
+                {
+                    addMater.OnNext(3000);
+                    shopCanvas.alpha = 1.0f;
+                    shopCanvasEnable.Value = true;
+                    firstShopWindow = true;
+                }
+                else
+                {
+                    shopCanvas.alpha = 1.0f;
+                    shopCanvasEnable.Value = true;
+                }
+
+            }).AddTo(this.gameObject);
+
+        // デバッグ用、ショップ退出処理
+        this.UpdateAsObservable()
+            .Where(_ => Input.GetKeyDown(KeyCode.F3) && isDebug.Value == true)
+            .Subscribe(_ =>
+            {
+                shopCanvas.alpha = 0.0f;
+                shopCanvasEnable.Value = false;
             }).AddTo(this.gameObject);
 
         // 待機モード時の準備処理
@@ -267,6 +313,20 @@ public class GameManagement : GMSingleton<GameManagement>
         {
             enemyUlt.Value = false;
         }).AddTo(this.gameObject);
+
+        this.UpdateAsObservable()
+            .Where(_ => shopCanvasEnable.Value == true)
+            .Subscribe(_ =>
+            {
+                shopCanvas.alpha = 1.0f;
+            }).AddTo(this.gameObject);
+
+        this.UpdateAsObservable()
+            .Where(_ => shopCanvasEnable.Value == false)
+            .Subscribe(_ =>
+            {
+                shopCanvas.alpha = 0.0f;
+            }).AddTo(this.gameObject);
     }
 
     // 次シーン移行処理
