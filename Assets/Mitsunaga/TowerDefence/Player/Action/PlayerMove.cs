@@ -57,6 +57,7 @@ public class PlayerMove : MonoBehaviour
 
                 // 移動
                 float speedMul = pManager.pData.pSpeedMul;
+                float speedDown = 30.0f;
                 Vector3 moveVec = Vector3.zero;
                 moveVec += value.leftStickValue.x * transform.right;    // 左右方向
                 moveVec += value.leftStickValue.y * transform.forward;  // 前後方向
@@ -90,7 +91,7 @@ public class PlayerMove : MonoBehaviour
                 }
 
                 // 摩擦っぽい力
-                pRigidbody.AddForce(-pRigidbody.velocity * speedMul);
+                pRigidbody.AddForce(-pRigidbody.velocity * speedMul * speedDown * Time.deltaTime);
 
             }).AddTo(this.gameObject);
 

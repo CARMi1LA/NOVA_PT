@@ -20,7 +20,7 @@ public class PlayerUltimate : MonoBehaviour
             {
                 // アルティメット実行時の共通行動(エフェクトなど)
                 ultParticle.Play();
-                Observable.TimerFrame(20)
+                Observable.Timer(System.TimeSpan.FromSeconds(ultParticle.main.duration))
                     .Subscribe(_ => ultParticle.Stop())
                     .AddTo(this.gameObject);
 

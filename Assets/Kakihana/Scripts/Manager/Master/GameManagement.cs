@@ -295,7 +295,7 @@ public class GameManagement : GMSingleton<GameManagement>
         gameScore.Where(_ => isClear.Value == false)
             .Subscribe(_ =>
         {
-            gameHUD.ScoreRP.Value = gameScore.Value;
+            // gameHUD.ScoreRP.Value = gameScore.Value;
         }).AddTo(this.gameObject);
 
         this.UpdateAsObservable()
