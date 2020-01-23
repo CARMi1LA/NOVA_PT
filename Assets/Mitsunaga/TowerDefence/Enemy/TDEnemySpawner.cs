@@ -19,9 +19,6 @@ public class TDEnemySpawner : MonoBehaviour
 
     TDEnemyDataList enemyDataList;
 
-    // マスターからフェイズの情報を取得するため不要になった
-    public BoolReactiveProperty isBattleFase = new BoolReactiveProperty(false);
-
     void Awake()
     {
         enemyDataList = Resources.Load<TDEnemyDataList>("TDEnemyDataList");
@@ -69,7 +66,7 @@ public class TDEnemySpawner : MonoBehaviour
                     foreach(var enemy in enemyWave[enemyCount].enemyWavePart)
                     {
                         // enemyWavePartに応じたサイズの敵を生成(タイプはランダムの予定)
-                        enemyInstance(enemy);
+                        GameManagement.Instance.enemyInfoAdd.OnNext(enemyInstance(enemy));
                     }
 
                     enemyCount++;

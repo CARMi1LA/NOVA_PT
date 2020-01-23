@@ -27,7 +27,6 @@ public class EnemyMove : MonoBehaviour
     float impactSpeed = 100.0f;        // 衝突のふっとび速度
     float impactInterval = 0.2f;    // 衝突の行動不能時間
 
-
     void Awake()
     {
         eRigidbody = this.GetComponent<Rigidbody>();
@@ -130,5 +129,20 @@ public class EnemyMove : MonoBehaviour
                 isAction = true;
 
             }).AddTo(this.gameObject);
+
+        // タワーに触れたら行動停止、一定時間後に爆発する
+        eManager.TowerHitTrigger
+            .Do(value =>
+            {
+                eRigidbody.isKinematic = true;
+                Instantiate(eManager.towerHitParticle.gameObject, this.transform.position, Quaternion.identity);
+            })
+            .Delay(System.TimeSpan.FromSeconds(eManager.towerHitInterval))
+            .Subscribe(value =>
+            {
+                Debug.Log("Tower Hit：" + eData.eTowerDamage.ToString());
+                eManager.CoreDeathTrigger.OnNext(Unit.Default);
+            })
+            .AddTo(this.gameObject);
     }
 }

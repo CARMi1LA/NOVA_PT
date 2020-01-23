@@ -9,16 +9,20 @@ public class HUDUltimate : MonoBehaviour
 {
     // アルティメットゲージ表示
     [SerializeField]
-    Image ultimateImage;
+    Image ultimateImage;    // アイコン
     [SerializeField]
     float imageMoveSpeed = 3.0f;
 
     Renderer uRenderer;
 
+    void Awake()
+    {
+        uRenderer = this.GetComponent<Renderer>();
+    }
+
     void Start()
     {
         Color uImageColor = ultimateImage.color;
-        uRenderer = this.GetComponent<Renderer>();
 
         this.UpdateAsObservable()
             .Subscribe(_ =>

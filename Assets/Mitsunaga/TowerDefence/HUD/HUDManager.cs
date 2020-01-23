@@ -35,13 +35,12 @@ public class HUDManager : MonoBehaviour
     // カメラ中央キャンバス
     [SerializeField] HUDBossHealth  hBossHealth;    // ボスのヘルスゲージ
 
-
-    // 所持マテリアル　マスターから取得する予定
-    [SerializeField] int mater;
     // タワーのHP　マスターから取得する予定
-    [SerializeField] float[] towerHealth;
-    [SerializeField] int waveCount = 1;
-    int maxCount = 5;
+    float[] towerHealth;
+    float towerMaxHealth = 100;
+
+    int waveCount = 1;
+    int maxCount = 6;
 
     void Awake()
     {
@@ -53,6 +52,10 @@ public class HUDManager : MonoBehaviour
     }
     void Start()
     {
+        towerHealth[0] = GameManagement.Instance.blueTw.towerHp.Value;
+        towerHealth[1] = GameManagement.Instance.redTw.towerHp.Value;
+        towerHealth[2] = GameManagement.Instance.yellowTw.towerHp.Value;
+        towerHealth[3] = GameManagement.Instance.greenTw.towerHp.Value;
         // ヘルス表示
         pData.pHealth
             .Subscribe(value =>
@@ -85,10 +88,16 @@ public class HUDManager : MonoBehaviour
 
             }).AddTo(this.gameObject);
 
+        GameManagement.Instance.mater
+            .Subscribe(value =>
+            {
+                hMater.SetMater(value);
+
+            }).AddTo(this.gameObject);
+
         this.UpdateAsObservable()
             .Subscribe(_ =>
             {
-                hMater.SetMater(mater);
                 hTowerHealth.SetTowerHealth(100, towerHealth);
                 hWaveCount.SetWaveCount(waveCount, maxCount);
 

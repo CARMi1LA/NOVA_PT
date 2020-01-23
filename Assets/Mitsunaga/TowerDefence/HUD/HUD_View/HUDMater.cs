@@ -15,6 +15,6 @@ public class HUDMater : MonoBehaviour
     }
     public void SetMater(int mater)
     {
-        tmpMater.text = mater.ToString() + " M";
+        tmpMater.text = mater.ToString();
     }
 }

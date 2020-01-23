@@ -21,13 +21,18 @@ public class TDEnemyManager : MonoBehaviour
     public Transform playerTsf;              // プレイヤーの位置
     float TargetPlayerDistance = 150.0f;        // プレイヤーを追い続ける距離(離れすぎるとタワー狙いに戻る)
 
+    public ParticleSystem towerHitParticle; // タワー特攻時のエフェクト
+    public float towerHitInterval = 3.0f;          // タワー特攻時の待機時間
+
+    public ParticleSystem deathParticle;
+
     // ユニットの初期化 <生成タイプ毎のエネミーデータ>
     public Subject<TDEnemyData>                     InitTrigger     = new Subject<TDEnemyData>();
 
     // AIによる操作イベント
     // 通常攻撃 <On/Off>
     public Subject<bool>                            AttackTrigger   = new Subject<bool>();
-    
+
     /*
     // 移動 <入力データ>
     public Subject<Unit>                            MoveTrigger     = new Subject<Unit>();
@@ -38,6 +43,8 @@ public class TDEnemyManager : MonoBehaviour
     */
 
     // アクションイベント
+    // タワーに当たったら…
+    public Subject<TowerManager>                    TowerHitTrigger = new Subject<TowerManager>();
     // スロウトラップを踏んだ<bool>
     public BoolReactiveProperty                     SlowTrigger     = new BoolReactiveProperty(false);
     // 衝突 <衝突ObjのPosition>
