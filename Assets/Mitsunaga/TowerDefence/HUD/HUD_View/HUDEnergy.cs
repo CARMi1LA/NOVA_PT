@@ -11,7 +11,7 @@ public class HUDEnergy : MonoBehaviour
 
     Renderer eRenderer;
 
-    void Start()
+    void Awake()
     {
         eRenderer = this.GetComponent<Renderer>();
     }

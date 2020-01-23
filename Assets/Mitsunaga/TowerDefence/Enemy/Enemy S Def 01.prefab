@@ -137,6 +137,8 @@ MonoBehaviour:
     eCoreHealth: 0
     eSpeed: 0
     eSpeedMul: 0
+    eRotSpeed: 0
+    eTowerDamage: 0
     eDropMater: 0
   eParent: 2
   eSize: 0
@@ -145,6 +147,11 @@ MonoBehaviour:
     value: 0
   targetTsf: {fileID: 0}
   playerTsf: {fileID: 0}
+  towerHitParticle: {fileID: 3042333941700138687, guid: 51ee995c987d6654cb12eb78589fc34c,
+    type: 3}
+  towerHitInterval: 3
+  deathParticle: {fileID: 8986527913691645247, guid: 3cf6a222838fa8a4a910ff47d0b38b1e,
+    type: 3}
   SlowTrigger:
     value: 0
 --- !u!114 &7359324395888953958
@@ -176,7 +183,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eManager: {fileID: 5805954570662241966}
-  maxRotate: 2
 --- !u!114 &5805954570662241955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,8 +222,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eUnit: {fileID: 7359324395888953958}
-  eDeathParticle: {fileID: 8986527913691645247, guid: 3cf6a222838fa8a4a910ff47d0b38b1e,
-    type: 3}
 --- !u!1 &5805954571866017429
 GameObject:
   m_ObjectHideFlags: 0

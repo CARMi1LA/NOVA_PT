@@ -37,5 +37,7 @@ public class TDEnemyData
 
     public float eRotSpeed;
 
+    public int eTowerDamage;
+
     public int eDropMater;
 }

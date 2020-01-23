@@ -22,7 +22,7 @@ public class PlayerSkill : MonoBehaviour
                 // スキル発動時の共通行動
                 // 発動エフェクトの再生(なぜかエラーが出る)
                 skillParticle.Play();
-                Observable.TimerFrame(20)
+                Observable.Timer(System.TimeSpan.FromSeconds(skillParticle.main.duration))
                     .Subscribe(_ => skillParticle.Stop())
                     .AddTo(this.gameObject);
 

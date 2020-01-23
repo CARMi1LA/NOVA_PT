@@ -212,6 +212,7 @@ MonoBehaviour:
     eSpeed: 0
     eSpeedMul: 0
     eRotSpeed: 0
+    eTowerDamage: 0
     eDropMater: 0
   eParent: 2
   eSize: 1
@@ -220,6 +221,11 @@ MonoBehaviour:
     value: 0
   targetTsf: {fileID: 0}
   playerTsf: {fileID: 0}
+  towerHitParticle: {fileID: 3042333941700138687, guid: 51ee995c987d6654cb12eb78589fc34c,
+    type: 3}
+  towerHitInterval: 3
+  deathParticle: {fileID: 8986527913691645247, guid: 3cf6a222838fa8a4a910ff47d0b38b1e,
+    type: 3}
   SlowTrigger:
     value: 0
 --- !u!114 &7359324395888953958
@@ -290,8 +296,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eUnit: {fileID: 7359324395888953958}
-  eDeathParticle: {fileID: 8986527913691645247, guid: 3cf6a222838fa8a4a910ff47d0b38b1e,
-    type: 3}
 --- !u!1001 &8670855840838353250
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -359,26 +363,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3232404355985857707, guid: 4d1b0d81608d29042ad5b55a676dbeca,
-        type: 3}
-      propertyPath: eManager
-      value: 
-      objectReference: {fileID: 5805954570662241966}
-    - target: {fileID: 8679838183361889369, guid: 4d1b0d81608d29042ad5b55a676dbeca,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4884449320454121522, guid: 4d1b0d81608d29042ad5b55a676dbeca,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -5.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1978055743953172788, guid: 4d1b0d81608d29042ad5b55a676dbeca,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5784623731092748409, guid: 4d1b0d81608d29042ad5b55a676dbeca,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -402,6 +386,26 @@ PrefabInstance:
     - target: {fileID: 5784623731092748409, guid: 4d1b0d81608d29042ad5b55a676dbeca,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4884449320454121522, guid: 4d1b0d81608d29042ad5b55a676dbeca,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3232404355985857707, guid: 4d1b0d81608d29042ad5b55a676dbeca,
+        type: 3}
+      propertyPath: eManager
+      value: 
+      objectReference: {fileID: 5805954570662241966}
+    - target: {fileID: 8679838183361889369, guid: 4d1b0d81608d29042ad5b55a676dbeca,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1978055743953172788, guid: 4d1b0d81608d29042ad5b55a676dbeca,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 410855982818304130, guid: 4d1b0d81608d29042ad5b55a676dbeca,

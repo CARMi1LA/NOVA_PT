@@ -13,6 +13,6 @@ public class HUDWaveCount : MonoBehaviour
     }
     public void SetWaveCount(int wave,int maxWave)
     {
-        tmpWaveCount.text = "WAVE" + wave.ToString() + "/" + maxWave.ToString();
+        tmpWaveCount.text = wave.ToString() + "/" + maxWave.ToString();
     }
 }

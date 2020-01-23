@@ -19,6 +19,7 @@ public class TDEnemyUnit : MonoBehaviour
 
     // ダメージ処理
     public Subject<TDList.ParentList> DamageTrigger = new Subject<TDList.ParentList>();
+
     // 死亡処理
     public Subject<Unit> DeathTrigger = new Subject<Unit>();
     private void Awake()

@@ -19,6 +19,13 @@ public class EnemyCollision : MonoBehaviour, IDamageTD, ICollisionTD
         this.OnCollisionEnterAsObservable()
             .Subscribe(col =>
             {
+                // TowerにぶつかったらそのTowerManagerを取得してダメージを与える
+                // もしくはその他の方法でタワーを取得できるのであれば、ターゲットタワーにダメージを与える
+                if(col.gameObject.tag == "Tower")
+                {
+                    eUnit.eManager.TowerHitTrigger.OnNext(eUnit.eManager.targetTsf.gameObject.GetComponent<TowerManager>());
+                }
+
                 // 相手にダメージを与える
                 if (col.gameObject.GetComponent<IDamageTD>() != null)
                 {

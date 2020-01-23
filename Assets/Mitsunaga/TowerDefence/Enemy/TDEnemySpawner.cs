@@ -11,41 +11,50 @@ public class TDEnemySpawner : MonoBehaviour
     [SerializeField]
     List<TDEnemyManager> enemyPrefabList;
 
-    // デバッグ用
-    [SerializeField]
-    List<Transform> towerTransform;
-    [SerializeField]
-    Transform playerTransform;
+    List<TowerManager> towerList = new List<TowerManager>();
+    TowerManager towerTarget;
 
     public List<TDEnemyWave> enemyWave;
     float enemyWaveInterval;
 
     TDEnemyDataList enemyDataList;
 
-    /// <summary>
-    /// タワーの情報を取得する(準備フェイズ開始時)
-    /// 
-    /// 1．生存しているタワーのカラー、それぞれの位置を取得
-    /// 2．敵を集中させるタワーのカラーを取得
-    /// 3．敵を集中させるタワーのカラーをマップ上に反映させる
-    /// </summary>
-
-    // マスターからフェイズの情報を取得するため不要になった
-    public BoolReactiveProperty isBattleFase = new BoolReactiveProperty(false);
-
     void Awake()
     {
         enemyDataList = Resources.Load<TDEnemyDataList>("TDEnemyDataList");
+
+        towerList.Add(GameManagement.Instance.redTw);
+        towerList.Add(GameManagement.Instance.blueTw);
+        towerList.Add(GameManagement.Instance.yellowTw);
+        towerList.Add(GameManagement.Instance.greenTw);
     }
     void Start()
     {
-        float timeCount = 0.0f; // 敵生成のインターバル
+        float timeCount = 10.0f; // 敵生成のインターバル
         int waveCount = 0;      // 現在のWave
         int enemyCount = 0;     // Wave内のエネミー生成状況
 
+        // タワーリストのHPを監視する
+        foreach (var item in towerList)
+        {
+            item.towerHp
+                .Where(x => x <= 0)
+                .Subscribe(_ =>
+                {
+                    towerList.Remove(item);
+                });
+        }
+
         this.UpdateAsObservable()
-            //.Where(x => GameManagement.Instance.isPause.Value) // 一時停止用
-            .Where(x => isBattleFase.Value) // 戦闘フェイズか待機フェイズかの確認
+            .Subscribe(_ =>
+            {
+                Debug.Log(GameManagement.Instance.gameState.Value.ToString());
+
+            }).AddTo(this.gameObject);
+
+        this.UpdateAsObservable()
+            .Where(x => !GameManagement.Instance.isPause.Value) // 一時停止用
+            .Where(x => GameManagement.Instance.gameState.Value == GameManagement.BattleMode.Attack) // 戦闘フェイズか待機フェイズかの確認
             .Where(x => enemyCount < enemyWave.Count)
             .Subscribe(_ =>
             {
@@ -57,22 +66,16 @@ public class TDEnemySpawner : MonoBehaviour
                     foreach(var enemy in enemyWave[enemyCount].enemyWavePart)
                     {
                         // enemyWavePartに応じたサイズの敵を生成(タイプはランダムの予定)
-                        enemyInstance(enemy);
+                        GameManagement.Instance.enemyInfoAdd.OnNext(enemyInstance(enemy));
                     }
-                    enemyCount++;
-                }
 
-                // 生成しきったらウェーブ終了(デバッグ用)
-                if (enemyCount >= enemyWave.Count)
-                {
-                    isBattleFase.Value = false;
+                    enemyCount++;
                 }
 
             }).AddTo(this.gameObject);
 
-        // 戦闘フェイズに切り替わるたびにWaveデータを読み込む
-        isBattleFase
-            .Where(x => x)
+        GameManagement.Instance.gameState
+            .Where(x => x == GameManagement.BattleMode.Attack)
             .Subscribe(_ =>
             {
                 // 生成するエネミー量、生成間隔の取得
@@ -82,15 +85,14 @@ public class TDEnemySpawner : MonoBehaviour
                 enemyCount = 0;
 
             }).AddTo(this.gameObject);
-        // 準備フェイズに切り替わるたびにタワーデータを読み込む
-        isBattleFase
-            .Where(x => !x)
+
+        GameManagement.Instance.gameState
+            .Where(x => x == GameManagement.BattleMode.Wait)
             .Subscribe(_ =>
             {
-                // 生存しているタワーの情報を取得
-                // 必要な情報：生存タワーの色、タワーの位置、生成ポイント
+                towerTarget = towerList[Random.Range(0, towerList.Count)];
+
                 
-                // その中から標的にするタワーを設定
 
             }).AddTo(this.gameObject);
     }
@@ -113,29 +115,30 @@ public class TDEnemySpawner : MonoBehaviour
         TDEnemyManager createEnemy = Instantiate(enemyList[pickupEnemyPrefab]);
 
         // 初期位置と向きを設定
-        float startRange = 600.0f;
-        Vector3 randomCircle = Random.insideUnitCircle;
-        createEnemy.transform.position = startRange * new Vector3(randomCircle.x,0,randomCircle.y);
-        Vector3 towerPosition = Vector3.zero;
-        createEnemy.transform.LookAt(towerPosition);
-
-        int pickupTargetTower = Random.Range(0, towerTransform.Count);
-
-        // デバッグ用エネミー生成
-        float towerDst = 1000000.0f;
-        Transform targetTsf = towerTransform[0];
-        foreach(var item in towerTransform)
+        int pickupTower = Random.Range(0, 10);
+        if (pickupTower < towerList.Count)
         {
-            float itemDist = (item.position - createEnemy.transform.position).sqrMagnitude;
-            // ランダムに生成された中で最も近いタワーを標的にする
-            if (towerDst >= itemDist)
-            {
-                towerDst = itemDist;
-                targetTsf = item;
-            }
+            createEnemy.targetTsf = towerList[pickupTower].transform;
+            createEnemy.transform.position = towerList[pickupTower].spawnPos.position + new Vector3
+                (
+                0.5f * Random.Range(-towerList[pickupTower].spawnPos.lossyScale.x, towerList[pickupTower].spawnPos.lossyScale.x), 
+                0,
+                0.5f * Random.Range(-towerList[pickupTower].spawnPos.lossyScale.z, towerList[pickupTower].spawnPos.lossyScale.z)
+                );
         }
-        createEnemy.targetTsf = targetTsf;
-        createEnemy.playerTsf = playerTransform;
+        else
+        {
+            createEnemy.targetTsf = towerTarget.transform;
+            createEnemy.transform.position = towerTarget.spawnPos.position + new Vector3
+                (
+                0.5f * Random.Range(-towerTarget.spawnPos.lossyScale.x, towerTarget.spawnPos.lossyScale.x), 
+                0,
+                0.5f * Random.Range(-towerTarget.spawnPos.lossyScale.z, towerTarget.spawnPos.lossyScale.z)
+                );
+
+        }
+        createEnemy.transform.LookAt(Vector3.zero);
+        createEnemy.playerTsf = GameManagement.Instance.playerTrans;
         createEnemy.InitEnemyData(enemyDataList.GetEnemyData(createEnemy.eSize, createEnemy.eType));
 
 

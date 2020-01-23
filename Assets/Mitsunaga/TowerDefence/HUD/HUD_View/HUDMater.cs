@@ -9,12 +9,12 @@ public class HUDMater : MonoBehaviour
 
     TextMeshProUGUI tmpMater;
 
-    void Start()
+    void Awake()
     {
         tmpMater = this.GetComponent<TextMeshProUGUI>();
     }
     public void SetMater(int mater)
     {
-        tmpMater.text = mater.ToString() + " M";
+        tmpMater.text = mater.ToString();
     }
 }

@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyWaveInterval: 3
   enemyWave:
-  - enemyWavePart: 00000000
+  - enemyWavePart: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
   - enemyWavePart: 0000000001000000
   - enemyWavePart: 00000000000000000100000001000000

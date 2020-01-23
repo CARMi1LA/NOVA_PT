@@ -11,16 +11,13 @@ public class EnemyDeath : MonoBehaviour
     [SerializeField]
     TDEnemyUnit eUnit;
 
-    [SerializeField]
-    ParticleSystem eDeathParticle;  // 死亡時のエフェクト
-
     void Start()
     {
         eUnit.DeathTrigger
             .Subscribe(_ =>
             {
                 Debug.Log("死んだ");
-                Instantiate(eDeathParticle.gameObject, this.transform.position, Quaternion.identity);
+                Instantiate(eUnit.eManager.deathParticle.gameObject, this.transform.position, Quaternion.identity);
                 Destroy(eUnit.gameObject);
 
             }).AddTo(this.gameObject);
