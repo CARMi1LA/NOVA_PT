@@ -9,7 +9,7 @@ public class HUDMater : MonoBehaviour
 
     TextMeshProUGUI tmpMater;
 
-    void Start()
+    void Awake()
     {
         tmpMater = this.GetComponent<TextMeshProUGUI>();
     }

@@ -52,10 +52,6 @@ public class HUDManager : MonoBehaviour
     }
     void Start()
     {
-        towerHealth[0] = GameManagement.Instance.blueTw.towerHp.Value;
-        towerHealth[1] = GameManagement.Instance.redTw.towerHp.Value;
-        towerHealth[2] = GameManagement.Instance.yellowTw.towerHp.Value;
-        towerHealth[3] = GameManagement.Instance.greenTw.towerHp.Value;
         // ヘルス表示
         pData.pHealth
             .Subscribe(value =>
@@ -98,6 +94,10 @@ public class HUDManager : MonoBehaviour
         this.UpdateAsObservable()
             .Subscribe(_ =>
             {
+                towerHealth[0] = GameManagement.Instance.blueTw.towerHp.Value;
+                towerHealth[1] = GameManagement.Instance.redTw.towerHp.Value;
+                towerHealth[2] = GameManagement.Instance.yellowTw.towerHp.Value;
+                towerHealth[3] = GameManagement.Instance.greenTw.towerHp.Value;
                 hTowerHealth.SetTowerHealth(100, towerHealth);
                 hWaveCount.SetWaveCount(waveCount, maxCount);
 
