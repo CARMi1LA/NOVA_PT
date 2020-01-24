@@ -117,7 +117,7 @@ public class TowerManager : MonoBehaviour,ITwDamage
     }
 
     // タワーダメージインターフェース
-     void ITwDamage.HitDamage(int atk)
+    public void HitDamage(int atk)
     {
         towerHp.Value -= atk;
     }
