@@ -140,7 +140,6 @@ public class TDPlayerManager : MonoBehaviour
             // RBボタン：通常攻撃
             inputData.pushBtnRB.Subscribe(value =>
                 {
-                    Debug.Log("通常攻撃：" + value.ToString());
                     attackTrigger.OnNext(value);
 
                 }).AddTo(this.gameObject);

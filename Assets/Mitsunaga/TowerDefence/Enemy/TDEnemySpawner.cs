@@ -46,13 +46,6 @@ public class TDEnemySpawner : MonoBehaviour
         }
 
         this.UpdateAsObservable()
-            .Subscribe(_ =>
-            {
-                Debug.Log(GameManagement.Instance.gameState.Value.ToString());
-
-            }).AddTo(this.gameObject);
-
-        this.UpdateAsObservable()
             .Where(x => !GameManagement.Instance.isPause.Value) // 一時停止用
             .Where(x => GameManagement.Instance.gameState.Value == GameManagement.BattleMode.Attack) // 戦闘フェイズか待機フェイズかの確認
             .Where(x => enemyCount < enemyWave.Count)

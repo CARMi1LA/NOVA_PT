@@ -135,7 +135,8 @@ public class EnemyMove : MonoBehaviour
             .Do(value =>
             {
                 eRigidbody.isKinematic = true;
-                Instantiate(eManager.towerHitParticle.gameObject, this.transform.position, Quaternion.identity);
+                Instantiate(eManager.towerHitParticle.gameObject, this.transform.position, Quaternion.identity)
+                    .gameObject.transform.parent = this.transform;
             })
             .Delay(System.TimeSpan.FromSeconds(eManager.towerHitInterval))
             .Subscribe(value =>
