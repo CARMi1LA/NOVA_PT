@@ -52,7 +52,8 @@ public class TowerManager : MonoBehaviour,ITwDamage
         towerLv.level_Trap.Subscribe(_ =>
             {
                 // 各レベルの情報を適用する
-                trap.trapSpeed = trap.trapSpeedData[towerLv.level_Trap.Value];
+                trap.trapDefault = trap.trapSize[towerLv.level_Trap.Value];
+                trap.lvUpSub.OnNext(Unit.Default);
             }).AddTo(this.gameObject);
 
         // タレット購入ボタンが押された時の処理
