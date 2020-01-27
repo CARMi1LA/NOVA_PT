@@ -15,6 +15,6 @@ MonoBehaviour:
   masterDataList:
   - difficulty: 1
     waitTime: 60
-    waveTime: 1e0000001e0000003c0000005a0000005a00000078000000
+    waveTime: 2c0100002c0100002c0100002c0100002c0100002c010000
     enemyCoreMax: 50
     itemDropMax: 100

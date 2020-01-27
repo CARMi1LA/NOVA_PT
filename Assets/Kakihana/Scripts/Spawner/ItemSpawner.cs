@@ -104,6 +104,8 @@ public class ItemSpawner : ISSingleton<ItemSpawner>
         itemPool.Return(item);
         // 生成済みリストから該当アイテムを削除
         itemSpawnList.Remove(item);
+        // アイテム生成を減らす
+        itemSpawnCount--;
     }
 }
 public class ItemData

@@ -5070,9 +5070,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tower: {fileID: 224871358}
-  enemyInfoList: {fileID: 0}
-  matAplha: {fileID: 0}
-  turret_RecogDis: 0
+  enemyInfoList: {fileID: 308931428}
+  turret_RecogDis: 60
   targetEnemy: {fileID: 0}
   turretActive:
     value: 0
@@ -14566,7 +14565,7 @@ MonoBehaviour:
   itemObj:
   - {fileID: 3683246110546083558, guid: 13272f5be3827e74dbc8a8415f3b4441, type: 3}
   itemPoolTrans: {fileID: 1061519207}
-  spawnMaxRadius: 1200
+  spawnMaxRadius: 800
   spawnMinRadius: 320
   materValue: 0
 --- !u!114 &308931430
@@ -15785,8 +15784,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 366201694}
   enemyInfoList: {fileID: 308931428}
-  matAplha: {fileID: 0}
-  turret_RecogDis: 30
+  turret_RecogDis: 60
   targetEnemy: {fileID: 0}
   turretActive:
     value: 0
@@ -15894,9 +15892,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tower: {fileID: 224871358}
-  enemyInfoList: {fileID: 0}
-  matAplha: {fileID: 0}
-  turret_RecogDis: 0
+  enemyInfoList: {fileID: 308931428}
+  turret_RecogDis: 60
   targetEnemy: {fileID: 0}
   turretActive:
     value: 0
@@ -16089,8 +16086,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 366201694}
   enemyInfoList: {fileID: 308931428}
-  matAplha: {fileID: 0}
-  turret_RecogDis: 30
+  turret_RecogDis: 60
   targetEnemy: {fileID: 0}
   turretActive:
     value: 0
@@ -18357,7 +18353,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &710472111
 GameObject:
   m_ObjectHideFlags: 0
@@ -18919,7 +18915,7 @@ PrefabInstance:
     - target: {fileID: 28585551141742913, guid: 0feb415426d58554d87b61b46255e206,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.10452837
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 28585551141742913, guid: 0feb415426d58554d87b61b46255e206,
         type: 3}
@@ -18929,7 +18925,7 @@ PrefabInstance:
     - target: {fileID: 28585551141742913, guid: 0feb415426d58554d87b61b46255e206,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9945219
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 28585551141742913, guid: 0feb415426d58554d87b61b46255e206,
         type: 3}
@@ -18944,7 +18940,7 @@ PrefabInstance:
     - target: {fileID: 28585551141742913, guid: 0feb415426d58554d87b61b46255e206,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 28585551141742913, guid: 0feb415426d58554d87b61b46255e206,
         type: 3}
@@ -18960,6 +18956,51 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 399.99988
+      objectReference: {fileID: 0}
+    - target: {fileID: 28585550858994634, guid: 0feb415426d58554d87b61b46255e206,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00003706328
+      objectReference: {fileID: 0}
+    - target: {fileID: 28585550858994634, guid: 0feb415426d58554d87b61b46255e206,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.0003319681
+      objectReference: {fileID: 0}
+    - target: {fileID: 28585550858994634, guid: 0feb415426d58554d87b61b46255e206,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.00035612457
+      objectReference: {fileID: 0}
+    - target: {fileID: 28585550858994634, guid: 0feb415426d58554d87b61b46255e206,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9999999
+      objectReference: {fileID: 0}
+    - target: {fileID: 28585550858994634, guid: 0feb415426d58554d87b61b46255e206,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.014999964
+      objectReference: {fileID: 0}
+    - target: {fileID: 28585550858994634, guid: 0feb415426d58554d87b61b46255e206,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.018000038
+      objectReference: {fileID: 0}
+    - target: {fileID: 28585550858994634, guid: 0feb415426d58554d87b61b46255e206,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -0.004
+      objectReference: {fileID: 0}
+    - target: {fileID: 28585550858994634, guid: 0feb415426d58554d87b61b46255e206,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0.038000003
+      objectReference: {fileID: 0}
+    - target: {fileID: 28585550858994634, guid: 0feb415426d58554d87b61b46255e206,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0.041
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0feb415426d58554d87b61b46255e206, type: 3}
@@ -18989,8 +19030,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 795686095}
   enemyInfoList: {fileID: 308931428}
-  matAplha: {fileID: 2100000, guid: b2554a46567ecf240bc98417bcda276c, type: 2}
-  turret_RecogDis: 30
+  turret_RecogDis: 60
   targetEnemy: {fileID: 0}
   turretActive:
     value: 0
@@ -19891,8 +19931,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 795686095}
   enemyInfoList: {fileID: 308931428}
-  matAplha: {fileID: 2100000, guid: b2554a46567ecf240bc98417bcda276c, type: 2}
-  turret_RecogDis: 30
+  turret_RecogDis: 60
   targetEnemy: {fileID: 0}
   turretActive:
     value: 0
@@ -21015,7 +21054,7 @@ Transform:
   m_GameObject: {fileID: 889604790}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 300, y: 1, z: 300}
+  m_LocalScale: {x: 220, y: 1, z: 220}
   m_Children: []
   m_Father: {fileID: 565679186}
   m_RootOrder: 0
@@ -21532,8 +21571,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 507965807}
   enemyInfoList: {fileID: 308931428}
-  matAplha: {fileID: 0}
-  turret_RecogDis: 30
+  turret_RecogDis: 60
   targetEnemy: {fileID: 0}
   turretActive:
     value: 0
@@ -25767,7 +25805,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1315817243}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1500}
+  m_LocalPosition: {x: 0, y: 0, z: 1000}
   m_LocalScale: {x: 100, y: 1, z: 50}
   m_Children: []
   m_Father: {fileID: 712947351}
@@ -26269,8 +26307,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 366201694}
   enemyInfoList: {fileID: 308931428}
-  matAplha: {fileID: 2100000, guid: b2554a46567ecf240bc98417bcda276c, type: 2}
-  turret_RecogDis: 30
+  turret_RecogDis: 60
   targetEnemy: {fileID: 0}
   turretActive:
     value: 0
@@ -34821,9 +34858,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tower: {fileID: 224871358}
-  enemyInfoList: {fileID: 0}
-  matAplha: {fileID: 0}
-  turret_RecogDis: 0
+  enemyInfoList: {fileID: 308931428}
+  turret_RecogDis: 60
   targetEnemy: {fileID: 0}
   turretActive:
     value: 0
@@ -35120,8 +35156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 507965807}
   enemyInfoList: {fileID: 308931428}
-  matAplha: {fileID: 0}
-  turret_RecogDis: 30
+  turret_RecogDis: 60
   targetEnemy: {fileID: 0}
   turretActive:
     value: 0
@@ -41659,8 +41694,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 795686095}
   enemyInfoList: {fileID: 308931428}
-  matAplha: {fileID: 2100000, guid: b2554a46567ecf240bc98417bcda276c, type: 2}
-  turret_RecogDis: 30
+  turret_RecogDis: 60
   targetEnemy: {fileID: 0}
   turretActive:
     value: 0
@@ -42288,7 +42322,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1 &1788380198
 GameObject:
   m_ObjectHideFlags: 0
@@ -42636,8 +42670,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 26dd85a08546d07438fe3cc97a6c9cda, type: 2}
   enemyPrefabList:
   - {fileID: 5805954570662241966, guid: 30fd7fcc3635cca42a619407efaace25, type: 3}
-  - {fileID: 5805954570662241966, guid: 23f493d2a14220847806e0db8ff975f2, type: 3}
+  - {fileID: 5805954570662241966, guid: cc2564068ef42174490bed18fd654612, type: 3}
   - {fileID: 5805954570662241966, guid: 0608eee9888a173488ba2f0a4bf3d882, type: 3}
+  - {fileID: 5805954570662241966, guid: 85ebf6924a5764a46bed196ab5e28a1c, type: 3}
   enemyWave: []
 --- !u!4 &1811825746
 Transform:
@@ -42756,7 +42791,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1832986019}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1500}
+  m_LocalPosition: {x: 0, y: 0, z: 1000}
   m_LocalScale: {x: 100, y: 1, z: 50}
   m_Children: []
   m_Father: {fileID: 1292437639}
@@ -43139,7 +43174,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1936318214}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1500}
+  m_LocalPosition: {x: 0, y: 0, z: 1000}
   m_LocalScale: {x: 100, y: 1, z: 50}
   m_Children: []
   m_Father: {fileID: 2033837510}
@@ -43331,8 +43366,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 507965807}
   enemyInfoList: {fileID: 308931428}
-  matAplha: {fileID: 0}
-  turret_RecogDis: 30
+  turret_RecogDis: 60
   targetEnemy: {fileID: 0}
   turretActive:
     value: 0
@@ -43437,7 +43471,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1998030432}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1500}
+  m_LocalPosition: {x: 0, y: 0, z: 1000}
   m_LocalScale: {x: 100, y: 1, z: 50}
   m_Children: []
   m_Father: {fileID: 38529014}
@@ -45096,7 +45130,7 @@ MonoBehaviour:
   - 50
   - 100
   - 150
-  trapDefault: 0
+  trapDefault: 20
 --- !u!65 &2100445411
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -16,9 +16,6 @@ public class TurretManager : MonoBehaviour
     public TowerManager tower;
     // 敵情報リスト
     public EnemyInfoList enemyInfoList;
-
-    public Material matAplha;
-
     // 防衛認識距離
     [SerializeField] private int turret_RecogDis;
     // 攻撃する標的
@@ -29,24 +26,6 @@ public class TurretManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //// ショップ画面で購入されない限りは非表示に
-        //turretActive.Where(_ => turretActive.Value == false)
-        //    .Subscribe(_ =>
-        //    {
-        //        Color aplha = gameObject.GetComponent<Material>().color;
-        //        aplha.a = 0.0f;
-        //        this.GetComponent<Renderer>().material.color = aplha;
-        //    }).AddTo(this.gameObject);
-
-        //// タレット表示処理
-        //turretActive.Where(_ => turretActive.Value == true)
-        //    .Subscribe(_ => 
-        //    {
-        //        Color aplha = gameObject.GetComponent<Material>().color;
-        //        aplha.a = 1.0f;
-        //        this.GetComponent<Renderer>().material.color = aplha;
-        //    }).AddTo(this.gameObject);
-
         // タレットが表示されていて標的が設定されなければ動作
         // タワーが生存していなければ動作しない
         this.UpdateAsObservable()
@@ -75,7 +54,9 @@ public class TurretManager : MonoBehaviour
             .Sample(System.TimeSpan.FromSeconds(0.2f))
             .Subscribe(_ => 
             {
+                transform.LookAt(targetEnemy);
                 // 弾を発射
+                Debug.Log("タレット攻撃");
             }).AddTo(this.gameObject);
     }
 }

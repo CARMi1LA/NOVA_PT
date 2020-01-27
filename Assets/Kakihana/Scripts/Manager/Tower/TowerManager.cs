@@ -91,20 +91,20 @@ public class TowerManager : MonoBehaviour,ITwDamage
             }).AddTo(this.gameObject);
 
         // １秒毎に敵情報リストと自タワーとの距離を測り、接近していればバリア起動
-        this.UpdateAsObservable()
-            .Sample(System.TimeSpan.FromSeconds(1.0f))
-            .Subscribe(_ => 
-            {
-                var dis = 0.0f;
-                foreach (var item in enemyList.enemyInfo)
-                {
-                    dis = (this.transform.position - item.position).sqrMagnitude;
-                    if (dis <= Mathf.Pow(tower_RecogDis,2) && barrierFlg.Value == true)
-                    {
-                        barrierFlg.Value = false;
-                    }
-                }
-            }).AddTo(this.gameObject);
+        //this.UpdateAsObservable()
+        //    .Sample(System.TimeSpan.FromSeconds(1.0f))
+        //    .Subscribe(_ => 
+        //    {
+        //        var dis = 0.0f;
+        //        foreach (var item in enemyList.enemyInfo)
+        //        {
+        //            dis = (this.transform.position - item.position).sqrMagnitude;
+        //            if (dis <= Mathf.Pow(tower_RecogDis,2) && barrierFlg.Value == true)
+        //            {
+        //                barrierFlg.Value = false;
+        //            }
+        //        }
+        //    }).AddTo(this.gameObject);
 
         // バリア復活処理１０秒経過で使用可能
         barrierFlg.Where(_ => barrierFlg.Value == false)
