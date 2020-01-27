@@ -1,0 +1,194 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d27b8c3a48611c04c823a68624341a27, type: 3}
+  m_Name: ShopDataList
+  m_EditorClassIdentifier: 
+  dataList_Shop:
+  - shopData_Player:
+    - maxHP: 10
+      speedMul: 1
+      shootIntervalMul: 1
+      purchaseMater: 0
+    - maxHP: 12
+      speedMul: 1.05
+      shootIntervalMul: 0.95
+      purchaseMater: 1000
+    - maxHP: 15
+      speedMul: 1.15
+      shootIntervalMul: 0.85
+      purchaseMater: 3000
+    - maxHP: 20
+      speedMul: 1.25
+      shootIntervalMul: 0.5
+      purchaseMater: 6000
+    redData_Tower:
+    - trapParamIndex: 0
+      turretParamIndex: 0
+      towerParamIndex: 0
+      repairCount: 0
+      purchaseMater: 0
+    - trapParamIndex: 1
+      turretParamIndex: 1
+      towerParamIndex: 1
+      repairCount: 1
+      purchaseMater: 500
+    - trapParamIndex: 2
+      turretParamIndex: 2
+      towerParamIndex: 2
+      repairCount: 2
+      purchaseMater: 1500
+    - trapParamIndex: 3
+      turretParamIndex: 3
+      towerParamIndex: 3
+      repairCount: 3
+      purchaseMater: 3000
+    blueData_Tower:
+    - trapParamIndex: 0
+      turretParamIndex: 0
+      towerParamIndex: 0
+      repairCount: 0
+      purchaseMater: 0
+    - trapParamIndex: 1
+      turretParamIndex: 1
+      towerParamIndex: 1
+      repairCount: 1
+      purchaseMater: 500
+    - trapParamIndex: 2
+      turretParamIndex: 2
+      towerParamIndex: 2
+      repairCount: 2
+      purchaseMater: 1500
+    - trapParamIndex: 3
+      turretParamIndex: 3
+      towerParamIndex: 3
+      repairCount: 3
+      purchaseMater: 3000
+    yellowData_Tower:
+    - trapParamIndex: 0
+      turretParamIndex: 0
+      towerParamIndex: 0
+      repairCount: 0
+      purchaseMater: 0
+    - trapParamIndex: 1
+      turretParamIndex: 1
+      towerParamIndex: 1
+      repairCount: 1
+      purchaseMater: 500
+    - trapParamIndex: 2
+      turretParamIndex: 2
+      towerParamIndex: 2
+      repairCount: 2
+      purchaseMater: 1500
+    - trapParamIndex: 3
+      turretParamIndex: 3
+      towerParamIndex: 3
+      repairCount: 3
+      purchaseMater: 3000
+    greenData_Tower:
+    - trapParamIndex: 0
+      turretParamIndex: 0
+      towerParamIndex: 0
+      repairCount: 0
+      purchaseMater: 0
+    - trapParamIndex: 1
+      turretParamIndex: 1
+      towerParamIndex: 1
+      repairCount: 1
+      purchaseMater: 500
+    - trapParamIndex: 2
+      turretParamIndex: 2
+      towerParamIndex: 2
+      repairCount: 2
+      purchaseMater: 1500
+    - trapParamIndex: 3
+      turretParamIndex: 3
+      towerParamIndex: 3
+      repairCount: 3
+      purchaseMater: 3000
+    shopData_Ult:
+    - ultIndex: 0
+      purchaseMater: 0
+    - ultIndex: 1
+      purchaseMater: 12000
+    - ultIndex: 2
+      purchaseMater: 7000
+    - ultIndex: 3
+      purchaseMater: 5000
+    shopData_Skill:
+    - skillIndex: 0
+      purchaseMater: 0
+    - skillIndex: 1
+      purchaseMater: 3000
+    - skillIndex: 2
+      purchaseMater: 6000
+    - skillIndex: 3
+      purchaseMater: 10000
+    levelData_Player:
+      MAX_LV: 3
+      lv_HP:
+        value: 0
+      lv_Spd:
+        value: 0
+      lv_Int:
+        value: 0
+    levelData_Tower:
+    - MAX_LV: 3
+      level_Trap:
+        value: 0
+      level_Turret:
+        value: 0
+      level_Tower:
+        value: 0
+      level_Repair:
+        value: 0
+    - MAX_LV: 3
+      level_Trap:
+        value: 0
+      level_Turret:
+        value: 0
+      level_Tower:
+        value: 0
+      level_Repair:
+        value: 0
+    - MAX_LV: 3
+      level_Trap:
+        value: 0
+      level_Turret:
+        value: 0
+      level_Tower:
+        value: 0
+      level_Repair:
+        value: 0
+    - MAX_LV: 3
+      level_Trap:
+        value: 0
+      level_Turret:
+        value: 0
+      level_Tower:
+        value: 0
+      level_Repair:
+        value: 0
+    - MAX_LV: 3
+      level_Trap:
+        value: 0
+      level_Turret:
+        value: 0
+      level_Tower:
+        value: 0
+      level_Repair:
+        value: 0
+    levelData_Ult:
+      level_Ult:
+        value: 0
+    levelData_Skill:
+      level_Skill:
+        value: 0

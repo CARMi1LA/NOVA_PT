@@ -7,6 +7,9 @@ TagManager:
   - Item
   - Bullet
   - Enemy
+  - Turret
+  - Tower
+  - Trap
   layers:
   - Default
   - TransparentFX

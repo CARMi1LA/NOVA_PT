@@ -5,19 +5,22 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/00 Title.unity
     guid: 9c617e06664b2de43b90844822d89284
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/02 Stage1.unity
     guid: 780cfb5c01ac24b4ca2e2eea106b5fb0
   - enabled: 0
     path: Assets/Mitsunaga/HowToPlay/HowToPlayScene.unity
     guid: 9b8f68d5333b2454dbc1f1852a7174b7
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/03 Stage2.unity
     guid: ac36e51d56b2c2944a095a6d9ef8c92a
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/04 Stage3.unity
     guid: 5bab6cce54aa2cf49973bd486abad89e
+  - enabled: 1
+    path: Assets/Scenes/05 StageTD Mitsunaga.unity
+    guid: d8235ed96ca1bef41b53aa6402e240d0
   m_configObjects: {}

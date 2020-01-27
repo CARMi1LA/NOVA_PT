@@ -15,6 +15,10 @@ public class ItemSpawner : ISSingleton<ItemSpawner>
     [SerializeField] ItemPool itemPool;                 // アイテム用オブジェクトプール
     [SerializeField] private Transform itemPoolTrans;   // オブジェクトプールをまとめる座標
 
+    [SerializeField] private int spawnMaxRadius;
+    [SerializeField] private int spawnMinRadius;
+    [SerializeField] private int materValue;
+
     // 出現予定のデータをまとめるリスト
     public ReactiveCollection<ItemData> itemDataList = new ReactiveCollection<ItemData>();
     // 出現後のアイテムをまとめるリスト
@@ -25,15 +29,68 @@ public class ItemSpawner : ISSingleton<ItemSpawner>
         // オブジェクトプールの初期化
         itemPool = new ItemPool(itemObj[0], itemPoolTrans);
 
+        itemSpawnCountMax = GameManagement.Instance.masterData.itemDropMax;
+
+        int x, z;
+        double xAbs, zAbs;
+
+        double maxR = Mathf.Pow(spawnMaxRadius, 2);
+        double minR = Mathf.Pow(spawnMinRadius, 2);
+
+        GameManagement.Instance.waveNum
+            .Subscribe(_ =>
+            {
+                switch (GameManagement.Instance.waveNum.Value)
+                {
+                    case 0:
+                        materValue = 10;
+                        break;
+                    case 1:
+                        materValue = 10;
+                        break;
+                    case 3:
+                        materValue = 20;
+                        break;
+                    case 5:
+                        materValue = 50;
+                        break;
+                    default:
+                        break;
+                }
+            }).AddTo(this.gameObject);
+
+        this.UpdateAsObservable()
+            .Where(_ => itemSpawnCount <= itemSpawnCountMax)
+            .Sample(System.TimeSpan.FromSeconds(0.25f))
+            .Subscribe(_ => 
+            {
+                x = Random.Range(-spawnMaxRadius, spawnMaxRadius);
+                z = Random.Range(-spawnMaxRadius, spawnMaxRadius);
+
+                xAbs = Mathf.Abs(Mathf.Pow(x, 2));
+                zAbs = Mathf.Abs(Mathf.Pow(z, 2));
+
+                if (maxR > xAbs + zAbs && xAbs + zAbs > minR)
+                {
+                    new ItemData(materValue, 0, 0, ItemManager.ItemType.Mater, new Vector3
+                        (
+                            x,
+                            0,
+                            z
+                        ) + GameManagement.Instance.centerTrans.position);
+                    itemSpawnCount++;
+                }
+
+            }).AddTo(this.gameObject);
+
         // 出現予定データリストにアイテムが追加されると実行
         itemDataList.ObserveAdd()
-            .Where(_ => itemSpawnCount <= itemSpawnCountMax)
             .Subscribe(_ =>
             {
                 // オブジェクトプール化
                 var item = itemPool.Rent();
                 // アイテムを生成
-                item.CreateItem(_.Value.initScore, _.Value.initHp, _.Value.initEnergy, _.Value.initType, _.Value.pos);
+                item.CreateItem(_.Value.initMater, _.Value.initHp, _.Value.initEnergy, _.Value.initType, _.Value.pos);
                 // 生成済みリストに追加
                 itemSpawnList.Add(item);
                 // データリストから現在のデータを削除
@@ -54,7 +111,7 @@ public class ItemData
     // 生成したいアイテムのデータを格納するクラス
     // 生成したい場合はこのクラスのコンストラクタに値を入れる
 
-    public int initScore;       // スコアのデータ
+    public int initMater;       // スコアのデータ
     public int initHp;          // Hpのデータ
     public int initEnergy;      // エネルギーのデータ
 
@@ -62,10 +119,10 @@ public class ItemData
     public Vector3 pos;
 
     // コンストラクタ
-    public ItemData(int score, int hp, int energy, ItemManager.ItemType type, Vector3 enemyPos)
+    public ItemData(int mater, int hp, int energy, ItemManager.ItemType type, Vector3 enemyPos)
     {
         // 各種データを設定
-        initScore = score;
+        initMater = mater;
         initHp = hp;
         initEnergy = energy;
         initType = type;
