@@ -15,9 +15,14 @@ public class TDBulletManager : MonoBehaviour
     public Subject<TDBulletData> initTrigger = new Subject<TDBulletData>();
 
     public TDBulletData bData;
+    public TDBulletForm bForm;
 
-    void Start()
+    TDBulletFormList bFormList;
+
+    void Awake()
     {
+        bFormList = Resources.Load<TDBulletFormList>("TDBulletFormList");
+
         // Bullet返却
         isReturn
             .Where(x => isReturn.Value)
@@ -35,13 +40,14 @@ public class TDBulletManager : MonoBehaviour
         isReturn.Value = false;
         // データの格納
         bData = data;
+        bForm = bFormList.FormType(bData.bType);
         // 移動処理の実行
         initTrigger.OnNext(bData);
         // 時限制で消滅
         var Return = Observable.EveryUpdate()
             .Where(x => isReturn.Value);
 
-        Observable.Timer(System.TimeSpan.FromSeconds(data.bDeathCount))
+        Observable.Timer(System.TimeSpan.FromSeconds(bForm.bDeathCount))
             .TakeUntil(Return)
             .Subscribe(_ =>
             {

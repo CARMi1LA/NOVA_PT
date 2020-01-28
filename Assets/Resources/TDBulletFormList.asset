@@ -12,20 +12,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff83421ae981e9d4a94c75734a36087b, type: 3}
   m_Name: TDBulletFormList
   m_EditorClassIdentifier: 
-  playerColor: {r: 0.3874345, g: 1.7172773, b: 1.2041883, a: 0}
-  enemyColor: {r: 4, g: 1.945098, b: 3.2, a: 0}
+  playerColor: {r: 0.72156864, g: 2.8705883, b: 2.0392158, a: 0}
+  enemyColor: {r: 2.7924528, g: 0.8561766, b: 2.0554194, a: 0}
   bFormList:
   - bType: 0
-    size: {x: 1, y: 1, z: 1}
+    size: {x: 1, y: 1, z: 0.5}
+    bSpeed: 350
+    bDeathCount: 1
+    bDamage: 1
   - bType: 1
     size: {x: 1, y: 1, z: 2}
+    bSpeed: 250
+    bDeathCount: 1
+    bDamage: 1
   - bType: 2
     size: {x: 2, y: 2, z: 2}
+    bSpeed: 250
+    bDeathCount: 1
+    bDamage: 1
   - bType: 3
     size: {x: 1, y: 1, z: 1}
+    bSpeed: 150
+    bDeathCount: 1
+    bDamage: 1
   - bType: 4
     size: {x: 1, y: 1, z: 1}
+    bSpeed: 150
+    bDeathCount: 2
+    bDamage: 1
   - bType: 5
     size: {x: 1, y: 1, z: 1}
+    bSpeed: 150
+    bDeathCount: 2
+    bDamage: 1
   - bType: 6
     size: {x: 1, y: 1, z: 1}
+    bSpeed: 150
+    bDeathCount: 2
+    bDamage: 1

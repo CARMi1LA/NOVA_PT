@@ -37,6 +37,7 @@ public class PlayerMove : MonoBehaviour
         // アクション時の操作不能時間を計測
         this.UpdateAsObservable()
             .Where(x => isAction)
+            .Where(x => !GameManagement.Instance.isPause.Value)
             .Subscribe(_ =>
             {
                 actionCount += -Time.deltaTime;
@@ -49,6 +50,8 @@ public class PlayerMove : MonoBehaviour
 
         // 移動・方向転換
         pManager.moveTrigger
+            .Where(x => !pManager.isDeath.Value)
+            .Where(x => !GameManagement.Instance.isPause.Value)
             .Subscribe(value =>
             {
                 // 方向転換
@@ -97,7 +100,6 @@ public class PlayerMove : MonoBehaviour
 
         // ダッシュ
         pManager.dashTrigger
-            //.Where(x => pManager.pData.pEnergy.Value >= pManager.pData.pDashCost)
             .Subscribe(_ =>
             {
                 // ダッシュの実行

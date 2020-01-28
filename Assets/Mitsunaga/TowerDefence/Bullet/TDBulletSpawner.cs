@@ -19,6 +19,7 @@ public class TDBulletSpawner : TDBulletSpawnerSingleton<TDBulletSpawner>
         base.Awake();
 
         bPool = new TDBulletPool(this.transform, bPrefab);
+
     }
     void Start()
     {

@@ -37,6 +37,22 @@ public class EnemyCollision : MonoBehaviour, IDamageTD, ICollisionTD
                     col.gameObject.GetComponent<ICollisionTD>().HitCollision(this.transform.position);
                 }
             }).AddTo(this.gameObject);
+
+        this.OnTriggerEnterAsObservable()
+            .Where(x => x.gameObject.tag == "Trap")
+            .Subscribe(col =>
+            {
+                eUnit.eManager.SlowTrigger.Value = true;
+
+            }).AddTo(this.gameObject);
+
+        this.OnTriggerExitAsObservable()
+            .Where(x => x.gameObject.tag == "Trap")
+            .Subscribe(col =>
+            {
+                eUnit.eManager.SlowTrigger.Value = false;
+
+            }).AddTo(this.gameObject);
     }
 
     // ダメージ処理
@@ -46,7 +62,6 @@ public class EnemyCollision : MonoBehaviour, IDamageTD, ICollisionTD
         if (eparent != eUnit.eManager.eParent)
         {
             // ダメージを受ける
-            Debug.Log("ダメージを受けた！");
             eUnit.DamageTrigger.OnNext(eparent);
         }
     }

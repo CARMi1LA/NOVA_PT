@@ -11,7 +11,6 @@ public class TDBulletFormList : ScriptableObject
     // BulletData.BulletParentListから陣営に合わせて弾のカラーを返す
     public Color FormParent(TDList.ParentList parent)
     {
-
         if(parent == TDList.ParentList.Player)
         {
             return playerColor;
@@ -46,5 +45,9 @@ public class TDBulletForm
 {
     public TDList.BulletTypeList bType; // 弾のタイプ
     public Vector3 size;                // 弾の大きさ
+
+    public float bSpeed;                // 弾のスピード
+    public float bDeathCount;           // 自動消滅までの時間 (単位：秒)
+    public int bDamage;                 // 弾のダメージ量 (基本的に1)
 }
 

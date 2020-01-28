@@ -20,7 +20,6 @@ public class EnemyAttack : MonoBehaviour
     }
     void Start()
     {
-        Debug.Log(bType.ToString());
         // 攻撃指示を受け取る
         eUnit.eManager.isTargetPlayer
             .Subscribe(value =>

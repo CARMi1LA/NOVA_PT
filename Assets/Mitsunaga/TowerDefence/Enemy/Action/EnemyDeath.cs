@@ -16,7 +16,6 @@ public class EnemyDeath : MonoBehaviour
         eUnit.DeathTrigger
             .Subscribe(_ =>
             {
-                Debug.Log("死んだ");
                 Instantiate(eUnit.eManager.deathParticle.gameObject, this.transform.position, Quaternion.identity);
                 Destroy(eUnit.gameObject);
 
