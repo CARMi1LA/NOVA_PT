@@ -11,7 +11,7 @@ public class HUDHealth : MonoBehaviour
     
     Renderer hRenderer;
 
-    void Start()
+    void Awake()
     {
         hRenderer = this.GetComponent<Renderer>();
     }

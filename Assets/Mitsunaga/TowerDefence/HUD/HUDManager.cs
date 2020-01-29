@@ -36,6 +36,7 @@ public class HUDManager : MonoBehaviour
     float startWaveTime = 0;
     // カメラ中央キャンバス
     [SerializeField] HUDBossHealth  hBossHealth;    // ボスのヘルスゲージ
+    [SerializeField] HUDRespawnTime hRespawnTime;   // 死亡時のリスポーン表示
 
     // タワーのHP　マスターから取得する予定
     float[] towerHealth;
@@ -96,6 +97,12 @@ public class HUDManager : MonoBehaviour
             .Subscribe(_ =>
             {
                 startWaveTime = GameManagement.Instance.masterTime;
+
+            }).AddTo(this.gameObject);
+        pManager.isDeath
+            .Subscribe(value =>
+            {
+                hRespawnTime.SetRespawnTime(value);
 
             }).AddTo(this.gameObject);
         // 更新処理

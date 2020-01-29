@@ -15,7 +15,7 @@ public class PlayerUltimate : MonoBehaviour
     
     void Start()
     {
-        pManager.ultimateTrigger
+        pManager.UltimateTrigger
             .Subscribe(value =>
             {
                 // アルティメット実行時の共通行動(エフェクトなど)

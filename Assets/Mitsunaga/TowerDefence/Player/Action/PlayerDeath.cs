@@ -20,12 +20,10 @@ public class PlayerDeath : MonoBehaviour
             {
                 deathParticle.Play();
                 Observable.Timer(System.TimeSpan.FromSeconds(deathParticle.main.duration))
-                    .Subscribe(_ => deathParticle.Stop())
-                    .AddTo(this.gameObject);
-
-                Observable.Timer(System.TimeSpan.FromSeconds(3.0f))
-                    .Subscribe(_ =>
+                    .Subscribe(_ => 
                     {
+                        deathParticle.Stop();
+                        pManager.RespawnTrigger.OnNext(Unit.Default);
 
                     }).AddTo(this.gameObject);
 

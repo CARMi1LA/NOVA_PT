@@ -35,7 +35,7 @@ public class PlayerCollision : MonoBehaviour, IDamageTD, ICollisionTD
             }).AddTo(this.gameObject);
 
         // ダッシュ中の無敵判定
-        pManager.dashTrigger
+        pManager.DashTrigger
             .Do(_ =>
             {
                 isDash = true;
@@ -71,6 +71,6 @@ public class PlayerCollision : MonoBehaviour, IDamageTD, ICollisionTD
     public void HitCollision(Vector3 targetPos)
     {
             // 衝突イベント発行
-            pManager.impactTrigger.OnNext(targetPos);
+            pManager.ImpactTrigger.OnNext(targetPos);
     }
 }

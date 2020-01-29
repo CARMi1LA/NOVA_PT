@@ -14,7 +14,7 @@ public class SkillBomb : MonoBehaviour
     TDList.BulletTypeList bType;  // 攻撃タイプの実装テスト
     void Start()
     {
-        pManager.skillTrigger
+        pManager.SkillTrigger
             .Where(x => pManager.pData.pSkillType == TDPlayerData.SkillTypeList.Bomb)
             .Subscribe(value =>
             {                

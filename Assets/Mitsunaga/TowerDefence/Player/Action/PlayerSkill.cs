@@ -16,7 +16,7 @@ public class PlayerSkill : MonoBehaviour
 
     void Start()
     {
-        pManager.skillTrigger
+        pManager.SkillTrigger
             .Subscribe(value =>
             {
                 // スキル発動時の共通行動
