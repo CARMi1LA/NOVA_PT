@@ -5071,10 +5071,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 224871358}
   enemyInfoList: {fileID: 308931428}
-  turret_RecogDis: 60
+  turret_RecogDis: 120
   targetEnemy: {fileID: 0}
+  turretChild:
+  - {fileID: 13950270}
+  - {fileID: 13950269}
+  - {fileID: 13950268}
   turretActive:
     value: 0
+--- !u!4 &13950268 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550858994634, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 13950264}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &13950269 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550665035048, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 13950264}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &13950270 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550651392563, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 13950264}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &14678848
 GameObject:
   m_ObjectHideFlags: 0
@@ -15784,10 +15806,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 366201694}
   enemyInfoList: {fileID: 308931428}
-  turret_RecogDis: 60
+  turret_RecogDis: 120
   targetEnemy: {fileID: 0}
+  turretChild:
+  - {fileID: 446908846}
+  - {fileID: 446908845}
+  - {fileID: 446908844}
   turretActive:
     value: 0
+--- !u!4 &446908844 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550858994634, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 446908840}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &446908845 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550665035048, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 446908840}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &446908846 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550651392563, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 446908840}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &476930987
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15893,10 +15937,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 224871358}
   enemyInfoList: {fileID: 308931428}
-  turret_RecogDis: 60
+  turret_RecogDis: 120
   targetEnemy: {fileID: 0}
+  turretChild:
+  - {fileID: 476930993}
+  - {fileID: 476930992}
+  - {fileID: 476930991}
   turretActive:
     value: 0
+--- !u!4 &476930991 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550858994634, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 476930987}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &476930992 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550665035048, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 476930987}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &476930993 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550651392563, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 476930987}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &477095404
 GameObject:
   m_ObjectHideFlags: 0
@@ -16086,10 +16152,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 366201694}
   enemyInfoList: {fileID: 308931428}
-  turret_RecogDis: 60
+  turret_RecogDis: 120
   targetEnemy: {fileID: 0}
+  turretChild:
+  - {fileID: 505628413}
+  - {fileID: 505628412}
+  - {fileID: 505628411}
   turretActive:
     value: 0
+--- !u!4 &505628411 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550858994634, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 505628407}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &505628412 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550665035048, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 505628407}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &505628413 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550651392563, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 505628407}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &507965804
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19030,10 +19118,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 795686095}
   enemyInfoList: {fileID: 308931428}
-  turret_RecogDis: 60
+  turret_RecogDis: 120
   targetEnemy: {fileID: 0}
+  turretChild:
+  - {fileID: 748331677}
+  - {fileID: 748331676}
+  - {fileID: 748331675}
   turretActive:
     value: 0
+--- !u!4 &748331675 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550858994634, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 748331671}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &748331676 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550665035048, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 748331671}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &748331677 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550651392563, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 748331671}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &752177523
 GameObject:
   m_ObjectHideFlags: 0
@@ -19931,10 +20041,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 795686095}
   enemyInfoList: {fileID: 308931428}
-  turret_RecogDis: 60
+  turret_RecogDis: 120
   targetEnemy: {fileID: 0}
+  turretChild:
+  - {fileID: 809524232}
+  - {fileID: 809524231}
+  - {fileID: 809524230}
   turretActive:
     value: 0
+--- !u!4 &809524230 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550858994634, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 809524226}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &809524231 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550665035048, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 809524226}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &809524232 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550651392563, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 809524226}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &814589466
 GameObject:
   m_ObjectHideFlags: 0
@@ -21571,10 +21703,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 507965807}
   enemyInfoList: {fileID: 308931428}
-  turret_RecogDis: 60
+  turret_RecogDis: 120
   targetEnemy: {fileID: 0}
+  turretChild:
+  - {fileID: 971193807}
+  - {fileID: 971193806}
+  - {fileID: 971193805}
   turretActive:
     value: 0
+--- !u!4 &971193805 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550858994634, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 971193801}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &971193806 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550665035048, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 971193801}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &971193807 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550651392563, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 971193801}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &986136542
 GameObject:
   m_ObjectHideFlags: 0
@@ -22607,7 +22761,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1 &1022095396
 GameObject:
   m_ObjectHideFlags: 0
@@ -26307,10 +26461,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 366201694}
   enemyInfoList: {fileID: 308931428}
-  turret_RecogDis: 60
+  turret_RecogDis: 120
   targetEnemy: {fileID: 0}
+  turretChild:
+  - {fileID: 1363043429}
+  - {fileID: 1363043430}
+  - {fileID: 1363043431}
   turretActive:
     value: 0
+--- !u!4 &1363043429 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550651392563, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 1363043425}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1363043430 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550665035048, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 1363043425}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1363043431 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550858994634, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 1363043425}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1400892727
 GameObject:
   m_ObjectHideFlags: 0
@@ -34859,10 +35035,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 224871358}
   enemyInfoList: {fileID: 308931428}
-  turret_RecogDis: 60
+  turret_RecogDis: 120
   targetEnemy: {fileID: 0}
+  turretChild:
+  - {fileID: 1629988317}
+  - {fileID: 1629988316}
+  - {fileID: 1629988315}
   turretActive:
     value: 0
+--- !u!4 &1629988315 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550858994634, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 1629988311}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1629988316 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550665035048, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 1629988311}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1629988317 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550651392563, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 1629988311}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1635441602
 GameObject:
   m_ObjectHideFlags: 0
@@ -35156,10 +35354,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 507965807}
   enemyInfoList: {fileID: 308931428}
-  turret_RecogDis: 60
+  turret_RecogDis: 120
   targetEnemy: {fileID: 0}
+  turretChild:
+  - {fileID: 1639718085}
+  - {fileID: 1639718084}
+  - {fileID: 1639718083}
   turretActive:
     value: 0
+--- !u!4 &1639718083 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550858994634, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 1639718079}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1639718084 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550665035048, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 1639718079}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1639718085 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550651392563, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 1639718079}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1653461937
 GameObject:
   m_ObjectHideFlags: 0
@@ -41694,10 +41914,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 795686095}
   enemyInfoList: {fileID: 308931428}
-  turret_RecogDis: 60
+  turret_RecogDis: 120
   targetEnemy: {fileID: 0}
+  turretChild:
+  - {fileID: 1762839080}
+  - {fileID: 1762839079}
+  - {fileID: 1762839078}
   turretActive:
     value: 0
+--- !u!4 &1762839078 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550858994634, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 1762839074}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1762839079 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550665035048, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 1762839074}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1762839080 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550651392563, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 1762839074}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1771306321
 GameObject:
   m_ObjectHideFlags: 0
@@ -42322,7 +42564,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &1788380198
 GameObject:
   m_ObjectHideFlags: 0
@@ -43366,10 +43608,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 507965807}
   enemyInfoList: {fileID: 308931428}
-  turret_RecogDis: 60
+  turret_RecogDis: 120
   targetEnemy: {fileID: 0}
+  turretChild:
+  - {fileID: 1954683215}
+  - {fileID: 1954683214}
+  - {fileID: 1954683213}
   turretActive:
     value: 0
+--- !u!4 &1954683213 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550858994634, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 1954683209}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1954683214 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550665035048, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 1954683209}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1954683215 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 28585550651392563, guid: 0feb415426d58554d87b61b46255e206,
+    type: 3}
+  m_PrefabInstance: {fileID: 1954683209}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1975863142
 GameObject:
   m_ObjectHideFlags: 0
