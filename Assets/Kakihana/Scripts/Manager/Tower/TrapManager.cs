@@ -6,12 +6,16 @@ using UniRx.Triggers;
 
 public class TrapManager : MonoBehaviour
 {
-    public float[] trapSpeedData;
-    public float trapSpeed;
+    public float[] trapSize;
+    public float trapDefault;
 
+    public Subject<Unit> lvUpSub = new Subject<Unit>();
     // Start is called before the first frame update
     void Start()
     {
-        trapSpeed = trapSpeedData[0];
+        lvUpSub.Subscribe(_ => 
+        {
+            this.transform.localScale = new Vector3(200, 1, trapDefault);
+        }).AddTo(this.gameObject);
     }
 }
