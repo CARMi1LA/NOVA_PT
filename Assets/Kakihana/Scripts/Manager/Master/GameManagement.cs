@@ -34,6 +34,7 @@ public class GameManagement : GMSingleton<GameManagement>
     public TDPlayerData tdPlaerData;
     public MasterData masterData;
     public MasterDataList masterDataList;
+    public EnemyInfoList enemyInfoList;
     public TowerManager redTw, blueTw, yellowTw, greenTw;
 
     [SerializeField] public InputValueData1P valueData1P;
