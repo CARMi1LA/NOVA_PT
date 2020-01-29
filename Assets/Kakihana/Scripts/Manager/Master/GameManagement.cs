@@ -80,6 +80,10 @@ public class GameManagement : GMSingleton<GameManagement>
 
     // 敵情報追加用Subject
     public Subject<Transform> enemyInfoAdd = new Subject<Transform>();
+    // ゲーム時間強制進行用Subject
+    public Subject<Unit> masterTimeSkip = new Subject<Unit>();
+    // マター追加Subject（デバッグ用）
+    public Subject<int> addMaterDebug = new Subject<int>();
     // マター取得Subject
     public Subject<int> addMater = new Subject<int>();
     // 戦闘モード進行用Subject
@@ -125,6 +129,34 @@ public class GameManagement : GMSingleton<GameManagement>
             mater.Value = value;
         }).AddTo(this.gameObject);
 
+        // マター獲得処理（デバッグ用）
+        addMaterDebug.Subscribe(value =>
+        {
+            mater.Value += value;
+        }).AddTo(this.gameObject);
+
+        // ゲーム時間スキップ処理
+        masterTimeSkip.Subscribe(_ => 
+        {
+            masterTime = 3.0f;
+        }).AddTo(this.gameObject);
+
+        // デバッグ用、F12キーを押すとデバッグモードへ
+        this.UpdateAsObservable()
+            .Where(_ => Input.GetKeyDown(KeyCode.F12) && isDebug.Value == false)
+            .Subscribe(_ =>
+            {
+                isDebug.Value = true;
+            }).AddTo(this.gameObject);
+
+        // デバッグモード状態でもう一度F12キーを押すと解除
+        this.UpdateAsObservable()
+            .Where(_ => Input.GetKeyDown(KeyCode.F12) && isDebug.Value == true)
+            .Subscribe(_ =>
+            {
+                isDebug.Value = false;
+            }).AddTo(this.gameObject);
+
         // デバッグ用、F1キーを押すと進行時間の短縮が可能
         this.UpdateAsObservable()
             .Where(_ => Input.GetKeyDown(KeyCode.F1) && isDebug.Value == true)
@@ -160,6 +192,14 @@ public class GameManagement : GMSingleton<GameManagement>
             {
                 shopCanvas.alpha = 0.0f;
                 shopCanvasEnable.Value = false;
+            }).AddTo(this.gameObject);
+
+        // 1万マターを即取得する（デバッグ用)
+        this.UpdateAsObservable()
+            .Where(_ => Input.GetKeyDown(KeyCode.F4) && isDebug.Value == true)
+            .Subscribe(_ => 
+            {
+                addMaterDebug.OnNext(10000);
             }).AddTo(this.gameObject);
 
         // 待機モード時の準備処理
