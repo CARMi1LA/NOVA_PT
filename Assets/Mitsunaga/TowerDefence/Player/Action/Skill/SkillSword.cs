@@ -41,7 +41,7 @@ public class SkillSword : MonoBehaviour
         bool b;
 
         // 剣の生成→回転→消滅　イベント
-        pManager.skillTrigger
+        pManager.SkillTrigger
             .Where(x => pManager.pData.pSkillType == TDPlayerData.SkillTypeList.Sword)
             .Do(_ =>                                        // 剣の生成
             {

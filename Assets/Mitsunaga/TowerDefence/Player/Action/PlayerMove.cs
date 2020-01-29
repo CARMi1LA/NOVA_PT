@@ -9,6 +9,8 @@ public class PlayerMove : MonoBehaviour
     // 右スティックと左スティックの値を受け取り、Rigidbodyに力を加える(Addforce)
     [SerializeField]
     TDPlayerManager pManager;
+    [SerializeField]
+    Transform pRespawnPoint;
 
     Rigidbody pRigidbody;
 
@@ -37,6 +39,7 @@ public class PlayerMove : MonoBehaviour
         // アクション時の操作不能時間を計測
         this.UpdateAsObservable()
             .Where(x => isAction)
+            .Where(x => !GameManagement.Instance.isPause.Value)
             .Subscribe(_ =>
             {
                 actionCount += -Time.deltaTime;
@@ -48,7 +51,9 @@ public class PlayerMove : MonoBehaviour
             }).AddTo(this.gameObject);
 
         // 移動・方向転換
-        pManager.moveTrigger
+        pManager.MoveTrigger
+            .Where(x => !pManager.isDeath.Value)
+            .Where(x => !GameManagement.Instance.isPause.Value)
             .Subscribe(value =>
             {
                 // 方向転換
@@ -96,8 +101,7 @@ public class PlayerMove : MonoBehaviour
             }).AddTo(this.gameObject);
 
         // ダッシュ
-        pManager.dashTrigger
-            //.Where(x => pManager.pData.pEnergy.Value >= pManager.pData.pDashCost)
+        pManager.DashTrigger
             .Subscribe(_ =>
             {
                 // ダッシュの実行
@@ -109,7 +113,7 @@ public class PlayerMove : MonoBehaviour
             }).AddTo(this.gameObject);
 
         // 衝突
-        pManager.impactTrigger
+        pManager.ImpactTrigger
             .Subscribe(value =>
             {
                 Vector3 dir = (this.transform.position - value).normalized;
@@ -117,6 +121,23 @@ public class PlayerMove : MonoBehaviour
                 // 一定時間行動不能にする
                 actionCount = impactInterval;
                 isAction = true;
+
+            }).AddTo(this.gameObject);
+
+
+        pManager.isDeath
+            .Where(x => x)
+            .Subscribe(_ =>
+            {
+                pRigidbody.isKinematic = true;
+
+            }).AddTo(this.gameObject);
+        // リスポーン
+        pManager.RespawnTrigger
+            .Subscribe(_ =>
+            {
+                pRigidbody.isKinematic = false;
+                this.transform.position = pRespawnPoint.position;
 
             }).AddTo(this.gameObject);
     }

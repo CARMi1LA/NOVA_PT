@@ -19,7 +19,7 @@ public class UltimateBarrier : MonoBehaviour
     {
         isBarrier.Value = false;
 
-        pManager.ultimateTrigger
+        pManager.UltimateTrigger
             .Subscribe(value =>
             {
                 isBarrier.Value = true;

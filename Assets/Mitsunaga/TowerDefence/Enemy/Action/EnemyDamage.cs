@@ -29,7 +29,6 @@ public class EnemyDamage : MonoBehaviour
             {
                 eUnit.eManager.isTargetPlayer.Value = true;
             }
-            Debug.Log("ターゲットを変更");
             DamageTrigger.OnNext(damageTime);
 
         }).AddTo(this.gameObject);

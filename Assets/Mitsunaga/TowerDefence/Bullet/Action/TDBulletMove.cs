@@ -29,7 +29,7 @@ public class TDBulletMove : MonoBehaviour
                 this.transform.position = value.bPosition;
                 this.transform.eulerAngles = value.bRotation;
                 // 速度設定
-                bSpeed = value.bSpeed;
+                bSpeed = bManager.bForm.bSpeed;
                 // 弾の個性設定
                 bulletMove(value.bType);
 

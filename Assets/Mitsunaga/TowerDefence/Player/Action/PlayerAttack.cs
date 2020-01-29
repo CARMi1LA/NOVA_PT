@@ -17,7 +17,7 @@ public class PlayerAttack : MonoBehaviour
 
     void Start()
     {
-        pManager.attackTrigger
+        pManager.AttackTrigger
             .Subscribe(value =>
             {
                 isAttack = value;

@@ -8,17 +8,32 @@ public class TDBulletFormList : ScriptableObject
     // 陣営によって弾のカラーを変更する
     [ColorUsage(false, true)] public Color playerColor;
     [ColorUsage(false, true)] public Color enemyColor;
+    [ColorUsage(false, true)] public Color otherColor;
+
     // BulletData.BulletParentListから陣営に合わせて弾のカラーを返す
     public Color FormParent(TDList.ParentList parent)
     {
+        switch (parent)
+        {
+            case TDList.ParentList.Player:
+                return playerColor;
+            case TDList.ParentList.Enemy:
+                return enemyColor;
+            default:
+                return otherColor;
+        }
 
-        if(parent == TDList.ParentList.Player)
+        if (parent == TDList.ParentList.Player)
         {
             return playerColor;
         }
-        else
+        else if(parent == TDList.ParentList.Enemy)
         {
             return enemyColor;
+        }
+        else
+        {
+            return otherColor;
         }
     }
 
@@ -46,5 +61,9 @@ public class TDBulletForm
 {
     public TDList.BulletTypeList bType; // 弾のタイプ
     public Vector3 size;                // 弾の大きさ
+
+    public float bSpeed;                // 弾のスピード
+    public float bDeathCount;           // 自動消滅までの時間 (単位：秒)
+    public int bDamage;                 // 弾のダメージ量 (基本的に1)
 }
 

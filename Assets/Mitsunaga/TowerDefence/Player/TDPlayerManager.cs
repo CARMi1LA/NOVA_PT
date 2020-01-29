@@ -33,25 +33,28 @@ public class TDPlayerManager : MonoBehaviour
 
     // ボタンイベント
     // 移動 <入力データ>
-    public Subject<InputValueData1P>                moveTrigger     = new Subject<InputValueData1P>();
+    public Subject<InputValueData1P>                MoveTrigger     = new Subject<InputValueData1P>();
     // ダッシュ発動 <>
-    public Subject<Unit>                            dashTrigger     = new Subject<Unit>();
+    public Subject<Unit>                            DashTrigger     = new Subject<Unit>();
     // 通常攻撃 <On/Off>
-    public Subject<bool>                            attackTrigger   = new Subject<bool>();
+    public Subject<bool>                            AttackTrigger   = new Subject<bool>();
     // スキル発動 <スキルの型>
-    public Subject<TDPlayerData.SkillTypeList>      skillTrigger    = new Subject<TDPlayerData.SkillTypeList>();
+    public Subject<TDPlayerData.SkillTypeList>      SkillTrigger    = new Subject<TDPlayerData.SkillTypeList>();
     // アルティメット発動 <アルティメットの型>
-    public Subject<TDPlayerData.UltimateTypeList>   ultimateTrigger = new Subject<TDPlayerData.UltimateTypeList>();
+    public Subject<TDPlayerData.UltimateTypeList>   UltimateTrigger = new Subject<TDPlayerData.UltimateTypeList>();
 
     // アクションイベント
     // 衝突 <衝突ObjのPosition>
-    public Subject<Vector3>                         impactTrigger   = new Subject<Vector3>();
+    public Subject<Vector3>                         ImpactTrigger   = new Subject<Vector3>();
     // ダメージ演出発動 <>
     public Subject<Unit>                            DamageTrigger   = new Subject<Unit>();
-    // 死亡演出発動 <>
-    public Subject<Unit>                            DeathTrigger    = new Subject<Unit>();
     // 回復イベント
     public Subject<Unit>                            HealTrigger     = new Subject<Unit>();
+    // リスポーンイベント
+    public Subject<Unit>                            RespawnTrigger  = new Subject<Unit>();
+    
+    // 死亡判定
+    public BoolReactiveProperty                     isDeath         = new BoolReactiveProperty();
 
     void Awake()
     {
@@ -99,12 +102,13 @@ public class TDPlayerManager : MonoBehaviour
                 }
 
                 // スティック処理
-                moveTrigger.OnNext(inputData);
+                MoveTrigger.OnNext(inputData);
 
             }).AddTo(this.gameObject);
 
         // エネルギー、アルティメットゲージの自動回復(雑)
         this.UpdateAsObservable()
+            .Where(x => !GameManagement.Instance.isPause.Value)
             .Sample(System.TimeSpan.FromSeconds(0.02f))
             .Subscribe(_ =>
             {
@@ -119,12 +123,29 @@ public class TDPlayerManager : MonoBehaviour
 
             }).AddTo(this.gameObject);
 
+        // 死亡判定
+        pData.pHealth
+            .Where(x => x <= 0)
+            .Subscribe(value =>
+            {
+                isDeath.Value = true;
+
+            }).AddTo(this.gameObject);
+        // リスポーン処理
+        RespawnTrigger
+            .Subscribe(_ =>
+            {
+                pData.pHealth.Value = pData.pMaxHealth;
+
+                isDeath.Value = false;
+
+            }).AddTo(this.gameObject);
+
         // ダメージ処理
         DamageTrigger
             .Subscribe(_ =>
             {
                 pData.pHealth.Value -= 1;
-                Debug.Log(pData.pHealth.Value.ToString());
 
             }).AddTo(this.gameObject);
         // 回復処理
@@ -140,7 +161,7 @@ public class TDPlayerManager : MonoBehaviour
             // RBボタン：通常攻撃
             inputData.pushBtnRB.Subscribe(value =>
                 {
-                    attackTrigger.OnNext(value);
+                    AttackTrigger.OnNext(value);
 
                 }).AddTo(this.gameObject);
 
@@ -156,21 +177,24 @@ public class TDPlayerManager : MonoBehaviour
             // Aボタン：ダッシュ発動
             inputData.pushBtnA
                 .Where(x => x)                                                  // ボタンが押された
+                .Where(x => !isDeath.Value)
+                .Where(x => !GameManagement.Instance.isPause.Value)
                 .Where(x => pData.pEnergy.Value >= pData.pDashCost)             // エネルギーがある
                 .ThrottleFirst(System.TimeSpan.FromSeconds(pData.pDashTime))    // ダッシュ中ではない
                 .Subscribe(value =>
                 {
-                // ダッシュの実行
-                dashTrigger.OnNext(Unit.Default);
-
-                // エネルギーを消費する
-                pData.pEnergy.Value -= pData.pDashCost;
+                    // ダッシュの実行
+                    DashTrigger.OnNext(Unit.Default);
+                    // エネルギーを消費する
+                    pData.pEnergy.Value -= pData.pDashCost;
 
                 }).AddTo(this.gameObject);
 
             // Bボタン：各種アクセス
             inputData.pushBtnB
                 .Where(x => x)
+                .Where(x => !isDeath.Value)
+                .Where(x => !GameManagement.Instance.isPause.Value)
                 .Subscribe(value =>
                 {
                     Debug.Log("アクセス");
@@ -181,12 +205,13 @@ public class TDPlayerManager : MonoBehaviour
             inputData.pushBtnX
                 .ThrottleFirst(System.TimeSpan.FromSeconds(pData.pSkillInterval))
                 .Where(x => x)
+                .Where(x => !isDeath.Value)
+                .Where(x => !GameManagement.Instance.isPause.Value)
                 .Where(x => pData.pEnergy.Value >= pData.pSkillCost)
                 .Subscribe(value =>
                 {
                     // スキルの実行
-                    skillTrigger.OnNext(pData.pSkillType);
-
+                    SkillTrigger.OnNext(pData.pSkillType);
                     // エネルギーを消費
                     pData.pEnergy.Value -= pData.pSkillCost;
 
@@ -195,13 +220,15 @@ public class TDPlayerManager : MonoBehaviour
             // Yボタン：アルティメット発動
             inputData.pushBtnY
                 .Where(x => x)
+                .Where(x => !isDeath.Value)
+                .Where(x => !GameManagement.Instance.isPause.Value)
                 .Where(x => pData.pUltimate.Value >= pData.pMaxUltimate)
                 .Subscribe(value =>
                 {
-                // アルティメットの実行
-                ultimateTrigger.OnNext(pData.pUltimateType);
-                // アルティメットゲージを消費
-                pData.pUltimate.Value = 0;
+                    // アルティメットの実行
+                    UltimateTrigger.OnNext(pData.pUltimateType);
+                    // アルティメットゲージを消費
+                    pData.pUltimate.Value = 0;
 
                 }).AddTo(this.gameObject);
         }
