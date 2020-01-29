@@ -35,13 +35,17 @@ public class TowerManager : MonoBehaviour,ITwDamage
     // 現在タワーが生存しているか
     public BoolReactiveProperty towerDeath = new BoolReactiveProperty(false);
 
+    void Awake()
+    {
+        // 現在HPの設定
+        towerHp.Value = tower_MaxHP;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         // タワー情報をショップより取得
         towerLv = ShopManager.Instance.spLv.towerLv[(int)towerColor];
-        // 現在HPの設定
-        towerHp.Value = tower_MaxHP;
 
         for (int i = 0; i < turrets.Length; i++)
         {
