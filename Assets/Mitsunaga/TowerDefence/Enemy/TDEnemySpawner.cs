@@ -19,6 +19,8 @@ public class TDEnemySpawner : MonoBehaviour
 
     TDEnemyDataList enemyDataList;
 
+    bool isSkiped = false;
+
     void Awake()
     {
         enemyDataList = Resources.Load<TDEnemyDataList>("TDEnemyDataList");
@@ -51,6 +53,7 @@ public class TDEnemySpawner : MonoBehaviour
             .Where(x => enemyCount < enemyWave.Count)
             .Subscribe(_ =>
             {
+                isSkiped = false;
                 timeCount += Time.deltaTime;
                 if(timeCount >= enemyWaveInterval)
                 {
@@ -64,6 +67,20 @@ public class TDEnemySpawner : MonoBehaviour
 
                     enemyCount++;
                 }
+
+            }).AddTo(this.gameObject);
+
+        // エネミーが全員消滅したらタイムをスキップする
+        this.UpdateAsObservable()
+            .Where(x => !isSkiped)
+            .Where(x => !GameManagement.Instance.isPause.Value) // 一時停止用
+            .Where(x => GameManagement.Instance.gameState.Value == GameManagement.BattleMode.Attack) // 戦闘フェイズか待機フェイズかの確認
+            .Where(x => enemyCount >= enemyWave.Count)
+            .Where(x => true)
+            .Subscribe(_ =>
+            {
+                isSkiped = true;
+                GameManagement.Instance.masterTimeSkip.OnNext(Unit.Default);
 
             }).AddTo(this.gameObject);
 

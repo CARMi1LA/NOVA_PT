@@ -39,7 +39,7 @@ public class HUDManager : MonoBehaviour
     [SerializeField] HUDRespawnTime hRespawnTime;   // 死亡時のリスポーン表示
 
     // タワーのHP　マスターから取得する予定
-    float[] towerHealth;
+    float[] towerHealth = new float[4];
     float towerMaxHealth = 100;
 
     int waveCount = 1;
@@ -111,11 +111,11 @@ public class HUDManager : MonoBehaviour
         this.UpdateAsObservable()
             .Subscribe(_ =>
             {
-                //towerHealth[0] = GameManagement.Instance.blueTw.towerHp.Value;
-                //towerHealth[1] = GameManagement.Instance.redTw.towerHp.Value;
-                //towerHealth[2] = GameManagement.Instance.yellowTw.towerHp.Value;
-                //towerHealth[3] = GameManagement.Instance.greenTw.towerHp.Value;
-                //hTowerHealth.SetTowerHealth(100, towerHealth);
+                towerHealth[0] = GameManagement.Instance.blueTw.towerHp.Value;
+                towerHealth[1] = GameManagement.Instance.redTw.towerHp.Value;
+                towerHealth[2] = GameManagement.Instance.yellowTw.towerHp.Value;
+                towerHealth[3] = GameManagement.Instance.greenTw.towerHp.Value;
+                hTowerHealth.SetTowerHealth(100, towerHealth);
                 hWaveCount.SetWaveCount(waveCount, maxCount);
                 hWaveTime.SetWaveTime(GameManagement.Instance.masterTime, startWaveTime);
 

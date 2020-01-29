@@ -142,6 +142,7 @@ public class EnemyMove : MonoBehaviour
             .Subscribe(value =>
             {
                 Debug.Log("Tower Hit：" + eData.eTowerDamage.ToString());
+                value.HitDamage(eData.eTowerDamage);
                 eManager.CoreDeathTrigger.OnNext(Unit.Default);
             })
             .AddTo(this.gameObject);
