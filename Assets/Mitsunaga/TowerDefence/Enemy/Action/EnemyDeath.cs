@@ -19,6 +19,9 @@ public class EnemyDeath : MonoBehaviour
                 Instantiate(eUnit.eManager.deathParticle.gameObject, this.transform.position, Quaternion.identity);
                 Destroy(eUnit.gameObject);
 
+                new ItemData(eUnit.eManager.eData.eDropMater, 0, 0, ItemManager.ItemType.Mater, this.transform.position);
+
+
             }).AddTo(this.gameObject);
         
     }
