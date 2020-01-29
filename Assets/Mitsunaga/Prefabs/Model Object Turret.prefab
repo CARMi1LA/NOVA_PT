@@ -320,6 +320,7 @@ GameObject:
   - component: {fileID: 28585551141742918}
   - component: {fileID: 28585551141742919}
   - component: {fileID: 28585551141742912}
+  - component: {fileID: 809524229}
   m_Layer: 0
   m_Name: Model Object Turret
   m_TagString: Untagged
@@ -403,3 +404,25 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.009999999
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &809524229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28585551141742914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21c72a1054c9c3742a763752c55ce71e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tower: {fileID: 0}
+  enemyInfoList: {fileID: 0}
+  turret_RecogDis: 30
+  targetEnemy: {fileID: 0}
+  turretChild:
+  - {fileID: 28585550651392563}
+  - {fileID: 28585550665035048}
+  - {fileID: 28585550858994634}
+  turretActive:
+    value: 0

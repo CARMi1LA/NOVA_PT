@@ -94,6 +94,7 @@ public class HUDManager : MonoBehaviour
             }).AddTo(this.gameObject);
         // ウェーブの時間の表示
         GameManagement.Instance.gameState
+            .Delay(System.TimeSpan.FromSeconds(0.01f))
             .Subscribe(_ =>
             {
                 startWaveTime = GameManagement.Instance.masterTime;

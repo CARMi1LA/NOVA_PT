@@ -10,6 +10,10 @@ public class HUDWaveTime : MonoBehaviour
 
     Renderer wtRenderer;
 
+    [SerializeField,ColorUsage(false, true)] Color waitColor;
+    [SerializeField,ColorUsage(false, true)] Color attackColor;
+
+
     void Awake()
     {
         wtRenderer = this.GetComponent<Renderer>();
@@ -17,6 +21,17 @@ public class HUDWaveTime : MonoBehaviour
 
     public void SetWaveTime(float time,float startTime)
     {
+        // 現在タイム / 最大タイム で時計のレンジを設定
         wtRenderer.material.SetFloat("_ArcRange", time / startTime * maxRange);
+        // ゲームのフェイズによってカラーを変更
+        if (GameManagement.Instance.gameState.Value == GameManagement.BattleMode.Wait)
+        {
+            wtRenderer.material.SetColor("_MainColor", waitColor);
+
+        }
+        else
+        {
+            wtRenderer.material.SetColor("_MainColor", attackColor);
+        }
     }
 }

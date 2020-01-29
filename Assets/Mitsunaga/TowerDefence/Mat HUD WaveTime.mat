@@ -34,5 +34,5 @@ Material:
     - _RingMax: 1
     - _RingMin: 0.8
     m_Colors:
-    - _MainColor: {r: 0, g: 0.31132078, b: 0.11720311, a: 1}
+    - _MainColor: {r: 0, g: 0.4031346, b: 0.7264151, a: 1}
     - _SubColor: {r: 0, g: 0, b: 0, a: 0.9019608}
