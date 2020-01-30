@@ -83,6 +83,8 @@ public class GameManagement : GMSingleton<GameManagement>
     public Subject<Transform> enemyInfoAdd = new Subject<Transform>();
     // ゲーム時間強制進行用Subject
     public Subject<Unit> masterTimeSkip = new Subject<Unit>();
+    public Subject<Unit> shopInSub = new Subject<Unit>();
+    public Subject<Unit> shopOutSub = new Subject<Unit>();
     // マター追加Subject（デバッグ用）
     public Subject<int> addMaterDebug = new Subject<int>();
     // マター取得Subject
@@ -98,7 +100,7 @@ public class GameManagement : GMSingleton<GameManagement>
         base.Awake();
         masterInit.Subscribe(_ => 
         {
-            mater.Value = 0;
+            mater.Value = 3000;
         }).AddTo(this.gameObject);
         // プレイヤーデータの初期化
         tdPlaerData = new TDPlayerData();
@@ -141,6 +143,22 @@ public class GameManagement : GMSingleton<GameManagement>
         {
             masterTime = 3.0f;
         }).AddTo(this.gameObject);
+
+        shopInSub
+            .Subscribe(_ => 
+            {
+                shopCanvas.alpha = 1.0f;
+                shopCanvasEnable.Value = true;
+                shopCanvas.blocksRaycasts = true;
+            }).AddTo(this.gameObject);
+
+        shopOutSub
+            .Subscribe(_ => 
+            {
+                shopCanvas.alpha = 0.0f;
+                shopCanvas.blocksRaycasts = false;
+                shopCanvasEnable.Value = false;
+            }).AddTo(this.gameObject);
 
         // デバッグ用、F12キーを押すとデバッグモードへ
         this.UpdateAsObservable()
