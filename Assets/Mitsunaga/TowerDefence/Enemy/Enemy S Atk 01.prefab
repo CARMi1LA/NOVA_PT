@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 5805954570662241955}
   - component: {fileID: 7154951435349945311}
   - component: {fileID: 7331329527286708249}
+  - component: {fileID: -835326477153523534}
   m_Layer: 0
   m_Name: Enemy S Atk 01
   m_TagString: Untagged
@@ -168,6 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eManager: {fileID: 5805954570662241966}
   isCoreUnit: 1
+  deathParticle: {fileID: 0}
   eHealth:
     value: 100
 --- !u!114 &5805954570662241961
@@ -222,6 +224,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eUnit: {fileID: 7359324395888953958}
+--- !u!114 &-835326477153523534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5805954570662241960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 530628116bc7ebc4ea8b30265ee13b78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5805954571866017429
 GameObject:
   m_ObjectHideFlags: 0
@@ -396,6 +410,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 410855982818304130, guid: 4d1b0d81608d29042ad5b55a676dbeca,
+        type: 3}
+      propertyPath: bType
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d1b0d81608d29042ad5b55a676dbeca, type: 3}
 --- !u!4 &7278468766007637833 stripped
@@ -501,6 +520,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 410855982818304130, guid: 4d1b0d81608d29042ad5b55a676dbeca,
+        type: 3}
+      propertyPath: bType
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d1b0d81608d29042ad5b55a676dbeca, type: 3}
 --- !u!4 &6309025713503657620 stripped
@@ -604,6 +628,11 @@ PrefabInstance:
     - target: {fileID: 1978055743953172788, guid: 4d1b0d81608d29042ad5b55a676dbeca,
         type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 410855982818304130, guid: 4d1b0d81608d29042ad5b55a676dbeca,
+        type: 3}
+      propertyPath: bType
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

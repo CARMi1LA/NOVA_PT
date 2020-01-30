@@ -16,7 +16,14 @@ public class EnemyDeath : MonoBehaviour
         eUnit.DeathTrigger
             .Subscribe(_ =>
             {
-                Instantiate(eUnit.eManager.deathParticle.gameObject, this.transform.position, Quaternion.identity);
+                if(eUnit.deathParticle != null)
+                {
+                    Instantiate(eUnit.deathParticle.gameObject, this.transform.position, Quaternion.identity);
+                }
+                else
+                {
+                    Instantiate(eUnit.eManager.deathParticle.gameObject, this.transform.position, Quaternion.identity);
+                }
                 Destroy(eUnit.gameObject);
 
                 new ItemData(eUnit.eManager.eData.eDropMater, 0, 0, ItemManager.ItemType.Mater, this.transform.position);

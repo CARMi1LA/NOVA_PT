@@ -562,8 +562,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eUnit: {fileID: 3232404355985857707}
-  eDeathParticle: {fileID: 8986527913691645247, guid: 3cf6a222838fa8a4a910ff47d0b38b1e,
-    type: 3}
 --- !u!1 &5583542377466090170
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,7 +609,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eUnit: {fileID: 3232404355985857707}
-  bType: 4
+  bType: 0
 --- !u!1 &5944366499214988923
 GameObject:
   m_ObjectHideFlags: 0

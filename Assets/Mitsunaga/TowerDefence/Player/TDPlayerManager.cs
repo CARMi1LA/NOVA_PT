@@ -65,6 +65,7 @@ public class TDPlayerManager : MonoBehaviour
 
         // デバッグ用
         inputData = GetComponent<InputValueData1P>();
+
         pData = new TDPlayerData();
     }
     void Start()
@@ -103,6 +104,25 @@ public class TDPlayerManager : MonoBehaviour
 
                 // スティック処理
                 MoveTrigger.OnNext(inputData);
+
+            }).AddTo(this.gameObject);
+
+        ShopManager.Instance.spLv.playerLv.lv_HP
+            .Subscribe(value => 
+            {
+                pData.SetMaxHealth(value);
+
+            }).AddTo(this.gameObject);
+        ShopManager.Instance.spLv.playerLv.lv_Spd
+            .Subscribe(value =>
+            {
+                pData.SetSpeed(value);
+
+            }).AddTo(this.gameObject);
+        ShopManager.Instance.spLv.playerLv.lv_Int
+            .Subscribe(value =>
+            {
+                pData.SetShotInterval(value);
 
             }).AddTo(this.gameObject);
 

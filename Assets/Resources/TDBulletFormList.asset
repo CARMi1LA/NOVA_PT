@@ -39,12 +39,12 @@ MonoBehaviour:
   - bType: 4
     size: {x: 1, y: 1, z: 1}
     bSpeed: 150
-    bDeathCount: 2
+    bDeathCount: 3
     bDamage: 1
   - bType: 5
     size: {x: 1, y: 1, z: 1}
-    bSpeed: 150
-    bDeathCount: 2
+    bSpeed: 300
+    bDeathCount: 1
     bDamage: 1
   - bType: 6
     size: {x: 1, y: 1, z: 1}

@@ -76,14 +76,14 @@ public class TDEnemySpawner : MonoBehaviour
             .Where(x => !GameManagement.Instance.isPause.Value) // 一時停止用
             .Where(x => GameManagement.Instance.gameState.Value == GameManagement.BattleMode.Attack) // 戦闘フェイズか待機フェイズかの確認
             .Where(x => enemyCount >= enemyWave.Count)
-            .Where(x => true)
+            .Where(x => GameManagement.Instance.enemyInfoList.enemyInfo.Count == 0)
             .Subscribe(_ =>
             {
                 isSkiped = true;
                 GameManagement.Instance.masterTimeSkip.OnNext(Unit.Default);
 
             }).AddTo(this.gameObject);
-
+        // 戦闘フェイズに変わったら
         GameManagement.Instance.gameState
             .Where(x => x == GameManagement.BattleMode.Attack)
             .Subscribe(_ =>
@@ -95,14 +95,29 @@ public class TDEnemySpawner : MonoBehaviour
                 enemyCount = 0;
 
             }).AddTo(this.gameObject);
-
+        // 準備フェイズに変わったら
         GameManagement.Instance.gameState
             .Where(x => x == GameManagement.BattleMode.Wait)
             .Subscribe(_ =>
             {
                 towerTarget = towerList[Random.Range(0, towerList.Count)];
 
-                
+                if(towerTarget.towerColor == ShopData.TowerColor.Blue)
+                {
+                    GameManagement.Instance.targetTw = MasterData.TowerColor.Blue;
+                }
+                else if(towerTarget.towerColor == ShopData.TowerColor.Red)
+                {
+                    GameManagement.Instance.targetTw = MasterData.TowerColor.Red;
+                }
+                else if(towerTarget.towerColor == ShopData.TowerColor.Yellow)
+                {
+                    GameManagement.Instance.targetTw = MasterData.TowerColor.Yellow;
+                }
+                else if(towerTarget.towerColor == ShopData.TowerColor.Green)
+                {
+                    GameManagement.Instance.targetTw = MasterData.TowerColor.Green;
+                }
 
             }).AddTo(this.gameObject);
     }
@@ -126,7 +141,7 @@ public class TDEnemySpawner : MonoBehaviour
 
         // 初期位置と向きを設定
         int pickupTower = Random.Range(0, 10);
-        if (pickupTower < towerList.Count)
+        if (pickupTower < towerList.Count && size != TDList.EnemySizeList.Extra)
         {
             createEnemy.targetTsf = towerList[pickupTower].transform;
             createEnemy.transform.position = towerList[pickupTower].spawnPos.position + new Vector3
@@ -147,7 +162,7 @@ public class TDEnemySpawner : MonoBehaviour
                 );
 
         }
-        createEnemy.transform.LookAt(Vector3.zero);
+        createEnemy.transform.LookAt(new Vector3(0, createEnemy.transform.position.y, 0));
         createEnemy.playerTsf = GameManagement.Instance.playerTrans;
         createEnemy.InitEnemyData(enemyDataList.GetEnemyData(createEnemy.eSize, createEnemy.eType));
 
