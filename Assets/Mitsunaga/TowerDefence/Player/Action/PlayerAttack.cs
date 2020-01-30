@@ -12,11 +12,15 @@ public class PlayerAttack : MonoBehaviour
     TDPlayerManager pManager;
     [SerializeField]
     TDList.BulletTypeList bType = TDList.BulletTypeList.Normal;  // 攻撃タイプの実装テスト
+    [SerializeField]
+    int ActiveLevel = 0;
 
     bool isAttack = false;
 
     void Start()
     {
+        float shotTime = 0.0f;
+
         pManager.AttackTrigger
             .Subscribe(value =>
             {
@@ -26,12 +30,20 @@ public class PlayerAttack : MonoBehaviour
 
         this.UpdateAsObservable()
             .Where(x => isAttack)
-            .ThrottleFirstFrame(pManager.pData.pAttackInterval)
+            .Where(x => !pManager.isDeath.Value)
+            .Where(x => ActiveLevel <= ShopManager.Instance.spLv.playerLv.lv_Int.Value)
             .Subscribe(_ =>
             {
-                // 通常攻撃の実行
-                TDBulletData bData = new TDBulletData(pManager.pData.pParent,bType, this.transform.position, this.transform.eulerAngles);
-                TDBulletSpawner.Instance.bulletRentSubject.OnNext(bData);
+                shotTime += Time.deltaTime;
+
+                if(shotTime >= pManager.pData.pAttackInterval)
+                {
+                    // 通常攻撃の実行
+                    TDBulletData bData = new TDBulletData(pManager.pData.pParent, bType, this.transform.position, this.transform.eulerAngles);
+                    TDBulletSpawner.Instance.bulletRentSubject.OnNext(bData);
+
+                    shotTime = 0.0f;
+                }
 
             }).AddTo(this.gameObject);
     }

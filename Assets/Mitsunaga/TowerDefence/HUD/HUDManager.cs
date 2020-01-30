@@ -116,6 +116,7 @@ public class HUDManager : MonoBehaviour
                 towerHealth[2] = GameManagement.Instance.yellowTw.towerHp.Value;
                 towerHealth[3] = GameManagement.Instance.greenTw.towerHp.Value;
                 hTowerHealth.SetTowerHealth(100, towerHealth);
+                hTowerHealth.SetTowerTarget(GameManagement.Instance.targetTw);
                 hWaveCount.SetWaveCount(waveCount, maxCount);
                 hWaveTime.SetWaveTime(GameManagement.Instance.masterTime, startWaveTime);
 

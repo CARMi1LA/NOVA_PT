@@ -19,7 +19,7 @@ public class TDEnemyManager : MonoBehaviour
     public BoolReactiveProperty isTargetPlayer = new BoolReactiveProperty(false);
     public Transform targetTsf;              // 標的のタワーの位置
     public Transform playerTsf;              // プレイヤーの位置
-    float TargetPlayerDistance = 150.0f;        // プレイヤーを追い続ける距離(離れすぎるとタワー狙いに戻る)
+    float TargetPlayerDistance = 200.0f;        // プレイヤーを追い続ける距離(離れすぎるとタワー狙いに戻る)
 
     public ParticleSystem towerHitParticle; // タワー特攻時のエフェクト
     public float towerHitInterval = 3.0f;          // タワー特攻時の待機時間
@@ -55,6 +55,7 @@ public class TDEnemyManager : MonoBehaviour
     void Start()
     {
         //playerPosition = GameManagement.Instance.playerTrans.position;
+        isTargetPlayer.Value = true;
 
         // コアが破壊された場合の処理
         CoreDeathTrigger
@@ -66,6 +67,8 @@ public class TDEnemyManager : MonoBehaviour
 
         // プレイヤーを標的にし続けるか否かの判断をする
         this.UpdateAsObservable()
+            .Where(x => eData.eSize != TDList.EnemySizeList.Extra)
+            .Where(x => eData.eSize != TDList.EnemySizeList.Large)
             .Where(x => isTargetPlayer.Value)
             .Subscribe(_ =>
             {

@@ -9,7 +9,7 @@ public class EnemyAttack : MonoBehaviour
     [SerializeField]
     TDEnemyUnit eUnit;
     [SerializeField]
-    TDList.BulletTypeList bType = TDList.BulletTypeList.Normal;
+    TDList.EnemyAttackTypeList bType = TDList.EnemyAttackTypeList.E_Single;
     TDEnemyBulletList eBulletList;
     TDEnemyBullet eBullet;
     bool isAttack = false;

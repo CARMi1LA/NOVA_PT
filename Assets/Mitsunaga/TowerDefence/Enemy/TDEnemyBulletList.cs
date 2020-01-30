@@ -6,13 +6,16 @@ public class TDEnemyBulletList
 {
     float defaultBulletInterval = 1.0f;
 
-    public TDEnemyBullet GetEnemyBullet(TDList.BulletTypeList type)
+    int allRangeBulletCount = 16;
+
+    public TDEnemyBullet GetEnemyBullet(TDList.EnemyAttackTypeList type)
     {
         TDEnemyBullet eBullet = new TDEnemyBullet();
+        eBullet.bInterval = defaultBulletInterval;
 
         switch (type)
         {
-            case TDList.BulletTypeList.E_Single:
+            case TDList.EnemyAttackTypeList.E_Single:
                 {
                     eBullet.bInterval = 1.0f;
                     eBullet.bDataList.Add
@@ -20,14 +23,14 @@ public class TDEnemyBulletList
                             new TDBulletData
                             (
                                 TDList.ParentList.Enemy,        // 陣営
-                                TDList.BulletTypeList.E_Single, // 弾の種類
+                                TDList.BulletTypeList.E_Normal, // 弾の種類
                                 Vector3.zero,                   // 生成位置 + 生成キャラクターの位置
                                 new Vector3(0, 0, 0)            // 生成方向 + 生成キャラクターの方向
                             )
                          );
                 }
                 break;
-            case TDList.BulletTypeList.E_3Way:
+            case TDList.EnemyAttackTypeList.E_Fast:
                 {
                     eBullet.bInterval = 0.3f;
                     eBullet.bDataList.Add
@@ -35,7 +38,22 @@ public class TDEnemyBulletList
                             new TDBulletData
                             (
                                 TDList.ParentList.Enemy,        // 陣営
-                                TDList.BulletTypeList.E_3Way,   // 弾の種類
+                                TDList.BulletTypeList.E_Normal, // 弾の種類
+                                Vector3.zero,                   // 生成位置 + 生成キャラクターの位置
+                                new Vector3(0, 0, 0)            // 生成方向 + 生成キャラクターの方向
+                            )
+                         );
+                }
+                break;
+            case TDList.EnemyAttackTypeList.E_3Way:
+                {
+                    eBullet.bInterval = 0.5f;
+                    eBullet.bDataList.Add
+                        (
+                            new TDBulletData
+                            (
+                                TDList.ParentList.Enemy,        // 陣営
+                                TDList.BulletTypeList.E_Normal,   // 弾の種類
                                 Vector3.zero,                   // 生成位置 + 生成キャラクターの位置
                                 new Vector3(0, 0, 0)            // 生成方向 + 生成キャラクターの方向
                             )
@@ -45,7 +63,7 @@ public class TDEnemyBulletList
                             new TDBulletData
                             (
                                 TDList.ParentList.Enemy,        // 陣営
-                                TDList.BulletTypeList.E_3Way,   // 弾の種類
+                                TDList.BulletTypeList.E_Normal,   // 弾の種類
                                 Vector3.zero,                   // 生成位置 + 生成キャラクターの位置
                                 new Vector3(0, -15, 0)            // 生成方向 + 生成キャラクターの方向
                             )
@@ -55,7 +73,42 @@ public class TDEnemyBulletList
                             new TDBulletData
                             (
                                 TDList.ParentList.Enemy,        // 陣営
-                                TDList.BulletTypeList.E_3Way,   // 弾の種類
+                                TDList.BulletTypeList.E_Normal,   // 弾の種類
+                                Vector3.zero,                   // 生成位置 + 生成キャラクターの位置
+                                new Vector3(0, 15, 0)            // 生成方向 + 生成キャラクターの方向
+                            )
+                        );
+                }
+                break;
+            case TDList.EnemyAttackTypeList.E_5Way:
+                {
+                    eBullet.bInterval = 1.0f;
+                    eBullet.bDataList.Add
+                        (
+                            new TDBulletData
+                            (
+                                TDList.ParentList.Enemy,        // 陣営
+                                TDList.BulletTypeList.E_Normal,   // 弾の種類
+                                Vector3.zero,                   // 生成位置 + 生成キャラクターの位置
+                                new Vector3(0, 0, 0)            // 生成方向 + 生成キャラクターの方向
+                            )
+                         );
+                    eBullet.bDataList.Add
+                        (
+                            new TDBulletData
+                            (
+                                TDList.ParentList.Enemy,        // 陣営
+                                TDList.BulletTypeList.E_Normal,   // 弾の種類
+                                Vector3.zero,                   // 生成位置 + 生成キャラクターの位置
+                                new Vector3(0, -15, 0)            // 生成方向 + 生成キャラクターの方向
+                            )
+                        );
+                    eBullet.bDataList.Add
+                        (
+                            new TDBulletData
+                            (
+                                TDList.ParentList.Enemy,        // 陣営
+                                TDList.BulletTypeList.E_Normal,   // 弾の種類
                                 Vector3.zero,                   // 生成位置 + 生成キャラクターの位置
                                 new Vector3(0, 15, 0)            // 生成方向 + 生成キャラクターの方向
                             )
@@ -65,7 +118,7 @@ public class TDEnemyBulletList
                             new TDBulletData
                             (
                                 TDList.ParentList.Enemy,        // 陣営
-                                TDList.BulletTypeList.E_3Way,   // 弾の種類
+                                TDList.BulletTypeList.E_Normal,   // 弾の種類
                                 Vector3.zero,                   // 生成位置 + 生成キャラクターの位置
                                 new Vector3(0, -30, 0)            // 生成方向 + 生成キャラクターの方向
                             )
@@ -75,24 +128,43 @@ public class TDEnemyBulletList
                             new TDBulletData
                             (
                                 TDList.ParentList.Enemy,        // 陣営
-                                TDList.BulletTypeList.E_3Way,   // 弾の種類
+                                TDList.BulletTypeList.E_Normal,   // 弾の種類
                                 Vector3.zero,                   // 生成位置 + 生成キャラクターの位置
                                 new Vector3(0, 30, 0)            // 生成方向 + 生成キャラクターの方向
                             )
                         );
                 }
                 break;
-            case TDList.BulletTypeList.None:
+            case TDList.EnemyAttackTypeList.E_AllRange:
+                {
+                    eBullet.bInterval = 2.0f;
+                    float angle = 360.0f / allRangeBulletCount;
+                    for (int i = 0; i < allRangeBulletCount; ++i)
+                    {
+                        eBullet.bDataList.Add
+                            (
+                                new TDBulletData
+                                (
+                                    TDList.ParentList.Enemy,        // 陣営
+                                    TDList.BulletTypeList.E_Normal, // 弾の種類
+                                    Vector3.zero,                   // 生成位置 + 生成キャラクターの位置
+                                    new Vector3(0, i * angle, 0)    // 生成方向 + 生成キャラクターの方向
+                                )
+                             );
+                    }
+                }
+                break;
+            case TDList.EnemyAttackTypeList.None:
                 break;
             default:
                 {
                     eBullet.bInterval = defaultBulletInterval;
                     eBullet.bDataList.Add
                         (
-                        new TDBulletData
-                        (
+                            new TDBulletData
+                            (
                             TDList.ParentList.Enemy,        // 陣営
-                            TDList.BulletTypeList.Normal,   // 弾の種類
+                            TDList.BulletTypeList.E_Normal, // 弾の種類
                             Vector3.zero,                   // 生成位置 + 生成キャラクターの位置
                             new Vector3(0, 0, 0)            // 生成方向 + 生成キャラクターの方向
                             )

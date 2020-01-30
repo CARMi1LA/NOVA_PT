@@ -24,9 +24,9 @@ public class TDList
         Missile = 1,
         Bomb = 2,
         Boost = 3,
-        E_Single,
-        E_3Way,
-        E_AllRange,
+        E_Normal,
+        E_Fast,
+        E_Missile,
         None,
     }
     public enum EnemySizeList
@@ -42,5 +42,15 @@ public class TDList
         Defence = 1,
         Speed = 2,
         Other = 3,
+    }
+
+    public enum EnemyAttackTypeList
+    {
+        E_Single,
+        E_Fast,
+        E_3Way,
+        E_5Way,
+        E_AllRange,
+        None,
     }
 }

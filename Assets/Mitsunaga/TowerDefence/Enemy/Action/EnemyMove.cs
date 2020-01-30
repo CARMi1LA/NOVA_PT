@@ -59,7 +59,7 @@ public class EnemyMove : MonoBehaviour
 
                 // 方向転換
                 {
-                    if (eManager.isTargetPlayer.Value)
+                    if (eManager.isTargetPlayer.Value && eManager.eSize != TDList.EnemySizeList.Extra)
                     {
                         targetPosition = eManager.playerTsf.position;
                     }

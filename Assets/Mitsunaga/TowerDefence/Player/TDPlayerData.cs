@@ -21,7 +21,7 @@ public class TDPlayerData
     public FloatReactiveProperty pUltimate = new FloatReactiveProperty();
 
     // 通常攻撃
-    public int pAttackInterval = 6;     // 通常攻撃の発動間隔(単位：フレーム)
+    public float pAttackInterval = 0.3f;     // 通常攻撃の発動間隔(単位：フレーム)
 
     // スキル
     public enum SkillTypeList
@@ -46,7 +46,7 @@ public class TDPlayerData
     public UltimateTypeList pUltimateType = 0;  // アルティメットの型
 
     // 移動
-    public float pSpeed = 70;  // 移動速度
+    public float pSpeed = 40;  // 移動速度
     public float pSpeedMul = 10;
     // ダッシュ
     public float pDashCost = 20.0f;      // 回避の発動コスト
@@ -64,8 +64,28 @@ public class TDPlayerData
     }
 
     // 最大ヘルスの変更
-    public void SetMaxHealth(int maxHealth)
+    public void SetMaxHealth(int level)
     {
+        int maxHealth = 10;
+
+        switch (level)
+        {
+            case 0:
+                maxHealth = 10;
+                break;
+            case 1:
+                maxHealth = 15;
+                break;
+            case 2:
+                maxHealth = 20;
+                break;
+            case 3:
+                maxHealth = 25;
+                break;
+            default:
+                maxHealth = 15;
+                break;
+        }
         // 最大ヘルスの上昇値分、現在ヘルスを回復する
         int hm = maxHealth - pMaxHealth;
 
@@ -73,14 +93,48 @@ public class TDPlayerData
         pHealth.Value += hm;
     }
     // 移動速度の変更
-    public void SetSpeed(int speed)
+    public void SetSpeed(int level)
     {
-        pSpeed = speed;
+        switch (level)
+        {
+            case 0:
+                pSpeed = 40;
+                break;
+            case 1:
+                pSpeed = 60;
+                break;
+            case 2:
+                pSpeed = 70;
+                break;
+            case 3:
+                pSpeed = 100;
+                break;
+            default:
+                pSpeed = 60;
+                break;
+        }
     }
     // 射撃間隔の変更
-    public void SetShotInterval(int shotInterval)
+    public void SetShotInterval(int level)
     {
-        pAttackInterval = shotInterval;
+        switch (level)
+        {
+            case 0:
+                pAttackInterval = 0.25f;
+                break;
+            case 1:
+                pAttackInterval = 0.25f;
+                break;
+            case 2:
+                pAttackInterval = 0.15f;
+                break;
+            case 3:
+                pAttackInterval = 0.15f;
+                break;
+            default:
+                pAttackInterval = 0.2f;
+                break;
+        }
     }
     // スキルの型の変更
     public void SetSkillType(SkillTypeList sType)

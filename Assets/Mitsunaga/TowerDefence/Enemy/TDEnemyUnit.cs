@@ -14,6 +14,9 @@ public class TDEnemyUnit : MonoBehaviour
     [SerializeField]
     bool isCoreUnit = false;
 
+    // 死亡時のエフェクト
+    public ParticleSystem deathParticle;
+
     // ヘルス
     public IntReactiveProperty eHealth = new IntReactiveProperty(100);
 

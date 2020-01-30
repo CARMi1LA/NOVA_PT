@@ -49,3 +49,12 @@ MonoBehaviour:
     eRotSpeed: 120
     eTowerDamage: 10
     eDropMater: 100
+  - eSize: 3
+    eType: 0
+    eHealth: 50
+    eCoreHealth: 500
+    eSpeed: 5
+    eSpeedMul: 10
+    eRotSpeed: 360
+    eTowerDamage: 100
+    eDropMater: 100
