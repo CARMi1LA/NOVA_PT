@@ -83,7 +83,9 @@ public class GameManagement : GMSingleton<GameManagement>
     public Subject<Transform> enemyInfoAdd = new Subject<Transform>();
     // ゲーム時間強制進行用Subject
     public Subject<Unit> masterTimeSkip = new Subject<Unit>();
+    // ショップ入店Subject
     public Subject<Unit> shopInSub = new Subject<Unit>();
+    // ショップ退出Subject
     public Subject<Unit> shopOutSub = new Subject<Unit>();
     // マター追加Subject（デバッグ用）
     public Subject<int> addMaterDebug = new Subject<int>();
@@ -91,6 +93,16 @@ public class GameManagement : GMSingleton<GameManagement>
     public Subject<int> addMater = new Subject<int>();
     // 戦闘モード進行用Subject
     public Subject<Unit> battleModeSub = new Subject<Unit>();
+    // タワー消滅Subject
+    public Subject<Unit> towerDeathSub = new Subject<Unit>();
+    // ゲームオーバーSubject
+    public Subject<Unit> gameOverSub = new Subject<Unit>();
+    // ゲームクリアSubject
+    public Subject<Unit> gameClear = new Subject<Unit>();
+    // （デバッグ用）タイトルバックSubject
+    public Subject<Unit> titleBack = new Subject<Unit>();
+    // ボス出現検知用Subject
+    public Subject<TDEnemyUnit> bossSpawn = new Subject<TDEnemyUnit>();
     // 初期化用Subject
     public Subject<Unit> masterInit = new Subject<Unit>();
 
@@ -144,6 +156,7 @@ public class GameManagement : GMSingleton<GameManagement>
             masterTime = 3.0f;
         }).AddTo(this.gameObject);
 
+        // 入店処理
         shopInSub
             .Subscribe(_ => 
             {
@@ -152,6 +165,7 @@ public class GameManagement : GMSingleton<GameManagement>
                 shopCanvas.blocksRaycasts = true;
             }).AddTo(this.gameObject);
 
+        // 退出処理
         shopOutSub
             .Subscribe(_ => 
             {
@@ -160,12 +174,23 @@ public class GameManagement : GMSingleton<GameManagement>
                 shopCanvasEnable.Value = false;
             }).AddTo(this.gameObject);
 
+        // タワー消滅処理
+        towerDeathSub.Subscribe(_ => 
+        {
+            towerAliveNum.Value--;
+        }).AddTo(this.gameObject);
+
+        titleBack.Subscribe(_ => 
+        {
+            SceneManager.LoadScene("00 Title");
+        }).AddTo(this.gameObject);
+
         // デバッグ用、F12キーを押すとデバッグモードへ
         this.UpdateAsObservable()
             .Where(_ => Input.GetKeyDown(KeyCode.F12) && isDebug.Value == false)
             .Subscribe(_ =>
             {
-                isDebug.Value = true;
+                //isDebug.Value = true;
             }).AddTo(this.gameObject);
 
         // デバッグモード状態でもう一度F12キーを押すと解除
@@ -173,7 +198,15 @@ public class GameManagement : GMSingleton<GameManagement>
             .Where(_ => Input.GetKeyDown(KeyCode.F12) && isDebug.Value == true)
             .Subscribe(_ =>
             {
-                isDebug.Value = false;
+                //isDebug.Value = false;
+            }).AddTo(this.gameObject);
+
+        // デバッグ用F11キーでタイトルバック
+        this.UpdateAsObservable()
+            .Where(_ => Input.GetKeyDown(KeyCode.F11) && isDebug.Value == true)
+            .Subscribe(_ =>
+            {
+                titleBack.OnNext(Unit.Default);
             }).AddTo(this.gameObject);
 
         // デバッグ用、F1キーを押すと進行時間の短縮が可能
