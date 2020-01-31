@@ -102,7 +102,7 @@ public class GameManagement : GMSingleton<GameManagement>
     // （デバッグ用）タイトルバックSubject
     public Subject<Unit> titleBack = new Subject<Unit>();
     // ボス出現検知用Subject
-    public Subject<TDEnemyManager> bossSpawn = new Subject<TDEnemyManager>();
+    public Subject<TDEnemyUnit> bossSpawn = new Subject<TDEnemyUnit>();
     // 初期化用Subject
     public Subject<Unit> masterInit = new Subject<Unit>();
 
