@@ -19,6 +19,14 @@ public class TowerManager : MonoBehaviour,ITwDamage
     [SerializeField] private int tower_MaxHP = 100;
     // 防衛認識距離
     [SerializeField] private int tower_RecogDis;
+    // 自動回復間隔
+    public float autoRepairInterval;
+    // 自動回復間隔リスト
+    public float[] autoRepairIntList;
+    // タワー自動回復量
+    public int towerAutoRepair;
+    // 自動回復量データ
+    public int[] towerAutoRepairData;
     // 現在の標的
     [SerializeField] Transform targetEnemy;
     // 敵スポーン位置
@@ -35,6 +43,10 @@ public class TowerManager : MonoBehaviour,ITwDamage
     // 現在タワーが生存しているか
     public BoolReactiveProperty towerDeath = new BoolReactiveProperty(false);
 
+    // タワー自動回復Subject
+    public Subject<Unit> autoRepair = new Subject<Unit>();
+
+
     void Awake()
     {
         // 現在HPの設定
@@ -44,11 +56,16 @@ public class TowerManager : MonoBehaviour,ITwDamage
     // Start is called before the first frame update
     void Start()
     {
+        autoRepair.Subscribe(_ => 
+        {
+            towerHp.Value += 1;
+        }).AddTo(this.gameObject);
         // タワー情報をショップより取得
         towerLv = ShopManager.Instance.spLv.towerLv[(int)towerColor];
 
         for (int i = 0; i < turrets.Length; i++)
         {
+            turrets[i].turretIntSet.OnNext(towerLv.level_Tower.Value);
             turrets[i].gameObject.SetActive(false);
         }
 
@@ -68,12 +85,16 @@ public class TowerManager : MonoBehaviour,ITwDamage
                 Debug.Log("LoadTurretSub");
                 turrets[towerLv.level_Turret.Value - 1].gameObject.SetActive(true);
                 turrets[towerLv.level_Turret.Value - 1].turretActive.Value = true;
+                turrets[towerLv.level_Turret.Value - 1].turretIntSet.OnNext(towerLv.level_Tower.Value);
             }).AddTo(this.gameObject);
 
         // タワー購入ボタンが押された時の処理
         towerLv.level_Tower.Subscribe(_ =>
             {
-
+                for (int i = 0; i < turrets.Length; i++)
+                {
+                    turrets[i].turretIntSet.OnNext(towerLv.level_Tower.Value);
+                }
             }).AddTo(this.gameObject);
 
         // ショップで修理ボタンが押された時の処理
@@ -95,21 +116,9 @@ public class TowerManager : MonoBehaviour,ITwDamage
                 GameManagement.Instance.towerDeathSub.OnNext(Unit.Default);
             }).AddTo(this.gameObject);
 
-        // １秒毎に敵情報リストと自タワーとの距離を測り、接近していればバリア起動
-        //this.UpdateAsObservable()
-        //    .Sample(System.TimeSpan.FromSeconds(1.0f))
-        //    .Subscribe(_ => 
-        //    {
-        //        var dis = 0.0f;
-        //        foreach (var item in enemyList.enemyInfo)
-        //        {
-        //            dis = (this.transform.position - item.position).sqrMagnitude;
-        //            if (dis <= Mathf.Pow(tower_RecogDis,2) && barrierFlg.Value == true)
-        //            {
-        //                barrierFlg.Value = false;
-        //            }
-        //        }
-        //    }).AddTo(this.gameObject);
+        this.UpdateAsObservable()
+            .Where(_ => towerDeath.Value == false)
+            .Subscribe(_ => { }).AddTo(this.gameObject);
 
         // バリア復活処理１０秒経過で使用可能
         barrierFlg.Where(_ => barrierFlg.Value == false)
