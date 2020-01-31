@@ -30,12 +30,13 @@ public class HUDManager : MonoBehaviour
     // カメラ左キャンバス
     [SerializeField] HUDMater       hMater;         // 所持マテリアル
     [SerializeField] HUDTowerHealth hTowerHealth;   // タワーのヘルスゲージ
+    [SerializeField] HUDPlayerLevel hPlayerLevel;   // プレイヤーのパラメータ
     // カメラ右キャンバス
     [SerializeField] HUDWaveCount   hWaveCount;     // ウェーブ数
     [SerializeField] HUDWaveTime    hWaveTime;      // ウェーブの時間計測
     float startWaveTime = 0;
     // カメラ中央キャンバス
-    [SerializeField] HUDBossHealth  hBossHealth;    // ボスのヘルスゲージ
+    [SerializeField] HUDBossBattle  hBossBattle;    // ボスのヘルスゲージ
     [SerializeField] HUDRespawnTime hRespawnTime;   // 死亡時のリスポーン表示
 
     // タワーのHP　マスターから取得する予定
@@ -100,14 +101,16 @@ public class HUDManager : MonoBehaviour
                 startWaveTime = GameManagement.Instance.masterTime;
 
             }).AddTo(this.gameObject);
+        // 死亡時のリスポーン表示
         pManager.isDeath
             .Subscribe(value =>
             {
                 hRespawnTime.SetRespawnTime(value);
 
             }).AddTo(this.gameObject);
+        
         // 更新処理
-        // タワー体力、ウェーブ数・時間の表示
+        // タワー体力、ウェーブ数・時間の表示など
         this.UpdateAsObservable()
             .Subscribe(_ =>
             {
@@ -119,6 +122,7 @@ public class HUDManager : MonoBehaviour
                 hTowerHealth.SetTowerTarget(GameManagement.Instance.targetTw);
                 hWaveCount.SetWaveCount(waveCount, maxCount);
                 hWaveTime.SetWaveTime(GameManagement.Instance.masterTime, startWaveTime);
+                hPlayerLevel.SetLevels(ShopManager.Instance.spLv);
 
             }).AddTo(this.gameObject);
     }

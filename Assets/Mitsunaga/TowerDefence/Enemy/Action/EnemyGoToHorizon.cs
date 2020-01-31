@@ -7,16 +7,17 @@ using UniRx.Triggers;
 public class EnemyGoToHorizon : MonoBehaviour
 {
     float PosY = 0.0f;
-    float LerpPower = 0.02f;
+    float LerpPower = 2.0f;
 
     void Start()
     {
         this.UpdateAsObservable()
+            .Where(x => !GameManagement.Instance.isPause.Value)
             .Do(_ =>
             {
                 this.transform.position = new Vector3(
                     this.transform.position.x,
-                    Mathf.Lerp(this.transform.position.y, PosY, LerpPower),
+                    Mathf.Lerp(this.transform.position.y, PosY, LerpPower * Time.deltaTime),
                     this.transform.position.z
                     );
             })
