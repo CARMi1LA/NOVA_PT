@@ -39,6 +39,11 @@ public class TDEnemyUnit : MonoBehaviour
                 eHealth.Value = value.eCoreHealth;
             })
             .AddTo(this.gameObject);
+
+        if(eManager.eSize == TDList.EnemySizeList.Extra && isCoreUnit)
+        {
+            GameManagement.Instance.bossSpawn.OnNext(this);
+        }
     }
     void Start()
     {

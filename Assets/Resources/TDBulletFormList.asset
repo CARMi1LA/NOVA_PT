@@ -26,10 +26,10 @@ MonoBehaviour:
     bSpeed: 250
     bDeathCount: 1
     bDamage: 1
-  - bType: 2
-    size: {x: 2, y: 2, z: 2}
-    bSpeed: 250
-    bDeathCount: 1
+  - bType: 7
+    size: {x: 50, y: 1, z: 1}
+    bSpeed: 150
+    bDeathCount: 2
     bDamage: 1
   - bType: 3
     size: {x: 1, y: 1, z: 1}

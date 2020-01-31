@@ -7,20 +7,35 @@ using UniRx.Triggers;
 
 public class HUDBossBattle : MonoBehaviour
 {
-    Image imgBossHealth;
+
+
+    [SerializeField] Image imgBossHealth;
+    [SerializeField] GameObject objBossWarning;
+
+    float warningTime = 3.0f;
 
     void Start()
     {
-        imgBossHealth = GetComponent<Image>();
+        imgBossHealth.gameObject.SetActive(false);
+        objBossWarning.SetActive(false);
     }
     public void SetBossBattle(TDEnemyUnit boss)
     {
-        float maxHealth = boss.eManager.eData.eCoreHealth;
+        float maxHealth = Resources.Load<TDEnemyDataList>("TDEnemyDataList").GetEnemyData(TDList.EnemySizeList.Extra, TDList.EnemyTypeList.Attack).eCoreHealth;
 
+        imgBossHealth.gameObject.SetActive(true);
         boss.eHealth
             .Subscribe(value =>
             {
-                imgBossHealth.fillAmount = boss.eHealth.Value / maxHealth;
+                imgBossHealth.fillAmount = value / maxHealth;
+
+            }).AddTo(this.gameObject);
+
+        objBossWarning.SetActive(true);
+        Observable.Timer(System.TimeSpan.FromSeconds(warningTime))
+            .Subscribe(_ =>
+            {
+                objBossWarning.SetActive(false);
 
             }).AddTo(this.gameObject);
     }

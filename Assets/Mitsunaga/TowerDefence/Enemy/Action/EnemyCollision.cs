@@ -69,7 +69,10 @@ public class EnemyCollision : MonoBehaviour, IDamageTD, ICollisionTD
     // 衝突処理
     public void HitCollision(Vector3 targetPos)
     {
-        // 衝突イベント発行
-        eUnit.eManager.ImpactTrigger.OnNext(targetPos);
+        if(eUnit.eManager.eSize != TDList.EnemySizeList.Extra)
+        {
+            // 衝突イベント発行
+            eUnit.eManager.ImpactTrigger.OnNext(targetPos);
+        }
     }
 }

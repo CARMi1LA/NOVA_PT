@@ -22,7 +22,7 @@ public class TDList
     {
         Normal = 0,
         Missile = 1,
-        Bomb = 2,
+        Bash = 2,
         Boost = 3,
         E_Normal,
         E_Fast,

@@ -29,9 +29,9 @@ public class TDPlayerData
         Sword   = 0,
         Razer   = 1,
         Missile = 2,
-        Bomb    = 3
+        Bash    = 3
     }
-    public SkillTypeList pSkillType = SkillTypeList.Sword;    // スキルの型
+    public SkillTypeList pSkillType = SkillTypeList.Bash;    // スキルの型
     public float pSkillCost = 20.0f;        // スキルの発動コスト
     public float pSkillInterval = 1.0f;         // スキルの発動間隔(単位：フレーム)
 

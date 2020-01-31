@@ -111,6 +111,8 @@ MonoBehaviour:
   rangeLimit: 45
   originAngle: 0
   bulletDistance: 0
+  deg: 0
+  addAngle: 1
   shootOriginTrans: {fileID: 0}
   playerTrans: {fileID: 0}
   moveFoward: {x: 0, y: 0, z: 0}

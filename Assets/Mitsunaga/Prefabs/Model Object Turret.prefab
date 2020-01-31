@@ -418,7 +418,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 0}
   enemyInfoList: {fileID: 0}
-  turret_RecogDis: 30
+  turret_RecogDis: 360
   targetEnemy: {fileID: 0}
   turretChild:
   - {fileID: 28585550651392563}

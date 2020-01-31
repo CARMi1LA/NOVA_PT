@@ -26,7 +26,10 @@ public class TDBulletCollision : MonoBehaviour
                         value.GetComponent<IDamageTD>().HitDamage(bManager.bData.bParent);
                     }
                     // この弾を消滅させる
-                    bManager.isReturn.Value = true;
+                    if(bManager.bForm.bType != TDList.BulletTypeList.Bash)
+                    {
+                        bManager.isReturn.Value = true;
+                    }
                 }
 
             }).AddTo(this.gameObject);

@@ -14,7 +14,7 @@ public class PlayerMove : MonoBehaviour
 
     Rigidbody pRigidbody;
 
-    float rotSpeed = 360.0f;        // 回転速度
+    float rotSpeed = 240.0f;        // 回転速度
 
     // 何らかのアクション
     bool isAction = false;
@@ -58,6 +58,7 @@ public class PlayerMove : MonoBehaviour
             {
                 // 方向転換
                 Vector3 moveRot = value.rightStickValue;
+                if(ShopManager.Instance.)
                 this.transform.localEulerAngles += moveRot * rotSpeed * Time.deltaTime;
 
                 // 移動

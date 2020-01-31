@@ -108,7 +108,12 @@ public class HUDManager : MonoBehaviour
                 hRespawnTime.SetRespawnTime(value);
 
             }).AddTo(this.gameObject);
-        
+        GameManagement.Instance.bossSpawn
+            .Subscribe(value =>
+            {
+                hBossBattle.SetBossBattle(value);
+
+            }).AddTo(this.gameObject);
         // 更新処理
         // タワー体力、ウェーブ数・時間の表示など
         this.UpdateAsObservable()
