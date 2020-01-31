@@ -92,6 +92,7 @@ public class TowerManager : MonoBehaviour,ITwDamage
             .Subscribe(_ => 
             {
                 towerDeath.Value = true;
+                GameManagement.Instance.towerDeathSub.OnNext(Unit.Default);
             }).AddTo(this.gameObject);
 
         // １秒毎に敵情報リストと自タワーとの距離を測り、接近していればバリア起動
