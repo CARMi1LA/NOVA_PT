@@ -100,7 +100,7 @@ public class SpBtnUltManager : MonoBehaviour
             trap.Where(_ => trap.Value == false)
                 .Subscribe(_ =>
                 {
-                    spBtn[1].materValueText.text = string.Format("{0}", ShopManager.Instance.shopData.shopData_Skill[(int)ShopData.Ult_ParamList.Trap].purchaseMater);
+                    spBtn[1].materValueText.text = string.Format("{0}", ShopManager.Instance.shopData.shopData_Ult[(int)ShopData.Ult_ParamList.Trap].purchaseMater);
                     spBtn[1].levelText.text = string.Format("スロートラップを設置する");
                 }).AddTo(this.gameObject);
 
@@ -113,7 +113,7 @@ public class SpBtnUltManager : MonoBehaviour
             bomb.Where(_ => bomb.Value == false)
                 .Subscribe(_ =>
                 {
-                    spBtn[2].materValueText.text = string.Format("{0}", ShopManager.Instance.shopData.shopData_Skill[(int)ShopData.Ult_ParamList.Bomb].purchaseMater);
+                    spBtn[2].materValueText.text = string.Format("{0}", ShopManager.Instance.shopData.shopData_Ult[(int)ShopData.Ult_ParamList.Bomb].purchaseMater);
                     spBtn[2].levelText.text = string.Format("広範囲爆撃を行う");
                 }).AddTo(this.gameObject);
 
@@ -126,7 +126,7 @@ public class SpBtnUltManager : MonoBehaviour
             repair.Where(_ => repair.Value == false)
                 .Subscribe(_ =>
                 {
-                    spBtn[3].materValueText.text = string.Format("{0}", ShopManager.Instance.shopData.shopData_Skill[(int)ShopData.Ult_ParamList.Repair].purchaseMater);
+                    spBtn[3].materValueText.text = string.Format("{0}", ShopManager.Instance.shopData.shopData_Ult[(int)ShopData.Ult_ParamList.Repair].purchaseMater);
                     spBtn[3].levelText.text = string.Format("全タワーの耐久値を回復");
                 }).AddTo(this.gameObject);
             // 購入可能時のイベント

@@ -118,11 +118,11 @@ MonoBehaviour:
     - ultIndex: 0
       purchaseMater: 0
     - ultIndex: 1
-      purchaseMater: 12000
+      purchaseMater: 5000
     - ultIndex: 2
       purchaseMater: 7000
     - ultIndex: 3
-      purchaseMater: 5000
+      purchaseMater: 12000
     shopData_Skill:
     - skillIndex: 0
       purchaseMater: 0

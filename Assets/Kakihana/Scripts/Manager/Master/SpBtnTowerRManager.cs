@@ -53,17 +53,17 @@ public class SpBtnTowerRManager : MonoBehaviour
             // 強化内容テキストを設定
             spBtn[0].levelText.text =
                 string.Format("Lv{0}→Lv{1}",
-                ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value,
+                ShopManager.Instance.spLv.towerLv[(int)MasterData.TowerColor.Red].level_Trap.Value,
                 nextLvTrap);
 
             spBtn[1].levelText.text =
                 string.Format("Lv{0}→Lv{1}",
-                ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value,
+                ShopManager.Instance.spLv.towerLv[(int)MasterData.TowerColor.Red].level_Turret.Value,
                 nextLvTurret);
 
             spBtn[2].levelText.text =
                 string.Format("Lv{0}→Lv{1}",
-                ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value,
+                ShopManager.Instance.spLv.towerLv[(int)MasterData.TowerColor.Red].level_Tower.Value,
                 nextLvTower);
 
             spBtn[3].levelText.text =
@@ -100,16 +100,16 @@ public class SpBtnTowerRManager : MonoBehaviour
             switch (_)
             {
                 case ShopData.TowerRed_ParamList.Param_Trap:
-                    nextLvTrap = ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value + 1;
+                    nextLvTrap = ShopManager.Instance.spLv.towerLv[(int)MasterData.TowerColor.Red].level_Trap.Value + 1;
                     break;
                 case ShopData.TowerRed_ParamList.Param_Turret:
-                    nextLvTurret = ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value + 1;
+                    nextLvTurret = ShopManager.Instance.spLv.towerLv[(int)MasterData.TowerColor.Red].level_Turret.Value + 1;
                     break;
                 case ShopData.TowerRed_ParamList.Param_Tower:
-                    nextLvTower = ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value + 1;
+                    nextLvTower = ShopManager.Instance.spLv.towerLv[(int)MasterData.TowerColor.Red].level_Tower.Value + 1;
                     break;
                 case ShopData.TowerRed_ParamList.Repair:
-                    nextLvRepair = ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Repair.Value + 1;
+                    nextLvRepair = ShopManager.Instance.spLv.towerLv[(int)MasterData.TowerColor.Red].level_Repair.Value + 1;
                     nextRepairVal = (ShopManager.Instance.shopData.redData_Tower[nextLvRepair].purchaseMater * 5);
                     break;
                 default:
@@ -117,7 +117,7 @@ public class SpBtnTowerRManager : MonoBehaviour
             }
         }).AddTo(this.gameObject);
 
-        InitSubject.OnNext(ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red]);
+        InitSubject.OnNext(ShopManager.Instance.spLv.towerLv[(int)MasterData.TowerColor.Red]);
 
         // 購入可能時のイベント
         BuyOkText.Subscribe(list =>
@@ -147,7 +147,6 @@ public class SpBtnTowerRManager : MonoBehaviour
         // 購入不可能時のイベント
         BuyNgText.Subscribe(list =>
         {
-            Debug.Log("TwRbuyNG");
             switch (list)
             {
                 case ShopData.TowerRed_ParamList.Param_Trap:
@@ -181,19 +180,19 @@ public class SpBtnTowerRManager : MonoBehaviour
                     // 表示内容：（現在のLv→次のLv）
                     spBtn[0].levelText.text =
                         string.Format("Lv{0}→Lv{1}",
-                        ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Trap.Value,
+                        ShopManager.Instance.spLv.towerLv[(int)MasterData.TowerColor.Red].level_Trap.Value,
                         nextLvTrap);
                     break;
                 case ShopData.TowerRed_ParamList.Param_Turret:
                     spBtn[1].levelText.text =
                         string.Format("Lv{0}→Lv{1}",
-                        ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Turret.Value,
+                        ShopManager.Instance.spLv.towerLv[(int)MasterData.TowerColor.Red].level_Turret.Value,
                         nextLvTurret);
                     break;
                 case ShopData.TowerRed_ParamList.Param_Tower:
                     spBtn[2].levelText.text =
                         string.Format("Lv{0}→Lv{1}",
-                        ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Red].level_Tower.Value,
+                        ShopManager.Instance.spLv.towerLv[(int)MasterData.TowerColor.Red].level_Tower.Value,
                         nextLvTower);
                     break;
                 case ShopData.TowerRed_ParamList.Repair:

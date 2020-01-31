@@ -30,6 +30,60 @@ public class SpBtnTowerGManager : MonoBehaviour
     public Subject<ShopData.TowerGreen_ParamList> SoldOutText = new Subject<ShopData.TowerGreen_ParamList>();
     // 次レベル設定イベント
     public Subject<ShopData.TowerGreen_ParamList> NextLv = new Subject<ShopData.TowerGreen_ParamList>();
+    private void Awake()
+    {
+        // 初期化処理
+        InitSubject.Subscribe(_ =>
+        {
+            // プレイヤーのレベルデータを設定
+            greenTower_Lv = _;
+
+            // 次のレベルを設定
+            NextLv.OnNext(ShopData.TowerGreen_ParamList.Param_Trap);
+            NextLv.OnNext(ShopData.TowerGreen_ParamList.Param_Turret);
+            NextLv.OnNext(ShopData.TowerGreen_ParamList.Param_Tower);
+            NextLv.OnNext(ShopData.TowerGreen_ParamList.Repair);
+
+            // 強化内容テキストを設定
+            spBtn[0].levelText.text =
+                string.Format("Lv{0}→Lv{1}",
+                ShopManager.Instance.spLv.towerLv[(int)MasterData.TowerColor.Green].level_Trap.Value,
+                nextLvTrap);
+
+            spBtn[1].levelText.text =
+                string.Format("Lv{0}→Lv{1}",
+                ShopManager.Instance.spLv.towerLv[(int)MasterData.TowerColor.Green].level_Turret.Value,
+                nextLvTurret);
+
+            spBtn[2].levelText.text =
+                string.Format("Lv{0}→Lv{1}",
+                ShopManager.Instance.spLv.towerLv[(int)MasterData.TowerColor.Green].level_Tower.Value,
+                nextLvTower);
+
+            spBtn[3].levelText.text =
+                string.Format("{0}回目", nextLvRepair);
+
+            // 必要金額テキストを設定
+            spBtn[0].materValueText.text =
+                string.Format("{0}",
+                ShopManager.Instance.shopData.
+                greenData_Tower[nextLvTrap].purchaseMater);
+
+            spBtn[1].materValueText.text =
+                string.Format("{0}",
+                ShopManager.Instance.shopData.
+                greenData_Tower[nextLvTurret].purchaseMater);
+
+
+            spBtn[2].materValueText.text =
+                string.Format("{0}",
+                ShopManager.Instance.shopData.
+                greenData_Tower[nextLvTower].purchaseMater);
+
+            spBtn[3].materValueText.text =
+                string.Format("{0}", nextRepairVal);
+        }).AddTo(this.gameObject);
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -56,59 +110,7 @@ public class SpBtnTowerGManager : MonoBehaviour
             }
         }).AddTo(this.gameObject);
 
-        // 初期化処理
-        InitSubject.Subscribe(_ =>
-        {
-            // プレイヤーのレベルデータを設定
-            greenTower_Lv = _;
-
-            // 次のレベルを設定
-            NextLv.OnNext(ShopData.TowerGreen_ParamList.Param_Trap);
-            NextLv.OnNext(ShopData.TowerGreen_ParamList.Param_Turret);
-            NextLv.OnNext(ShopData.TowerGreen_ParamList.Param_Tower);
-            NextLv.OnNext(ShopData.TowerGreen_ParamList.Repair);
-
-            // 強化内容テキストを設定
-            spBtn[0].levelText.text =
-                string.Format("Lv{0}→Lv{1}",
-                ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Green].level_Trap.Value,
-                nextLvTrap);
-
-            spBtn[1].levelText.text =
-                string.Format("Lv{0}→Lv{1}",
-                ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Green].level_Turret.Value,
-                nextLvTurret);
-
-            spBtn[2].levelText.text =
-                string.Format("Lv{0}→Lv{1}",
-                ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Green].level_Tower.Value,
-                nextLvTower);
-
-            spBtn[3].levelText.text =
-                string.Format("{0}回目", nextLvRepair);
-
-            // 必要金額テキストを設定
-            spBtn[0].materValueText.text =
-                string.Format("{0}",
-                ShopManager.Instance.shopData.
-                greenData_Tower[nextLvTrap].purchaseMater);
-
-            spBtn[1].materValueText.text =
-                string.Format("{0}",
-                ShopManager.Instance.shopData.
-                greenData_Tower[nextLvTurret].purchaseMater);
-
-
-            spBtn[2].materValueText.text =
-                string.Format("{0}",
-                ShopManager.Instance.shopData.
-                greenData_Tower[nextLvTower].purchaseMater);
-
-            spBtn[3].materValueText.text =
-                string.Format("{0}", nextRepairVal);
-        }).AddTo(this.gameObject);
-
-        InitSubject.OnNext(ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Green]);
+        InitSubject.OnNext(ShopManager.Instance.spLv.towerLv[(int)MasterData.TowerColor.Green]);
 
         // 購入可能時のイベント
         BuyOkText.Subscribe(list =>
@@ -171,19 +173,19 @@ public class SpBtnTowerGManager : MonoBehaviour
                     // 表示内容：（現在のLv→次のLv）
                     spBtn[0].levelText.text =
                         string.Format("Lv{0}→Lv{1}",
-                        ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Green].level_Trap.Value,
+                        ShopManager.Instance.spLv.towerLv[(int)MasterData.TowerColor.Green].level_Trap.Value,
                         nextLvTrap);
                     break;
                 case ShopData.TowerGreen_ParamList.Param_Turret:
                     spBtn[1].levelText.text =
                         string.Format("Lv{0}→Lv{1}",
-                        ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Green].level_Turret.Value,
+                        ShopManager.Instance.spLv.towerLv[(int)MasterData.TowerColor.Green].level_Turret.Value,
                         nextLvTurret);
                     break;
                 case ShopData.TowerGreen_ParamList.Param_Tower:
                     spBtn[2].levelText.text =
                         string.Format("Lv{0}→Lv{1}",
-                        ShopManager.Instance.spLv.towerLv[(int)ShopData.TowerColor.Green].level_Tower.Value,
+                        ShopManager.Instance.spLv.towerLv[(int)MasterData.TowerColor.Green].level_Tower.Value,
                         nextLvTower);
                     break;
                 case ShopData.TowerGreen_ParamList.Repair:

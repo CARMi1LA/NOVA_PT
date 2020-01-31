@@ -73,6 +73,8 @@ public class GameManagement : GMSingleton<GameManagement>
     public BoolReactiveProperty isPause = new BoolReactiveProperty(true);
     // ショップCanvas表示フラグ
     public BoolReactiveProperty shopCanvasEnable = new BoolReactiveProperty(false);
+    // タワーバフフラグ
+    public BoolReactiveProperty[] towerUltFlg = new BoolReactiveProperty[4];
 
     // ゲームステートプロパティ
     public ReactiveProperty<BattleMode> gameState = new ReactiveProperty<BattleMode>();
@@ -103,6 +105,10 @@ public class GameManagement : GMSingleton<GameManagement>
     public Subject<Unit> titleBack = new Subject<Unit>();
     // ボス出現検知用Subject
     public Subject<TDEnemyUnit> bossSpawn = new Subject<TDEnemyUnit>();
+    // タワーバフフラグONSubject
+    public Subject<ShopData.TowerColor> towerUltOn = new Subject<ShopData.TowerColor>();
+    // タワーバフフラグOFFSubject
+    public Subject<ShopData.TowerColor> towerUltOff = new Subject<ShopData.TowerColor>();
     // 初期化用Subject
     public Subject<Unit> masterInit = new Subject<Unit>();
 
@@ -112,7 +118,8 @@ public class GameManagement : GMSingleton<GameManagement>
         base.Awake();
         masterInit.Subscribe(_ => 
         {
-            mater.Value = 3000;
+            mater.Value += 3000;
+            ShopManager.Instance.shopUpdate.OnNext(Unit.Default);
         }).AddTo(this.gameObject);
         // プレイヤーデータの初期化
         tdPlaerData = new TDPlayerData();
@@ -141,7 +148,7 @@ public class GameManagement : GMSingleton<GameManagement>
         // マター獲得処理
         addMater.Subscribe(value => 
         {
-            mater.Value = value;
+            mater.Value += value;
         }).AddTo(this.gameObject);
 
         // マター獲得処理（デバッグ用）
@@ -178,6 +185,16 @@ public class GameManagement : GMSingleton<GameManagement>
         towerDeathSub.Subscribe(_ => 
         {
             towerAliveNum.Value--;
+        }).AddTo(this.gameObject);
+
+        towerUltOn.Subscribe(value => 
+        {
+            towerUltFlg[(int)value].Value = true;
+        }).AddTo(this.gameObject);
+
+        towerUltOff.Subscribe(value =>
+        {
+            towerUltFlg[(int)value].Value = false;
         }).AddTo(this.gameObject);
 
         titleBack.Subscribe(_ => 
@@ -222,19 +239,7 @@ public class GameManagement : GMSingleton<GameManagement>
             .Where(_ => Input.GetKeyDown(KeyCode.F2) && isDebug.Value == true)
             .Subscribe(_ =>
             {
-                if (firstShopWindow == false)
-                {
-                    addMater.OnNext(3000);
-                    shopCanvas.alpha = 1.0f;
-                    shopCanvasEnable.Value = true;
-                    firstShopWindow = true;
-                }
-                else
-                {
-                    shopCanvas.alpha = 1.0f;
-                    shopCanvasEnable.Value = true;
-                }
-
+                shopInSub.OnNext(Unit.Default);
             }).AddTo(this.gameObject);
 
         // デバッグ用、ショップ退出処理
@@ -242,8 +247,7 @@ public class GameManagement : GMSingleton<GameManagement>
             .Where(_ => Input.GetKeyDown(KeyCode.F3) && isDebug.Value == true)
             .Subscribe(_ =>
             {
-                shopCanvas.alpha = 0.0f;
-                shopCanvasEnable.Value = false;
+                shopOutSub.OnNext(Unit.Default);
             }).AddTo(this.gameObject);
 
         // 1万マターを即取得する（デバッグ用)

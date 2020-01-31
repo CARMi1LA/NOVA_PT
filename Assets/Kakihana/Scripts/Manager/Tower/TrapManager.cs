@@ -6,8 +6,14 @@ using UniRx.Triggers;
 
 public class TrapManager : MonoBehaviour
 {
-    public float[] trapSize;
-    public float trapDefault;
+    // スロートラップの奥行きリスト（トラップレベルアップでサイズ変更）
+    public float[] trapSizeListZ;
+    // スロートラップの横幅リスト（タワーレベルアップでサイズ変更）
+    public float[] trapSizeListX;
+    // トラップの奥行きサイズ
+    public float trapSizeZ;
+    // トラップの横幅サイズ
+    public float trapSizeX;
 
     public Subject<Unit> lvUpSub = new Subject<Unit>();
     // Start is called before the first frame update
@@ -15,7 +21,7 @@ public class TrapManager : MonoBehaviour
     {
         lvUpSub.Subscribe(_ => 
         {
-            this.transform.localScale = new Vector3(200, 1, trapDefault);
+            this.transform.localScale = new Vector3(trapSizeX, 1, trapSizeZ);
         }).AddTo(this.gameObject);
     }
 }
