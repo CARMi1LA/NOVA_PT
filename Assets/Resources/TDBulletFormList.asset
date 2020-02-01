@@ -22,13 +22,13 @@ MonoBehaviour:
     bDeathCount: 1
     bDamage: 1
   - bType: 1
-    size: {x: 1, y: 1, z: 2}
-    bSpeed: 250
-    bDeathCount: 1
-    bDamage: 1
-  - bType: 7
-    size: {x: 50, y: 1, z: 1}
+    size: {x: 3, y: 3, z: 1}
     bSpeed: 150
+    bDeathCount: 5
+    bDamage: 1
+  - bType: 2
+    size: {x: 35, y: 1, z: 1}
+    bSpeed: 500
     bDeathCount: 2
     bDamage: 1
   - bType: 3

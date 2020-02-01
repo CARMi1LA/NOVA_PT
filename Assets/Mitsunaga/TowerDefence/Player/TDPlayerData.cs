@@ -126,7 +126,7 @@ public class TDPlayerData
                 pAttackInterval = 0.25f;
                 break;
             case 2:
-                pAttackInterval = 0.15f;
+                pAttackInterval = 0.25f;
                 break;
             case 3:
                 pAttackInterval = 0.15f;

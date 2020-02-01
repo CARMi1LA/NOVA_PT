@@ -25,7 +25,8 @@ public class TDBulletCollision : MonoBehaviour
                     {
                         value.GetComponent<IDamageTD>().HitDamage(bManager.bData.bParent);
                     }
-                    // この弾を消滅させる
+
+                    // この弾を消滅させる(Bash弾は当たり判定では消滅しない)
                     if(bManager.bForm.bType != TDList.BulletTypeList.Bash)
                     {
                         bManager.isReturn.Value = true;

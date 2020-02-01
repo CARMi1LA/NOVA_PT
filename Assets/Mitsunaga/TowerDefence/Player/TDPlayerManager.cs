@@ -102,11 +102,12 @@ public class TDPlayerManager : MonoBehaviour
                     inputData.pushBtnLB.Value = Input.GetButton("Button_LB");
                 }
 
-                // スティック処理
+                // 移動処理
                 MoveTrigger.OnNext(inputData);
 
             }).AddTo(this.gameObject);
 
+        // プレイヤーのレベルアップ処理
         ShopManager.Instance.spLv.playerLv.lv_HP
             .Subscribe(value => 
             {
@@ -123,6 +124,39 @@ public class TDPlayerManager : MonoBehaviour
             .Subscribe(value =>
             {
                 pData.SetShotInterval(value);
+
+            }).AddTo(this.gameObject);
+        // スキル、アルティメットの変更処理
+        ShopManager.Instance.spLv.skillLv.level_Skill
+            .Subscribe(value =>
+            {
+                TDPlayerData.SkillTypeList sType = TDPlayerData.SkillTypeList.Sword;
+
+                switch (value)
+                {
+                    case 0:
+                        sType = TDPlayerData.SkillTypeList.Sword;
+                        break;
+                    case 1:
+                        sType = TDPlayerData.SkillTypeList.Razer;
+                        break;
+                    case 2:
+                        sType = TDPlayerData.SkillTypeList.Missile;
+                        break;
+                    case 3:
+                        sType = TDPlayerData.SkillTypeList.Bash;
+                        break;
+                    default:
+                        break;
+                }
+
+                pData.pSkillType = sType;
+
+            }).AddTo(this.gameObject);
+        ShopManager.Instance.spLv.ultLv.level_Ult
+            .Subscribe(value =>
+            {
+
 
             }).AddTo(this.gameObject);
 

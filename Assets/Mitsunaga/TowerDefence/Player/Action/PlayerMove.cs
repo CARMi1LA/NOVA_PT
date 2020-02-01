@@ -58,8 +58,10 @@ public class PlayerMove : MonoBehaviour
             {
                 // 方向転換
                 Vector3 moveRot = value.rightStickValue;
-                if(ShopManager.Instance.)
-                this.transform.localEulerAngles += moveRot * rotSpeed * Time.deltaTime;
+                if (!GameManagement.Instance.shopCanvasEnable.Value)
+                {
+                    this.transform.localEulerAngles += moveRot * rotSpeed * Time.deltaTime;
+                }
 
                 // 移動
                 float speedMul = pManager.pData.pSpeedMul;
