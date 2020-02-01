@@ -33,7 +33,7 @@ public class HUDPlayerLevel : MonoBehaviour
         switch (lvData.skillLv.level_Skill.Value)
         {
             case 0:
-                skillText.text = "Skill：W Slicer";
+                skillText.text = "Skill：W Slice";
                 break;
             case 1:
                 skillText.text = "Skill：Razer";
@@ -42,7 +42,7 @@ public class HUDPlayerLevel : MonoBehaviour
                 skillText.text = "Skill：Missile";
                 break;
             case 3:
-                skillText.text = "Skill：Bomb";
+                skillText.text = "Skill：Power Bash";
                 break;
             default:
                 skillText.text = "Skill：Error";

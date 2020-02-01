@@ -38,12 +38,56 @@ public class TDBulletMove : MonoBehaviour
 
     void Start()
     {
+        // ミサイル用の変数
+        Transform targetEnemy = null;
+        float rotAngle = 0;
+        float rotSpeed = 0.2f;
+
         // 更新処理
         this.UpdateAsObservable()
+            .Where(x => !GameManagement.Instance.isPause.Value)
             .Subscribe(_ =>
             {
+                if(targetEnemy != null && bManager.bData.bType == TDList.BulletTypeList.Missile)
+                {
+                    Vector3 target = targetEnemy.position - this.transform.position;
+                    Vector3 cross = Vector3.Cross(target, this.transform.forward);
+                    if (cross.y > 0)
+                    {
+                        rotAngle = -rotSpeed;
+                    }
+                    else if (cross.y < 0)
+                    {
+                        rotAngle = rotSpeed;
+                    }
+                    float angle = Vector3.Angle(this.transform.forward, target) * rotAngle;
+                    this.transform.localEulerAngles += new Vector3(0, angle, 0);
+                }
                 // 前方に移動
                 bRig.velocity = bSpeed * transform.forward;
+
+            }).AddTo(this.gameObject);
+
+        this.UpdateAsObservable()
+            .Where(x => bManager.bData.bType == TDList.BulletTypeList.Missile)
+            .Where(x => !GameManagement.Instance.isPause.Value)
+            .Sample(System.TimeSpan.FromSeconds(0.5f))
+            .Subscribe(_ =>
+            {
+                float dis = 1000000.0f;
+                // Missileは一番近いEnemyに方向転換する
+                foreach(var item in GameManagement.Instance.enemyInfoList.enemyInfo)
+                {
+                    if(item != null)
+                    {
+                        float itemDis = (this.transform.position - item.position).sqrMagnitude;
+                        if(itemDis <= dis)
+                        {
+                            dis = itemDis;
+                            targetEnemy = item;
+                        }
+                    }
+                }
 
             }).AddTo(this.gameObject);
     }

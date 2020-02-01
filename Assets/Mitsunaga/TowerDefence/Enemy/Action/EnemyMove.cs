@@ -80,7 +80,7 @@ public class EnemyMove : MonoBehaviour
                     {
                         rotAngle = 1.0f;
                     }
-                    float angle = Vector3.Angle(this.transform.forward, target) * rotAngle;
+                    float angle = Vector3.Angle(this.transform.forward, target) * rotAngle * Time.deltaTime;
                     if(angle > eData.eRotSpeed)
                     {
                         angle = eData.eRotSpeed;
@@ -89,7 +89,7 @@ public class EnemyMove : MonoBehaviour
                     {
                         angle = -eData.eRotSpeed;
                     }
-                    this.transform.localEulerAngles += new Vector3(0, angle, 0) * Time.deltaTime;
+                    this.transform.localEulerAngles += new Vector3(0, angle, 0);
 
                     //rotAngle = Vector3.Cross(this.transform.forward, target).y;
                     //this.transform.localEulerAngles = new Vector3(0, Mathf.Lerp(this.transform.localEulerAngles.y,rotAngle,0.1f), 0);
