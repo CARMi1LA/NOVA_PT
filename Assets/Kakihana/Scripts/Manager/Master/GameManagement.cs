@@ -267,8 +267,6 @@ public class GameManagement : GMSingleton<GameManagement>
                 if (waveNum.Value == 0)
                 {
                     masterTime = masterData.waitTime * 2;
-                    // ターゲットタワーを設定
-                    targetTw = twList[Random.Range(0, twList.Length)];
                     // 準備完了通知
                     waveSettingFlg.Value = true;
                 }
@@ -276,8 +274,6 @@ public class GameManagement : GMSingleton<GameManagement>
                 {
                     // 待機時間を設定
                     masterTime = masterData.waitTime;
-                    // ターゲットタワーを設定
-                    targetTw = twList[Random.Range(0, twList.Length)];
                     // 準備完了通知
                     waveSettingFlg.Value = true;
                 }
