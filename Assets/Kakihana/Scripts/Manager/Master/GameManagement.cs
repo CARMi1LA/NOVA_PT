@@ -36,6 +36,7 @@ public class GameManagement : GMSingleton<GameManagement>
     public MasterDataList masterDataList;
     public EnemyInfoList enemyInfoList;
     public TowerManager redTw, blueTw, yellowTw, greenTw;
+    public TowerManager[] towerM;
 
     [SerializeField] public InputValueData1P valueData1P;
     [SerializeField] public InputValueData2P valueData2P;
