@@ -28,12 +28,13 @@ public class HUDManager : MonoBehaviour
     [SerializeField] HUDEnergy      hEnergy;        // エネルギーゲージ
     [SerializeField] HUDUltimate    hUltimate;      // アルティメットゲージ
     // カメラ左キャンバス
-    [SerializeField] HUDMater       hMater;         // 所持マテリアル
     [SerializeField] HUDTowerHealth hTowerHealth;   // タワーのヘルスゲージ
-    [SerializeField] HUDPlayerLevel hPlayerLevel;   // プレイヤーのパラメータ
+    [SerializeField] HUDTowerLevel  hTowerLevel;     // タワーのレベル
     // カメラ右キャンバス
     [SerializeField] HUDWaveCount   hWaveCount;     // ウェーブ数
     [SerializeField] HUDWaveTime    hWaveTime;      // ウェーブの時間計測
+    [SerializeField] HUDPlayerLevel hPlayerLevel;   // プレイヤーのパラメータ
+    [SerializeField] HUDMater       hMater;         // 所持マテリアル
     float startWaveTime = 0;
     // カメラ中央キャンバス
     [SerializeField] HUDBossBattle  hBossBattle;    // ボスのヘルスゲージ
@@ -125,9 +126,10 @@ public class HUDManager : MonoBehaviour
                 towerHealth[3] = GameManagement.Instance.greenTw.towerHp.Value;
                 hTowerHealth.SetTowerHealth(100, towerHealth);
                 hTowerHealth.SetTowerTarget(GameManagement.Instance.targetTw);
-                hWaveCount.SetWaveCount(waveCount, maxCount);
+                hWaveCount.SetWaveCount(GameManagement.Instance.waveNum.Value, 3);
                 hWaveTime.SetWaveTime(GameManagement.Instance.masterTime, startWaveTime);
                 hPlayerLevel.SetLevels(ShopManager.Instance.spLv);
+                hTowerLevel.SetLevels(ShopManager.Instance.spLv);
 
             }).AddTo(this.gameObject);
     }

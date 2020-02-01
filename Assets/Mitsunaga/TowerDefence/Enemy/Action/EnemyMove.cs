@@ -27,6 +27,8 @@ public class EnemyMove : MonoBehaviour
     float impactSpeed = 100.0f;        // 衝突のふっとび速度
     float impactInterval = 0.2f;    // 衝突の行動不能時間
 
+    float bossUltimateCount = 15.0f;    // 塔破壊後のゲームオーバー攻撃のカウント
+
     void Awake()
     {
         eRigidbody = this.GetComponent<Rigidbody>();
@@ -139,11 +141,24 @@ public class EnemyMove : MonoBehaviour
                     .gameObject.transform.parent = this.transform;
             })
             .Delay(System.TimeSpan.FromSeconds(eManager.towerHitInterval))
-            .Subscribe(value =>
+            .Do(value =>
             {
                 Debug.Log("Tower Hit：" + eData.eTowerDamage.ToString());
                 value.HitDamage(eData.eTowerDamage);
-                eManager.CoreDeathTrigger.OnNext(Unit.Default);
+                if(eManager.eSize == TDList.EnemySizeList.Extra)
+                {
+                    Instantiate(Resources.Load<TDEnemyDataList>("TDEnemyDataList").PSExtraUltimate.gameObject,this.transform.position,Quaternion.identity);
+                }
+                else
+                {
+                    eManager.CoreDeathTrigger.OnNext(Unit.Default);
+                }
+            })
+            .Where(x => eManager.eSize == TDList.EnemySizeList.Extra)
+            .Delay(System.TimeSpan.FromSeconds(bossUltimateCount))
+            .Subscribe(value =>
+            {
+                Debug.Log("GAME OVER!!!!!!!!");
             })
             .AddTo(this.gameObject);
     }

@@ -163,7 +163,7 @@ public class TDPlayerManager : MonoBehaviour
         // エネルギー、アルティメットゲージの自動回復(雑)
         this.UpdateAsObservable()
             .Where(x => !GameManagement.Instance.isPause.Value)
-            .Sample(System.TimeSpan.FromSeconds(0.02f))
+            .Sample(System.TimeSpan.FromSeconds(0.1f))
             .Subscribe(_ =>
             {
                 if(pData.pEnergy.Value < pData.pMaxEnergy)
@@ -244,14 +244,21 @@ public class TDPlayerManager : MonoBehaviour
 
                 }).AddTo(this.gameObject);
 
-            // Bボタン：各種アクセス
+            // Bボタン：ショップアクセス
             inputData.pushBtnB
                 .Where(x => x)
                 .Where(x => !isDeath.Value)
                 .Where(x => !GameManagement.Instance.isPause.Value)
                 .Subscribe(value =>
                 {
-                    Debug.Log("アクセス");
+                    if (GameManagement.Instance.shopCanvasEnable.Value)
+                    {
+                        GameManagement.Instance.shopOutSub.OnNext(Unit.Default);
+                    }
+                    else
+                    {
+                        GameManagement.Instance.shopInSub.OnNext(Unit.Default);
+                    }
 
                 }).AddTo(this.gameObject);
 
