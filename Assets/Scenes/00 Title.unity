@@ -97,7 +97,7 @@ LightmapSettings:
     m_ShowResolutionOverlay: 1
     m_ExportTrainingData: 0
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1867,6 +1867,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerColor: 2
+  twColor: 0
   towerLv:
     MAX_LV: 3
     level_Trap:
@@ -1879,8 +1880,10 @@ MonoBehaviour:
       value: 0
   tower_MaxHP: 100
   tower_RecogDis: 5
-  autoRepairInterval: 0
-  autoRepairIntList: []
+  autoRepairInterval:
+    value: 0
+  autoRepairValue: 0
+  autoRepairValueList: 
   targetEnemy: {fileID: 1143425248}
   spawnPos: {fileID: 1143425248}
   towerHp:
@@ -2294,6 +2297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerColor: 1
+  twColor: 0
   towerLv:
     MAX_LV: 3
     level_Trap:
@@ -2306,8 +2310,10 @@ MonoBehaviour:
       value: 0
   tower_MaxHP: 100
   tower_RecogDis: 5
-  autoRepairInterval: 0
-  autoRepairIntList: []
+  autoRepairInterval:
+    value: 0
+  autoRepairValue: 0
+  autoRepairValueList: 
   targetEnemy: {fileID: 474072380}
   spawnPos: {fileID: 474072380}
   towerHp:
@@ -2612,6 +2618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerColor: 3
+  twColor: 0
   towerLv:
     MAX_LV: 3
     level_Trap:
@@ -2624,8 +2631,10 @@ MonoBehaviour:
       value: 0
   tower_MaxHP: 100
   tower_RecogDis: 5
-  autoRepairInterval: 0
-  autoRepairIntList: []
+  autoRepairInterval:
+    value: 0
+  autoRepairValue: 0
+  autoRepairValueList: 
   targetEnemy: {fileID: 643867391}
   spawnPos: {fileID: 643867391}
   towerHp:
@@ -12187,7 +12196,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 53733af0beb13c24aacf3e6e2573c0da, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 810699794327d1445a31e79dad2846bc, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -12855,6 +12864,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerColor: 0
+  twColor: 0
   towerLv:
     MAX_LV: 3
     level_Trap:
@@ -12867,8 +12877,10 @@ MonoBehaviour:
       value: 0
   tower_MaxHP: 100
   tower_RecogDis: 5
-  autoRepairInterval: 0
-  autoRepairIntList: []
+  autoRepairInterval:
+    value: 0
+  autoRepairValue: 0
+  autoRepairValueList: 
   targetEnemy: {fileID: 1146478442}
   spawnPos: {fileID: 1146478442}
   towerHp:

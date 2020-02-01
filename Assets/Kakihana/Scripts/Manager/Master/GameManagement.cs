@@ -37,11 +37,13 @@ public class GameManagement : GMSingleton<GameManagement>
     public EnemyInfoList enemyInfoList;
     public TowerManager redTw, blueTw, yellowTw, greenTw;
     public TowerManager[] towerM;
+    public TD_GameOverUI tdMainUI;
 
     [SerializeField] public InputValueData1P valueData1P;
     [SerializeField] public InputValueData2P valueData2P;
 
-    public AudioSource[] bgms;
+    public AudioSource gameBgm;
+    public AudioClip[] bgms;
 
     public MasterData.TowerColor[] twList;
     public float masterTime = 0.0f;
@@ -69,6 +71,8 @@ public class GameManagement : GMSingleton<GameManagement>
     public BoolReactiveProperty isClear = new BoolReactiveProperty(false);
     // ゲームオーバーフラグ
     public BoolReactiveProperty gameOver = new BoolReactiveProperty(false);
+    // ゲームクリアフラグ
+    public BoolReactiveProperty tdGameClear = new BoolReactiveProperty(false);
     // ポーズフラグ
     public BoolReactiveProperty isPause = new BoolReactiveProperty(true);
     // ショップCanvas表示フラグ
@@ -77,6 +81,8 @@ public class GameManagement : GMSingleton<GameManagement>
     public BoolReactiveProperty[] towerUltFlg = new BoolReactiveProperty[4];
     // タワー死亡フラグ
     public BoolReactiveProperty[] towerDeaths = new BoolReactiveProperty[4];
+    // タイトルバックフラグ
+    public BoolReactiveProperty titleBackFlg = new BoolReactiveProperty(false);
 
     // ゲームステートプロパティ
     public ReactiveProperty<BattleMode> gameState = new ReactiveProperty<BattleMode>();
@@ -178,8 +184,8 @@ public class GameManagement : GMSingleton<GameManagement>
             .Subscribe(_ => 
             {
                 shopCanvas.alpha = 0.0f;
-                shopCanvas.blocksRaycasts = false;
                 shopCanvasEnable.Value = false;
+                shopCanvas.blocksRaycasts = false;
             }).AddTo(this.gameObject);
 
         // タワー消滅処理
@@ -203,6 +209,106 @@ public class GameManagement : GMSingleton<GameManagement>
         {
             SceneManager.LoadScene("00 Title");
         }).AddTo(this.gameObject);
+
+        // メインフェードイン
+        this.UpdateAsObservable()
+            .Where(_ => tdMainUI.mainFade.alpha >= 0.01f && gameOver.Value == false)
+            .Subscribe(_ => 
+            {
+                tdMainUI.mainFadeIn.OnNext(Unit.Default);
+            }).AddTo(this.gameObject);
+
+        // フェードアウト＆タイトルバック
+        this.UpdateAsObservable()
+            .Where(_ => titleBackFlg.Value == true)
+            .Do(_ =>
+            {
+                if (tdMainUI.mainFade.alpha < 1)
+                {
+                    tdMainUI.mainFadeOut.OnNext(Unit.Default);
+                }
+            })
+            .Delay(System.TimeSpan.FromSeconds(1.0f))
+            .Subscribe(_ => 
+            {
+                titleBack.OnNext(Unit.Default);
+            }).AddTo(this.gameObject);
+
+        // ゲームオーバー処理
+        this.UpdateAsObservable()
+            .Where(_ => gameOver.Value == true)
+            .Do(_ =>
+            {
+                if (tdMainUI.gameOverFade.alpha <= 0.5f)
+                {
+                    tdMainUI.gameOverFadeOut.OnNext(Unit.Default);
+                }
+            })
+            .Delay(System.TimeSpan.FromSeconds(0.5f))
+            .Do(_ =>
+            {
+                if (tdMainUI.gameOverUI.alpha < 1)
+                {
+                    tdMainUI.gmOverUIFadeOut.OnNext(Unit.Default);
+                }
+            }).Delay(TimeSpan.FromSeconds(0.5f))
+            .Subscribe(_ => 
+            {
+                if (Input.GetButton("Button_A") == true || Input.GetButtonDown("Fire1") == true)
+                {
+                    titleBackFlg.Value = true;
+                }
+            }).AddTo(this.gameObject);
+
+        // ゲームクリア処理
+        this.UpdateAsObservable()
+            .Where(_ => tdGameClear.Value == true)
+            .Do(_ =>
+            {
+                if (tdMainUI.clearFade.alpha <= 0.5f)
+                {
+                    tdMainUI.clearFadeOut.OnNext(Unit.Default);
+                }
+            }).Delay(System.TimeSpan.FromSeconds(0.5f))
+            .Do(_ =>
+            {
+                tdMainUI.aliveText.text = string.Format("TowerAlive:{0}", towerAliveNum);
+                switch (towerAliveNum.Value)
+                {
+                    case 1:
+                        tdMainUI.rankText.text = string.Format("C");
+                        break;
+                    case 2:
+                        tdMainUI.rankText.text = string.Format("B");
+                        break;
+                    case 3:
+                        tdMainUI.rankText.text = string.Format("A");
+                        break;
+                    case 4:
+                        tdMainUI.rankText.text = string.Format("S");
+                        break;
+                    default:
+                        break;
+                }
+                if (tdMainUI.clearUI.alpha <= 1)
+                {
+                    tdMainUI.clearUIFadeOut.OnNext(Unit.Default);
+                }
+            }).Delay(System.TimeSpan.FromSeconds(0.5f))
+            .Do(_ =>
+            {
+                if (tdMainUI.scoreUI.alpha < 1)
+                {
+                    tdMainUI.scoreUIFadeOut.OnNext(Unit.Default);
+                }
+            }).Delay(System.TimeSpan.FromSeconds(0.5f))
+            .Subscribe(_ => 
+            {
+                if (Input.GetButton("Button_A") == true || Input.GetButtonDown("Fire1") == true)
+                {
+                    titleBackFlg.Value = true;
+                }
+            }).AddTo(this.gameObject);
 
         // デバッグ用、F12キーを押すとデバッグモードへ
         this.UpdateAsObservable()
@@ -265,12 +371,15 @@ public class GameManagement : GMSingleton<GameManagement>
             .Where(_ => gameState.Value == BattleMode.Wait && waveSettingFlg.Value == false)
             .Subscribe(_ => 
             {
+                gameBgm.Stop();
                 // 初回のみ待機時間を倍にする
                 if (waveNum.Value == 0)
                 {
                     masterTime = masterData.waitTime * 2;
                     // 準備完了通知
                     waveSettingFlg.Value = true;
+                    gameBgm.clip = bgms[0];
+                    gameBgm.Play();
                 }
                 else
                 {
@@ -278,6 +387,8 @@ public class GameManagement : GMSingleton<GameManagement>
                     masterTime = masterData.waitTime;
                     // 準備完了通知
                     waveSettingFlg.Value = true;
+                    gameBgm.clip = bgms[0];
+                    gameBgm.Play();
                 }
             }).AddTo(this.gameObject);
 
@@ -303,6 +414,22 @@ public class GameManagement : GMSingleton<GameManagement>
                 masterTime = masterData.waveTime[waveNum.Value];
             }).AddTo(this.gameObject);
 
+        gameState.Where(_ => gameState.Value == BattleMode.Attack)
+            .Subscribe(_ => 
+            {
+                gameBgm.Stop();
+                if (waveNum.Value == masterData.waveTime.Length)
+                {
+                    gameBgm.clip = bgms[2];
+                    gameBgm.Play();
+                }
+                else
+                {
+                    gameBgm.clip = bgms[1];
+                    gameBgm.Play();
+                }
+            }).AddTo(this.gameObject);
+
         // 戦闘モード時の処理
         this.UpdateAsObservable()
             .Where(_ => waveSettingFlg.Value == false)
@@ -316,6 +443,12 @@ public class GameManagement : GMSingleton<GameManagement>
             {
                 // 設定時間経過後、待機モードへ
                 gameState.Value = BattleMode.Wait;
+            }).AddTo(this.gameObject);
+
+        towerAliveNum.Where(_ => towerAliveNum.Value <= 0)
+            .Subscribe(_ => 
+            {
+                
             }).AddTo(this.gameObject);
 
         this.UpdateAsObservable()

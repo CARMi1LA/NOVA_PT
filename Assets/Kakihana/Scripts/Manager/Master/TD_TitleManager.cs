@@ -60,6 +60,9 @@ public class TD_TitleManager : MonoBehaviour
             }
         }).AddTo(this.gameObject);
 
+        isClick.First(_ => isClick.Value == true)
+            .Subscribe(_ => { titlePS.Play(); }).AddTo(this.gameObject);
+
         // isClickがTrueになったら
         this.UpdateAsObservable()
         .Where(_ => isClick.Value == true)
@@ -76,7 +79,6 @@ public class TD_TitleManager : MonoBehaviour
         .Do(_ =>
         {
             // 画面のフェードアウト
-            titlePS.Play();
             if (fadeCanvas.alpha < 1)
             {
                 fadeOut.OnNext(Unit.Default);

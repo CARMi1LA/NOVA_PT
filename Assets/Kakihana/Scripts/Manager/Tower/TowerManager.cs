@@ -129,7 +129,7 @@ public class TowerManager : MonoBehaviour,ITwDamage
             .Subscribe(_ => 
             {
                 towerDeath.Value = true;
-                GameManagement.Instance.towerDeathSub.OnNext(Unit.Default);
+                GameManagement.Instance.towerDeathSub.OnNext(twColor);
             }).AddTo(this.gameObject);
 
         // タワー支援条件式
