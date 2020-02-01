@@ -7,10 +7,6 @@ using UniRx.Triggers;
 public class TurretManager : MonoBehaviour
 {
     // タレットスクリプト
-    public enum TurretState
-    {
-        
-    }
 
     // 親のタワースクリプト
     public TowerManager tower;
@@ -22,11 +18,24 @@ public class TurretManager : MonoBehaviour
     [SerializeField] private Transform targetEnemy;
     // タレットの砲身の座標
     public Transform[] turretChild;
+    // タレットの発射間隔
+    public float turretShotInterval;
+    // タレットの発射間隔データ
+    public float[] intervalList;
     // タレットがアクティブ状態であるか
     public BoolReactiveProperty turretActive = new BoolReactiveProperty(false);
+
+    // タレット発射間隔変更Subject
+    public Subject<int> turretIntSet = new Subject<int>();
+
     // Start is called before the first frame update
     void Start()
     {
+        // タレット発射間隔変更処理
+        turretIntSet.Subscribe(val =>
+        {
+            turretShotInterval = intervalList[val];
+        }).AddTo(this.gameObject);
         // タレットが表示されていて標的が設定されなければ動作
         // タワーが生存していなければ動作しない
         this.UpdateAsObservable()
@@ -55,7 +64,7 @@ public class TurretManager : MonoBehaviour
         this.UpdateAsObservable()
             .Where(_ => tower.towerDeath.Value == false)
             .Where(_ => turretActive.Value == true && targetEnemy != null)
-            .Sample(System.TimeSpan.FromSeconds(1.0f))
+            .Sample(System.TimeSpan.FromSeconds(turretShotInterval))
             .Subscribe(_ => 
             {
                 transform.LookAt(targetEnemy);
