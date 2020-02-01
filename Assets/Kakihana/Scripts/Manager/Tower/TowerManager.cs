@@ -10,6 +10,7 @@ public class TowerManager : MonoBehaviour,ITwDamage
 
     // 拠点の色、タワー識別用
     public ShopData.TowerColor towerColor;
+    public MasterData.TowerColor twColor;
     // タワーのレベル
     public LevelData_Tower towerLv;
     // 敵情報リスト

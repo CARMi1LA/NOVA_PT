@@ -363,10 +363,10 @@ RectTransform:
   m_Father: {fileID: 598405650}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 837.5, y: -60}
+  m_SizeDelta: {x: 335, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &24059205
 MonoBehaviour:
@@ -6167,10 +6167,10 @@ RectTransform:
   m_Father: {fileID: 598405650}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 502.5, y: -60}
+  m_SizeDelta: {x: 335, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &707522068
 MonoBehaviour:
@@ -8754,10 +8754,10 @@ RectTransform:
   m_Father: {fileID: 598405650}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1172.5, y: -60}
+  m_SizeDelta: {x: 335, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &943149588
 MonoBehaviour:
@@ -8818,7 +8818,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1 &944722656
 GameObject:
   m_ObjectHideFlags: 0
@@ -11773,10 +11773,10 @@ RectTransform:
   m_Father: {fileID: 598405650}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 167.5, y: -60}
+  m_SizeDelta: {x: 335, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1174027324
 MonoBehaviour:
@@ -21315,6 +21315,9 @@ MonoBehaviour:
   - {fileID: 230304067}
   - {fileID: 9062801}
   - {fileID: 1459986687}
+  nextLvHp: 0
+  nextLvSpd: 0
+  nextLvInt: 0
 --- !u!1 &1547829881
 GameObject:
   m_ObjectHideFlags: 0
@@ -28634,6 +28637,7 @@ MonoBehaviour:
   btnUlt: {fileID: 1501578862}
   spBuyControll: {fileID: 1842577677}
   spLv: {fileID: 1842577678}
+  repairValue: 
 --- !u!114 &1842577675 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5529332785576108106, guid: 5f5225042b3747c4babd26c866751226,
@@ -35718,7 +35722,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2120343471
 MonoBehaviour:
   m_ObjectHideFlags: 0

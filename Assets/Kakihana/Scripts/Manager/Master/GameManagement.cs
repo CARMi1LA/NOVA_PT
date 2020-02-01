@@ -44,7 +44,6 @@ public class GameManagement : GMSingleton<GameManagement>
     public AudioSource[] bgms;
 
     public MasterData.TowerColor[] twList;
-    public MasterData.TowerColor targetTw;
     public float masterTime = 0.0f;
 
     // 現在のウェーブ
@@ -76,6 +75,8 @@ public class GameManagement : GMSingleton<GameManagement>
     public BoolReactiveProperty shopCanvasEnable = new BoolReactiveProperty(false);
     // タワーバフフラグ
     public BoolReactiveProperty[] towerUltFlg = new BoolReactiveProperty[4];
+    // タワー死亡フラグ
+    public BoolReactiveProperty[] towerDeaths = new BoolReactiveProperty[4];
 
     // ゲームステートプロパティ
     public ReactiveProperty<BattleMode> gameState = new ReactiveProperty<BattleMode>();
@@ -97,7 +98,7 @@ public class GameManagement : GMSingleton<GameManagement>
     // 戦闘モード進行用Subject
     public Subject<Unit> battleModeSub = new Subject<Unit>();
     // タワー消滅Subject
-    public Subject<Unit> towerDeathSub = new Subject<Unit>();
+    public Subject<MasterData.TowerColor> towerDeathSub = new Subject<MasterData.TowerColor>();
     // ゲームオーバーSubject
     public Subject<Unit> gameOverSub = new Subject<Unit>();
     // ゲームクリアSubject
@@ -137,8 +138,6 @@ public class GameManagement : GMSingleton<GameManagement>
         masterData = masterDataList.masterDataList[0];
         // ゲームステートの設定
         gameState.Value = BattleMode.Wait;
-        // ターゲットタワー設定
-        targetTw = twList[Random.Range(0, twList.Length)];
         // ショップウィンドウは初期では非表示に
         shopCanvas.alpha = 0;
     }
@@ -169,6 +168,7 @@ public class GameManagement : GMSingleton<GameManagement>
             .Subscribe(_ => 
             {
                 shopCanvas.alpha = 1.0f;
+                ShopManager.Instance.shopUpdate.OnNext(Unit.Default);
                 shopCanvasEnable.Value = true;
                 shopCanvas.blocksRaycasts = true;
             }).AddTo(this.gameObject);
@@ -183,8 +183,9 @@ public class GameManagement : GMSingleton<GameManagement>
             }).AddTo(this.gameObject);
 
         // タワー消滅処理
-        towerDeathSub.Subscribe(_ => 
+        towerDeathSub.Subscribe(val => 
         {
+            towerDeaths[(int)val].Value = true;
             towerAliveNum.Value--;
         }).AddTo(this.gameObject);
 
