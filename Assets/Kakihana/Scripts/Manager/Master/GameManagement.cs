@@ -46,6 +46,7 @@ public class GameManagement : GMSingleton<GameManagement>
     public AudioClip[] bgms;
 
     public MasterData.TowerColor[] twList;
+    public MasterData.TowerColor targetTw;
     public float masterTime = 0.0f;
 
     // 現在のウェーブ
