@@ -36,6 +36,7 @@ public class TDEnemySpawner : MonoBehaviour
         int waveCount = 0;      // 現在のWave
         int enemyCount = 0;     // Wave内のエネミー生成状況
 
+        /*
         // タワーリストのHPを監視する
         foreach (var item in towerList)
         {
@@ -46,6 +47,7 @@ public class TDEnemySpawner : MonoBehaviour
                     towerList.Remove(item);
                 });
         }
+        */
 
         this.UpdateAsObservable()
             .Where(x => !GameManagement.Instance.isPause.Value) // 一時停止用
@@ -95,6 +97,7 @@ public class TDEnemySpawner : MonoBehaviour
                 enemyCount = 0;
 
             }).AddTo(this.gameObject);
+
         // 準備フェイズに変わったら
         GameManagement.Instance.gameState
             .Where(x => x == GameManagement.BattleMode.Wait)

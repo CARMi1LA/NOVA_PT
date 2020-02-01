@@ -41,7 +41,7 @@ public class TDBulletMove : MonoBehaviour
         // ミサイル用の変数
         Transform targetEnemy = null;
         float rotAngle = 0;
-        float rotSpeed = 0.2f;
+        float rotSpeed = 0.1f;
 
         // 更新処理
         this.UpdateAsObservable()

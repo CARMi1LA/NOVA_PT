@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TDEnemyDataList", menuName = "TDScriptable/TDEnemyDataList", order = 2)]
 public class TDEnemyDataList : ScriptableObject
 {
+    public ParticleSystem PSExtraUltimate;
+
     public List<TDEnemyData> enemyDataList;
 
     // エネミーのサイズと型からそれに合ったエネミーデータを取得する

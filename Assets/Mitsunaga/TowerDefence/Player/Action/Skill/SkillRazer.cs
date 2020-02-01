@@ -15,9 +15,11 @@ public class SkillRazer : MonoBehaviour
     [SerializeField]
     float razerRadius = 5.0f;
     [SerializeField]
-    float razerLength = 500.0f;
+    float razerLength = 800.0f;
     [SerializeField]
     TDList.ParentList razerParent = TDList.ParentList.Player;
+
+    float razerHitDelay = 1.0f;
 
     void Start()
     {
@@ -51,7 +53,7 @@ public class SkillRazer : MonoBehaviour
                     }
                 }
             })            
-            .Delay(System.TimeSpan.FromSeconds(razerDelay))
+            .Delay(System.TimeSpan.FromSeconds(razerHitDelay))
             .Subscribe(_ =>
             {
                 Ray r = new Ray(razer.transform.position, razer.transform.forward);
