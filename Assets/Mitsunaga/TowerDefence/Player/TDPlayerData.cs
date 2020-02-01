@@ -49,7 +49,7 @@ public class TDPlayerData
     public float pSpeed = 40;  // 移動速度
     public float pSpeedMul = 10;
     // ダッシュ
-    public float pDashCost = 20.0f;      // 回避の発動コスト
+    public float pDashCost = 10.0f;      // 回避の発動コスト
     public float pDashTime = 0.5f;      // 回避の行動時間
 
     // ダメージの無効化

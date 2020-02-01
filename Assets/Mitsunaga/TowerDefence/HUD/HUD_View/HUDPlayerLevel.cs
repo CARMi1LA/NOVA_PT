@@ -14,56 +14,62 @@ public class HUDPlayerLevel : MonoBehaviour
     public void SetLevels(SpLvData lvData)
     {
         // 各Levelの表示
-        lvHPText.text = "HP   ";
+        lvHPText.text = "";
         for(int i = 0; i < lvData.playerLv.lv_HP.Value; ++i)
         {
             lvHPText.text += "O";
         }
-        lvAtkText.text = "Atk  ";
+        lvHPText.text += "   HP";
+
+        lvAtkText.text = "";
         for (int i = 0; i < lvData.playerLv.lv_Int.Value; ++i)
         {
             lvAtkText.text += "O";
         }
-        lvSpdText.text = "Spd  ";
+        lvAtkText.text += " ATK";
+
+        lvSpdText.text = "";
         for (int i = 0; i < lvData.playerLv.lv_Spd.Value; ++i)
         {
             lvSpdText.text += "O";
         }
+        lvSpdText.text += " SPD";
+
         // SkillとUltimateの表示
         switch (lvData.skillLv.level_Skill.Value)
         {
             case 0:
-                skillText.text = "Skill：W Slice";
+                skillText.text = "W Slicer：S";
                 break;
             case 1:
-                skillText.text = "Skill：Razer";
+                skillText.text = "Razer：S";
                 break;
             case 2:
-                skillText.text = "Skill：Missile";
+                skillText.text = "Missile：S";
                 break;
             case 3:
-                skillText.text = "Skill：Power Bash";
+                skillText.text = "Power Bash：S";
                 break;
             default:
-                skillText.text = "Skill：Error";
+                skillText.text = "Error：S";
                 break;
         }
         switch (lvData.ultLv.level_Ult.Value)
         {
             case 0:
-                ultimateText.text = "Ult  ：Barrier";
+                ultimateText.text = "Barrier：U";
                 break;
             case 1:
-                ultimateText.text = "Ult  ：Slow Trap";
+                ultimateText.text = "Slow Trap：U";
                 break;
             case 2:
-                ultimateText.text = "Ult  ：Big Bomb";
+                ultimateText.text = "Sword Field：U";
                 break;
             case 3:
-                ultimateText.text = "Ult  ：Repair";
+                ultimateText.text = "Repair：U";
                 break;
             default:
-                ultimateText.text = "Ult  ：Error";
+                ultimateText.text = "Error：U";
                 break;
         }
     }

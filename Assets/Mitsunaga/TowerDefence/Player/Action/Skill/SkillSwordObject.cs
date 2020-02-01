@@ -55,6 +55,9 @@ public class SkillSwordObject : MonoBehaviour
                     // ダメージを与える
                     value.gameObject.GetComponent<IDamageTD>().HitDamage(TDList.ParentList.Player);
                     value.gameObject.GetComponent<IDamageTD>().HitDamage(TDList.ParentList.Player);
+                    value.gameObject.GetComponent<IDamageTD>().HitDamage(TDList.ParentList.Player);
+                    value.gameObject.GetComponent<IDamageTD>().HitDamage(TDList.ParentList.Player);
+                    value.gameObject.GetComponent<IDamageTD>().HitDamage(TDList.ParentList.Player);
                 }
             }).AddTo(this.gameObject);
     }
