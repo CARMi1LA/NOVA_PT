@@ -372,7 +372,7 @@ public class GameManagement : GMSingleton<GameManagement>
             .Where(_ => gameState.Value == BattleMode.Wait && waveSettingFlg.Value == false)
             .Subscribe(_ => 
             {
-                gameBgm.Stop();
+                //gameBgm.Stop();
                 // 初回のみ待機時間を倍にする
                 if (waveNum.Value == 0)
                 {
@@ -418,7 +418,7 @@ public class GameManagement : GMSingleton<GameManagement>
         gameState.Where(_ => gameState.Value == BattleMode.Attack)
             .Subscribe(_ => 
             {
-                gameBgm.Stop();
+                //gameBgm.Stop();
                 if (waveNum.Value == masterData.waveTime.Length)
                 {
                     gameBgm.clip = bgms[2];
@@ -442,8 +442,15 @@ public class GameManagement : GMSingleton<GameManagement>
             .Where(_ => masterTime <= 0 && gameState.Value == BattleMode.Attack)
             .Subscribe(_ =>
             {
-                // 設定時間経過後、待機モードへ
-                gameState.Value = BattleMode.Wait;
+                if (waveNum.Value == masterData.waveTime.Length)
+                {
+                    tdGameClear.Value = true;
+                }
+                else
+                {
+                    // 設定時間経過後、待機モードへ
+                    gameState.Value = BattleMode.Wait;
+                }
             }).AddTo(this.gameObject);
 
         towerAliveNum.Where(_ => towerAliveNum.Value <= 0)
