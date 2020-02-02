@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Mat Enemy Wall
+  m_Shader: {fileID: -6465566751694194690, guid: 6d4a71075a8347c4c82d704e94bd01fd,
+    type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats:
+    - Vector1_33A8DA15: 0.9
+    - Vector1_577E4810: 0.2
+    - Vector1_8FFD4EAB: 10
+    - Vector1_9D29855F: 0.2
+    - Vector1_AB820C40: 0.05
+    m_Colors:
+    - Color_86D2F5E8: {r: 0, g: 0.35554373, b: 0.72243476, a: 0}

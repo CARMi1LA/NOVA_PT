@@ -46,13 +46,13 @@ public class ItemSpawner : ISSingleton<ItemSpawner>
                         materValue = 10;
                         break;
                     case 1:
-                        materValue = 10;
-                        break;
-                    case 3:
                         materValue = 20;
                         break;
-                    case 5:
+                    case 2:
                         materValue = 50;
+                        break;
+                    case 3:
+                        materValue = 60;
                         break;
                     default:
                         break;

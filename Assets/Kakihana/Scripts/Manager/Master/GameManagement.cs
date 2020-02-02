@@ -384,6 +384,7 @@ public class GameManagement : GMSingleton<GameManagement>
                 }
                 else
                 {
+                    Debug.Log(masterData.waitTime);
                     // 待機時間を設定
                     masterTime = masterData.waitTime;
                     // 準備完了通知
@@ -405,14 +406,17 @@ public class GameManagement : GMSingleton<GameManagement>
             .Subscribe(_ => 
             {
                 // 設定時間経過後、戦闘モードへ
+
+                // 戦闘時間の設定
+                masterTime = masterData.waveTime[waveNum.Value];
+
                 // ウェーブを進行させる
                 waveNum.Value++;
+
                 // 戦闘モードへ移行
                 gameState.Value = BattleMode.Attack;
                 // 準備完了状態を解除
                 waveSettingFlg.Value = false;
-                // 戦闘時間の設定
-                masterTime = masterData.waveTime[waveNum.Value];
             }).AddTo(this.gameObject);
 
         gameState.Where(_ => gameState.Value == BattleMode.Attack)
@@ -449,7 +453,7 @@ public class GameManagement : GMSingleton<GameManagement>
         towerAliveNum.Where(_ => towerAliveNum.Value <= 0)
             .Subscribe(_ => 
             {
-                
+                gameOver.Value = true;   
             }).AddTo(this.gameObject);
 
         this.UpdateAsObservable()
