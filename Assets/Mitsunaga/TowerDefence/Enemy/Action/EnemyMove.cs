@@ -159,6 +159,7 @@ public class EnemyMove : MonoBehaviour
             .Subscribe(value =>
             {
                 Debug.Log("GAME OVER!!!!!!!!");
+                GameManagement.Instance.gameOver.Value = true;
             })
             .AddTo(this.gameObject);
     }

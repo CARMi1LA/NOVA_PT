@@ -442,15 +442,8 @@ public class GameManagement : GMSingleton<GameManagement>
             .Where(_ => masterTime <= 0 && gameState.Value == BattleMode.Attack)
             .Subscribe(_ =>
             {
-                if (waveNum.Value == masterData.waveTime.Length)
-                {
-                    tdGameClear.Value = true;
-                }
-                else
-                {
-                    // 設定時間経過後、待機モードへ
-                    gameState.Value = BattleMode.Wait;
-                }
+                // 設定時間経過後、待機モードへ
+                gameState.Value = BattleMode.Wait;
             }).AddTo(this.gameObject);
 
         towerAliveNum.Where(_ => towerAliveNum.Value <= 0)

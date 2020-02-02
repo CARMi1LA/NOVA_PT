@@ -71,5 +71,12 @@ public class TDEnemyUnit : MonoBehaviour
                 DeathTrigger.OnNext(Unit.Default);
 
             }).AddTo(this.gameObject);
+
+        eManager.CoreDeathTrigger
+            .Where(x => eManager.eData.eSize == TDList.EnemySizeList.Extra)
+            .Subscribe(_ =>
+            {
+                GameManagement.Instance.tdGameClear.Value = true;
+            }).AddTo(this.gameObject);
     }
 }
